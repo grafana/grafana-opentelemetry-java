@@ -1,5 +1,8 @@
 plugins {
   id "java"
+  id "checkstyle"
+  id "codenarc"
+  id "org.owasp.dependencycheck" version "8.2.1"
 
   /*
   Instrumentation agent extension mechanism expects a single jar containing everything required
@@ -17,8 +20,8 @@ plugins {
   id "io.opentelemetry.instrumentation.muzzle-check" version "1.26.0-alpha-SNAPSHOT"
 }
 
-group 'io.opentelemetry.example'
-version '1.0'
+group 'com.grafana'
+version '0.1'
 
 ext {
   versions = [
@@ -38,6 +41,7 @@ ext {
 }
 
 repositories {
+  gradlePluginPortal()
   mavenCentral()
   maven {
     name = "sonatype"
@@ -60,6 +64,24 @@ spotless {
     licenseHeaderFile(rootProject.file("buildscripts/spotless.license.java"), "(package|import|public)")
     target("src/**/*.java")
   }
+}
+
+codenarc {
+  configFile = rootProject.file("buildscripts/codenarc.groovy")
+}
+
+checkstyle {
+  configFile = rootProject.file("buildscripts/checkstyle.xml")
+  // this version should match the version of google_checks.xml used as basis for above configuration
+  toolVersion = "8.37"
+  maxWarnings = 3
+  checkstyleTest.enabled = false
+}
+
+dependencyCheck {
+  skipConfigurations = ["checkstyle", "annotationProcessor"] //["errorprone", "checkstyle", "annotationProcessor"]
+  suppressionFile = "buildscripts/dependency-check-suppressions.xml"
+  failBuildOnCVSS = 7.0f // fail on high or critical CVE
 }
 
 dependencies {

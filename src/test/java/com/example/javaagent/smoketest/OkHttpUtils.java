@@ -1,5 +1,5 @@
 /*
- * Copyright The OpenTelemetry Authors
+ * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */
 
