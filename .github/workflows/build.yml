@@ -9,7 +9,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu]
-        java: [17.0.6]
+        java: [17]
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK
@@ -22,10 +22,10 @@ jobs:
       - name: Test and build Jar
         uses: gradle/gradle-build-action@v2.4.2
         with:
-          arguments: jar
+          arguments: jar, test
 
   test:
-    name: test$(${{ matrix.test-java-version }}
+    name: test${{ matrix.test-java-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -47,7 +47,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 17.0.6
+          java-version: 8
 
       - name: Test
         uses: gradle/gradle-build-action@v2
