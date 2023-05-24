@@ -22,4 +22,35 @@ jobs:
       - name: Test and build Jar
         uses: gradle/gradle-build-action@v2.4.2
         with:
-          arguments: test jar
+          arguments: jar
+
+  test:
+    name: test$(${{ matrix.test-java-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test-java-version:
+          - 8
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: setup-test-java
+        name: Set up JDK ${{ matrix.test-java-version }}-${{ matrix.vm }} for running tests
+        uses: actions/setup-java@v3
+        with:
+          # using zulu because new releases get published quickly
+          distribution: temurin
+          java-version: ${{ matrix.test-java-version }}
+
+      - name: Set up JDK for running Gradle
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17.0.6
+
+      - name: Test
+        uses: gradle/gradle-build-action@v2
+        with:
+          # spotless is checked separately since it's a common source of failure
+          arguments: test
