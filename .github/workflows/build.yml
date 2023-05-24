@@ -22,7 +22,7 @@ jobs:
       - name: Test and build Jar
         uses: gradle/gradle-build-action@v2.4.2
         with:
-          arguments: jar, test
+          arguments: test jar
 
   test:
     name: test${{ matrix.test-java-version }}
@@ -31,6 +31,7 @@ jobs:
       matrix:
         test-java-version:
           - 8
+          - 11
       fail-fast: false
     steps:
       - uses: actions/checkout@v3
@@ -47,7 +48,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 8
+          java-version: 17.0.6
 
       - name: Test
         uses: gradle/gradle-build-action@v2
