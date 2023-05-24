@@ -1,4 +1,3 @@
-# Starter build/test workflow.  We will continue to enhance.
 name: Build
 
 on: [push]
