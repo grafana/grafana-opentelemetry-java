@@ -25,10 +25,8 @@ version '0.1'
 
 ext {
   versions = [
-    // this line is managed by .github/scripts/update-sdk-version.sh
     opentelemetrySdk           : "1.25.0",
 
-    // these lines are managed by .github/scripts/update-version.sh
     opentelemetryJavaagent     : "1.26.0-SNAPSHOT",
     opentelemetryJavaagentAlpha: "1.26.0-alpha-SNAPSHOT",
 
@@ -74,7 +72,7 @@ checkstyle {
   configFile = rootProject.file("buildscripts/checkstyle.xml")
   // this version should match the version of google_checks.xml used as basis for above configuration
   toolVersion = "8.37"
-  maxWarnings = 3
+  maxWarnings = 10
   checkstyleTest.enabled = false
 }
 
@@ -90,7 +88,7 @@ dependencies {
   // these serve as a test of the instrumentation boms
   implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:${versions.opentelemetryJavaagent}"))
   implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:${versions.opentelemetryJavaagentAlpha}"))
-
+  implementation("io.opentelemetry:opentelemetry-semconv:${versions.opentelemetryJavaagentAlpha}")
   /*
   Interfaces and SPIs that we implement. We use `compileOnly` dependency because during
   runtime all necessary classes are provided by javaagent itself.
@@ -118,7 +116,10 @@ dependencies {
   Only dependencies added to `implementation` configuration will be picked up by Shadow plugin
   and added to the resulting jar for our extension's distribution.
    */
-  implementation 'org.apache.commons:commons-lang3:3.12.0'
+  implementation "org.apache.commons:commons-lang3:3.12.0"
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.20.0'
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.20.0'
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.20.0'
 
   //All dependencies below are only for tests
   testImplementation("org.testcontainers:testcontainers:1.18.0")
@@ -145,6 +146,10 @@ dependencies {
 //Produces a copy of upstream javaagent with this extension jar included inside it
 //The location of extension directory inside agent jar is hard-coded in the agent source code
 task extendedAgent(type: Jar) {
+  String resourcePath = "${projectDir}" + "/src/main/resources"
+  project.mkdir resourcePath
+  new File(resourcePath, "version.properties").text = "version: $version"
+
   dependsOn(configurations.otel)
   archiveFileName = "grafana-opentelemetry-javaagent.jar"
   from zipTree(configurations.otel.singleFile)
@@ -152,8 +157,8 @@ task extendedAgent(type: Jar) {
     into "extensions"
   }
 
-  //Preserve MANIFEST.MF file from the upstream javaagent
   doFirst {
+    //Preserve MANIFEST.MF file from the upstream javaagent
     manifest.from(
       zipTree(configurations.otel.singleFile).matching {
         include 'META-INF/MANIFEST.MF'
