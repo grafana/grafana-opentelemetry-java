@@ -47,7 +47,7 @@ ext {
   versions = [
     opentelemetrySdk           : "1.25.0",
 
-    opentelemetryJavaagent     : "1.26.0-SNAPSHOT",
+    opentelemetryJavaagent     : "1.27.0-SNAPSHOT",
     opentelemetryJavaagentAlpha: "1.26.0-alpha-SNAPSHOT",
 
     junit                      : "5.9.3"
