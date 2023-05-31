@@ -23,12 +23,30 @@ plugins {
 group 'com.grafana'
 version '0.1'
 
+task manageVersionClass()  {
+  doLast {
+    project.mkdir "${projectDir}/src/main/java/com/grafana/extensions/resources/internal"
+    new File("${projectDir}/src/main/java/com/grafana/extensions/resources/internal", "DistributionVersion.java").text = """/*
+ * Copyright Grafana Labs
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.grafana.extensions.resources.internal;
+
+// This is a generated class that is managed by the distribution's build process.  Do not edit.
+
+public class DistributionVersion {
+
+  public static final String VERSION = "$version";
+}
+"""
+  }
+}
+
 ext {
   versions = [
-    // this line is managed by .github/scripts/update-sdk-version.sh
     opentelemetrySdk           : "1.25.0",
 
-    // these lines are managed by .github/scripts/update-version.sh
     opentelemetryJavaagent     : "1.26.0-SNAPSHOT",
     opentelemetryJavaagentAlpha: "1.26.0-alpha-SNAPSHOT",
 
@@ -90,7 +108,7 @@ dependencies {
   // these serve as a test of the instrumentation boms
   implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:${versions.opentelemetryJavaagent}"))
   implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:${versions.opentelemetryJavaagentAlpha}"))
-
+  implementation("io.opentelemetry:opentelemetry-semconv:${versions.opentelemetryJavaagentAlpha}")
   /*
   Interfaces and SPIs that we implement. We use `compileOnly` dependency because during
   runtime all necessary classes are provided by javaagent itself.
@@ -118,17 +136,24 @@ dependencies {
   Only dependencies added to `implementation` configuration will be picked up by Shadow plugin
   and added to the resulting jar for our extension's distribution.
    */
-  implementation 'org.apache.commons:commons-lang3:3.12.0'
+  implementation "org.apache.commons:commons-lang3:3.12.0"
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.20.0'
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.20.0'
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.20.0'
 
   //All dependencies below are only for tests
+  testImplementation("org.assertj:assertj-core:3.24.2")
+  testImplementation("org.junit.jupiter:junit-jupiter-api:${versions.junit}")
   testImplementation("org.testcontainers:testcontainers:1.18.0")
   testImplementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
   testImplementation("com.google.protobuf:protobuf-java-util:3.22.4")
   testImplementation("com.squareup.okhttp3:okhttp:4.11.0")
   testImplementation("io.opentelemetry:opentelemetry-api")
   testImplementation("io.opentelemetry.proto:opentelemetry-proto:0.19.0-alpha")
+  testImplementation("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi")
+  testImplementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-api")
+  testImplementation("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
 
-  testImplementation("org.junit.jupiter:junit-jupiter-api:${versions.junit}")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${versions.junit}")
   testRuntimeOnly("ch.qos.logback:logback-classic:1.4.7")
 
@@ -152,8 +177,8 @@ task extendedAgent(type: Jar) {
     into "extensions"
   }
 
-  //Preserve MANIFEST.MF file from the upstream javaagent
   doFirst {
+    //Preserve MANIFEST.MF file from the upstream javaagent
     manifest.from(
       zipTree(configurations.otel.singleFile).matching {
         include 'META-INF/MANIFEST.MF'
@@ -195,3 +220,5 @@ muzzle {
     assertInverse.set(true)
   }
 }
+
+compileJava.dependsOn manageVersionClass

@@ -3,14 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.example.javaagent.smoketest;
+package com.grafana.extensions.resources.smoketest;
 
+import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_NAME;
+import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_VERSION;
+
+import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.opentelemetry.api.trace.TraceId;
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.jar.Attributes;
-import java.util.jar.JarFile;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
@@ -56,12 +58,7 @@ class SpringBootIntegrationTest extends IntegrationTest {
     String url = String.format("http://localhost:%d/greeting", target.getMappedPort(8080));
     Request request = new Request.Builder().url(url).get().build();
 
-    String currentAgentVersion =
-        (String)
-            new JarFile(agentPath)
-                .getManifest()
-                .getMainAttributes()
-                .get(Attributes.Name.IMPLEMENTATION_VERSION);
+    String currentAgentVersion = DistributionVersion.VERSION;
 
     Response response = client.newCall(request).execute();
 
@@ -76,7 +73,8 @@ class SpringBootIntegrationTest extends IntegrationTest {
     Assertions.assertEquals(1, countSpansByName(traces, "WebController.withSpan"));
     Assertions.assertEquals(2, countSpansByAttributeValue(traces, "custom", "demo"));
     Assertions.assertNotEquals(
-        0, countResourcesByValue(traces, "telemetry.auto.version", currentAgentVersion));
-    Assertions.assertNotEquals(0, countResourcesByValue(traces, "custom.distribution", "grafana"));
+        0, countResourcesByValue(traces, TELEMETRY_SDK_VERSION.getKey(), currentAgentVersion));
+    Assertions.assertNotEquals(
+        0, countResourcesByValue(traces, TELEMETRY_SDK_NAME.getKey(), "grafana"));
   }
 }

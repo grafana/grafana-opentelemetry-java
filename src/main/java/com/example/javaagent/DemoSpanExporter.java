@@ -9,6 +9,8 @@ import io.opentelemetry.sdk.common.CompletableResultCode;
 import io.opentelemetry.sdk.trace.data.SpanData;
 import io.opentelemetry.sdk.trace.export.SpanExporter;
 import java.util.Collection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * See <a
@@ -18,9 +20,11 @@ import java.util.Collection;
  * @see DemoAutoConfigurationCustomizerProvider
  */
 public class DemoSpanExporter implements SpanExporter {
+  private static final Logger logger = LoggerFactory.getLogger(DemoSpanExporter.class);
+
   @Override
   public CompletableResultCode export(Collection<SpanData> spans) {
-    System.out.printf("%d spans exported%n", spans.size());
+    logger.info(String.format("%d spans exported", spans.size()));
     return CompletableResultCode.ofSuccess();
   }
 

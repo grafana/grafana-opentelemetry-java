@@ -30,3 +30,6 @@ build/
 # Gradle
 .gradle/
 !gradle-wrapper.jar
+
+# Project Generated
+version.properties
