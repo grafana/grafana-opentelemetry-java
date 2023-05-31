@@ -23,6 +23,26 @@ plugins {
 group 'com.grafana'
 version '0.1'
 
+task manageVersionClass()  {
+  doLast {
+    project.mkdir "${projectDir}/src/main/java/com/grafana/extensions/resources/internal"
+    new File("${projectDir}/src/main/java/com/grafana/extensions/resources/internal", "DistributionVersion.java").text = """/*
+ * Copyright Grafana Labs
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.grafana.extensions.resources.internal;
+
+// This is a generated class that is managed by the distribution's build process.  Do not edit.
+
+public class DistributionVersion {
+
+  public static final String VERSION = "$version";
+}
+"""
+  }
+}
+
 ext {
   versions = [
     opentelemetrySdk           : "1.25.0",
@@ -72,7 +92,7 @@ checkstyle {
   configFile = rootProject.file("buildscripts/checkstyle.xml")
   // this version should match the version of google_checks.xml used as basis for above configuration
   toolVersion = "8.37"
-  maxWarnings = 10
+  maxWarnings = 3
   checkstyleTest.enabled = false
 }
 
@@ -122,14 +142,18 @@ dependencies {
   implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.20.0'
 
   //All dependencies below are only for tests
+  testImplementation("org.assertj:assertj-core:3.24.2")
+  testImplementation("org.junit.jupiter:junit-jupiter-api:${versions.junit}")
   testImplementation("org.testcontainers:testcontainers:1.18.0")
   testImplementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
   testImplementation("com.google.protobuf:protobuf-java-util:3.22.4")
   testImplementation("com.squareup.okhttp3:okhttp:4.11.0")
   testImplementation("io.opentelemetry:opentelemetry-api")
   testImplementation("io.opentelemetry.proto:opentelemetry-proto:0.19.0-alpha")
+  testImplementation("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi")
+  testImplementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-api")
+  testImplementation("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
 
-  testImplementation("org.junit.jupiter:junit-jupiter-api:${versions.junit}")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${versions.junit}")
   testRuntimeOnly("ch.qos.logback:logback-classic:1.4.7")
 
@@ -146,10 +170,6 @@ dependencies {
 //Produces a copy of upstream javaagent with this extension jar included inside it
 //The location of extension directory inside agent jar is hard-coded in the agent source code
 task extendedAgent(type: Jar) {
-  String resourcePath = "${projectDir}" + "/src/main/resources"
-  project.mkdir resourcePath
-  new File(resourcePath, "version.properties").text = "version: $version"
-
   dependsOn(configurations.otel)
   archiveFileName = "grafana-opentelemetry-javaagent.jar"
   from zipTree(configurations.otel.singleFile)
@@ -200,3 +220,5 @@ muzzle {
     assertInverse.set(true)
   }
 }
+
+compileJava.dependsOn manageVersionClass

@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.example.javaagent.smoketest;
+package com.grafana.extensions.resources.smoketest;
 
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_NAME;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_VERSION;
-import com.grafana.extensions.resources.DistributionVersion;
+
+import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.opentelemetry.api.trace.TraceId;
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
 import java.io.IOException;
@@ -57,7 +58,7 @@ class SpringBootIntegrationTest extends IntegrationTest {
     String url = String.format("http://localhost:%d/greeting", target.getMappedPort(8080));
     Request request = new Request.Builder().url(url).get().build();
 
-    String currentAgentVersion = DistributionVersion.getVersion();
+    String currentAgentVersion = DistributionVersion.VERSION;
 
     Response response = client.newCall(request).execute();
 
