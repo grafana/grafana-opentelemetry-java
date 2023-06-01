@@ -5,6 +5,9 @@
 
 package com.grafana.extensions.resources;
 
+import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_NAME;
+import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_VERSION;
+import static java.util.Map.entry;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.resources.internal.DistributionVersion;
@@ -22,8 +25,10 @@ public class DistributionResourceProviderTest {
     Resource r = provider.createResource(null);
     assertThat(r.getAttributes().size()).isEqualTo(2);
     Map<AttributeKey<?>, Object> attributesMap = r.getAttributes().asMap();
-    assertThat(attributesMap).containsEntry(ResourceAttributes.TELEMETRY_SDK_NAME, "grafana");
-    assertThat(attributesMap).containsEntry(ResourceAttributes.TELEMETRY_SDK_VERSION, DistributionVersion.VERSION);
+    assertThat(attributesMap)
+        .containsOnly(
+            entry(TELEMETRY_SDK_NAME, "grafana"),
+            entry(TELEMETRY_SDK_VERSION, DistributionVersion.VERSION));
     String version = (String) attributesMap.get(ResourceAttributes.TELEMETRY_SDK_VERSION);
     assertThat(version).matches("(\\d+\\.)?\\d+\\.\\d+(-SNAPSHOT)?");
     assertThat(r.getSchemaUrl()).isEqualTo(ResourceAttributes.SCHEMA_URL);
