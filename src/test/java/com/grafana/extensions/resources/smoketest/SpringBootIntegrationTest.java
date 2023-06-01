@@ -9,7 +9,6 @@ import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TE
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_VERSION;
 
 import com.grafana.extensions.resources.internal.DistributionVersion;
-import io.opentelemetry.api.trace.TraceId;
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
 import java.io.IOException;
 import java.util.Collection;
@@ -64,14 +63,10 @@ class SpringBootIntegrationTest extends IntegrationTest {
 
     Collection<ExportTraceServiceRequest> traces = waitForTraces();
 
-    Assertions.assertNotNull(response.header("X-server-id"));
-    Assertions.assertEquals(1, response.headers("X-server-id").size());
-    Assertions.assertTrue(TraceId.isValid(response.header("X-server-id")));
     Assertions.assertEquals("Hi!", response.body().string());
     Assertions.assertEquals(1, countSpansByName(traces, "GET /greeting"));
-    Assertions.assertEquals(0, countSpansByName(traces, "WebController.greeting"));
+    Assertions.assertEquals(1, countSpansByName(traces, "WebController.greeting"));
     Assertions.assertEquals(1, countSpansByName(traces, "WebController.withSpan"));
-    Assertions.assertEquals(2, countSpansByAttributeValue(traces, "custom", "demo"));
     Assertions.assertNotEquals(
         0, countResourcesByValue(traces, TELEMETRY_SDK_VERSION.getKey(), currentAgentVersion));
     Assertions.assertNotEquals(

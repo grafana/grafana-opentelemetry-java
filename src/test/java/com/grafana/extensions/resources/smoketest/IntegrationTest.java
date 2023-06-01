@@ -97,7 +97,10 @@ abstract class IntegrationTest {
                 "-javaagent:/opentelemetry-javaagent.jar -Dotel.javaagent.debug=true")
             .withEnv("OTEL_BSP_MAX_EXPORT_BATCH", "1")
             .withEnv("OTEL_BSP_SCHEDULE_DELAY", "10")
-            .withEnv("OTEL_PROPAGATORS", "tracecontext,baggage,demo")
+            .withEnv("OTEL_PROPAGATORS", "tracecontext,baggage")
+            .withEnv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://backend:8080")
+            .withEnv("OTEL_EXPORTER_OTLP_INSECURE", "true")
+            .withEnv("OTEL_CONFIG_MAX_ATTRS", "16")
             .withEnv(getExtraEnv());
     // If external extensions are requested
     if (extensionLocation != null) {
