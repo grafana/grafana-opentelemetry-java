@@ -40,6 +40,7 @@ bootRun {
 			"-Dotel.logs.exporter=otlp", //the default for logging will change to none, this will keep it active
 //			"-Dotel.javaagent.debug=true",
 //			"-Dotel.exporter.otlp.protocol=http/protobuf",
+			"-Dotel.instrumentation.micrometer.base-time-unit=s",
 			"-Dotel.service.name=shopping-cart",
 			"-Dotel.resource.attributes=deployment.environment=production,service.namespace=shop,service.version=1.1,service.instance.id=shopping-cart-66b6c48dd5-hprdn"
 	]
