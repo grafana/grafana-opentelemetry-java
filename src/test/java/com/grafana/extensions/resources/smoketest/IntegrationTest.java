@@ -99,8 +99,11 @@ abstract class IntegrationTest {
             .withEnv("OTEL_BSP_SCHEDULE_DELAY", "10")
             .withEnv("OTEL_PROPAGATORS", "tracecontext,baggage")
             .withEnv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://backend:8080")
-            .withEnv("OTEL_EXPORTER_OTLP_INSECURE", "true")
-            .withEnv("OTEL_CONFIG_MAX_ATTRS", "16")
+            .withEnv("GRAFANA_OTEL_LOGGING_EXPORTER_ENABLED", "metrics,traces")
+            // ^ do not include "logs" since "none, logging" will result in an error
+            .withEnv("OTEL_LOGS_EXPORTER", "none") // override to none since issue with logs ERROR
+            // io.opentelemetry.exporter.internal.grpc.OkHttpGrpcExporter - Failed to
+            // export logs. The request could not be executed.
             .withEnv(getExtraEnv());
     // If external extensions are requested
     if (extensionLocation != null) {

@@ -35,6 +35,29 @@ export OTEL_EXPORTER_OTLP_PROTOCOL="gRPC"
 java -javaagent:grafana-opentelemetry-javaagent.jar -jar <PATH_TO_JAVA_APP_JAR>
 ```
 
+## Enable Exporter Logging
+
+To assist with development and troubleshooting, you may want to enable `logging` exporters.  You can do so by adding
+logging to a given otel exporter property/enviroment variable.  Below is an example
+```
+export OTEL_METRICS_EXPORTER="otlp,logging"
+export OTEL_TRACES_EXPORTER="otlp,logging"
+export OTEL_LOGS_EXPORTER="otlp,logging"
+```
+
+Or you can use the following Grafana property/environment variable to manage `logging` exporters.
+```
+export GRAFANA_OTEL_LOGGING_EXPORTER_ENABLED="metrics,logs,traces"
+```
+The above would enable `logging` for all signal types (Note that order/case do not matter).  If you only wish to enable logging for specific 
+signals, simply include those of interest in the list.  The following would only enable logging for metrics data.
+
+```
+export GRAFANA_OTEL_LOGGING_EXPORTER_ENABLED="metrics"
+```
+
+
+
 ## Known Issues
 
 The tests occasionally fail due to TestContainers not starting in time.  Please rerun the build for now, until
