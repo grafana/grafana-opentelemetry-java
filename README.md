@@ -1,5 +1,5 @@
-# grafana-opentelemetry-java
-Grafana's distribution of the OpenTelemetry Agent for Java is based on OpenTelemetry's Extension build.
+# grafana-opentelemetry-java-instrumentation
+Grafana's distribution of the [OpenTelemetry Instrumentation for Java](https://github.com/open-telemetry/opentelemetry-java-instrumentation) is based on OpenTelemetry's Extension build.
 
 ## Versions
 
