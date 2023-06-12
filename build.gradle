@@ -45,7 +45,7 @@ public class DistributionVersion {
 
 ext {
   versions = [
-    opentelemetrySdk           : "1.26.0",
+    opentelemetrySdk           : "1.27.0",
 
     opentelemetryJavaagent     : "1.27.0-SNAPSHOT",
     opentelemetryJavaagentAlpha: "1.27.0-alpha-SNAPSHOT",
