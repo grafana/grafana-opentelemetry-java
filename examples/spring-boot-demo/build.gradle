@@ -41,8 +41,8 @@ bootRun {
 //			"-Dotel.javaagent.debug=true",
 //			"-Dotel.exporter.otlp.protocol=http/protobuf",
 			"-Dotel.instrumentation.micrometer.base-time-unit=s",
-			"-Dotel.instrumentation.log4j-appender.experimental-log-attributes",
-			"-Dotel.instrumentation.logback-appender.experimental-log-attributes",
+			"-Dotel.instrumentation.log4j-appender.experimental-log-attributes=true",
+			"-Dotel.instrumentation.logback-appender.experimental-log-attributes=true",
 			"-Dotel.service.name=shopping-cart",
 			"-Dotel.resource.attributes=deployment.environment=production,service.namespace=shop,service.version=1.1,service.instance.id=shopping-cart-66b6c48dd5-hprdn"
 	]
