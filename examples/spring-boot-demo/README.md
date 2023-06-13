@@ -10,10 +10,22 @@ This demo takes some ideas from https://github.com/grafana/opentelemetry-demo/ -
 
 # Running
 
+## Java
+
+use https://asdf-vm.com/ to switch jdk versions - or just look at `.tool-versions` and select the JDK manually
+
 ## Kafka
 
 - check out branch "otlp_gateway" from https://github.com/grafana/opentelemetry-demo/
-- `docker-compose --env-file .env  up kafka`
+- `docker-compose up kafka`
+
+## Redis
+
+See https://redis.io/docs/getting-started/installation/
+
+## Relational Database
+
+not necessary, we use h2 embedded database for this demo
 
 ## Grafana Agent
         
@@ -94,23 +106,49 @@ The Demo application is a single Spring Boot application that calls itself using
 ```
 
 # Results
+       
+## Libraries used
 
-## Spring Web
+### Spring Web
 
 This is a traditional Spring Boot application setup.
 
 Note that Spring Boot manages other versions (e.g. for Kafka), so those are not mentioned explicitly. 
+Versions not mentioned are the same as the column to the left.
 
-| Library                   | Version                                                       |
-|---------------------------|---------------------------------------------------------------|
-| Java                      | OpenJDK Runtime Environment Temurin-19.0.2+7 (build 19.0.2+7) |
-| Java Agent                | 1.26.0                                                        |
-| Spring Boot (starter-web) | 3.1.0                                                         |
-| Jedis (Redis)             | 4.4.1                                                         |
-| IBM MQ / JMS              | 3.1.0                                                         |
-| Logback                   | 1.4.7                                                         |
+| Library                   | Java 19  | Java 8 [^3] | Log4j [^5] |
+|---------------------------|----------|-------------|------------|
+| Java                      | 19 [^1]  | 8 [^2]      |            |
+| Java Agent                | 1.26.0   |             |            |
+| Spring Boot (starter-web) | 3.1.0    | 2.7.12      |            |
+| Jedis (Redis)             | 4.4.1    |             |            |
+| IBM MQ / JMS              | 3.1.0    | 2.7.12      |            |
+| Logback                   | 1.4.7    | 1.2.12      | not used   |
+| Log4j                     | not used | not used    | 2.7.12     |
 
-              
+[^1]: OpenJDK Runtime Environment Temurin-19.0.2+7 (build 19.0.2+7)               
+[^2]: OpenJDK Runtime Environment (Temurin)(build 1.8.0_372-b07)               
+[^3]: Apply patch spring-web-java8.patch                                                     
+[^5]: Apply patch log4j.patch on top of spring-web-java8.patch                                                    
+  
+### Spring Webflux
+
+| Library               | WebFlux [^6] |
+|-----------------------|--------------|
+| Java                  | 8 [^2]       |
+| Java Agent            | 1.26.0       |
+| Spring Boot (webflux) | 2.7.12       |
+| Jedis (Redis)         | 4.4.1        |
+| IBM MQ / JMS          | 2.7.12       |
+| Logback               | 1.2.12       |
+
+[^6]: Use the [reactive branch](https://github.com/grafana/grafana-opentelemetry-java/tree/reactive)
+
+## Produced Telemetry data
+
+If a certain feature (e.g. traces for Jedis client) only worked in a specific setup (e.g. Webflux), 
+it's noted separately in the section (e.g. [Jedis client span](#jedis-client-span).) 
+
 | Framework         | Traces | Metrics                   |
 |-------------------|--------|---------------------------|
 | JVM Overview      | N/A    | ☑️                        |
@@ -120,13 +158,23 @@ Note that Spring Boot manages other versions (e.g. for Kafka), so those are not 
 | MongoDB client    | ☑️     | ☑️                        |
 | Jedis client      | ☑️     | ☑️ (requires manual work) |
 | Hibernate / JPA   | ☑️     | ☑️                        |
-| IBM Message Queue | ?      | ❌                         |
+| IBM Message Queue | ? [^4] | ❌                         |
+
+[^4]: Tracing should work, because IBM MQ is based on JMS - but was not verified 
 
 ### Traces
              
 Full trace for a request to the Cart Controller: 
 
 ![](doc/trace.png)
+
+For a reactive spring application
+
+![](doc/trace-reactive.png)
+
+Notes:
+- the nesting level in the reactive trace is "too flat" - not investigated why
+- the server span "GET /controller" is missing - not investigated why
 
 #### Web Server span
            
@@ -264,7 +312,9 @@ A very useful set of metrics is the current and max. number of connections to de
 
 - max: `db_client_connections_max{pool_name="HikariPool-1"}`
 - current: `db_client_connections_usage{pool_name="HikariPool-1", state="used"}`
-    
+                     
+For reactive, `r2dbc_pool_acquired{}` seems like a good metric to monitor pool usage.
+
 #### Kafka client metrics
 
 There are [many metrics](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/instrumentation/kafka/kafka-clients/kafka-clients-2.6/library/README.md). 
