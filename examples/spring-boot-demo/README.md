@@ -28,9 +28,11 @@ See https://redis.io/docs/getting-started/installation/
 not necessary, we use h2 embedded database for this demo
 
 ## Grafana Agent
-        
-- install the Grafana Agent - https://gregorzeitlinger.grafana.net/connections/add-new-connection/java-open-telemetry
-- skip the last step ("Running the Java Application")
+                          
+- Go to Grafana Home page
+- Click on "Connect data"
+- search for "OpenTelemetry (OTLP)"
+- follow the instructions there
                                                         
 ## OpenTelemetry Collector
 
@@ -105,6 +107,3 @@ The Demo application is a single Spring Boot application that calls itself using
                                   └────────────────────────────┘
 ```
 
-# Contributing
-
-- [Dashboard](https://gregorzeitlinger.grafana.net/d/b91844d7-121e-4d0a-93b8-a9c1a05703b3/jvm-simple?orgId=1) for trying things out
