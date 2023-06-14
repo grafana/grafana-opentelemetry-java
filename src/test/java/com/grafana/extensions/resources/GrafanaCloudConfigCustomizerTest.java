@@ -14,7 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
 import java.util.stream.Stream;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -63,7 +62,7 @@ public class GrafanaCloudConfigCustomizerTest {
     return Stream.of(
         Arguments.of("only instanceId prop set", "12345", "", "", 0),
         Arguments.of("only apiKey prop set", "", "fakeApiKey=", "", 0),
-        Arguments.of("only apiKey prop set", "", "", "fake-zone", 0),
+        Arguments.of("only zone prop set", "", "", "fake-zone", 0),
         Arguments.of("only instanceId not set", "", "fakeApiKey=", "fake-zone", 0),
         Arguments.of("only zone not set", "12345", "fakeApiKey=", "", 0),
         Arguments.of("only apiKey not set", "12345", "", "fake-zone", 0),

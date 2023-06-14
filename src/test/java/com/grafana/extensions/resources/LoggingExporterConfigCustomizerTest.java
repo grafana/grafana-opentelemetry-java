@@ -171,9 +171,6 @@ public class LoggingExporterConfigCustomizerTest {
             "false",
             "metrics,traces,logs",
             3,
-            ImmutableMap.of(
-                "otel.metrics.exporter", ",logging",
-                "otel.logs.exporter", ",logging",
-                "otel.traces.exporter", ",logging")));
+            allSignals));
   }
 }
