@@ -22,10 +22,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'io.micrometer:micrometer-registry-prometheus' //only for debugging
-
 	runtimeOnly 'com.h2database:h2'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
 
 //	implementation 'com.grafana:grafana-opentelemetry-starter:1.1.0' this is an alternative for Spring Boot 3.1+ - remove jvmArgs if you use this
 }
