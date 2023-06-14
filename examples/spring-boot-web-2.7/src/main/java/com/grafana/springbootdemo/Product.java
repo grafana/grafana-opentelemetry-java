@@ -1,6 +1,6 @@
 package com.grafana.springbootdemo;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 public class Product {
