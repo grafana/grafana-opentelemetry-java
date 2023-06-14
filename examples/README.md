@@ -1,12 +1,12 @@
 # Overview 
 
-The example applications test various instrumentation libraries.
+The example applications tests various instrumentation libraries.
 
 The goal is to make it very easy to check if a certain combination of libraries and frameworks is observable
 using the [Java Agent](https://github.com/open-telemetry/opentelemetry-java-instrumentation),
 e.g. Java 8 with [IBM Message Queue](https://developer.ibm.com/tutorials/mq-jms-application-development-with-spring-boot/).
 
-Each example project exaplains how to run them, the results are displayed here fore easy summary.
+Each example project explains how to run them, the results are displayed here fore easy summary.
 
 # Results
        
@@ -19,33 +19,33 @@ This is a traditional Spring Boot application setup.
 Note that Spring Boot manages other versions (e.g. for Kafka), so those are not mentioned explicitly. 
 Versions not mentioned are the same as the column to the left.
 
-| Library                   | Java 19  | Java 8 [^3] | Log4j [^5] |
-|---------------------------|----------|-------------|------------|
-| Java                      | 19 [^1]  | 8 [^2]      |            |
-| Java Agent                | 1.26.0   |             |            |
-| Spring Boot (starter-web) | 3.1.0    | 2.7.12      |            |
-| Jedis (Redis)             | 4.4.1    |             |            |
-| IBM MQ / JMS              | 3.1.0    | 2.7.12      |            |
-| Logback                   | 1.4.7    | 1.2.12      | not used   |
-| Log4j                     | not used | not used    | 2.7.12     |
+| Library                   | Java 17 [^1] | Java 8 [^2] | Log4j [^2] |
+|---------------------------|--------------|-------------|------------|
+| Java                      | 19 [^3]      | 8 [^4]      |            |
+| Java Agent                | 1.26.0       |             |            |
+| Spring Boot (starter-web) | 3.1.0        | 2.7.12      |            |
+| Jedis (Redis)             | 4.4.1        |             |            |
+| IBM MQ / JMS              | 3.1.0        | 2.7.12      |            |
+| Logback                   | 1.4.7        | 1.2.12      | not used   |
+| Log4j                     | not used     | not used    | 2.7.12     |
 
-[^1]: OpenJDK Runtime Environment Temurin-19.0.2+7 (build 19.0.2+7)               
-[^2]: OpenJDK Runtime Environment (Temurin)(build 1.8.0_372-b07)               
-[^3]: Apply patch spring-web-java8.patch                                                     
-[^5]: Apply patch log4j.patch on top of spring-web-java8.patch                                                    
+[^1]: Demo project spring-boot-web-3.1
+[^2]: Demo project spring-boot-web-2.7
+[^3]: OpenJDK Runtime Environment Temurin-17.0.7+7 (build 17.0.7+7)               
+[^4]: OpenJDK Runtime Environment (Temurin)(build 1.8.0_372-b07)               
   
 ### Spring Webflux
 
-| Library               | WebFlux [^6] |
+| Library               | WebFlux [^5] |
 |-----------------------|--------------|
-| Java                  | 8 [^2]       |
+| Java                  | 8 [^4]       |
 | Java Agent            | 1.26.0       |
 | Spring Boot (webflux) | 2.7.12       |
 | Jedis (Redis)         | 4.4.1        |
 | IBM MQ / JMS          | 2.7.12       |
 | Logback               | 1.2.12       |
 
-[^6]: Use the [reactive branch](https://github.com/grafana/grafana-opentelemetry-java/tree/reactive)
+[^5]: Demo project spring-boot-webflux-2.7
 
 ## Produced Telemetry data
 
