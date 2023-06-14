@@ -39,15 +39,11 @@ public class GrafanaCloudConfigCustomizerTest {
   @MethodSource("provideCloudConfigurations")
   void getCustomProperties(
       String name, String instanceId, String apiKey, String zone, int expectedSize) {
-    if (StringUtils.isNotBlank(instanceId)) {
-      System.setProperty(CLOUD_INSTANCE_ID_PROP, instanceId);
-    }
-    if (StringUtils.isNotBlank(apiKey)) {
-      System.setProperty(CLOUD_API_KEY_PROP, apiKey);
-    }
-    if (StringUtils.isNotBlank(zone)) {
-      System.setProperty(CLOUD_ZONE_PROP, zone);
-    }
+
+    System.setProperty(CLOUD_INSTANCE_ID_PROP, instanceId);
+    System.setProperty(CLOUD_API_KEY_PROP, apiKey);
+    System.setProperty(CLOUD_ZONE_PROP, zone);
+
     Map<String, String> m = GrafanaCloudConfigCustomizer.getOtlpCloudConfigs();
     assertThat(m.size()).isEqualTo(expectedSize);
     if (expectedSize > 3) {

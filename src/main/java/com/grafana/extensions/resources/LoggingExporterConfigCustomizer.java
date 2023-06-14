@@ -26,7 +26,7 @@ public final class LoggingExporterConfigCustomizer {
       for (String signal : SIGNAL_TYPES) {
         String propName = getOtelExporterPropName(signal);
 
-        // Logging cannot be added to the signal's exporters, if the exporter for the signal
+        // Logging cannot be added to the signal's exporters if the exporter for the signal
         // is set to `none`.
         // Note that 'otel.logs.exporter' seem to differ from the other signals in that the
         // initial value is set to 'none'.
