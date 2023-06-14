@@ -61,7 +61,7 @@ class SpringBootIntegrationTest extends IntegrationTest {
 
     Response response = client.newCall(request).execute();
 
-    // Thread.sleep(180000);  delay to allow metric logging
+    //Thread.sleep(90000); // delay to allow metric logging
 
     Collection<ExportTraceServiceRequest> traces = waitForTraces();
 
