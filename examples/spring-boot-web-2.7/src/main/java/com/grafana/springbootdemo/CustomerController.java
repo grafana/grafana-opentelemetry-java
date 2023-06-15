@@ -21,7 +21,7 @@ public class CustomerController {
     @GetMapping("/customer")
     public String getCustomer() {
         try {
-            jmsTemplate.convertAndSend("mailbox", new Customer());
+            jmsTemplate.convertAndSend("jms_destination", new Customer());
         } catch (JmsException e) {
             logger.warn("could not send JMS message", e);
         }

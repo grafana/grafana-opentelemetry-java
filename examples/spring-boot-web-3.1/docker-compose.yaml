@@ -1,0 +1,81 @@
+version: '3.9'
+
+x-default-logging: &logging
+  driver: "json-file"
+  options:
+    max-size: "5m"
+    max-file: "2"
+
+services:
+  activemq:
+    image: rmohr/activemq:5.15.9
+    container_name: activemq
+    environment:
+      - "TZ=Europe/Amsterdam"
+    volumes:
+      - "./activemq.xml:/conf/activemq.xml"
+    ports:
+      - "61616:61616" # broker (admin:adminactivemq)(amq:amq)
+      - "8161:8161"   # web    http://boot2docker:8161/admin (admin:admin)
+
+  kafka:
+    image: grafana-otel-java:0.1-kafka
+    container_name: kafka
+    build:
+      context: ./
+      dockerfile: ./kafka/Dockerfile
+      cache_from:
+        - grafana-otel-java:0.1-kafka
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+    restart: unless-stopped
+    environment:
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - OTEL_EXPORTER_OTLP_ENDPOINT
+      - OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
+      - OTEL_RESOURCE_ATTRIBUTES
+      - OTEL_SERVICE_NAME=kafka
+      - KAFKA_HEAP_OPTS=-Xmx200m -Xms200m
+    healthcheck:
+      test: nc -z kafka 9092
+      start_period: 10s
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    logging: *logging
+    ports:
+      - "9092:9092"
+
+  redis:
+    image: redis:alpine
+    container_name: redis-cart
+    user: redis
+    deploy:
+      resources:
+        limits:
+          memory: 20M
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    logging: *logging
+
+  #  postgres:
+  #    image: 'postgres:13.1-alpine'
+  #    container_name: postgres
+  #    environment:
+  #      - POSTGRES_USER=compose-postgres
+  #      - POSTGRES_PASSWORD=compose-postgres
+  #    ports:
+  #      - "5432:5432"
+  #    logging: *logging
+
+  mongodb:
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata6:/data/db
+volumes:
+  dbdata6:

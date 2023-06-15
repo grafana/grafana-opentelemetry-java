@@ -18,7 +18,7 @@ dependencies {
 	implementation 'redis.clients:jedis:4.4.1'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.kafka:spring-kafka'
-	implementation 'com.ibm.mq:mq-jms-spring-boot-starter:2.7.12'
+	implementation 'org.springframework.boot:spring-boot-starter-activemq'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'io.micrometer:micrometer-registry-prometheus' //only for debugging
