@@ -20,7 +20,8 @@ public final class LoggingExporterConfigCustomizer {
       ImmutableSet.of("traces", "metrics", "logs");
 
   static Map<String, String> getCustomProperties(ConfigProperties configs) {
-    Map<String, String> logging = getLoggingExporterConfigs();
+    GrafanaLoggingConfig logConfigs = new GrafanaLoggingConfig(configs);
+    Map<String, String> logging = getLoggingExporterConfigs(logConfigs);
     Map<String, String> overrides = new HashMap<>();
     if (!logging.isEmpty()) {
       for (String signal : SIGNAL_TYPES) {
@@ -40,9 +41,8 @@ public final class LoggingExporterConfigCustomizer {
     return overrides;
   }
 
-  public static Map<String, String> getLoggingExporterConfigs() {
+  public static Map<String, String> getLoggingExporterConfigs(GrafanaLoggingConfig configs) {
     Map<String, String> loggingConfig = new HashMap<>();
-    GrafanaLoggingConfig configs = GrafanaLoggingConfig.get();
     String[] signalsToEnable;
     if (configs.isDebugLogging()) {
       signalsToEnable = SIGNAL_TYPES.toArray(new String[] {});
