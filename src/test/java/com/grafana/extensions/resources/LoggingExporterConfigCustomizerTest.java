@@ -57,7 +57,7 @@ public class LoggingExporterConfigCustomizerTest {
   private static Stream<Arguments> provideCustomConfigurations() {
     return Stream.of(
         Arguments.of(
-            "debugLogging is on",
+            "debugLogging is on so logging for all signals",
             Boolean.TRUE,
             "",
             "otlp",
@@ -67,17 +67,27 @@ public class LoggingExporterConfigCustomizerTest {
                 TRACES_EXPORTER_PROP, "otlp,logging",
                 LOG_EXPORTER_PROP, "otlp,logging")),
         Arguments.of(
-            "debugLogging is on",
+            "debugLogging is on but logging exporter is already set",
             Boolean.TRUE,
             "",
-            "jaeger,otlp",
+            "otlp,logging",
             3,
             ImmutableMap.of(
-                METRICS_EXPORTER_PROP, "jaeger,otlp,logging",
-                TRACES_EXPORTER_PROP, "jaeger,otlp,logging",
-                LOG_EXPORTER_PROP, "jaeger,otlp,logging")),
+                METRICS_EXPORTER_PROP, "otlp,logging",
+                TRACES_EXPORTER_PROP, "otlp,logging",
+                LOG_EXPORTER_PROP, "otlp,logging")),
         Arguments.of(
-            "Logging enabled for all signals",
+            "debugLogging takes precedence over loggingExporterEnabled",
+            Boolean.TRUE,
+            "metrics",
+            "otlp",
+            3,
+            ImmutableMap.of(
+                METRICS_EXPORTER_PROP, "otlp,logging",
+                TRACES_EXPORTER_PROP, "otlp,logging",
+                LOG_EXPORTER_PROP, "otlp,logging")),
+        Arguments.of(
+            "loggingExporterEnabled set with all signals",
             Boolean.FALSE,
             "metrics,traces,logs",
             "otlp",
@@ -87,7 +97,7 @@ public class LoggingExporterConfigCustomizerTest {
                 TRACES_EXPORTER_PROP, "otlp,logging",
                 LOG_EXPORTER_PROP, "otlp,logging")),
         Arguments.of(
-            "Logging enabled for metrics,traces",
+            "loggingExporterEnabled set with metrics,traces",
             Boolean.FALSE,
             "metrics,traces",
             "otlp",
@@ -137,28 +147,28 @@ public class LoggingExporterConfigCustomizerTest {
             LOG_EXPORTER_PROP,
             ",logging");
     return Stream.of(
-        Arguments.of("only debugging logging set to false", false, "", 0, ImmutableMap.of()),
-        Arguments.of("only debugging logging set to true ", true, "", 3, allSignals),
+        Arguments.of("only debugLogging set to false", false, "", 0, ImmutableMap.of()),
+        Arguments.of("only debugLogging set to true ", true, "", 3, allSignals),
         Arguments.of(
-            "debugging logging set to true with metric logging enabled",
+            "debugLogging set to true with metric logging enabled",
             Boolean.TRUE,
             "metrics",
             3,
             allSignals),
         Arguments.of(
-            "debugging logging set to true with `metrics,traces` logging enabled",
+            "debugLogging set to true with `metrics,traces` logging enabled",
             Boolean.TRUE,
             "metrics,traces",
             3,
             allSignals),
         Arguments.of(
-            "debugging logging set to true with `metrics,traces,logs` logging enabled",
+            "debugLogging set to true with `metrics,traces,logs` logging enabled",
             true,
             "metrics,traces,logs",
             3,
             allSignals),
         Arguments.of(
-            "debugging logging set to false with `metric` logging enabled",
+            "debugLogging set to false with `metric` logging enabled",
             Boolean.FALSE,
             "metrics",
             3,
@@ -167,7 +177,7 @@ public class LoggingExporterConfigCustomizerTest {
                 "otel.logs.exporter", "",
                 "otel.traces.exporter", "")),
         Arguments.of(
-            "debugging logging set to false with `metric,traces` logging enabled",
+            "debugLogging set to false with `metric,traces` logging enabled",
             Boolean.FALSE,
             "metrics,traces",
             3,
@@ -176,7 +186,7 @@ public class LoggingExporterConfigCustomizerTest {
                 "otel.logs.exporter", "",
                 "otel.traces.exporter", ",logging")),
         Arguments.of(
-            "debugging logging set to false with `metric,traces,logs` logging enabled",
+            "debugLogging set to false with `metric,traces,logs` logging enabled",
             Boolean.FALSE,
             "metrics,traces,logs",
             3,

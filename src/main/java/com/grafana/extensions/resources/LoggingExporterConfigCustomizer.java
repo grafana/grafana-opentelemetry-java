@@ -33,7 +33,9 @@ public final class LoggingExporterConfigCustomizer {
         // initial value is set to 'none'.
         String exporters = configs.getString(propName, "otlp");
         exporters =
-            !(exporters.equals("none")) ? exporters.concat(logging.get(propName)) : exporters;
+            !(exporters.equals("none")) && !exporters.contains("logging")
+                ? exporters.concat(logging.get(propName))
+                : exporters;
         overrides.put(propName, exporters);
       }
     }

@@ -66,7 +66,7 @@ public class GrafanaCloudConfigCustomizerTest {
         Arguments.of("only apiKey not set", 12345, "", "fake-zone", "", 0),
         Arguments.of("all cloud props set", 12345, "fakeApiKey=", "fake-zone", "", 3),
         Arguments.of(
-            "all cloud props set but otel endpoint set too",
+            "otel endpoint takes precedence over cloud when all are set",
             12345,
             "fakeApiKey=",
             "fake-zone",
