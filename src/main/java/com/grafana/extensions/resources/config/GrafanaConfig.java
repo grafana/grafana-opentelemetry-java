@@ -6,6 +6,9 @@
 package com.grafana.extensions.resources.config;
 
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 public class GrafanaConfig {
@@ -15,21 +18,23 @@ public class GrafanaConfig {
     public static final String LOGGING_ENABLED_PROP = "grafana.otlp.logging.exporter.enabled";
     public static final String DEBUG_LOGGING_PROP = "grafana.otlp.debug.logging";
 
-    private boolean debugLogging;
-    private String[] loggingEnabled;
+    private final boolean debugLogging;
+    private final List<String> loggingEnabled;
 
     public GrafanaLoggingConfig(ConfigProperties configs) {
       this.debugLogging = configs.getBoolean(DEBUG_LOGGING_PROP, false);
       String loggingEnabled = configs.getString(LOGGING_ENABLED_PROP, "");
       this.loggingEnabled =
-          StringUtils.isNotBlank(loggingEnabled) ? loggingEnabled.split(",") : null;
+          StringUtils.isNotBlank(loggingEnabled)
+              ? Arrays.asList(loggingEnabled.split(","))
+              : new ArrayList<>();
     }
 
     public boolean isDebugLogging() {
       return debugLogging;
     }
 
-    public String[] getLoggingEnabled() {
+    public List<String> getLoggingEnabled() {
       return loggingEnabled;
     }
   }
@@ -45,9 +50,9 @@ public class GrafanaConfig {
       this.zone = configs.getString(CLOUD_ZONE_PROP, "");
     }
 
-    private int instanceId;
-    private String apiKey;
-    private String zone;
+    private final int instanceId;
+    private final String apiKey;
+    private final String zone;
     private final String protocol = "http/protobuf";
 
     public int getInstanceId() {

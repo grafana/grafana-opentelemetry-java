@@ -28,8 +28,7 @@ public final class GrafanaCloudConfigCustomizer {
     }
 
     GrafanaCloudConfig cloudConfigs = new GrafanaCloudConfig(configs);
-    Map<String, String> overrides = getOtlpCloudConfigs(cloudConfigs);
-    return overrides;
+    return getOtlpCloudConfigs(cloudConfigs);
   }
 
   static Map<String, String> getOtlpCloudConfigs(GrafanaCloudConfig configs) {
@@ -39,6 +38,7 @@ public final class GrafanaCloudConfigCustomizer {
     String apiKey = configs.getApiKey();
     int instanceId = configs.getInstanceId();
     String zone = configs.getZone();
+    String protocol = configs.getProtocol();
 
     try {
       Verify.verify(StringUtils.isNotBlank(zone), exMessage, "zone");
@@ -51,13 +51,12 @@ public final class GrafanaCloudConfigCustomizer {
     String endpoint = getEndpoint(zone);
     m.put("otel.exporter.otlp.endpoint", endpoint);
     m.put("otel.exporter.otlp.headers", getOtlpHeaders(instanceId, apiKey));
-    m.put("otel.exporter.otlp.protocol", configs.getProtocol());
+    m.put("otel.exporter.otlp.protocol", protocol);
 
     logger.info(
         String.format(
-            "will attempt to send data to GrafanaCloud for endpoint {} and instance id {}",
-            endpoint,
-            instanceId));
+            "will attempt to send data to GrafanaCloud for endpoint %s, protocol %s",
+            endpoint, protocol));
 
     return m;
   }

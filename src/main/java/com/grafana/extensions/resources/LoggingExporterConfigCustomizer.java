@@ -8,9 +8,12 @@ package com.grafana.extensions.resources;
 import com.google.common.collect.ImmutableSet;
 import com.grafana.extensions.resources.config.GrafanaConfig.GrafanaLoggingConfig;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public final class LoggingExporterConfigCustomizer {
 
@@ -44,24 +47,28 @@ public final class LoggingExporterConfigCustomizer {
   }
 
   public static Map<String, String> getLoggingExporterConfigs(GrafanaLoggingConfig configs) {
-    Map<String, String> loggingConfig = new HashMap<>();
-    String[] signalsToEnable;
+    List<String> signalsToEnable;
     if (configs.isDebugLogging()) {
-      signalsToEnable = SIGNAL_TYPES.toArray(new String[] {});
+      signalsToEnable = new ArrayList<>(SIGNAL_TYPES);
     } else {
       signalsToEnable = configs.getLoggingEnabled();
     }
-    if (signalsToEnable != null) {
-      for (String type : SIGNAL_TYPES) { // init logging config
-        loggingConfig.put(getOtelExporterPropName(type), "");
-      }
-      for (String signal : signalsToEnable) {
-        if (SIGNAL_TYPES.contains(signal.toLowerCase())) {
-          loggingConfig.put(getOtelExporterPropName(signal), ",logging");
-        }
-      }
-      logger.info("Logging status: " + loggingConfig);
+    if (signalsToEnable.isEmpty()) {
+      return new HashMap<>();
     }
+
+    // init logging config map
+    Map<String, String> loggingConfig =
+        SIGNAL_TYPES.stream()
+            .collect(
+                Collectors.toMap(
+                    LoggingExporterConfigCustomizer::getOtelExporterPropName, v -> ""));
+    for (String signal : signalsToEnable) {
+      if (SIGNAL_TYPES.contains(signal.toLowerCase())) {
+        loggingConfig.put(getOtelExporterPropName(signal), ",logging");
+      }
+    }
+    logger.info("Logging status: " + loggingConfig);
     return loggingConfig;
   }
 
