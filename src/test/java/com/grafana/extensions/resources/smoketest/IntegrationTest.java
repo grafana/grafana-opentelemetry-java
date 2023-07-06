@@ -99,8 +99,7 @@ abstract class IntegrationTest {
             .withEnv("OTEL_BSP_SCHEDULE_DELAY", "10")
             .withEnv("OTEL_PROPAGATORS", "tracecontext,baggage")
             .withEnv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://backend:8080")
-            .withEnv("GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED", "metrics,traces,logs")
-            .withEnv("GRAFANA_OTLP_DEBUG_LOGGING", "false")
+            .withEnv("GRAFANA_OTLP_DEBUG_LOGGING", "true")
             .withEnv(getExtraEnv());
     // If external extensions are requested
     if (extensionLocation != null) {

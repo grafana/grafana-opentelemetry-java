@@ -106,7 +106,13 @@ public class LoggingExporterConfigCustomizerTest {
             ImmutableMap.of(
                 LOG_EXPORTER_PROP, "none",
                 METRICS_EXPORTER_PROP, "none",
-                TRACES_EXPORTER_PROP, "none")));
+                TRACES_EXPORTER_PROP, "none")),
+        Arguments.of(
+            "No logging enabled so no changes to exporter configurations",
+            false,
+            "",
+            "otlp",
+            ImmutableMap.of()));
   }
 
   @ParameterizedTest(name = "{0}")
