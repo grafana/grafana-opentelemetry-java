@@ -35,12 +35,13 @@ tasks.named('test') {
 
 bootRun {
 	jvmArgs = [
-			"-javaagent:$projectDir/opentelemetry-javaagent-1.26.0.jar",
+			"-javaagent:$projectDir/opentelemetry-javaagent-1.27.0.jar",
 //			"-Dotel.logs.exporter=otlp,logging-otlp", //the default for logging will change to none, this will keep it active
 			"-Dotel.logs.exporter=otlp", //the default for logging will change to none, this will keep it active
 //			"-Dotel.javaagent.debug=true",
 //			"-Dotel.exporter.otlp.protocol=http/protobuf",
 			"-Dotel.instrumentation.micrometer.base-time-unit=s",
+			"-Dotel.semconv-stability.opt-in=http",
 			"-Dotel.instrumentation.log4j-appender.experimental-log-attributes=true",
 			"-Dotel.instrumentation.logback-appender.experimental-log-attributes=true",
 			"-Dotel.service.name=shopping-cart",

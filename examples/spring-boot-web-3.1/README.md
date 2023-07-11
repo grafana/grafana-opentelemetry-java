@@ -38,7 +38,7 @@ the latest Prometheus naming conventions (which we're not using at the moment)
 ## Java Agent
 
 - `cd examples/spring-boot-demo`
-- `curl -Lo opentelemetry-javaagent-1.26.0.jar https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.26.0/opentelemetry-javaagent.jar
+- `curl -Lo opentelemetry-javaagent-1.27.0.jar https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v1.27.0/opentelemetry-javaagent.jar`
 
 ## Demo Application
 

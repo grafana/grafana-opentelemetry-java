@@ -22,7 +22,7 @@ Versions not mentioned are the same as the column to the left.
 | Library                   | Java 17 [^1] | Java 8 [^2] | Log4j [^2] |
 |---------------------------|--------------|-------------|------------|
 | Java                      | 19 [^3]      | 8 [^4]      |            |
-| Java Agent                | 1.26.0       |             |            |
+| Java Agent                | 1.27.0       |             |            |
 | Spring Boot (starter-web) | 3.1.0        | 2.7.12      |            |
 | Jedis (Redis)             | 4.4.1        |             |            |
 | Logback                   | 1.4.7        | 1.2.12      | not used   |
@@ -38,7 +38,7 @@ Versions not mentioned are the same as the column to the left.
 | Library               | WebFlux [^5] |
 |-----------------------|--------------|
 | Java                  | 8 [^4]       |
-| Java Agent            | 1.26.0       |
+| Java Agent            | 1.27.0       |
 | Spring Boot (webflux) | 2.7.12       |
 | Jedis (Redis)         | 4.4.1        |
 | Logback               | 1.2.12       |
