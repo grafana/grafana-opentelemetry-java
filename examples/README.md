@@ -5,8 +5,39 @@ The example applications tests various instrumentation libraries.
 The goal is to make it very easy to check if a certain combination of libraries and frameworks is observable
 using the [Java Agent](https://github.com/open-telemetry/opentelemetry-java-instrumentation),
 e.g. Java 8 with [IBM Message Queue](https://developer.ibm.com/tutorials/mq-jms-application-development-with-spring-boot/).
+        
+# Running the examples
 
-Each example project explains how to run them, the results are displayed here fore easy summary.
+Each example project is run in the same way - so these instructions apply to all of them.
+
+## Setup
+
+### Java
+
+Use https://asdf-vm.com/ to switch jdk versions - or just look at `.tool-versions` and select the JDK manually
+before running any of the examples.
+
+### Grafana Agent
+                          
+- Go to Grafana Home page
+- Click on "Connect data"
+- search for "OpenTelemetry (OTLP)"
+- follow the instructions there
+
+If you're running on Linux, the script will also start the grafana agent if it is not running already.   
+
+## Starting the example application
+
+Use `./run.sh` to start each example application.
+
+### Debugging the example application
+
+- Use `./run.sh --attachDebugger` to attach a debugger to https://github.com/open-telemetry/opentelemetry-java-instrumentation 
+  as explained in [debugging](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/contributing/debugging.md). 
+- Use `./run.sh --debugModules` to output the modules that are loaded by the java agent.
+- Use `./run.sh --debugLogging` to output all telemetry data to the console.
+  
+These options can be combined.
 
 # Results
        
