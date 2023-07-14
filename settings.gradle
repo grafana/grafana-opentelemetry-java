@@ -24,4 +24,5 @@ def javaHome = System.getenv("JAVA_HOME")
 if (javaHome == null || !javaHome.contains("-8.0")) {
   include('examples:spring-boot-web-3.1')
   include('examples:jdbc:spring-boot-non-reactive-3.1')
+  include('examples:jdbc:spring-boot-reactive-3.1')
 }
