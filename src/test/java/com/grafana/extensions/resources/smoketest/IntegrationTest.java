@@ -94,13 +94,12 @@ abstract class IntegrationTest {
             // Adds instrumentation agent with debug configuration to the target application
             .withEnv(
                 "JAVA_TOOL_OPTIONS",
-                "-javaagent:/opentelemetry-javaagent.jar -Dotel.javaagent.debug=true")
+                "-javaagent:/opentelemetry-javaagent.jar -Dotel.javaagent.debug=true ")
             .withEnv("OTEL_BSP_MAX_EXPORT_BATCH", "1")
             .withEnv("OTEL_BSP_SCHEDULE_DELAY", "10")
             .withEnv("OTEL_PROPAGATORS", "tracecontext,baggage")
             .withEnv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://backend:8080")
-            .withEnv("OTEL_EXPORTER_OTLP_INSECURE", "true")
-            .withEnv("OTEL_CONFIG_MAX_ATTRS", "16")
+            .withEnv("GRAFANA_OTLP_DEBUG_LOGGING", "true")
             .withEnv(getExtraEnv());
     // If external extensions are requested
     if (extensionLocation != null) {
