@@ -200,7 +200,7 @@ tasks {
   }
 
   compileJava {
-    options.release.set(8)
+//    options.release.set(8)
   }
 
   assemble.dependsOn(shadowJar)
