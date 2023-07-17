@@ -83,9 +83,15 @@ abstract class IntegrationTest {
     target.start();
   }
 
+  private int getTargetFeatureVersion() {
+    String[] version = System.getProperty("java.version").split("\\.");
+    int jdk = Integer.parseInt(version[0]);
+    return jdk >= 10 ? jdk : Integer.parseInt(version[1]);
+  }
+
   private GenericContainer<?> buildTargetContainer(String agentPath, String extensionLocation) {
     GenericContainer<?> result =
-        new GenericContainer<>(getTargetImage(8))
+        new GenericContainer<>(getTargetImage(getTargetFeatureVersion()))
             .withExposedPorts(8080)
             .withNetwork(network)
             .withLogConsumer(new Slf4jLogConsumer(logger))

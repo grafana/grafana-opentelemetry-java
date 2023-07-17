@@ -14,7 +14,7 @@ plugins {
   See https://imperceptiblethoughts.com/shadow/ for more details about Shadow plugin.
    */
   id "com.github.johnrengelman.shadow" version "8.1.1"
-  id "com.diffplug.spotless" version "6.19.0"
+  id "com.diffplug.spotless" version "6.13.0"
 
   id "io.opentelemetry.instrumentation.muzzle-generation" version "1.27.0-alpha-SNAPSHOT"
   id "io.opentelemetry.instrumentation.muzzle-check" version "1.27.0-alpha-SNAPSHOT"
@@ -155,7 +155,7 @@ dependencies {
   testImplementation("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
 
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${versions.junit}")
-  testRuntimeOnly("ch.qos.logback:logback-classic:1.4.7")
+  testRuntimeOnly("ch.qos.logback:logback-classic:1.3.8")
 
   //Otel Java instrumentation that we use and extend during integration tests
   otel("io.opentelemetry.javaagent:opentelemetry-javaagent:${versions.opentelemetryJavaagent}")
@@ -179,7 +179,7 @@ task extendedAgent(type: Jar) {
 
   doFirst {
     //Preserve MANIFEST.MF file from the upstream javaagent
-    manifest.from(
+    manifest.attributes("Build-Jdk": JavaVersion.current()).from(
       zipTree(configurations.otel.singleFile).matching {
         include 'META-INF/MANIFEST.MF'
       }.singleFile
@@ -200,7 +200,9 @@ tasks {
   }
 
   compileJava {
-//    options.release.set(8)
+    if (Float.parseFloat(JavaVersion.current().toString()) > Float.parseFloat(JavaVersion.VERSION_1_8.toString())) {
+      options.release.set(8)
+    }
   }
 
   assemble.dependsOn(shadowJar)
