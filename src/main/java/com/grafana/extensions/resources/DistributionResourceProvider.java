@@ -15,6 +15,13 @@ public class DistributionResourceProvider implements ResourceProvider {
 
   @Override
   public Resource createResource(ConfigProperties config) {
+    try {
+      Class.forName("jdk.jshell.JShell");
+      System.out.println("USING JDK 9+");
+    } catch (ClassNotFoundException e) {
+      System.out.println("USING JDK 8");
+    }
+
     // java.util.Map.of();
     return DistributionResource.get();
   }
