@@ -83,15 +83,6 @@ abstract class IntegrationTest {
     target.start();
   }
 
-  /*
-  private int getTargetFeatureVersion() {
-
-    String[] version = System.getProperty("java.version").split("\\.");
-    int jdk = Integer.parseInt(version[0]);
-    return jdk >= 10 ? jdk : Integer.parseInt(version[1]);
-  }
-  */
-
   private GenericContainer<?> buildTargetContainer(
       String agentPath, String extensionLocation, int jdkVersion) {
     GenericContainer<?> result =
