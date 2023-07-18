@@ -15,7 +15,8 @@ import java.util.Collection;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class SpringBootIntegrationTest extends IntegrationTest {
 
@@ -26,27 +27,32 @@ class SpringBootIntegrationTest extends IntegrationTest {
         + "-20211213.1570880324";
   }
 
-  @Test
-  public void extensionsAreLoadedFromJar() throws IOException, InterruptedException {
-    startTarget("/opentelemetry-extensions.jar");
+  @ParameterizedTest
+  @ValueSource(ints = {8, 11, 17})
+  public void extensionsAreLoadedFromJar(int jdkVersion) throws IOException, InterruptedException {
+    startTarget("/opentelemetry-extensions.jar", jdkVersion);
 
     testAndVerify();
 
     stopTarget();
   }
 
-  @Test
-  public void extensionsAreLoadedFromFolder() throws IOException, InterruptedException {
-    startTarget("/");
+  @ParameterizedTest
+  @ValueSource(ints = {8, 11, 17})
+  public void extensionsAreLoadedFromFolder(int jdkVersion)
+      throws IOException, InterruptedException {
+    startTarget("/", jdkVersion);
 
     testAndVerify();
 
     stopTarget();
   }
 
-  @Test
-  public void extensionsAreLoadedFromJavaagent() throws IOException, InterruptedException {
-    startTargetWithExtendedAgent();
+  @ParameterizedTest
+  @ValueSource(ints = {8, 11, 17})
+  public void extensionsAreLoadedFromJavaagent(int jdkVersion)
+      throws IOException, InterruptedException {
+    startTargetWithExtendedAgent(jdkVersion);
 
     testAndVerify();
 
