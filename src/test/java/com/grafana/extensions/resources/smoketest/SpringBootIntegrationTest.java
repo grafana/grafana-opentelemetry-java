@@ -28,7 +28,7 @@ class SpringBootIntegrationTest extends IntegrationTest {
         + "-20211213.1570880324";
   }
 
-  private int getTargetFeatureVersion() {
+  private int getJavaFeatureVersion() {
     String[] version = System.getProperty("java.version").split("\\.");
     int jdk = Integer.parseInt(version[0]);
     return jdk >= 10 ? jdk : Integer.parseInt(version[1]);
@@ -46,7 +46,7 @@ class SpringBootIntegrationTest extends IntegrationTest {
 
   @Test
   public void extensionsAreLoadedFromFolder() throws IOException, InterruptedException {
-    startTarget("/", getTargetFeatureVersion());
+    startTarget("/", getJavaFeatureVersion());
 
     testAndVerify();
 
@@ -55,7 +55,7 @@ class SpringBootIntegrationTest extends IntegrationTest {
 
   @Test
   public void extensionsAreLoadedFromJavaagent() throws IOException, InterruptedException {
-    startTargetWithExtendedAgent(getTargetFeatureVersion());
+    startTargetWithExtendedAgent(getJavaFeatureVersion());
 
     testAndVerify();
 
