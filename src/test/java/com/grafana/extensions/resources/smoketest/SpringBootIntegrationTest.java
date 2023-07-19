@@ -44,10 +44,8 @@ class SpringBootIntegrationTest extends IntegrationTest {
     stopTarget();
   }
 
-
   @Test
-  public void extensionsAreLoadedFromFolder()
-      throws IOException, InterruptedException {
+  public void extensionsAreLoadedFromFolder() throws IOException, InterruptedException {
     startTarget("/", getTargetFeatureVersion());
 
     testAndVerify();
@@ -56,8 +54,7 @@ class SpringBootIntegrationTest extends IntegrationTest {
   }
 
   @Test
-  public void extensionsAreLoadedFromJavaagent()
-      throws IOException, InterruptedException {
+  public void extensionsAreLoadedFromJavaagent() throws IOException, InterruptedException {
     startTargetWithExtendedAgent(getTargetFeatureVersion());
 
     testAndVerify();
