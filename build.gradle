@@ -201,7 +201,7 @@ tasks {
   }
 
   compileJava {
-    if (Float.parseFloat(JavaVersion.current().toString()) > Float.parseFloat(JavaVersion.VERSION_1_8.toString())) {
+    if (JavaVersion.current() > JavaVersion.VERSION_1_8) {
       options.release.set(8)
     }
   }
