@@ -15,6 +15,7 @@ import java.util.Collection;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -27,6 +28,12 @@ class SpringBootIntegrationTest extends IntegrationTest {
         + "-20211213.1570880324";
   }
 
+  private int getTargetFeatureVersion() {
+    String[] version = System.getProperty("java.version").split("\\.");
+    int jdk = Integer.parseInt(version[0]);
+    return jdk >= 10 ? jdk : Integer.parseInt(version[1]);
+  }
+
   @ParameterizedTest
   @ValueSource(ints = {8, 11, 17})
   public void extensionsAreLoadedFromJar(int jdkVersion) throws IOException, InterruptedException {
@@ -37,22 +44,21 @@ class SpringBootIntegrationTest extends IntegrationTest {
     stopTarget();
   }
 
-  @ParameterizedTest
-  @ValueSource(ints = {8, 11, 17})
-  public void extensionsAreLoadedFromFolder(int jdkVersion)
+
+  @Test
+  public void extensionsAreLoadedFromFolder()
       throws IOException, InterruptedException {
-    startTarget("/", jdkVersion);
+    startTarget("/", getTargetFeatureVersion());
 
     testAndVerify();
 
     stopTarget();
   }
 
-  @ParameterizedTest
-  @ValueSource(ints = {8, 11, 17})
-  public void extensionsAreLoadedFromJavaagent(int jdkVersion)
+  @Test
+  public void extensionsAreLoadedFromJavaagent()
       throws IOException, InterruptedException {
-    startTargetWithExtendedAgent(jdkVersion);
+    startTargetWithExtendedAgent(getTargetFeatureVersion());
 
     testAndVerify();
 

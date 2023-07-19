@@ -67,6 +67,12 @@ repositories {
   }
 }
 
+tasks.withType(JavaCompile).configureEach {
+  javaCompiler = javaToolchains.compilerFor {
+    languageVersion = JavaLanguageVersion.of(8)
+  }
+}
+
 configurations {
   /*
   We create a separate gradle configuration to grab a published Otel instrumentation agent.
@@ -198,12 +204,6 @@ tasks {
     systemProperty 'io.opentelemetry.smoketest.agentPath', configurations.otel.singleFile.absolutePath
     systemProperty 'io.opentelemetry.smoketest.extendedAgentPath', tasks.extendedAgent.archiveFile.get().asFile.absolutePath
     systemProperty 'io.opentelemetry.smoketest.extensionPath', tasks.shadowJar.archiveFile.get().asFile.absolutePath
-  }
-
-  compileJava {
-    if (JavaVersion.current() > JavaVersion.VERSION_1_8) {
-      options.release.set(8)
-    }
   }
 
   assemble.dependsOn(shadowJar)
