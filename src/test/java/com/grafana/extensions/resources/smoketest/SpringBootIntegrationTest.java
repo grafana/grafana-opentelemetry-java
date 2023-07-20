@@ -36,10 +36,9 @@ class SpringBootIntegrationTest extends IntegrationTest {
     return jdk >= 10 ? jdk : Integer.parseInt(version[1]);
   }
 
-  @ParameterizedTest
-  @ValueSource(ints = {8, 11, 17})
-  public void extensionsAreLoadedFromJar(int jdkVersion) throws IOException, InterruptedException {
-    startTarget("/opentelemetry-extensions.jar", jdkVersion);
+  @Test
+  public void extensionsAreLoadedFromJar() throws IOException, InterruptedException {
+    startTarget("/opentelemetry-extensions.jar", getJavaFeatureVersion());
 
     testAndVerify();
 
