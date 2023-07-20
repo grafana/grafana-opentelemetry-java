@@ -16,9 +16,11 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+@DisabledIfSystemProperty(named = "disableSmokeTests", matches = "true")
 class SpringBootIntegrationTest extends IntegrationTest {
 
   @Override

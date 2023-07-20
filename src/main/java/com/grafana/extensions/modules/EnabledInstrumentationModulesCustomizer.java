@@ -106,9 +106,9 @@ public class EnabledInstrumentationModulesCustomizer {
     }
   }
 
+  @SuppressWarnings("unchecked")
   static Map<String, String> getAllProperties(ConfigProperties configProperties) {
     try {
-      //noinspection unchecked
       return (Map<String, String>) FieldUtils.readDeclaredField(configProperties, "config", true);
     } catch (IllegalAccessException e) {
       throw new RuntimeException(e);
