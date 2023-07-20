@@ -7,12 +7,11 @@ package com.grafana.extensions.modules;
 
 import io.opentelemetry.api.internal.ConfigUtil;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
-import org.apache.commons.lang3.reflect.FieldUtils;
-
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.reflect.FieldUtils;
 
 /**
  * This is the relevant upstream method:

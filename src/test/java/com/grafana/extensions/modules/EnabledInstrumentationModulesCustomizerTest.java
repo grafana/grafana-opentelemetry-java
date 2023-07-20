@@ -5,19 +5,18 @@
 
 package com.grafana.extensions.modules;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.github.netmikey.logunit.api.LogCapturer;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.testcontainers.shaded.com.google.common.collect.ImmutableMap;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class EnabledInstrumentationModulesCustomizerTest {
 
@@ -25,10 +24,20 @@ class EnabledInstrumentationModulesCustomizerTest {
   LogCapturer logs =
       LogCapturer.create().captureForType(EnabledInstrumentationModulesCustomizer.class);
 
-  record TestCase(
-      Map<String, String> inputProperties,
-      Map<String, String> wantProperties,
-      String expectedOutput) {}
+  static class TestCase {
+    Map<String, String> inputProperties;
+    Map<String, String> wantProperties;
+    String expectedOutput;
+
+    public TestCase(
+        Map<String, String> inputProperties,
+        Map<String, String> wantProperties,
+        String expectedOutput) {
+      this.inputProperties = inputProperties;
+      this.wantProperties = wantProperties;
+      this.expectedOutput = expectedOutput;
+    }
+  }
 
   @ParameterizedTest(name = "{0}")
   @MethodSource("testCases")

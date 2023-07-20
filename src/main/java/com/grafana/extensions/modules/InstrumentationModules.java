@@ -5,7 +5,7 @@
 
 package com.grafana.extensions.modules;
 
-// This is a generated class that is managed by the distribution's build process.  Do not edit.
+// This class is generated from README.md in build.gradle.  Do not edit.
 
 import java.util.Arrays;
 import java.util.List;
