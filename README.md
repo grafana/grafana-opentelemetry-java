@@ -62,3 +62,14 @@ export GRAFANA_OTEL_LOGGING_EXPORTER_ENABLED="metrics"
 
 The tests occasionally fail due to TestContainers not starting in time.  Please rerun the build for now, until
 a new wait strategy can be determined.
+
+## Supported Libraries
+
+This is a dummy text here, just to test that the list of supported libraries can be parsed from this file at build time.
+                    
+Instrumentation Modules
+                                                                                                              
+| ID          | Name                                                                                                                                                                                        |
+|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| spring-data | [Spring Data (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0b2de635f24fe0f) |
+| jms         | [Spring Data (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0b2de635f24fe0f) |

@@ -23,10 +23,22 @@ plugins {
 group 'com.grafana'
 version '0.1'
 
-task manageVersionClass()  {
+def updateGeneratedFile(file, newContent) {
+  if (System.getenv("CHECK_GENERATED_FILES") == "true") {
+    def oldContent = file.text
+    if (oldContent != newContent) {
+      throw new GradleException("File ${file} was modified in CI. Please update it locally and commit.")
+    }
+  } else {
+    project.mkdir(file.parent)
+    file.text = newContent
+  }
+}
+
+task manageVersionClass() {
   doLast {
-    project.mkdir "${projectDir}/src/main/java/com/grafana/extensions/resources/internal"
-    new File("${projectDir}/src/main/java/com/grafana/extensions/resources/internal", "DistributionVersion.java").text = """/*
+    updateGeneratedFile(new File("${projectDir}/src/main/java/com/grafana/extensions/resources/internal", "DistributionVersion.java"),
+      """/*
  * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,7 +51,36 @@ public class DistributionVersion {
 
   public static final String VERSION = "$version";
 }
-"""
+""")
+  }
+}
+
+task manageSupportedInstrumentationModulesClass() {
+  doLast {
+    def modules = new File("${projectDir}/README.md").text.split("\n")
+      .dropWhile { !it.startsWith("| ID") }
+      .takeWhile { it.startsWith("|") }
+      .drop(2)
+      .collect { "\"${it.split("\\|")[1].trim()}\"" }
+      .join(", ")
+
+    updateGeneratedFile(new File("${projectDir}/src/main/java/com/grafana/extensions/modules", "InstrumentationModules.java"), """/*
+ * Copyright Grafana Labs
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package com.grafana.extensions.modules;
+
+// This is a generated class that is managed by the distribution's build process.  Do not edit.
+
+import java.util.Arrays;
+import java.util.List;
+
+public class InstrumentationModules {
+
+  public static final List<String> SUPPORTED_MODULES = Arrays.asList($modules);
+}
+""")
   }
 }
 
@@ -67,10 +108,9 @@ repositories {
   }
 }
 
-tasks.withType(JavaCompile).configureEach {
-  javaCompiler = javaToolchains.compilerFor {
-    languageVersion = JavaLanguageVersion.of(8)
-  }
+compileJava {
+  sourceCompatibility = '1.8'
+  targetCompatibility = '1.8'
 }
 
 configurations {
@@ -187,9 +227,9 @@ task extendedAgent(type: Jar) {
   doFirst {
     //Preserve MANIFEST.MF file from the upstream javaagent
     manifest.attributes("Build-Jdk": JavaVersion.current()).from(
-            zipTree(configurations.otel.singleFile).matching {
-              include 'META-INF/MANIFEST.MF'
-            }.singleFile
+      zipTree(configurations.otel.singleFile).matching {
+        include 'META-INF/MANIFEST.MF'
+      }.singleFile
     )
   }
 }
@@ -224,4 +264,4 @@ muzzle {
   }
 }
 
-compileJava.dependsOn manageVersionClass
+compileJava.dependsOn(manageVersionClass, manageSupportedInstrumentationModulesClass)
