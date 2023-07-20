@@ -201,9 +201,10 @@ dependencies {
   testImplementation("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi")
   testImplementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-api")
   testImplementation("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
-
   testImplementation("io.github.netmikey.logunit:logunit-core:${versions.logUnit}")
+
   testRuntimeOnly("io.github.netmikey.logunit:logunit-jul:${versions.logUnit}")
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${versions.junit}")
   testRuntimeOnly("ch.qos.logback:logback-classic:1.3.8")
 
   //Otel Java instrumentation that we use and extend during integration tests
