@@ -5,7 +5,8 @@
 
 package com.grafana.extensions.resources;
 
-import static com.grafana.extensions.resources.config.GrafanaConfig.GrafanaLoggingConfig.*;
+import static com.grafana.extensions.resources.config.GrafanaConfig.GrafanaLoggingConfig.DEBUG_LOGGING_PROP;
+import static com.grafana.extensions.resources.config.GrafanaConfig.GrafanaLoggingConfig.LOGGING_ENABLED_PROP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.common.collect.ImmutableMap;
@@ -45,7 +46,7 @@ public class LoggingExporterConfigCustomizerTest {
             "otel.traces.exporter",
             exporterValue);
     DefaultConfigProperties defaultConfigs = DefaultConfigProperties.createForTest(props);
-    Map<String, String> m = LoggingExporterConfigCustomizer.getCustomProperties(defaultConfigs);
+    Map<String, String> m = LoggingExporterConfigCustomizer.customizeProperties(defaultConfigs);
 
     assertThat(m.size()).isEqualTo(expectedReturn.size());
     assertThat(m).isEqualTo(expectedReturn);

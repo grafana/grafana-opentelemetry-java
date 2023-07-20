@@ -22,7 +22,7 @@ public final class LoggingExporterConfigCustomizer {
   private static final ImmutableSet<String> SIGNAL_TYPES =
       ImmutableSet.of("traces", "metrics", "logs");
 
-  static Map<String, String> getCustomProperties(ConfigProperties configs) {
+  static Map<String, String> customizeProperties(ConfigProperties configs) {
     GrafanaLoggingConfig logConfigs = new GrafanaLoggingConfig(configs);
     Map<String, String> logging = getLoggingExporterConfigs(logConfigs);
     Map<String, String> overrides = new HashMap<>();

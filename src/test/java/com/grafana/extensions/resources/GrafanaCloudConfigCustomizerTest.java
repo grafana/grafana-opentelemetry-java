@@ -40,7 +40,7 @@ public class GrafanaCloudConfigCustomizerTest {
             CLOUD_API_KEY_PROP,
             apiKey);
     DefaultConfigProperties defaultConfigs = DefaultConfigProperties.createForTest(props);
-    Map<String, String> m = GrafanaCloudConfigCustomizer.getCustomProperties(defaultConfigs);
+    Map<String, String> m = GrafanaCloudConfigCustomizer.customizeProperties(defaultConfigs);
     assertThat(m.size()).isEqualTo(expectedOutput.size());
     assertThat(m).isEqualTo(expectedOutput);
   }

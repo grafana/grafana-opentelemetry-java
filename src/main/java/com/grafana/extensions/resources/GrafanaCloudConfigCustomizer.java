@@ -20,7 +20,7 @@ public final class GrafanaCloudConfigCustomizer {
   private static final Logger logger =
       Logger.getLogger(GrafanaCloudConfigCustomizer.class.getName());
 
-  static Map<String, String> getCustomProperties(ConfigProperties configs) {
+  static Map<String, String> customizeProperties(ConfigProperties configs) {
     String otelEndpoint = configs.getString("otel.exporter.otlp.endpoint", "");
     if (StringUtils.isNotBlank(otelEndpoint)) {
       logger.info("will attempt to send data to otel.exporter.otlp.endpoint: " + otelEndpoint);

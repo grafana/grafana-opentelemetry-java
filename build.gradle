@@ -91,7 +91,8 @@ ext {
     opentelemetryJavaagent     : "1.29.0-SNAPSHOT",
     opentelemetryJavaagentAlpha: "1.29.0-alpha-SNAPSHOT",
 
-    junit                      : "5.9.3"
+    junit                      : "5.9.3",
+    logUnit                    : "2.0.0",
   ]
 
   deps = [
@@ -201,7 +202,8 @@ dependencies {
   testImplementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-api")
   testImplementation("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
 
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${versions.junit}")
+  testImplementation("io.github.netmikey.logunit:logunit-core:${versions.logUnit}")
+  testRuntimeOnly("io.github.netmikey.logunit:logunit-jul:${versions.logUnit}")
   testRuntimeOnly("ch.qos.logback:logback-classic:1.3.8")
 
   //Otel Java instrumentation that we use and extend during integration tests
