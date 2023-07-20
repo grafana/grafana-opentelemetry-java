@@ -73,19 +73,20 @@ abstract class IntegrationTest {
 
   protected GenericContainer<?> target;
 
-  void startTarget(String extensionLocation) {
-    target = buildTargetContainer(agentPath, extensionLocation);
+  void startTarget(String extensionLocation, int jdkVersion) {
+    target = buildTargetContainer(agentPath, extensionLocation, jdkVersion);
     target.start();
   }
 
-  void startTargetWithExtendedAgent() {
-    target = buildTargetContainer(extendedAgentPath, null);
+  void startTargetWithExtendedAgent(int jdkVersion) {
+    target = buildTargetContainer(extendedAgentPath, null, jdkVersion);
     target.start();
   }
 
-  private GenericContainer<?> buildTargetContainer(String agentPath, String extensionLocation) {
+  private GenericContainer<?> buildTargetContainer(
+      String agentPath, String extensionLocation, int jdkVersion) {
     GenericContainer<?> result =
-        new GenericContainer<>(getTargetImage(8))
+        new GenericContainer<>(getTargetImage(jdkVersion))
             .withExposedPorts(8080)
             .withNetwork(network)
             .withLogConsumer(new Slf4jLogConsumer(logger))
