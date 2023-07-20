@@ -98,6 +98,20 @@ class EnabledInstrumentationModulesCustomizerTest {
                 "Disabling unsupported module foo (set "
                     + "grafana.otel.instrumentation.enable-unsupported-modules=true to enable unsupported modules)")),
         Arguments.of(
+            "set all modules enabled by default - disabled again, because "
+                + "grafana.otel.instrumentation.enable-unsupported-modules was not found",
+            new TestCase(
+                ImmutableMap.of("otel.instrumentation.common.default.enabled", "true"),
+                ImmutableMap.of(
+                    "otel.instrumentation.common.default.enabled",
+                    "false",
+                    "otel.instrumentation.spring.data.enabled",
+                    "true",
+                    "otel.instrumentation.jms.enabled",
+                    "true"),
+                "Disabling otel.instrumentation.common.default.enabled (set "
+                    + "grafana.otel.instrumentation.enable-unsupported-modules=true to be able to enable all modules)")),
+        Arguments.of(
             "module foo enabled - allowed, because "
                 + "grafana.otel.instrumentation.enable-unsupported-modules was not found",
             new TestCase(
@@ -114,6 +128,23 @@ class EnabledInstrumentationModulesCustomizerTest {
                     "otel.instrumentation.jms.enabled",
                     "true",
                     "otel.instrumentation.foo.enabled",
+                    "true"),
+                "Enabling unsupported modules")),
+        Arguments.of(
+            "set all modules enabled by default - allowed, because "
+                + "grafana.otel.instrumentation.enable-unsupported-modules was not found",
+            new TestCase(
+                ImmutableMap.of(
+                    "grafana.otel.instrumentation.enable-unsupported-modules",
+                    "true",
+                    "otel.instrumentation.common.default.enabled",
+                    "true"),
+                ImmutableMap.of(
+                    "otel.instrumentation.common.default.enabled",
+                    "true",
+                    "otel.instrumentation.spring.data.enabled",
+                    "true",
+                    "otel.instrumentation.jms.enabled",
                     "true"),
                 "Enabling unsupported modules")));
   }

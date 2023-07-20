@@ -7,27 +7,35 @@ package com.grafana.extensions.modules;
 
 import io.opentelemetry.api.internal.ConfigUtil;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 /**
- * This is the relevant upstream method:
- * https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/b917b3bf9c16d7327208a9f17a8db6d1a746829e/javaagent-tooling/src/main/java/io/opentelemetry/javaagent/tooling/config/AgentConfig.java#L12-L28
+ * <a
+ * href="https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/b917b3bf9c16d7327208a9f17a8db6d1a746829e/javaagent-tooling/src/main/java/io/opentelemetry/javaagent/tooling/config/AgentConfig.java#L12-L28">This
+ * is the relevant upstream method</a>
  */
 public class EnabledInstrumentationModulesCustomizer {
 
   private static final String ENABLE_UNSUPPORTED_MODULES_PROPERTY =
       "grafana.otel.instrumentation.enable-unsupported-modules";
 
+  public static final String DEFAULT_ENABLED_MODULE = "common.default";
+  public static final String DEFAULT_ENABLED = "otel.instrumentation.common.default.enabled";
+
   private static final Logger logger =
       Logger.getLogger(EnabledInstrumentationModulesCustomizer.class.getName());
 
   public static Map<String, String> getDefaultProperties() {
     Map<String, String> m = new HashMap<>();
-    m.put("otel.instrumentation.common.default-enabled", "false");
+    m.put(DEFAULT_ENABLED, "false");
 
     for (String supportedModule : InstrumentationModules.SUPPORTED_MODULES) {
       m.put(getEnabledProperty(supportedModule), "true");
@@ -44,7 +52,7 @@ public class EnabledInstrumentationModulesCustomizer {
 
     Set<String> supported =
         InstrumentationModules.SUPPORTED_MODULES.stream()
-            .map(module -> ConfigUtil.normalizePropertyKey(module))
+            .map(ConfigUtil::normalizePropertyKey)
             .collect(Collectors.toSet());
 
     return getAllProperties(configs).entrySet().stream()
@@ -53,20 +61,31 @@ public class EnabledInstrumentationModulesCustomizer {
             entry ->
                 stream(
                     getInstrumentationName(entry.getKey())
-                        .flatMap(
-                            instrumentationName -> {
-                              if (supported.contains(instrumentationName)) {
-                                return Optional.empty();
-                              }
-
-                              logger.info(
-                                  String.format(
-                                      "Disabling unsupported module %s (set grafana.otel.instrumentation.enable-unsupported-modules=true "
-                                          + "to enable unsupported modules)",
-                                      instrumentationName));
-                              return Optional.of(getEnabledProperty(instrumentationName));
-                            })))
+                        .flatMap(name -> disableUnsupportedModule(supported, name))))
         .collect(Collectors.toMap(property -> property, property -> "false"));
+  }
+
+  private static Optional<String> disableUnsupportedModule(
+      Set<String> supported, String instrumentationName) {
+    if (supported.contains(instrumentationName)) {
+      return Optional.empty();
+    }
+
+    if (instrumentationName.equals(DEFAULT_ENABLED_MODULE)) {
+      logger.info(
+          String.format(
+              "Disabling %s (set grafana.otel.instrumentation.enable-unsupported-modules=true "
+                  + "to be able to enable all modules)",
+              DEFAULT_ENABLED));
+      return Optional.of(DEFAULT_ENABLED);
+    }
+
+    logger.info(
+        String.format(
+            "Disabling unsupported module %s (set grafana.otel.instrumentation.enable-unsupported-modules=true "
+                + "to enable unsupported modules)",
+            instrumentationName));
+    return Optional.of(getEnabledProperty(instrumentationName));
   }
 
   private static <T> Stream<T> stream(Optional<T> optional) {
