@@ -48,7 +48,7 @@ ext {
     opentelemetrySdk           : "1.28.0",
 
     opentelemetryJavaagent     : "1.27.0-SNAPSHOT",
-    opentelemetryJavaagentAlpha: "1.27.0-alpha-SNAPSHOT",
+    opentelemetryJavaagentAlpha: "1.29.0-alpha-SNAPSHOT",
 
     junit                      : "5.9.3"
   ]
