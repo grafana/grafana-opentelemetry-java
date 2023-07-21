@@ -12,5 +12,13 @@ import java.util.List;
 
 public class InstrumentationModules {
 
-  public static final List<String> SUPPORTED_MODULES = Arrays.asList("spring-data", "jms");
+  public static final List<String> SUPPORTED_MODULES =
+      Arrays.asList(
+          "opentelemetry-extension-annotations",
+          "opentelemetry-api",
+          "tomcat",
+          "spring-web",
+          "spring-webmvc",
+          "spring-data",
+          "jms");
 }

@@ -21,6 +21,8 @@ all custom extension and instrumentation modules.
 
 ### Skip Smoke Tests
 
+Smoke tests are enabled by default. To disable them (because they are slow), run the following command:
+
 ```sh
 ./gradlew test -DdisableSmokeTests=true
 ```

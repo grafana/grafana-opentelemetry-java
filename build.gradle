@@ -61,8 +61,8 @@ task manageSupportedInstrumentationModulesClass() {
       .dropWhile { !it.startsWith("| ID") }
       .takeWhile { it.startsWith("|") }
       .drop(2)
-      .collect { "\"${it.split("\\|")[1].trim()}\"" }
-      .join(", ")
+      .collect { "          \"${it.split("\\|")[1].trim()}\"" }
+      .join(",\n")
 
     updateGeneratedFile(new File("${projectDir}/src/main/java/com/grafana/extensions/modules", "InstrumentationModules.java"), """/*
  * Copyright Grafana Labs
@@ -78,7 +78,9 @@ import java.util.List;
 
 public class InstrumentationModules {
 
-  public static final List<String> SUPPORTED_MODULES = Arrays.asList($modules);
+  public static final List<String> SUPPORTED_MODULES =
+      Arrays.asList(
+$modules);
 }
 """)
   }

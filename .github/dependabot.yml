@@ -4,3 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: daily
+    ignore:
+      - dependency-name: com.diffplug.spotless
+        versions:
+          - ">6.13.0"
