@@ -10,7 +10,7 @@ jobs:
       matrix:
         os: [ubuntu]
         java:
-          - 8
+          - 8 # DisableUnsupportedInstrumentationsSmokeTest only runs with this version, so update this test when 8 gets removed from the test matrix
           - 11
           - 17
     steps:
