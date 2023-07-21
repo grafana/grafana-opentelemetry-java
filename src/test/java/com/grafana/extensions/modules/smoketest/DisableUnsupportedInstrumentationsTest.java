@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.extensions.modules;
+package com.grafana.extensions.modules.smoketest;
 
 import com.grafana.extensions.resources.smoketest.IntegrationTest;
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
 /** We use Play as an example of library that is not supported by Grafana Labs currently. */
-public class DisableUnsupportedInstrumentationsSmokeTest extends IntegrationTest {
+public class DisableUnsupportedInstrumentationsTest extends IntegrationTest {
 
   @Override
   protected String getTargetImage(int jdk) {

@@ -60,13 +60,9 @@ class EnabledInstrumentationModulesCustomizerTest {
 
     assertThat(EnabledInstrumentationModulesCustomizer.getAllProperties(configProperties))
         .containsAllEntriesOf(testCase.wantProperties);
+    assertThat(logs.getEvents()).hasSize(testCase.wantWarnings.isEmpty() ? 1 : 2);
+    logs.assertContains(testCase.wantWarnings);
     logs.assertContains(testCase.wantSupportStatement);
-    if (testCase.wantWarnings.isEmpty()) {
-      assertThat(logs.getEvents()).hasSize(1);
-    } else {
-      assertThat(logs.getEvents()).hasSize(2);
-      logs.assertContains(testCase.wantWarnings);
-    }
   }
 
   private static Stream<Arguments> testCases() {
