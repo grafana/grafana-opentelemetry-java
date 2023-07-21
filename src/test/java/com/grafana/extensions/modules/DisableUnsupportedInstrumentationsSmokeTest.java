@@ -20,8 +20,8 @@ public class DisableUnsupportedInstrumentationsSmokeTest extends IntegrationTest
 
   @Override
   protected String getTargetImage(int jdk) {
-    // Play does not support JDK 17, but this test is really not about the JDK version, so we just run it
-    // with our 8 build.
+    // Play does not support JDK 17, but this test is really not about the JDK version, so we just
+    // run it with our 8 build.
     if (jdk != 8) {
       Assumptions.abort("Test only runs with JDK 8");
     }
