@@ -7,6 +7,7 @@ package com.grafana.extensions.modules;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.github.netmikey.logunit.api.LogCapturer;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
 import java.util.Collections;
@@ -22,20 +23,25 @@ class EnabledInstrumentationModulesCustomizerTest {
 
   @RegisterExtension
   LogCapturer logs =
-      LogCapturer.create().captureForType(EnabledInstrumentationModulesCustomizer.class);
+      LogCapturer.create()
+          .captureForType(EnabledInstrumentationModulesCustomizer.class)
+          .captureForType(SupportContext.class);
 
   static class TestCase {
     Map<String, String> inputProperties;
     Map<String, String> wantProperties;
-    String expectedOutput;
+    String wantWarnings;
+    String wantSupportStatement;
 
     public TestCase(
         Map<String, String> inputProperties,
         Map<String, String> wantProperties,
+        String wantSupportStatement,
         String expectedOutput) {
       this.inputProperties = inputProperties;
       this.wantProperties = wantProperties;
-      this.expectedOutput = expectedOutput;
+      this.wantSupportStatement = wantSupportStatement;
+      this.wantWarnings = expectedOutput;
     }
   }
 
@@ -54,14 +60,21 @@ class EnabledInstrumentationModulesCustomizerTest {
 
     assertThat(EnabledInstrumentationModulesCustomizer.getAllProperties(configProperties))
         .containsAllEntriesOf(testCase.wantProperties);
-    if (testCase.expectedOutput.isEmpty()) {
-      assertThat(logs.getEvents()).isEmpty();
+    logs.assertContains(testCase.wantSupportStatement);
+    if (testCase.wantWarnings.isEmpty()) {
+      assertThat(logs.getEvents()).hasSize(1);
     } else {
-      logs.assertContains(testCase.expectedOutput);
+      assertThat(logs.getEvents()).hasSize(2);
+      logs.assertContains(testCase.wantWarnings);
     }
   }
 
   private static Stream<Arguments> testCases() {
+    String supportedVersion =
+        String.format(
+            "Grafana OpenTelemetry Javaagent: version=%s, "
+                + "enableAllInstrumentations=false, enabledUnsupportedInstrumentations=[], disabledInstrumentations=[]",
+            DistributionVersion.VERSION);
     return Stream.of(
         Arguments.of(
             "no input - only supported are enabled",
@@ -71,16 +84,34 @@ class EnabledInstrumentationModulesCustomizerTest {
                     "otel.instrumentation.common.default.enabled", "false",
                     "otel.instrumentation.spring.data.enabled", "true",
                     "otel.instrumentation.jms.enabled", "true"),
+                supportedVersion,
                 "")),
         Arguments.of(
-            "disable a module is allowed",
+            "enable unsupported modules without any other option doesn't cause a warning",
+            new TestCase(
+                ImmutableMap.of("grafana.otel.instrumentation.enable-unsupported-modules", "true"),
+                ImmutableMap.of(
+                    "grafana.otel.instrumentation.enable.unsupported.modules",
+                    "true",
+                    "otel.instrumentation.common.default.enabled",
+                    "false",
+                    "otel.instrumentation.spring.data.enabled",
+                    "true",
+                    "otel.instrumentation.jms.enabled",
+                    "true"),
+                supportedVersion,
+                "")),
+        Arguments.of(
+            "disable a module is not allowed",
             new TestCase(
                 ImmutableMap.of("otel.instrumentation.spring.data.enabled", "false"),
                 ImmutableMap.of(
                     "otel.instrumentation.common.default.enabled", "false",
-                    "otel.instrumentation.spring.data.enabled", "false",
+                    "otel.instrumentation.spring.data.enabled", "true",
                     "otel.instrumentation.jms.enabled", "true"),
-                "")),
+                supportedVersion,
+                "Enabling module spring.data again (set "
+                    + "grafana.otel.instrumentation.enable-unsupported-modules=true to remove this restriction)")),
         Arguments.of(
             "module foo enabled - disabled again, because "
                 + "grafana.otel.instrumentation.enable-unsupported-modules was not found",
@@ -95,8 +126,9 @@ class EnabledInstrumentationModulesCustomizerTest {
                     "true",
                     "otel.instrumentation.foo.enabled",
                     "false"),
+                supportedVersion,
                 "Disabling unsupported module foo (set "
-                    + "grafana.otel.instrumentation.enable-unsupported-modules=true to enable unsupported modules)")),
+                    + "grafana.otel.instrumentation.enable-unsupported-modules=true to remove this restriction)")),
         Arguments.of(
             "set all modules enabled by default - disabled again, because "
                 + "grafana.otel.instrumentation.enable-unsupported-modules was not found",
@@ -109,8 +141,9 @@ class EnabledInstrumentationModulesCustomizerTest {
                     "true",
                     "otel.instrumentation.jms.enabled",
                     "true"),
+                supportedVersion,
                 "Disabling otel.instrumentation.common.default.enabled (set "
-                    + "grafana.otel.instrumentation.enable-unsupported-modules=true to be able to enable all modules)")),
+                    + "grafana.otel.instrumentation.enable-unsupported-modules=true to remove this restriction)")),
         Arguments.of(
             "module foo enabled - allowed, because "
                 + "grafana.otel.instrumentation.enable-unsupported-modules was not found",
@@ -121,6 +154,8 @@ class EnabledInstrumentationModulesCustomizerTest {
                     "otel.instrumentation.foo.enabled",
                     "true"),
                 ImmutableMap.of(
+                    "grafana.otel.instrumentation.enable.unsupported.modules",
+                    "true",
                     "otel.instrumentation.common.default.enabled",
                     "false",
                     "otel.instrumentation.spring.data.enabled",
@@ -129,7 +164,12 @@ class EnabledInstrumentationModulesCustomizerTest {
                     "true",
                     "otel.instrumentation.foo.enabled",
                     "true"),
-                "Enabling unsupported modules")),
+                "Grafana OpenTelemetry Javaagent is UNSUPPORTED: version=0.1, enableAllInstrumentations=false, "
+                    + "enabledUnsupportedInstrumentations=[foo], disabledInstrumentations=[] (The javaagent is running in "
+                    + "unsupported mode, please remove the -Dgrafana.otel.instrumentation.enable-unsupported-modules=true "
+                    + "command line argument or GRAFANA_OTEL_INSTRUMENTATION_ENABLE_UNSUPPORTED_MODULES=true environment "
+                    + "variable to turn on the supported mode)",
+                "")),
         Arguments.of(
             "set all modules enabled by default - allowed, because "
                 + "grafana.otel.instrumentation.enable-unsupported-modules was not found",
@@ -140,12 +180,19 @@ class EnabledInstrumentationModulesCustomizerTest {
                     "otel.instrumentation.common.default.enabled",
                     "true"),
                 ImmutableMap.of(
+                    "grafana.otel.instrumentation.enable.unsupported.modules",
+                    "true",
                     "otel.instrumentation.common.default.enabled",
                     "true",
                     "otel.instrumentation.spring.data.enabled",
                     "true",
                     "otel.instrumentation.jms.enabled",
                     "true"),
-                "Enabling unsupported modules")));
+                "Grafana OpenTelemetry Javaagent is UNSUPPORTED: version=0.1, enableAllInstrumentations=true, "
+                    + "enabledUnsupportedInstrumentations=[], disabledInstrumentations=[] (The javaagent is running in "
+                    + "unsupported mode, please remove the -Dgrafana.otel.instrumentation.enable-unsupported-modules=true "
+                    + "command line argument or GRAFANA_OTEL_INSTRUMENTATION_ENABLE_UNSUPPORTED_MODULES=true environment "
+                    + "variable to turn on the supported mode)",
+                "")));
   }
 }

@@ -7,7 +7,7 @@ package com.grafana.extensions.modules;
 
 import io.opentelemetry.api.internal.ConfigUtil;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
-import java.util.Collections;
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,68 +24,103 @@ import org.apache.commons.lang3.reflect.FieldUtils;
  */
 public class EnabledInstrumentationModulesCustomizer {
 
-  private static final String ENABLE_UNSUPPORTED_MODULES_PROPERTY =
+  public static final String ENABLE_UNSUPPORTED_MODULES_PROPERTY =
       "grafana.otel.instrumentation.enable-unsupported-modules";
 
-  public static final String DEFAULT_ENABLED_MODULE = "common.default";
+  private static final String DEFAULT_ENABLED_MODULE = "common.default";
   public static final String DEFAULT_ENABLED = "otel.instrumentation.common.default.enabled";
 
   private static final Logger logger =
       Logger.getLogger(EnabledInstrumentationModulesCustomizer.class.getName());
+  public static final String USE_UNSUPPORTED_MODE_HINT =
+      "(set grafana.otel.instrumentation.enable-unsupported-modules=true to remove this restriction)";
 
   public static Map<String, String> getDefaultProperties() {
-    Map<String, String> m = new HashMap<>();
-    m.put(DEFAULT_ENABLED, "false");
+    Map<String, String> updates = new HashMap<>();
+    updates.put(DEFAULT_ENABLED, "false");
 
     for (String supportedModule : InstrumentationModules.SUPPORTED_MODULES) {
-      m.put(getEnabledProperty(supportedModule), "true");
+      updates.put(getEnabledProperty(supportedModule), "true");
     }
 
-    return m;
+    return updates;
   }
 
   public static Map<String, String> customizeProperties(ConfigProperties configs) {
-    if (configs.getBoolean(ENABLE_UNSUPPORTED_MODULES_PROPERTY, false)) {
-      logger.info("Enabling unsupported modules");
-      return Collections.emptyMap();
+    boolean enableUnsupportedInstrumentations =
+        configs.getBoolean(ENABLE_UNSUPPORTED_MODULES_PROPERTY, false);
+    SupportContext supportContext = new SupportContext();
+    supportContext.setEnableUnsupportedInstrumentations(enableUnsupportedInstrumentations);
+
+    try {
+      Set<String> supported =
+          InstrumentationModules.SUPPORTED_MODULES.stream()
+              .map(ConfigUtil::normalizePropertyKey)
+              .collect(Collectors.toSet());
+
+      return getAllProperties(configs).entrySet().stream()
+          .flatMap(
+              entry ->
+                  stream(
+                      getInstrumentationName(entry.getKey())
+                          .flatMap(
+                              name ->
+                                  maybeDisableUnsupportedModule(
+                                      supportContext,
+                                      supported,
+                                      name,
+                                      entry.getValue().equals("true")))))
+          .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    } finally {
+      supportContext.print();
     }
-
-    Set<String> supported =
-        InstrumentationModules.SUPPORTED_MODULES.stream()
-            .map(ConfigUtil::normalizePropertyKey)
-            .collect(Collectors.toSet());
-
-    return getAllProperties(configs).entrySet().stream()
-        .filter(entry -> entry.getValue().equals("true")) // it's allowed to disable modules
-        .flatMap(
-            entry ->
-                stream(
-                    getInstrumentationName(entry.getKey())
-                        .flatMap(name -> disableUnsupportedModule(supported, name))))
-        .collect(Collectors.toMap(property -> property, property -> "false"));
   }
 
-  private static Optional<String> disableUnsupportedModule(
-      Set<String> supported, String instrumentationName) {
+  private static Optional<Map.Entry<String, String>> maybeDisableUnsupportedModule(
+      SupportContext supportContext,
+      Set<String> supported,
+      String instrumentationName,
+      boolean enabled) {
+    boolean enableUnsupported = supportContext.isEnableUnsupportedInstrumentations();
+
+    if (instrumentationName.equals(DEFAULT_ENABLED_MODULE)) {
+      if (enableUnsupported || !enabled) {
+        supportContext.setEnableAllInstrumentations(enabled);
+        return Optional.empty();
+      }
+
+      logger.info(String.format("Disabling %s %s", DEFAULT_ENABLED, USE_UNSUPPORTED_MODE_HINT));
+      return Optional.of(entry(DEFAULT_ENABLED, "false"));
+    }
+
+    if (!enabled) {
+      if (enableUnsupported) {
+        supportContext.getDisabledInstrumentations().add(instrumentationName);
+        return Optional.empty();
+      }
+      logger.info(
+          String.format(
+              "Enabling module %s again %s ", instrumentationName, USE_UNSUPPORTED_MODE_HINT));
+      return Optional.of(entry(getEnabledProperty(instrumentationName), "true"));
+    }
+
     if (supported.contains(instrumentationName)) {
+      // is already enabled by default - don't log it
       return Optional.empty();
     }
 
-    if (instrumentationName.equals(DEFAULT_ENABLED_MODULE)) {
-      logger.info(
-          String.format(
-              "Disabling %s (set grafana.otel.instrumentation.enable-unsupported-modules=true "
-                  + "to be able to enable all modules)",
-              DEFAULT_ENABLED));
-      return Optional.of(DEFAULT_ENABLED);
+    if (enableUnsupported) {
+      supportContext.getEnabledUnsupportedInstrumentations().add(instrumentationName);
+      return Optional.empty();
     }
-
     logger.info(
         String.format(
-            "Disabling unsupported module %s (set grafana.otel.instrumentation.enable-unsupported-modules=true "
-                + "to enable unsupported modules)",
-            instrumentationName));
-    return Optional.of(getEnabledProperty(instrumentationName));
+            "Disabling unsupported module %s %s", instrumentationName, USE_UNSUPPORTED_MODE_HINT));
+    return Optional.of(entry(getEnabledProperty(instrumentationName), "false"));
+  }
+
+  private static Map.Entry<String, String> entry(String key, String value) {
+    return new AbstractMap.SimpleImmutableEntry<>(key, value);
   }
 
   private static <T> Stream<T> stream(Optional<T> optional) {
