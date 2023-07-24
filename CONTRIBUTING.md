@@ -1,5 +1,8 @@
 # Contributing
 
+This project is a javaagent distribution of the OpenTelemetry Java instrumentation agent.
+It is modeled after the [OpenTelemetry Java instrumentation agent distro template](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/examples/distro/README.md).
+
 ## Build
 
 ```sh
