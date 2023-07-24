@@ -13,8 +13,6 @@ import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
 import io.opentelemetry.proto.trace.v1.Span;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,7 +31,7 @@ import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.MountableFile;
 
-abstract class IntegrationTest {
+public abstract class IntegrationTest {
   private static final Logger logger = LoggerFactory.getLogger(IntegrationTest.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -49,12 +47,13 @@ abstract class IntegrationTest {
   protected static final String extensionPath =
       System.getProperty("io.opentelemetry.smoketest.extensionPath");
 
-  protected abstract String getTargetImage(int jdk);
-
-  /** Subclasses can override this method to customise target application's environment */
-  protected Map<String, String> getExtraEnv() {
-    return Collections.emptyMap();
+  private static int getJdkVersion() {
+    String[] version = System.getProperty("java.version").split("\\.");
+    int jdk = Integer.parseInt(version[0]);
+    return jdk >= 10 ? jdk : Integer.parseInt(version[1]);
   }
+
+  protected abstract String getTargetImage(int jdk);
 
   private static GenericContainer backend;
 
@@ -73,20 +72,24 @@ abstract class IntegrationTest {
 
   protected GenericContainer<?> target;
 
-  void startTarget(String extensionLocation, int jdkVersion) {
-    target = buildTargetContainer(agentPath, extensionLocation, jdkVersion);
+  protected void startTarget(String extensionLocation) {
+    target = buildTargetContainer(agentPath, extensionLocation, "");
     target.start();
   }
 
-  void startTargetWithExtendedAgent(int jdkVersion) {
-    target = buildTargetContainer(extendedAgentPath, null, jdkVersion);
+  protected void startTargetWithExtendedAgent() {
+    startTargetWithExtendedAgent("");
+  }
+
+  protected void startTargetWithExtendedAgent(String extraCliArgs) {
+    target = buildTargetContainer(extendedAgentPath, null, extraCliArgs);
     target.start();
   }
 
   private GenericContainer<?> buildTargetContainer(
-      String agentPath, String extensionLocation, int jdkVersion) {
+      String agentPath, String extensionLocation, String extraCliArgs) {
     GenericContainer<?> result =
-        new GenericContainer<>(getTargetImage(jdkVersion))
+        new GenericContainer<>(getTargetImage(getJdkVersion()))
             .withExposedPorts(8080)
             .withNetwork(network)
             .withLogConsumer(new Slf4jLogConsumer(logger))
@@ -95,13 +98,13 @@ abstract class IntegrationTest {
             // Adds instrumentation agent with debug configuration to the target application
             .withEnv(
                 "JAVA_TOOL_OPTIONS",
-                "-javaagent:/opentelemetry-javaagent.jar -Dotel.javaagent.debug=true ")
+                "-javaagent:/opentelemetry-javaagent.jar -Dotel.javaagent.debug=true "
+                    + extraCliArgs)
             .withEnv("OTEL_BSP_MAX_EXPORT_BATCH", "1")
             .withEnv("OTEL_BSP_SCHEDULE_DELAY", "10")
             .withEnv("OTEL_PROPAGATORS", "tracecontext,baggage")
             .withEnv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://backend:8080")
-            .withEnv("GRAFANA_OTLP_DEBUG_LOGGING", "true")
-            .withEnv(getExtraEnv());
+            .withEnv("GRAFANA_OTLP_DEBUG_LOGGING", "true");
     // If external extensions are requested
     if (extensionLocation != null) {
       // Asks instrumentation agent to include extensions from given location into its runtime
@@ -116,17 +119,16 @@ abstract class IntegrationTest {
 
   @AfterEach
   void cleanup() throws IOException {
-    client
-        .newCall(
-            new Request.Builder()
-                .url(String.format("http://localhost:%d/clear", backend.getMappedPort(8080)))
-                .build())
-        .execute()
-        .close();
-  }
-
-  void stopTarget() {
-    target.stop();
+    if (target != null) {
+      target.stop();
+      client
+          .newCall(
+              new Request.Builder()
+                  .url(String.format("http://localhost:%d/clear", backend.getMappedPort(8080)))
+                  .build())
+          .execute()
+          .close();
+    }
   }
 
   @AfterAll

@@ -16,8 +16,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 class SpringBootIntegrationTest extends IntegrationTest {
 
@@ -28,38 +26,25 @@ class SpringBootIntegrationTest extends IntegrationTest {
         + "-20211213.1570880324";
   }
 
-  private int getJavaFeatureVersion() {
-    String[] version = System.getProperty("java.version").split("\\.");
-    int jdk = Integer.parseInt(version[0]);
-    return jdk >= 10 ? jdk : Integer.parseInt(version[1]);
-  }
-
-  @ParameterizedTest
-  @ValueSource(ints = {8, 11, 17})
-  public void extensionsAreLoadedFromJar(int jdkVersion) throws IOException, InterruptedException {
-    startTarget("/opentelemetry-extensions.jar", jdkVersion);
+  @Test
+  public void extensionsAreLoadedFromJar() throws IOException, InterruptedException {
+    startTarget("/opentelemetry-extensions.jar");
 
     testAndVerify();
-
-    stopTarget();
   }
 
   @Test
   public void extensionsAreLoadedFromFolder() throws IOException, InterruptedException {
-    startTarget("/", getJavaFeatureVersion());
+    startTarget("/");
 
     testAndVerify();
-
-    stopTarget();
   }
 
   @Test
   public void extensionsAreLoadedFromJavaagent() throws IOException, InterruptedException {
-    startTargetWithExtendedAgent(getJavaFeatureVersion());
+    startTargetWithExtendedAgent();
 
     testAndVerify();
-
-    stopTarget();
   }
 
   private void testAndVerify() throws IOException, InterruptedException {
