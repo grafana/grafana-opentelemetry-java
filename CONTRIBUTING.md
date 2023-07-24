@@ -18,11 +18,3 @@ The build process will generate the following jars and place them under `build/l
 
 The `grafana-opentelemetry-javaagent.jar` also contains the `grafana-opentelemetry-java-1.0-all.jar` which contains
 all custom extension and instrumentation modules.
-
-### Skip Smoke Tests
-
-Smoke tests are enabled by default. To disable them (because they are slow), run the following command:
-
-```sh
-./gradlew test -DdisableSmokeTests=true
-```

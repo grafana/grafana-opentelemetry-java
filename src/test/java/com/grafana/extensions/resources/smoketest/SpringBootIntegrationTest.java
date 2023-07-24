@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 
-@DisabledIfSystemProperty(named = "disableSmokeTests", matches = "true")
 class SpringBootIntegrationTest extends IntegrationTest {
 
   @Override

@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 
 /** We use Play as an example of library that is not supported by Grafana Labs currently. */
-@DisabledIfSystemProperty(named = "disableSmokeTests", matches = "true")
 public class DisableUnsupportedInstrumentationsTest extends IntegrationTest {
 
   @Override
