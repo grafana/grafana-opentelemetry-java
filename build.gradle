@@ -2,7 +2,7 @@ plugins {
   id "java"
   id "checkstyle"
   id "codenarc"
-  id "org.owasp.dependencycheck" version "8.2.1"
+  id "org.owasp.dependencycheck" version "8.3.1"
 
   /*
   Instrumentation agent extension mechanism expects a single jar containing everything required
@@ -93,7 +93,7 @@ ext {
     opentelemetryJavaagent     : "1.29.0-SNAPSHOT",
     opentelemetryJavaagentAlpha: "1.29.0-alpha-SNAPSHOT",
 
-    junit                      : "5.9.3",
+    junit                      : "5.10.0"
     logUnit                    : "2.0.0",
   ]
 
@@ -188,13 +188,13 @@ dependencies {
   and added to the resulting jar for our extension's distribution.
    */
   implementation "org.apache.commons:commons-lang3:3.12.0"
-  implementation 'com.google.guava:guava:31.1-jre'
+  implementation 'com.google.guava:guava:32.1.1-jre'
 
   //All dependencies below are only for tests
   testImplementation("org.assertj:assertj-core:3.24.2")
   testImplementation("org.junit.jupiter:junit-jupiter-api:${versions.junit}")
   testImplementation("org.junit.jupiter:junit-jupiter-params:${versions.junit}")
-  testImplementation 'org.mockito:mockito-core:5.3.1'
+  testImplementation 'org.mockito:mockito-core:5.4.0'
   testImplementation("org.testcontainers:testcontainers:1.18.3")
   testImplementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
   testImplementation("com.google.protobuf:protobuf-java-util:3.23.4")
