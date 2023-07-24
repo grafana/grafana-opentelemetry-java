@@ -35,7 +35,8 @@ public abstract class SmokeTest {
   private static final Logger logger = LoggerFactory.getLogger(SmokeTest.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-  private static final int SMOKE_TEST_JAVA_VERSION = Integer.parseInt(System.getenv("SMOKE_TEST_JAVA_VERSION"));
+  private static final int SMOKE_TEST_JAVA_VERSION =
+      Integer.parseInt(System.getenv("SMOKE_TEST_JAVA_VERSION"));
 
   protected static OkHttpClient client = OkHttpUtils.client();
 

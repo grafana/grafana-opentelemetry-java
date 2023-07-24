@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.extensions.resources;
+package com.grafana.extensions.cloud;
 
-import static com.grafana.extensions.resources.config.GrafanaConfig.GrafanaCloudConfig.*;
+import static com.grafana.extensions.cloud.GrafanaCloudConfig.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.common.collect.ImmutableMap;

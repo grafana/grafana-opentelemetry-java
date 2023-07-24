@@ -3,14 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.extensions.resources;
+package com.grafana.extensions.logging;
 
-import static com.grafana.extensions.resources.config.GrafanaConfig.GrafanaLoggingConfig.DEBUG_LOGGING_PROP;
-import static com.grafana.extensions.resources.config.GrafanaConfig.GrafanaLoggingConfig.LOGGING_ENABLED_PROP;
+import static com.grafana.extensions.logging.GrafanaLoggingConfig.DEBUG_LOGGING_PROP;
+import static com.grafana.extensions.logging.GrafanaLoggingConfig.LOGGING_ENABLED_PROP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.common.collect.ImmutableMap;
-import com.grafana.extensions.resources.config.GrafanaConfig.GrafanaLoggingConfig;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
 import java.util.Map;
 import java.util.stream.Stream;

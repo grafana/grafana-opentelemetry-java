@@ -3,9 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.extensions.resources;
+package com.grafana.extensions.logging;
 
-import com.grafana.extensions.resources.config.GrafanaConfig.GrafanaLoggingConfig;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +23,7 @@ public final class LoggingExporterConfigCustomizer {
   private static final Set<String> SIGNAL_TYPES =
       new HashSet<>(Arrays.asList("traces", "metrics", "logs"));
 
-  static Map<String, String> customizeProperties(ConfigProperties configs) {
+  public static Map<String, String> customizeProperties(ConfigProperties configs) {
     GrafanaLoggingConfig logConfigs = new GrafanaLoggingConfig(configs);
     Map<String, String> logging = getLoggingExporterConfigs(logConfigs);
     Map<String, String> overrides = new HashMap<>();
