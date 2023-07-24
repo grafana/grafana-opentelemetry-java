@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.extensions.resources.smoketest;
+package com.grafana.extensions.smoketest;
 
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;

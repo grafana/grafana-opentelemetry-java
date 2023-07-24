@@ -5,11 +5,11 @@
 
 package com.grafana.extensions.resources.config;
 
+import com.grafana.extensions.util.StringUtils;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 
 public class GrafanaConfig {
 

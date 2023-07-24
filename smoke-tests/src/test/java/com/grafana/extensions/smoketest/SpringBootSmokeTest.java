@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.extensions.resources.smoketest;
+package com.grafana.extensions.smoketest;
 
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_NAME;
 import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_VERSION;
@@ -17,7 +17,7 @@ import okhttp3.Response;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class SpringBootIntegrationTest extends IntegrationTest {
+class SpringBootSmokeTest extends SmokeTest {
 
   @Override
   protected String getTargetImage(int jdk) {
@@ -27,27 +27,9 @@ class SpringBootIntegrationTest extends IntegrationTest {
   }
 
   @Test
-  public void extensionsAreLoadedFromJar() throws IOException, InterruptedException {
-    startTarget("/opentelemetry-extensions.jar");
+  public void checkDistributionVersion() throws IOException, InterruptedException {
+    startTarget();
 
-    testAndVerify();
-  }
-
-  @Test
-  public void extensionsAreLoadedFromFolder() throws IOException, InterruptedException {
-    startTarget("/");
-
-    testAndVerify();
-  }
-
-  @Test
-  public void extensionsAreLoadedFromJavaagent() throws IOException, InterruptedException {
-    startTargetWithExtendedAgent();
-
-    testAndVerify();
-  }
-
-  private void testAndVerify() throws IOException, InterruptedException {
     String url = String.format("http://localhost:%d/greeting", target.getMappedPort(8080));
     Request request = new Request.Builder().url(url).get().build();
 

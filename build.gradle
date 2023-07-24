@@ -35,7 +35,8 @@ subprojects {
 
       bytebuddy                  : "1.14.5",
       autoservice                : "1.1.1",
-      junit                      : "5.9.3"
+      junit                      : "5.9.3",
+      logUnit                    : "2.0.0",
     ]
 
     deps = [
@@ -70,10 +71,15 @@ subprojects {
     implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:${versions.opentelemetryJavaagent}"))
     implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:${versions.opentelemetryJavaagentAlpha}"))
 
-    testImplementation("org.mockito:mockito-core:5.4.0")
+    testImplementation("org.assertj:assertj-core:3.24.2")
+
     testImplementation(enforcedPlatform("org.junit:junit-bom:${versions.junit}"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:${versions.junit}")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:${versions.junit}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${versions.junit}")
+
+    testImplementation("io.github.netmikey.logunit:logunit-core:${versions.logUnit}")
+    testRuntimeOnly("io.github.netmikey.logunit:logunit-jul:${versions.logUnit}")
   }
 
   tasks {

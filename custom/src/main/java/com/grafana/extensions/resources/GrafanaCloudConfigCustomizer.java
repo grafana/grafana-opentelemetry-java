@@ -5,15 +5,14 @@
 
 package com.grafana.extensions.resources;
 
-import com.google.common.base.Verify;
-import com.google.common.base.VerifyException;
 import com.grafana.extensions.resources.config.GrafanaConfig.GrafanaCloudConfig;
+import com.grafana.extensions.util.StringUtils;
+import com.grafana.extensions.util.Verify;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-import org.apache.commons.lang3.StringUtils;
 
 public final class GrafanaCloudConfigCustomizer {
 
@@ -44,7 +43,7 @@ public final class GrafanaCloudConfigCustomizer {
       Verify.verify(StringUtils.isNotBlank(zone), exMessage, "zone");
       Verify.verify(StringUtils.isNotBlank(apiKey), exMessage, "apiKey");
       Verify.verify(instanceId != 0, exMessage, "instanceId");
-    } catch (VerifyException ve) {
+    } catch (RuntimeException ve) {
       logger.info(ve.getMessage());
       return m;
     }

@@ -5,13 +5,15 @@
 
 package com.grafana.extensions.resources;
 
-import com.google.common.collect.ImmutableSet;
 import com.grafana.extensions.resources.config.GrafanaConfig.GrafanaLoggingConfig;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -19,8 +21,8 @@ public final class LoggingExporterConfigCustomizer {
 
   private static final Logger logger =
       Logger.getLogger(LoggingExporterConfigCustomizer.class.getName());
-  private static final ImmutableSet<String> SIGNAL_TYPES =
-      ImmutableSet.of("traces", "metrics", "logs");
+  private static final Set<String> SIGNAL_TYPES =
+      new HashSet<>(Arrays.asList("traces", "metrics", "logs"));
 
   static Map<String, String> customizeProperties(ConfigProperties configs) {
     GrafanaLoggingConfig logConfigs = new GrafanaLoggingConfig(configs);

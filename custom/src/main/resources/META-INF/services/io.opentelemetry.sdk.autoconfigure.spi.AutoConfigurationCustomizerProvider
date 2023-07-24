@@ -1,1 +1,1 @@
-com.example.javaagent.DemoAutoConfigurationCustomizerProvider
+com.grafana.extensions.resources.GrafanaAutoConfigCustomizerProvider

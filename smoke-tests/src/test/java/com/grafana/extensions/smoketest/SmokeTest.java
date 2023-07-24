@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.extensions.resources.smoketest;
+package com.grafana.extensions.smoketest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,8 +31,8 @@ import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.MountableFile;
 
-public abstract class IntegrationTest {
-  private static final Logger logger = LoggerFactory.getLogger(IntegrationTest.class);
+public abstract class SmokeTest {
+  private static final Logger logger = LoggerFactory.getLogger(SmokeTest.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -40,12 +40,7 @@ public abstract class IntegrationTest {
 
   private static final Network network = Network.newNetwork();
   protected static final String agentPath =
-      System.getProperty("io.opentelemetry.smoketest.agentPath");
-  // Javaagent with extensions embedded inside it
-  protected static final String extendedAgentPath =
-      System.getProperty("io.opentelemetry.smoketest.extendedAgentPath");
-  protected static final String extensionPath =
-      System.getProperty("io.opentelemetry.smoketest.extensionPath");
+      System.getProperty("io.opentelemetry.smoketest.agent.shadowJar.path");
 
   private static int getJdkVersion() {
     String[] version = System.getProperty("java.version").split("\\.");
@@ -72,49 +67,25 @@ public abstract class IntegrationTest {
 
   protected GenericContainer<?> target;
 
-  protected void startTarget(String extensionLocation) {
-    target = buildTargetContainer(agentPath, extensionLocation, "");
-    target.start();
+  protected void startTarget() {
+    startTarget("");
   }
 
-  protected void startTargetWithExtendedAgent() {
-    startTargetWithExtendedAgent("");
-  }
-
-  protected void startTargetWithExtendedAgent(String extraCliArgs) {
-    target = buildTargetContainer(extendedAgentPath, null, extraCliArgs);
-    target.start();
-  }
-
-  private GenericContainer<?> buildTargetContainer(
-      String agentPath, String extensionLocation, String extraCliArgs) {
-    GenericContainer<?> result =
+  protected void startTarget(String extraCliArgs) {
+    target =
         new GenericContainer<>(getTargetImage(getJdkVersion()))
             .withExposedPorts(8080)
             .withNetwork(network)
             .withLogConsumer(new Slf4jLogConsumer(logger))
             .withCopyFileToContainer(
                 MountableFile.forHostPath(agentPath), "/opentelemetry-javaagent.jar")
-            // Adds instrumentation agent with debug configuration to the target application
-            .withEnv(
-                "JAVA_TOOL_OPTIONS",
-                "-javaagent:/opentelemetry-javaagent.jar -Dotel.javaagent.debug=true "
-                    + extraCliArgs)
+            .withEnv("JAVA_TOOL_OPTIONS", "-javaagent:/opentelemetry-javaagent.jar " + extraCliArgs)
             .withEnv("OTEL_BSP_MAX_EXPORT_BATCH", "1")
             .withEnv("OTEL_BSP_SCHEDULE_DELAY", "10")
             .withEnv("OTEL_PROPAGATORS", "tracecontext,baggage")
             .withEnv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://backend:8080")
             .withEnv("GRAFANA_OTLP_DEBUG_LOGGING", "true");
-    // If external extensions are requested
-    if (extensionLocation != null) {
-      // Asks instrumentation agent to include extensions from given location into its runtime
-      result =
-          result
-              .withCopyFileToContainer(
-                  MountableFile.forHostPath(extensionPath), "/opentelemetry-extensions.jar")
-              .withEnv("OTEL_JAVAAGENT_EXTENSIONS", extensionLocation);
-    }
-    return result;
+    target.start();
   }
 
   @AfterEach
