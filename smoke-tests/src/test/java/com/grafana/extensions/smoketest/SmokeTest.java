@@ -35,18 +35,13 @@ public abstract class SmokeTest {
   private static final Logger logger = LoggerFactory.getLogger(SmokeTest.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  private static final int SMOKE_TEST_JAVA_VERSION = Integer.parseInt(System.getenv("SMOKE_TEST_JAVA_VERSION"));
 
   protected static OkHttpClient client = OkHttpUtils.client();
 
   private static final Network network = Network.newNetwork();
   protected static final String agentPath =
       System.getProperty("io.opentelemetry.smoketest.agent.shadowJar.path");
-
-  private static int getJdkVersion() {
-    String[] version = System.getProperty("java.version").split("\\.");
-    int jdk = Integer.parseInt(version[0]);
-    return jdk >= 10 ? jdk : Integer.parseInt(version[1]);
-  }
 
   protected abstract String getTargetImage(int jdk);
 
@@ -73,7 +68,7 @@ public abstract class SmokeTest {
 
   protected void startTarget(String extraCliArgs) {
     target =
-        new GenericContainer<>(getTargetImage(getJdkVersion()))
+        new GenericContainer<>(getTargetImage(SMOKE_TEST_JAVA_VERSION))
             .withExposedPorts(8080)
             .withNetwork(network)
             .withLogConsumer(new Slf4jLogConsumer(logger))

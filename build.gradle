@@ -1,20 +1,16 @@
-group 'io.opentelemetry.example'
-version '1.0-SNAPSHOT'
+group 'com.grafana'
+version '0.1'
 
 buildscript {
   repositories {
     maven {
       url "https://plugins.gradle.org/m2/"
     }
-    maven {
-      name = "sonatype"
-      url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-    }
   }
   dependencies {
     classpath "com.diffplug.spotless:spotless-plugin-gradle:6.20.0"
     classpath "gradle.plugin.com.github.johnrengelman:shadow:8.0.0"
-    classpath "io.opentelemetry.instrumentation:gradle-plugins:1.29.0-alpha-SNAPSHOT"
+    classpath "io.opentelemetry.instrumentation:gradle-plugins:1.28.0-alpha"
   }
 }
 
@@ -30,12 +26,12 @@ subprojects {
       opentelemetrySdk           : "1.28.0",
 
       // these lines are managed by .github/scripts/update-version.sh
-      opentelemetryJavaagent     : "1.29.0-SNAPSHOT",
-      opentelemetryJavaagentAlpha: "1.29.0-alpha-SNAPSHOT",
+      opentelemetryJavaagent     : "1.28.0",
+      opentelemetryJavaagentAlpha: "1.28.0-alpha",
 
       bytebuddy                  : "1.14.5",
       autoservice                : "1.1.1",
-      junit                      : "5.9.3",
+      junit                      : "5.10.0",
       logUnit                    : "2.0.0",
     ]
 
@@ -50,10 +46,6 @@ subprojects {
 
   repositories {
     mavenCentral()
-    maven {
-      name = "sonatype"
-      url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-    }
   }
 
   spotless {
