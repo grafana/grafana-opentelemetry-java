@@ -1,9 +1,9 @@
 plugins {
   id "java"
-  id "checkstyle"
-  id "codenarc"
   id "org.owasp.dependencycheck" version "8.3.1"
 }
+
+apply from: "$rootDir/gradle/checkstyle.gradle"
 
 dependencies {
   compileOnly("io.opentelemetry:opentelemetry-sdk")
@@ -16,21 +16,8 @@ dependencies {
   testImplementation("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi")
 }
 
-
-codenarc {
-  configFile = rootProject.file("buildscripts/codenarc.groovy")
-}
-
-checkstyle {
-  configFile = rootProject.file("buildscripts/checkstyle.xml")
-  // this version should match the version of google_checks.xml used as basis for above configuration
-  toolVersion = "8.37"
-  maxWarnings = 3
-  checkstyleTest.enabled = false
-}
-
 dependencyCheck {
-  skipConfigurations = ["checkstyle", "annotationProcessor"] //["errorprone", "checkstyle", "annotationProcessor"]
+  skipConfigurations = ["checkstyle", "annotationProcessor"]
   suppressionFile = "buildscripts/dependency-check-suppressions.xml"
   failBuildOnCVSS = 7.0f // fail on high or critical CVE
 }

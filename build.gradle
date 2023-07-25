@@ -85,6 +85,7 @@ subprojects {
 
     compileJava {
       options.release.set(8)
+      options.compilerArgs << "-Werror"
     }
     compileTestJava {
       options.release.set(17)
