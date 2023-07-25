@@ -22,115 +22,119 @@ public class LoggingExporterConfigCustomizerTest {
   private static final String METRICS_EXPORTER_PROP = "otel.metrics.exporter";
   private static final String TRACES_EXPORTER_PROP = "otel.traces.exporter";
 
-  @ParameterizedTest(name = "{0}")
-  @MethodSource("provideCustomConfigurations")
-  void getCustomProperties(
-      String name,
+  record CustomTestCase(
       boolean debugLogging,
       String loggingEnabled,
       String exporterValue,
-      Map<String, String> expectedReturn) {
+      Map<String, String> expectedReturn) {}
+
+  @ParameterizedTest(name = "{0}")
+  @MethodSource("provideCustomConfigurations")
+  void getCustomProperties(String name, CustomTestCase testCase) {
 
     Map<String, String> props =
         Map.of(
             DEBUG_LOGGING_PROP,
-            String.valueOf(debugLogging),
+            String.valueOf(testCase.debugLogging),
             LOGGING_ENABLED_PROP,
-            loggingEnabled,
+            testCase.loggingEnabled,
             "otel.logs.exporter",
-            exporterValue,
+            testCase.exporterValue,
             "otel.metrics.exporter",
-            exporterValue,
+            testCase.exporterValue,
             "otel.traces.exporter",
-            exporterValue);
+            testCase.exporterValue);
     DefaultConfigProperties defaultConfigs = DefaultConfigProperties.createForTest(props);
     Map<String, String> m = LoggingExporterConfigCustomizer.customizeProperties(defaultConfigs);
 
-    assertThat(m.size()).isEqualTo(expectedReturn.size());
-    assertThat(m).isEqualTo(expectedReturn);
+    assertThat(m).isEqualTo(testCase.expectedReturn);
   }
 
   private static Stream<Arguments> provideCustomConfigurations() {
     return Stream.of(
         Arguments.of(
             "debugLogging is on so logging for all signals",
-            true,
-            "",
-            "otlp",
-            Map.of(
-                METRICS_EXPORTER_PROP, "otlp,logging",
-                TRACES_EXPORTER_PROP, "otlp,logging",
-                LOG_EXPORTER_PROP, "otlp,logging")),
+            new CustomTestCase(
+                true,
+                "",
+                "otlp",
+                Map.of(
+                    METRICS_EXPORTER_PROP, "otlp,logging",
+                    TRACES_EXPORTER_PROP, "otlp,logging",
+                    LOG_EXPORTER_PROP, "otlp,logging"))),
         Arguments.of(
             "debugLogging is on but logging exporter is already set",
-            true,
-            "",
-            "otlp,logging",
-            Map.of(
-                METRICS_EXPORTER_PROP, "otlp,logging",
-                TRACES_EXPORTER_PROP, "otlp,logging",
-                LOG_EXPORTER_PROP, "otlp,logging")),
+            new CustomTestCase(
+                true,
+                "",
+                "otlp,logging",
+                Map.of(
+                    METRICS_EXPORTER_PROP, "otlp,logging",
+                    TRACES_EXPORTER_PROP, "otlp,logging",
+                    LOG_EXPORTER_PROP, "otlp,logging"))),
         Arguments.of(
             "debugLogging takes precedence over loggingExporterEnabled",
-            true,
-            "metrics",
-            "otlp",
-            Map.of(
-                METRICS_EXPORTER_PROP, "otlp,logging",
-                TRACES_EXPORTER_PROP, "otlp,logging",
-                LOG_EXPORTER_PROP, "otlp,logging")),
+            new CustomTestCase(
+                true,
+                "metrics",
+                "otlp",
+                Map.of(
+                    METRICS_EXPORTER_PROP, "otlp,logging",
+                    TRACES_EXPORTER_PROP, "otlp,logging",
+                    LOG_EXPORTER_PROP, "otlp,logging"))),
         Arguments.of(
             "loggingExporterEnabled set with all signals",
-            false,
-            "metrics,traces,logs",
-            "otlp",
-            Map.of(
-                METRICS_EXPORTER_PROP, "otlp,logging",
-                TRACES_EXPORTER_PROP, "otlp,logging",
-                LOG_EXPORTER_PROP, "otlp,logging")),
+            new CustomTestCase(
+                false,
+                "metrics,traces,logs",
+                "otlp",
+                Map.of(
+                    METRICS_EXPORTER_PROP, "otlp,logging",
+                    TRACES_EXPORTER_PROP, "otlp,logging",
+                    LOG_EXPORTER_PROP, "otlp,logging"))),
         Arguments.of(
             "loggingExporterEnabled set with metrics,traces",
-            false,
-            "metrics,traces",
-            "otlp",
-            Map.of(
-                LOG_EXPORTER_PROP, "otlp",
-                METRICS_EXPORTER_PROP, "otlp,logging",
-                TRACES_EXPORTER_PROP, "otlp,logging")),
+            new CustomTestCase(
+                false,
+                "metrics,traces",
+                "otlp",
+                Map.of(
+                    LOG_EXPORTER_PROP, "otlp",
+                    METRICS_EXPORTER_PROP, "otlp,logging",
+                    TRACES_EXPORTER_PROP, "otlp,logging"))),
         Arguments.of(
             "Logging cannot be appended since exporters are set to `none`",
-            false,
-            "metrics,traces",
-            "none",
-            Map.of(
-                LOG_EXPORTER_PROP, "none",
-                METRICS_EXPORTER_PROP, "none",
-                TRACES_EXPORTER_PROP, "none")),
+            new CustomTestCase(
+                false,
+                "metrics,traces",
+                "none",
+                Map.of(
+                    LOG_EXPORTER_PROP, "none",
+                    METRICS_EXPORTER_PROP, "none",
+                    TRACES_EXPORTER_PROP, "none"))),
         Arguments.of(
             "No logging enabled so no changes to exporter configurations",
-            false,
-            "",
-            "otlp",
-            Map.of()));
+            new CustomTestCase(false, "", "otlp", Map.of())));
   }
+
+  record LoggingTestCase(
+      boolean debugLogging, String loggingEnabled, Map<String, String> expectedReturn) {}
 
   @ParameterizedTest(name = "{0}")
   @MethodSource("provideLoggingConfigurations")
-  void getLoggingProperties(
-      String name,
-      boolean debugLogging,
-      String loggingEnabled,
-      Map<String, String> expectedReturn) {
+  void getLoggingProperties(String name, LoggingTestCase testCase) {
 
     Map<String, String> props =
         Map.of(
-            DEBUG_LOGGING_PROP, String.valueOf(debugLogging), LOGGING_ENABLED_PROP, loggingEnabled);
+            DEBUG_LOGGING_PROP,
+            String.valueOf(testCase.debugLogging),
+            LOGGING_ENABLED_PROP,
+            testCase.loggingEnabled);
     DefaultConfigProperties defaultConfigs = DefaultConfigProperties.createForTest(props);
     GrafanaLoggingConfig logConfigs = new GrafanaLoggingConfig(defaultConfigs);
 
     Map<String, String> m = LoggingExporterConfigCustomizer.getLoggingExporterConfigs(logConfigs);
-    assertThat(m.size()).isEqualTo(expectedReturn.size());
-    assertThat(m).isEqualTo(expectedReturn);
+    assertThat(m).isEqualTo(testCase.expectedReturn);
   }
 
   private static Stream<Arguments> provideLoggingConfigurations() {
@@ -143,40 +147,37 @@ public class LoggingExporterConfigCustomizerTest {
             LOG_EXPORTER_PROP,
             ",logging");
     return Stream.of(
-        Arguments.of("only debugLogging set to false", false, "", Map.of()),
-        Arguments.of("only debugLogging set to true ", true, "", allSignals),
+        Arguments.of("only debugLogging set to false", new LoggingTestCase(false, "", Map.of())),
+        Arguments.of("only debugLogging set to true ", new LoggingTestCase(true, "", allSignals)),
         Arguments.of(
-            "debugLogging set to true with metric logging enabled", true, "metrics", allSignals),
+            "debugLogging set to true with metric logging enabled",
+            new LoggingTestCase(true, "metrics", allSignals)),
         Arguments.of(
             "debugLogging set to true with `metrics,traces` logging enabled",
-            true,
-            "metrics,traces",
-            allSignals),
+            new LoggingTestCase(true, "metrics,traces", allSignals)),
         Arguments.of(
             "debugLogging set to true with `metrics,traces,logs` logging enabled",
-            true,
-            "metrics,traces,logs",
-            allSignals),
+            new LoggingTestCase(true, "metrics,traces,logs", allSignals)),
         Arguments.of(
             "debugLogging set to false with `metric` logging enabled",
-            false,
-            "metrics",
-            Map.of(
-                "otel.metrics.exporter", ",logging",
-                "otel.logs.exporter", "",
-                "otel.traces.exporter", "")),
+            new LoggingTestCase(
+                false,
+                "metrics",
+                Map.of(
+                    "otel.metrics.exporter", ",logging",
+                    "otel.logs.exporter", "",
+                    "otel.traces.exporter", ""))),
         Arguments.of(
             "debugLogging set to false with `metric,traces` logging enabled",
-            false,
-            "metrics,traces",
-            Map.of(
-                "otel.metrics.exporter", ",logging",
-                "otel.logs.exporter", "",
-                "otel.traces.exporter", ",logging")),
+            new LoggingTestCase(
+                false,
+                "metrics,traces",
+                Map.of(
+                    "otel.metrics.exporter", ",logging",
+                    "otel.logs.exporter", "",
+                    "otel.traces.exporter", ",logging"))),
         Arguments.of(
             "debugLogging set to false with `metric,traces,logs` logging enabled",
-            false,
-            "metrics,traces,logs",
-            allSignals));
+            new LoggingTestCase(false, "metrics,traces,logs", allSignals)));
   }
 }

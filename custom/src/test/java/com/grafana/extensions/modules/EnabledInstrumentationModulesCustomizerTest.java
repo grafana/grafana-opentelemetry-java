@@ -26,23 +26,11 @@ class EnabledInstrumentationModulesCustomizerTest {
           .captureForType(EnabledInstrumentationModulesCustomizer.class)
           .captureForType(SupportContext.class);
 
-  static class TestCase {
-    Map<String, String> inputProperties;
-    Map<String, String> wantProperties;
-    String wantWarnings;
-    String wantSupportStatement;
-
-    public TestCase(
-        Map<String, String> inputProperties,
-        Map<String, String> wantProperties,
-        String wantSupportStatement,
-        String expectedOutput) {
-      this.inputProperties = inputProperties;
-      this.wantProperties = wantProperties;
-      this.wantSupportStatement = wantSupportStatement;
-      this.wantWarnings = expectedOutput;
-    }
-  }
+  record TestCase(
+      Map<String, String> inputProperties,
+      Map<String, String> wantProperties,
+      String wantSupportStatement,
+      String wantWarnings) {}
 
   @ParameterizedTest(name = "{0}")
   @MethodSource("testCases")
