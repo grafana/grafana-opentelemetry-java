@@ -44,7 +44,6 @@ Enable the instrumentation agent using the `-javaagent` flag to the JVM.
 
 ```shell
 java -javaagent:path/to/opentelemetry-javaagent.jar \
-  -Dotel.logs.exporter=otlp \
   -Dgrafana.otlp.cloud.instance.id=<GRAFANA_INSTANCE_ID> \
   -Dgrafana.otlp.cloud.zone=<GRAFANA_ZONE> \
   -Dgrafana.otlp.cloud.api.key=<GRAFANA_CLOUD_API_KEY> \
@@ -76,7 +75,6 @@ Enable the instrumentation agent using the `-javaagent` flag to the JVM.
 
 ```shell
 java -javaagent:path/to/opentelemetry-javaagent.jar \
-  -Dotel.logs.exporter=otlp \
   -Dotel.exporter.otlp.endpoint=http://localhost:4317 \
   -Dotel.exporter.otlp.protocol=grpc \
   -Dotel.service.name=shopping-cart \
@@ -154,6 +152,9 @@ Instrumentation Modules
 | spring-webmvc                       | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
 | spring-data                         | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
 | jms                                 | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| logback-appender                    | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| log4j-appender                      | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| runtime-telemetry                   | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
                                                                                                                                 
 
 [OpenTelemetry Javaagent]: https://github.com/open-telemetry/opentelemetry-java-instrumentation

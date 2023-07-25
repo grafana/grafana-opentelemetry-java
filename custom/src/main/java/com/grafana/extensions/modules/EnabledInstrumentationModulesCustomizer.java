@@ -142,7 +142,7 @@ public class EnabledInstrumentationModulesCustomizer {
   }
 
   @SuppressWarnings("unchecked")
-  static Map<String, String> getAllProperties(ConfigProperties configProperties) {
+  public static Map<String, String> getAllProperties(ConfigProperties configProperties) {
     return (Map<String, String>) FieldUtils.readDeclaredField(configProperties, "config");
   }
 }

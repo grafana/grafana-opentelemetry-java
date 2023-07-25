@@ -5,12 +5,12 @@
 
 package com.grafana.extensions.smoketest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
 import java.io.IOException;
 import java.util.Collection;
 import okhttp3.Request;
-import okhttp3.Response;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
@@ -48,11 +48,11 @@ public class DisableUnsupportedInstrumentationsSmokeTest extends SmokeTest {
     String url = String.format("http://localhost:%d/welcome?id=1", target.getMappedPort(8080));
     Request request = new Request.Builder().url(url).get().build();
 
-    Response response = client.newCall(request).execute();
+    String response = makeCall(request);
 
     Collection<ExportTraceServiceRequest> traces = waitForTraces();
 
-    Assertions.assertEquals("Welcome 1.", response.body().string());
-    Assertions.assertEquals(expectedSpans, countSpansByName(traces, "GET /welcome"));
+    assertThat(response).isEqualTo("Welcome 1.");
+    assertThat(countSpansByName(traces, "GET /welcome")).isEqualTo(expectedSpans);
   }
 }
