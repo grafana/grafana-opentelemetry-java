@@ -160,11 +160,13 @@ class EnabledInstrumentationModulesCustomizerTest {
                     "true",
                     "otel.instrumentation.foo.enabled",
                     "true"),
-                "Grafana OpenTelemetry Javaagent is UNSUPPORTED: version=0.1, enableAllInstrumentations=false, "
-                    + "enabledUnsupportedInstrumentations=[foo], disabledInstrumentations=[] (The javaagent is running in "
-                    + "unsupported mode, please remove the -Dgrafana.otel.instrumentation.enable-unsupported-modules=true "
-                    + "command line argument or GRAFANA_OTEL_INSTRUMENTATION_ENABLE_UNSUPPORTED_MODULES=true environment "
-                    + "variable to turn on the supported mode)",
+                ("Grafana OpenTelemetry Javaagent is UNSUPPORTED: version=%s, enableAllInstrumentations=false, "
+                        + "enabledUnsupportedInstrumentations=[foo], disabledInstrumentations=[] (The javaagent is "
+                        + "running in unsupported mode, please remove the "
+                        + "-Dgrafana.otel.instrumentation.enable-unsupported-modules=true command line argument or "
+                        + "GRAFANA_OTEL_INSTRUMENTATION_ENABLE_UNSUPPORTED_MODULES=true environment "
+                        + "variable to turn on the supported mode)")
+                    .formatted(DistributionVersion.VERSION),
                 "")),
         Arguments.of(
             "set all modules enabled by default - allowed, because "
@@ -184,11 +186,13 @@ class EnabledInstrumentationModulesCustomizerTest {
                     "true",
                     "otel.instrumentation.jms.enabled",
                     "true"),
-                "Grafana OpenTelemetry Javaagent is UNSUPPORTED: version=0.1, enableAllInstrumentations=true, "
-                    + "enabledUnsupportedInstrumentations=[], disabledInstrumentations=[] (The javaagent is running in "
-                    + "unsupported mode, please remove the -Dgrafana.otel.instrumentation.enable-unsupported-modules=true "
-                    + "command line argument or GRAFANA_OTEL_INSTRUMENTATION_ENABLE_UNSUPPORTED_MODULES=true environment "
-                    + "variable to turn on the supported mode)",
+                ("Grafana OpenTelemetry Javaagent is UNSUPPORTED: version=%s, enableAllInstrumentations=true, "
+                        + "enabledUnsupportedInstrumentations=[], disabledInstrumentations=[] (The javaagent is "
+                        + "running in unsupported mode, please remove the "
+                        + "-Dgrafana.otel.instrumentation.enable-unsupported-modules=true command line argument or "
+                        + "GRAFANA_OTEL_INSTRUMENTATION_ENABLE_UNSUPPORTED_MODULES=true environment variable to turn "
+                        + "on the supported mode)")
+                    .formatted(DistributionVersion.VERSION),
                 "")));
   }
 }
