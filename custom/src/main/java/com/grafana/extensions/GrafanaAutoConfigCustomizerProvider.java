@@ -10,17 +10,15 @@ import com.grafana.extensions.logging.LoggingExporterConfigCustomizer;
 import com.grafana.extensions.modules.EnabledInstrumentationModulesCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizerProvider;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCustomizerProvider {
 
   @Override
   public void customize(AutoConfigurationCustomizer autoConfiguration) {
     autoConfiguration
-      .addPropertiesSupplier(GrafanaAutoConfigCustomizerProvider::getDefaultProperties)
+        .addPropertiesSupplier(GrafanaAutoConfigCustomizerProvider::getDefaultProperties)
         .addPropertiesSupplier(EnabledInstrumentationModulesCustomizer::getDefaultProperties)
         .addPropertiesCustomizer(EnabledInstrumentationModulesCustomizer::customizeProperties)
         .addPropertiesCustomizer(LoggingExporterConfigCustomizer::customizeProperties)
