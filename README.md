@@ -8,12 +8,7 @@ Grafana's distribution of the OpenTelemetry Agent for Java is based on OpenTelem
 
 ### OpenTelemetry
 
-| Artifact                          | Version                   | Description |
-|:----------------------------------|:--------------------------|-------------|
-| opentelemetrySdk                  | 1.25.0                    |             |
-| opentelemetryJavaagent            | 1.26.0-SNAPSHOT           |             |
-| opentelemetryJavaagentAlpha       | 1.26.0-alpha-SNAPSHOT     |             |
-
+todo
 
 ## Implement
 These instructions assume that you are running the Grafana Agent and that the HTTP server and/or gRPC server

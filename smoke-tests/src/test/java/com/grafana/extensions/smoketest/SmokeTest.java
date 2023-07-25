@@ -13,6 +13,7 @@ import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
 import io.opentelemetry.proto.trace.v1.Span;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,8 +36,10 @@ public abstract class SmokeTest {
   private static final Logger logger = LoggerFactory.getLogger(SmokeTest.class);
 
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+  // use JDK 8 for local tests
   private static final int SMOKE_TEST_JAVA_VERSION =
-      Integer.parseInt(System.getenv("SMOKE_TEST_JAVA_VERSION"));
+      Integer.parseInt(Objects.requireNonNullElse(System.getenv("SMOKE_TEST_JAVA_VERSION"), "8"));
 
   protected static OkHttpClient client = OkHttpUtils.client();
 

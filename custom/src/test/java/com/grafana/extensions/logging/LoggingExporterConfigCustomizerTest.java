@@ -9,7 +9,6 @@ import static com.grafana.extensions.logging.GrafanaLoggingConfig.DEBUG_LOGGING_
 import static com.grafana.extensions.logging.GrafanaLoggingConfig.LOGGING_ENABLED_PROP;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.google.common.collect.ImmutableMap;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -30,10 +29,10 @@ public class LoggingExporterConfigCustomizerTest {
       boolean debugLogging,
       String loggingEnabled,
       String exporterValue,
-      ImmutableMap<String, String> expectedReturn) {
+      Map<String, String> expectedReturn) {
 
     Map<String, String> props =
-        ImmutableMap.of(
+        Map.of(
             DEBUG_LOGGING_PROP,
             String.valueOf(debugLogging),
             LOGGING_ENABLED_PROP,
@@ -58,7 +57,7 @@ public class LoggingExporterConfigCustomizerTest {
             true,
             "",
             "otlp",
-            ImmutableMap.of(
+            Map.of(
                 METRICS_EXPORTER_PROP, "otlp,logging",
                 TRACES_EXPORTER_PROP, "otlp,logging",
                 LOG_EXPORTER_PROP, "otlp,logging")),
@@ -67,7 +66,7 @@ public class LoggingExporterConfigCustomizerTest {
             true,
             "",
             "otlp,logging",
-            ImmutableMap.of(
+            Map.of(
                 METRICS_EXPORTER_PROP, "otlp,logging",
                 TRACES_EXPORTER_PROP, "otlp,logging",
                 LOG_EXPORTER_PROP, "otlp,logging")),
@@ -76,7 +75,7 @@ public class LoggingExporterConfigCustomizerTest {
             true,
             "metrics",
             "otlp",
-            ImmutableMap.of(
+            Map.of(
                 METRICS_EXPORTER_PROP, "otlp,logging",
                 TRACES_EXPORTER_PROP, "otlp,logging",
                 LOG_EXPORTER_PROP, "otlp,logging")),
@@ -85,7 +84,7 @@ public class LoggingExporterConfigCustomizerTest {
             false,
             "metrics,traces,logs",
             "otlp",
-            ImmutableMap.of(
+            Map.of(
                 METRICS_EXPORTER_PROP, "otlp,logging",
                 TRACES_EXPORTER_PROP, "otlp,logging",
                 LOG_EXPORTER_PROP, "otlp,logging")),
@@ -94,7 +93,7 @@ public class LoggingExporterConfigCustomizerTest {
             false,
             "metrics,traces",
             "otlp",
-            ImmutableMap.of(
+            Map.of(
                 LOG_EXPORTER_PROP, "otlp",
                 METRICS_EXPORTER_PROP, "otlp,logging",
                 TRACES_EXPORTER_PROP, "otlp,logging")),
@@ -103,7 +102,7 @@ public class LoggingExporterConfigCustomizerTest {
             false,
             "metrics,traces",
             "none",
-            ImmutableMap.of(
+            Map.of(
                 LOG_EXPORTER_PROP, "none",
                 METRICS_EXPORTER_PROP, "none",
                 TRACES_EXPORTER_PROP, "none")),
@@ -112,7 +111,7 @@ public class LoggingExporterConfigCustomizerTest {
             false,
             "",
             "otlp",
-            ImmutableMap.of()));
+            Map.of()));
   }
 
   @ParameterizedTest(name = "{0}")
@@ -121,10 +120,10 @@ public class LoggingExporterConfigCustomizerTest {
       String name,
       boolean debugLogging,
       String loggingEnabled,
-      ImmutableMap<String, String> expectedReturn) {
+      Map<String, String> expectedReturn) {
 
     Map<String, String> props =
-        ImmutableMap.of(
+        Map.of(
             DEBUG_LOGGING_PROP, String.valueOf(debugLogging), LOGGING_ENABLED_PROP, loggingEnabled);
     DefaultConfigProperties defaultConfigs = DefaultConfigProperties.createForTest(props);
     GrafanaLoggingConfig logConfigs = new GrafanaLoggingConfig(defaultConfigs);
@@ -135,8 +134,8 @@ public class LoggingExporterConfigCustomizerTest {
   }
 
   private static Stream<Arguments> provideLoggingConfigurations() {
-    ImmutableMap<String, String> allSignals =
-        ImmutableMap.of(
+    Map<String, String> allSignals =
+        Map.of(
             METRICS_EXPORTER_PROP,
             ",logging",
             TRACES_EXPORTER_PROP,
@@ -144,7 +143,7 @@ public class LoggingExporterConfigCustomizerTest {
             LOG_EXPORTER_PROP,
             ",logging");
     return Stream.of(
-        Arguments.of("only debugLogging set to false", false, "", ImmutableMap.of()),
+        Arguments.of("only debugLogging set to false", false, "", Map.of()),
         Arguments.of("only debugLogging set to true ", true, "", allSignals),
         Arguments.of(
             "debugLogging set to true with metric logging enabled", true, "metrics", allSignals),
@@ -162,7 +161,7 @@ public class LoggingExporterConfigCustomizerTest {
             "debugLogging set to false with `metric` logging enabled",
             false,
             "metrics",
-            ImmutableMap.of(
+            Map.of(
                 "otel.metrics.exporter", ",logging",
                 "otel.logs.exporter", "",
                 "otel.traces.exporter", "")),
@@ -170,7 +169,7 @@ public class LoggingExporterConfigCustomizerTest {
             "debugLogging set to false with `metric,traces` logging enabled",
             false,
             "metrics,traces",
-            ImmutableMap.of(
+            Map.of(
                 "otel.metrics.exporter", ",logging",
                 "otel.logs.exporter", "",
                 "otel.traces.exporter", ",logging")),

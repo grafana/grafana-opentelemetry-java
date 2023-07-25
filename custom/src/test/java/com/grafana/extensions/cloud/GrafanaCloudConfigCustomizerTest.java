@@ -8,7 +8,6 @@ package com.grafana.extensions.cloud;
 import static com.grafana.extensions.cloud.GrafanaCloudConfig.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.google.common.collect.ImmutableMap;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +29,7 @@ public class GrafanaCloudConfigCustomizerTest {
       Map<String, String> expectedOutput) {
 
     Map<String, String> props =
-        ImmutableMap.of(
+        Map.of(
             "otel.exporter.otlp.endpoint",
             endpoint,
             CLOUD_ZONE_PROP,
@@ -60,7 +59,7 @@ public class GrafanaCloudConfigCustomizerTest {
             "fakeApiKey=",
             "fake-zone",
             "",
-            ImmutableMap.of(
+            Map.of(
                 "otel.exporter.otlp.protocol",
                 "http/protobuf",
                 "otel.exporter.otlp.endpoint",

@@ -12,7 +12,6 @@ dependencies {
   compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
   compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-tooling")
 
-  testImplementation("com.google.guava:guava:32.1.1-jre")
   testImplementation("io.opentelemetry:opentelemetry-semconv")
   testImplementation("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi")
 }

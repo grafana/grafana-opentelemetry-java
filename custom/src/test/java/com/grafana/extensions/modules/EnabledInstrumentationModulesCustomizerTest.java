@@ -7,7 +7,6 @@ package com.grafana.extensions.modules;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.google.common.collect.ImmutableMap;
 import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.github.netmikey.logunit.api.LogCapturer;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
@@ -76,7 +75,7 @@ class EnabledInstrumentationModulesCustomizerTest {
             "no input - only supported are enabled",
             new TestCase(
                 Collections.emptyMap(),
-                ImmutableMap.of(
+                Map.of(
                     "otel.instrumentation.common.default.enabled", "false",
                     "otel.instrumentation.spring.data.enabled", "true",
                     "otel.instrumentation.jms.enabled", "true"),
@@ -85,8 +84,8 @@ class EnabledInstrumentationModulesCustomizerTest {
         Arguments.of(
             "enable unsupported modules without any other option doesn't cause a warning",
             new TestCase(
-                ImmutableMap.of("grafana.otel.instrumentation.enable-unsupported-modules", "true"),
-                ImmutableMap.of(
+                Map.of("grafana.otel.instrumentation.enable-unsupported-modules", "true"),
+                Map.of(
                     "grafana.otel.instrumentation.enable.unsupported.modules",
                     "true",
                     "otel.instrumentation.common.default.enabled",
@@ -100,8 +99,8 @@ class EnabledInstrumentationModulesCustomizerTest {
         Arguments.of(
             "disable a module is not allowed",
             new TestCase(
-                ImmutableMap.of("otel.instrumentation.spring.data.enabled", "false"),
-                ImmutableMap.of(
+                Map.of("otel.instrumentation.spring.data.enabled", "false"),
+                Map.of(
                     "otel.instrumentation.common.default.enabled", "false",
                     "otel.instrumentation.spring.data.enabled", "true",
                     "otel.instrumentation.jms.enabled", "true"),
@@ -112,8 +111,8 @@ class EnabledInstrumentationModulesCustomizerTest {
             "module foo enabled - disabled again, because "
                 + "grafana.otel.instrumentation.enable-unsupported-modules was not found",
             new TestCase(
-                ImmutableMap.of("otel.instrumentation.foo.enabled", "true"),
-                ImmutableMap.of(
+                Map.of("otel.instrumentation.foo.enabled", "true"),
+                Map.of(
                     "otel.instrumentation.common.default.enabled",
                     "false",
                     "otel.instrumentation.spring.data.enabled",
@@ -129,8 +128,8 @@ class EnabledInstrumentationModulesCustomizerTest {
             "set all modules enabled by default - disabled again, because "
                 + "grafana.otel.instrumentation.enable-unsupported-modules was not found",
             new TestCase(
-                ImmutableMap.of("otel.instrumentation.common.default.enabled", "true"),
-                ImmutableMap.of(
+                Map.of("otel.instrumentation.common.default.enabled", "true"),
+                Map.of(
                     "otel.instrumentation.common.default.enabled",
                     "false",
                     "otel.instrumentation.spring.data.enabled",
@@ -144,12 +143,12 @@ class EnabledInstrumentationModulesCustomizerTest {
             "module foo enabled - allowed, because "
                 + "grafana.otel.instrumentation.enable-unsupported-modules was not found",
             new TestCase(
-                ImmutableMap.of(
+                Map.of(
                     "grafana.otel.instrumentation.enable-unsupported-modules",
                     "true",
                     "otel.instrumentation.foo.enabled",
                     "true"),
-                ImmutableMap.of(
+                Map.of(
                     "grafana.otel.instrumentation.enable.unsupported.modules",
                     "true",
                     "otel.instrumentation.common.default.enabled",
@@ -172,12 +171,12 @@ class EnabledInstrumentationModulesCustomizerTest {
             "set all modules enabled by default - allowed, because "
                 + "grafana.otel.instrumentation.enable-unsupported-modules was not found",
             new TestCase(
-                ImmutableMap.of(
+                Map.of(
                     "grafana.otel.instrumentation.enable-unsupported-modules",
                     "true",
                     "otel.instrumentation.common.default.enabled",
                     "true"),
-                ImmutableMap.of(
+                Map.of(
                     "grafana.otel.instrumentation.enable.unsupported.modules",
                     "true",
                     "otel.instrumentation.common.default.enabled",

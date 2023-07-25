@@ -2,6 +2,9 @@ group 'com.grafana'
 version '0.1'
 
 buildscript {
+  ext {
+    otelVersion = "1.28.0"
+  }
   repositories {
     maven {
       url "https://plugins.gradle.org/m2/"
@@ -10,7 +13,7 @@ buildscript {
   dependencies {
     classpath "com.diffplug.spotless:spotless-plugin-gradle:6.20.0"
     classpath "gradle.plugin.com.github.johnrengelman:shadow:8.0.0"
-    classpath "io.opentelemetry.instrumentation:gradle-plugins:1.28.0-alpha"
+    classpath "io.opentelemetry.instrumentation:gradle-plugins:${otelVersion}-alpha"
   }
 }
 
@@ -23,16 +26,17 @@ subprojects {
   ext {
     versions = [
       // this line is managed by .github/scripts/update-sdk-version.sh
-      opentelemetrySdk           : "1.28.0",
+      opentelemetrySdk           : otelVersion,
 
       // these lines are managed by .github/scripts/update-version.sh
-      opentelemetryJavaagent     : "1.28.0",
-      opentelemetryJavaagentAlpha: "1.28.0-alpha",
+      opentelemetryJavaagent     : otelVersion,
+      opentelemetryJavaagentAlpha: "${otelVersion}-alpha",
 
       bytebuddy                  : "1.14.5",
       autoservice                : "1.1.1",
       junit                      : "5.10.0",
       logUnit                    : "2.0.0",
+      assertj                    : "3.24.2",
     ]
 
     deps = [
@@ -63,7 +67,7 @@ subprojects {
     implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:${versions.opentelemetryJavaagent}"))
     implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:${versions.opentelemetryJavaagentAlpha}"))
 
-    testImplementation("org.assertj:assertj-core:3.24.2")
+    testImplementation("org.assertj:assertj-core:${versions.assertj}")
 
     testImplementation(enforcedPlatform("org.junit:junit-bom:${versions.junit}"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:${versions.junit}")
@@ -81,6 +85,9 @@ subprojects {
 
     compileJava {
       options.release.set(8)
+    }
+    compileTestJava {
+      options.release.set(17)
     }
   }
 }
