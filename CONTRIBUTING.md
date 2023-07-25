@@ -13,11 +13,10 @@ It is modeled after the [OpenTelemetry Java instrumentation agent distro templat
 ./gradlew build
 ```
 
-The build process will generate the following jars and place them under `build/libs`.
+The build process will generate `agent/build/libs/grafana-opentelemetry-java.jar`, which contains the upstream
+javaagent.jar as well as our custom extension.
 
-* grafana-opentelemetry-java-1.0-all.jar
-* grafana-opentelemetry-java-1.0.jar
-* grafana-opentelemetry-javaagent.jar
+## Known Issues
 
-The `grafana-opentelemetry-javaagent.jar` also contains the `grafana-opentelemetry-java-1.0-all.jar` which contains
-all custom extension and instrumentation modules.
+The tests occasionally fail due to TestContainers not starting in time.  Please rerun the build for now, until
+a new wait strategy can be determined.
