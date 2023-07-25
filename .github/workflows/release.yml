@@ -26,5 +26,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            agent/build/libs/grafana-opentelemetry-javaagent.jar
+            agent/build/libs/grafana-opentelemetry-java.jar
             LICENSE
