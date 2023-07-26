@@ -8,12 +8,7 @@ Grafana's distribution of the OpenTelemetry Agent for Java is based on OpenTelem
 
 ### OpenTelemetry
 
-| Artifact                          | Version                   | Description |
-|:----------------------------------|:--------------------------|-------------|
-| opentelemetrySdk                  | 1.25.0                    |             |
-| opentelemetryJavaagent            | 1.26.0-SNAPSHOT           |             |
-| opentelemetryJavaagentAlpha       | 1.26.0-alpha-SNAPSHOT     |             |
-
+todo
 
 ## Implement
 These instructions assume that you are running the Grafana Agent and that the HTTP server and/or gRPC server
@@ -71,10 +66,10 @@ Instrumentation Modules
                                                                                                               
 | ID                                  | Name                                                                                                                                                                                 |
 |-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| opentelemetry-extension-annotations | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0b2de635f24fe0f) |
-| opentelemetry-api                   | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0b2de635f24fe0f) |
-| tomcat                              | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0b2de635f24fe0f) |
-| spring-web                          | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0b2de635f24fe0f) |
-| spring-webmvc                       | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0b2de635f24fe0f) |
-| spring-data                         | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0b2de635f24fe0f) |
-| jms                                 | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0b2de635f24fe0f) |
+| opentelemetry-extension-annotations | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| opentelemetry-api                   | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| tomcat                              | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| spring-web                          | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| spring-webmvc                       | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| spring-data                         | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| jms                                 | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |

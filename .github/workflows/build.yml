@@ -18,7 +18,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: ${{ matrix.java }}
+          java-version: 17
           distribution: temurin
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1.0.5
@@ -26,5 +26,6 @@ jobs:
         uses: gradle/gradle-build-action@v2.4.2
         env:
           CHECK_GENERATED_FILES: true
+          SMOKE_TEST_JAVA_VERSION: ${{ matrix.java }} # the some test will pick this up
         with:
           arguments: build

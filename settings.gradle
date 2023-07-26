@@ -1,11 +1,13 @@
 pluginManagement {
   repositories {
     gradlePluginPortal()
-    maven {
-      name = "sonatype"
-      url = uri("https://oss.sonatype.org/content/repositories/snapshots")
-    }
+    mavenCentral()
   }
 }
 
 rootProject.name = 'grafana-opentelemetry-java'
+
+include "agent"
+include "custom"
+include "smoke-tests"
+include "testing:agent-for-testing"
