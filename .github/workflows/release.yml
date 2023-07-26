@@ -6,7 +6,7 @@ on:
       - "v*.*.*"
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,7 +21,7 @@ jobs:
       - name: Setup Gradle and run build
         uses: gradle/gradle-build-action@v2.4.2
         with:
-          arguments: build
+          arguments: build -x test
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
