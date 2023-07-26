@@ -1,64 +1,145 @@
 # grafana-opentelemetry-java
-Grafana's distribution of the OpenTelemetry Agent for Java is based on OpenTelemetry's Extension build.
 
-## Versions
+## About
 
-### Java
-8+
+The Grafana distribution of the [OpenTelemetry Javaagent].
 
-### OpenTelemetry
+This project provides a Java agent JAR that can be attached to any Java 8+
+application and dynamically injects bytecode to capture telemetry from a
+number of popular libraries and frameworks.
 
-todo
+As this is the Grafana distribution, there are some settings that make it easy to connect to Grafana Cloud or a 
+Grafana OSS stack - but all configuration options of the [OpenTelemetry Javaagent] are available as well.  
 
-## Implement
-These instructions assume that you are running the Grafana Agent and that the HTTP server and/or gRPC server
-is running on the appropriate default port.  If this is not the case, you will need to set `OTEL_EXPORTER_OTLP_ENDPOINT` with 
-the correct endpoint.
+## Compatibility
 
-To attach the newly built javaagent to your application, run the following commands.
+- Java 8+
+- We regularly update to the latest version of the [OpenTelemetry Javaagent] - you can find the current version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
+- [Supported Libraries](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
 
+## Getting Started
+                                    
+### Configure your application
+
+You can use the [Grafana Agent](#grafana-agent) or the [Grafana Cloud OTLP Gateway](#grafana-cloud-otlp-gateway) to send telemetry data to Grafana Cloud.
+
+#### Grafana Cloud OTLP Gateway
+
+> ⚠️ Please use the Grafana Agent configuration for production use cases.
+
+The easiest setup is to use the Grafana Cloud OTLP Gateway, because you don't need to run any service to transport
+the telemetry data to Grafana Cloud. 
+The Grafana Cloud OTLP Gateway is a managed service that is available in all Grafana Cloud plans.
+
+First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
+
+If you're just getting started with Grafana Cloud, you can [sign up for permanent free plan](https://grafana.com/products/cloud/).
+
+1. Click on "Details" button in the "Grafana" section on https://grafana.com/profile/org
+2. Copy "Instance ID" and "Zone" into the java command below
+3. On the left side, click on "Security" and then on "API Keys" 
+4. Click on "Create API Key" (MetricsPublisher role) and copy the key into the java command below
+
+Enable the instrumentation agent using the `-javaagent` flag to the JVM.
+
+```shell
+java -javaagent:path/to/opentelemetry-javaagent.jar \
+  -Dotel.logs.exporter=otlp \
+  -Dgrafana.otlp.cloud.instance.id=<GRAFANA_INSTANCE_ID> \
+  -Dgrafana.otlp.cloud.zone=<GRAFANA_ZONE> \
+  -Dgrafana.otlp.cloud.api.key=<GRAFANA_CLOUD_API_KEY> \
+  -Dotel.service.name=shopping-cart \
+  -Dotel.resource.attributes=deployment.environment=production,service.namespace=shop,service.version=1.1,service.instance.id=shopping-cart-66b6c48dd5-hprdn \
+  -jar myapp.jar
 ```
-export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318"
-export OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
-java -javaagent:grafana-opentelemetry-javaagent.jar -jar <PATH_TO_JAVA_APP_JAR>
+
+- Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as explained [here]({{https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/}}).  
+- Note that service name can also be set in `otel.resource.attributes` using the key `service_name` 
+  (ex. `service_name=demo`).
+- Also note that you can use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/) instead of system properties for all configuration options.
+
+#### Grafana Agent
+
+The Grafana Agent is a single binary that can be deployed as a sidecar or daemonset in Kubernetes, or as a service 
+in your network. It provides an endpoint where the application can send its telemetry data to.
+The telemetry data is then forwarded to Grafana Cloud or a Grafana OSS stack.
+
+First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
+
+> **Note**: If you use **Grafana Cloud**, follow the 
+> [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/),
+> which creates a Grafana Agent configuration for you.
+> Instead of using the download link for the javaagent in the integration, 
+> you can use the download link from the releases page.
+
+Enable the instrumentation agent using the `-javaagent` flag to the JVM.
+
+```shell
+java -javaagent:path/to/opentelemetry-javaagent.jar \
+  -Dotel.logs.exporter=otlp \
+  -Dotel.exporter.otlp.endpoint=http://localhost:4317 \
+  -Dotel.exporter.otlp.protocol=grpc \
+  -Dotel.service.name=shopping-cart \
+  -Dotel.resource.attributes=deployment.environment=production,service.namespace=shop,service.version=1.1,service.instance.id=shopping-cart-66b6c48dd5-hprdn \
+  -jar myapp.jar
 ```
-or
 
+The application will send data to the Grafana Agent. Please follow the 
+[Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/) guide.
+
+- If the grafana agent is **not** running locally with the default gRPC endpoint (localhost:4317), then you need to
+  adjust endpoint and protocol.
+- Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as explained [here]({{https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/}}).  
+- Note that service name can also be set in `otel.resource.attributes` using the key `service_name` 
+  (ex. `service_name=demo`).
+- Also note that you can use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/) instead of system properties for all configuration options.
+
+### Grafana Dashboard
+
+You can use [this dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) to get
+and overview about the most important JVM metrics: CPU, memory, classes, threads, and garbage collection.
+
+<img src="docs/jvm-dashboard.png" alt="JVM Dashboard"><br/>
+
+### Getting Help 
+
+If anything is not working, or you have questions about the starter, we’re glad to help you on our 
+[community chat](https://slack.grafana.com/) (#opentelemetry).
+
+## Reference
+
+- In addition to the configuration explained above, you can use all system properties or environment variables from the
+  [SDK auto-configuration](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure) -
+  which will take precedence.
+
+### Enable Debug Logging
+
+Log all metrics, traces, and logs that are created for debugging purposes (in addition to sending them to the backend via OTLP).
+
+This will also send metrics and traces to Loki as an unintended side effect.
+
+Add the following command line parameter:
+                                                  
+```shell
+-Dgrafana.otlp.debug.logging=true 
 ```
-export OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4317"
-export OTEL_EXPORTER_OTLP_PROTOCOL="gRPC"
-java -javaagent:grafana-opentelemetry-javaagent.jar -jar <PATH_TO_JAVA_APP_JAR>
+
+For more fine-grained control, you can also enable debug logging for specific signal types:
+
+```shell
+export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics,logs,traces"
 ```
 
-## Enable Exporter Logging
+The above would enable debug logging for all signal types (Note that order/case do not matter).  
+If you only wish to enable logging for specific signals, simply include those of interest in the list.
 
-To assist with development and troubleshooting, you may want to enable `logging` exporters.  You can do so by adding
-logging to a given otel exporter property/enviroment variable.  Below is an example
-```
-export OTEL_METRICS_EXPORTER="otlp,logging"
-export OTEL_TRACES_EXPORTER="otlp,logging"
-export OTEL_LOGS_EXPORTER="otlp,logging"
-```
+The following would only enable logging for metrics data.
 
-Or you can use the following Grafana property/environment variable to manage `logging` exporters.
-```
-export GRAFANA_OTEL_LOGGING_EXPORTER_ENABLED="metrics,logs,traces"
-```
-The above would enable `logging` for all signal types (Note that order/case do not matter).  If you only wish to enable logging for specific 
-signals, simply include those of interest in the list.  The following would only enable logging for metrics data.
-
-```
-export GRAFANA_OTEL_LOGGING_EXPORTER_ENABLED="metrics"
+```shell
+export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics"
 ```
 
-
-
-## Known Issues
-
-The tests occasionally fail due to TestContainers not starting in time.  Please rerun the build for now, until
-a new wait strategy can be determined.
-
-## Supported Libraries
+### Supported Libraries
 
 This is a dummy text here, just to test that the list of supported libraries can be parsed from this file at build time.
                     
@@ -73,3 +154,6 @@ Instrumentation Modules
 | spring-webmvc                       | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
 | spring-data                         | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
 | jms                                 | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+                                                                                                                                
+
+[OpenTelemetry Javaagent]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
