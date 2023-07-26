@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
 /** We use Play as an example of library that is not supported by Grafana Labs currently. */
-public class DisableUnsupportedInstrumentationsSmokeTest extends SmokeTest {
+public class EnabledInstrumentationModulesSmokeTest extends SmokeTest {
 
   @Override
   protected String getTargetImage(int jdk) {
