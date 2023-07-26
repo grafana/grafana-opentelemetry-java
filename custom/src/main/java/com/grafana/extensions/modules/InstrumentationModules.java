@@ -20,5 +20,8 @@ public class InstrumentationModules {
           "spring-web",
           "spring-webmvc",
           "spring-data",
-          "jms");
+          "jms",
+          "logback-appender",
+          "log4j-appender",
+          "runtime-telemetry");
 }
