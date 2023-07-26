@@ -131,8 +131,13 @@ export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics,logs,traces"
 ```
 
 The above would enable debug logging for all signal types (Note that order/case do not matter).  
-If you only wish to enable logging for specific signals, simply include those of interest in the list.  
+If you only wish to enable logging for specific signals, simply include those of interest in the list.
+
 The following would only enable logging for metrics data.
+
+```shell
+export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics"
+```
 
 ### Supported Libraries
 
