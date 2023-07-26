@@ -26,6 +26,6 @@ jobs:
         uses: gradle/gradle-build-action@v2.4.2
         env:
           CHECK_GENERATED_FILES: true
-          SMOKE_TEST_JAVA_VERSION: ${{ matrix.java }} # the some test will pick this up
+          SMOKE_TEST_JAVA_VERSION: ${{ matrix.java }} # the smoke tests will pick this up
         with:
           arguments: build

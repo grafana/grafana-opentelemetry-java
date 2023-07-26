@@ -23,5 +23,6 @@ public class InstrumentationModules {
           "jms",
           "logback-appender",
           "log4j-appender",
-          "runtime-telemetry");
+          "runtime-telemetry",
+          "executors");
 }

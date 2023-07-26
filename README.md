@@ -53,6 +53,8 @@ java -javaagent:path/to/opentelemetry-javaagent.jar \
 ```
 
 - Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as explained [here]({{https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/}}).  
+- If the service.name is not set, the name of the jar file will be used as service name.
+- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a random UUID.
 - Note that service name can also be set in `otel.resource.attributes` using the key `service_name` 
   (ex. `service_name=demo`).
 - Also note that you can use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/) instead of system properties for all configuration options.
@@ -88,6 +90,8 @@ The application will send data to the Grafana Agent. Please follow the
 - If the grafana agent is **not** running locally with the default gRPC endpoint (localhost:4317), then you need to
   adjust endpoint and protocol.
 - Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as explained [here]({{https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/}}).  
+- If the service.name is not set, the name of the jar file will be used as service name.
+- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a random UUID.
 - Note that service name can also be set in `otel.resource.attributes` using the key `service_name` 
   (ex. `service_name=demo`).
 - Also note that you can use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/) instead of system properties for all configuration options.
@@ -156,6 +160,7 @@ Instrumentation Modules
 | logback-appender                    | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
 | log4j-appender                      | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
 | runtime-telemetry                   | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| executors                   | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
                                                                                                                                 
 
 [OpenTelemetry Javaagent]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
