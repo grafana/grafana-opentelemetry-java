@@ -109,6 +109,7 @@ If anything is not working, or you have questions about the starter, we’re gla
 - In addition to the configuration explained above, you can use all system properties or environment variables from the
   [SDK auto-configuration](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure) -
   which will take precedence.
+- All exporters are set to `otlp` by default (even the logs exporter).
 
 ### Enable Debug Logging
 
@@ -117,7 +118,7 @@ Log all metrics, traces, and logs that are created for debugging purposes (in ad
 This will also send metrics and traces to Loki as an unintended side effect.
 
 Add the following command line parameter:
-                                                  
+
 ```shell
 -Dgrafana.otlp.debug.logging=true 
 ```
