@@ -1,5 +1,11 @@
+/*
+ * Copyright Grafana Labs
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.grafana.springbootdemo;
 
+import javax.jms.ConnectionFactory;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,15 +16,14 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
-import javax.jms.ConnectionFactory;
-
 @Configuration
 @EnableJms
 public class JmsConfig {
 
   @Bean
-  public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
-                          DefaultJmsListenerContainerFactoryConfigurer configurer) {
+  public JmsListenerContainerFactory<?> myFactory(
+      ConnectionFactory connectionFactory,
+      DefaultJmsListenerContainerFactoryConfigurer configurer) {
     DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
     configurer.configure(factory, connectionFactory);
     return factory;
@@ -31,5 +36,4 @@ public class JmsConfig {
     converter.setTypeIdPropertyName("_type");
     return converter;
   }
-
 }

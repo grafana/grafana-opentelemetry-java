@@ -1,3 +1,8 @@
+/*
+ * Copyright Grafana Labs
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.grafana.springbootdemo;
 
 import jakarta.jms.ConnectionFactory;
@@ -16,8 +21,9 @@ import org.springframework.jms.support.converter.MessageType;
 public class JmsConfig {
 
   @Bean
-  public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
-                          DefaultJmsListenerContainerFactoryConfigurer configurer) {
+  public JmsListenerContainerFactory<?> myFactory(
+      ConnectionFactory connectionFactory,
+      DefaultJmsListenerContainerFactoryConfigurer configurer) {
     DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
     configurer.configure(factory, connectionFactory);
     return factory;
@@ -30,5 +36,4 @@ public class JmsConfig {
     converter.setTypeIdPropertyName("_type");
     return converter;
   }
-
 }

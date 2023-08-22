@@ -1,3 +1,8 @@
+/*
+ * Copyright Grafana Labs
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.grafana.demo;
 
 import javax.persistence.Basic;
@@ -9,65 +14,60 @@ import javax.persistence.Id;
 @Entity
 public class Product {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Basic(optional = false)
-    private String name;
+  @Basic(optional = false)
+  private String name;
 
-    private Double price;
+  private Double price;
 
-    private String pictureUrl;
+  private String pictureUrl;
 
-    public Product(Long id, String name, Double price, String pictureUrl) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.pictureUrl = pictureUrl;
-    }
+  public Product(Long id, String name, Double price, String pictureUrl) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.pictureUrl = pictureUrl;
+  }
 
-    public Product() {
-    }
+  public Product() {}
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Double getPrice() {
-        return price;
-    }
+  public Double getPrice() {
+    return price;
+  }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+  public void setPrice(Double price) {
+    this.price = price;
+  }
 
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
+  public String getPictureUrl() {
+    return pictureUrl;
+  }
 
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
-    }
+  public void setPictureUrl(String pictureUrl) {
+    this.pictureUrl = pictureUrl;
+  }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "Product{" + "id=" + id + ", name='" + name + '\'' + ", price=" + price + '}';
+  }
 }

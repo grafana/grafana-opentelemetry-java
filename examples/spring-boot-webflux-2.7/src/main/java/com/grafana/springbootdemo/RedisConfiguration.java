@@ -1,3 +1,8 @@
+/*
+ * Copyright Grafana Labs
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.grafana.springbootdemo;
 
 import org.springframework.context.annotation.Bean;
@@ -13,7 +18,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfiguration {
   @Bean
   ReactiveRedisOperations<String, Coffee> redisOperations(ReactiveRedisConnectionFactory factory) {
-    Jackson2JsonRedisSerializer<Coffee> serializer = new Jackson2JsonRedisSerializer<>(Coffee.class);
+    Jackson2JsonRedisSerializer<Coffee> serializer =
+        new Jackson2JsonRedisSerializer<>(Coffee.class);
 
     RedisSerializationContext.RedisSerializationContextBuilder<String, Coffee> builder =
         RedisSerializationContext.newSerializationContext(new StringRedisSerializer());
@@ -22,5 +28,4 @@ public class RedisConfiguration {
 
     return new ReactiveRedisTemplate<>(factory, context);
   }
-
 }

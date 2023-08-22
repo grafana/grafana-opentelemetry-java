@@ -1,11 +1,15 @@
+/*
+ * Copyright Grafana Labs
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.grafana.springbootdemo;
 
 public class Coffee {
   private String id;
   private String name;
 
-  public Coffee() {
-  }
+  public Coffee() {}
 
   public Coffee(String id, String name) {
     this.id = id;

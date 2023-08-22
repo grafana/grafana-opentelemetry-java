@@ -1,14 +1,17 @@
+/*
+ * Copyright Grafana Labs
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.grafana.springbootdemo;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
 @Document("customer")
 public class Customer {
 
-  @Id
-  public String id;
+  @Id public String id;
 
   public String firstName;
   public String lastName;
@@ -22,9 +25,7 @@ public class Customer {
 
   @Override
   public String toString() {
-    return String.format(
-        "Customer[id=%s, firstName='%s', lastName='%s']",
-        id, firstName, lastName);
+    return String.format("Customer[id=%s, firstName='%s', lastName='%s']", id, firstName, lastName);
   }
 
   public String getId() {
