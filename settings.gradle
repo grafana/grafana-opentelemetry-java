@@ -12,17 +12,15 @@ include "custom"
 include "smoke-tests"
 include "testing:agent-for-testing"
 
-include(
-        'examples:spring-boot-web-2.7',
-        'examples:spring-boot-webflux-2.7',
-        'examples:jdbc:spring-boot-non-reactive-2.7',
-        'examples:jdbc:spring-boot-reactive-2.7',
-)
+include "examples:spring-boot-web-2.7"
+include "examples:spring-boot-webflux-2.7"
+include "examples:jdbc:spring-boot-non-reactive-2.7"
+include "examples:jdbc:spring-boot-reactive-2.7"
 
 def javaHome = System.getenv("JAVA_HOME")
 // on local machine, JAVA_HOME may not be set
 if (javaHome == null || !javaHome.contains("-8.0")) {
-  include('examples:spring-boot-web-3.1')
-  include('examples:jdbc:spring-boot-non-reactive-3.1')
-  include('examples:jdbc:spring-boot-reactive-3.1')
+  include "examples:spring-boot-web-3.1"
+  include "examples:jdbc:spring-boot-non-reactive-3.1"
+  include "examples:jdbc:spring-boot-reactive-3.1"
 }
