@@ -28,24 +28,18 @@ done
 
 "$scriptDir"/start-grafana-agent.sh
 
-agentVersion=1.27.0
-agent="opentelemetry-javaagent-$agentVersion.jar"
+agentVersion=0.1.0
+agent="grafana-opentelemetry-java-$agentVersion.jar"
 agentPath="$scriptDir/$agent"
 
 if [[ ! -f "$agentPath" ]]; then
   echo "Downloading $agent"
-  curl -Lo "$agentPath" https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v$agentVersion/opentelemetry-javaagent.jar
+  # this still needs a token until the project is public
+  curl -Lo "$agentPath" https://github.com/grafana/grafana-opentelemetry-java/releases/download/v$agentVersion/grafana-opentelemetry-java.jar
 fi
 
 jvm_args=$(cat <<-END
--javaagent:$agentPath
-			-Dotel.logs.exporter=otlp
-			-Dotel.instrumentation.micrometer.base-time-unit=s
-			-Dotel.semconv-stability.opt-in=http
-			-Dotel.instrumentation.log4j-appender.experimental-log-attributes=true
-			-Dotel.instrumentation.logback-appender.experimental-log-attributes=true
-			-Dotel.service.name=shopping-cart
-			-Dotel.resource.attributes=deployment.environment=production,service.namespace=shop,service.version=1.1,service.instance.id=shopping-cart-66b6c48dd5-hprdn
+-javaagent:$agentPath -Dotel.resource.attributes=deployment.environment=production,service.namespace=shop,service.version=1.1
 END
 )
 
