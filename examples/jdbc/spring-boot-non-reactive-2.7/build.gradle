@@ -1,26 +1,28 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '2.7.12'
-   	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+  id 'java'
+  id 'org.springframework.boot' version '2.7.12'
+  id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
 group = 'com.grafana'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+compileJava {
+  options.release.set(8)
+}
 
 repositories {
-    mavenCentral()
-    mavenLocal()
+  mavenCentral()
+  mavenLocal()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    runtimeOnly 'com.h2database:h2'
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  runtimeOnly 'com.h2database:h2'
 }
 
 bootRun {
-    if ( project.hasProperty('jvmArgs') ) {
-        jvmArgs = (project.jvmArgs.split("\\s+") as List)
-    }
+  if (project.hasProperty('jvmArgs')) {
+    jvmArgs = (project.jvmArgs.split("\\s+") as List)
+  }
 }
