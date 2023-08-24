@@ -33,6 +33,3 @@ build/
 
 # Project Generated
 version.properties
-
-.env*
-opentelemetry-javaagent*.jar
