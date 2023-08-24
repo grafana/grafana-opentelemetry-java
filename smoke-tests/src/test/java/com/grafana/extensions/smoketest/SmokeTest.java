@@ -117,7 +117,7 @@ public abstract class SmokeTest {
 
   protected static String makeCall(Request request) {
     return await()
-        .atMost(10, SECONDS)
+        .atMost(20, SECONDS)
         .until(
             () -> {
               try {

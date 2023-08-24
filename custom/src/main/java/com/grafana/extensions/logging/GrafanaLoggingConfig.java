@@ -5,10 +5,6 @@
 
 package com.grafana.extensions.logging;
 
-import com.grafana.extensions.util.StringUtils;
-import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GrafanaLoggingConfig {
@@ -19,13 +15,9 @@ public class GrafanaLoggingConfig {
   private final boolean debugLogging;
   private final List<String> loggingEnabled;
 
-  public GrafanaLoggingConfig(ConfigProperties configs) {
-    this.debugLogging = configs.getBoolean(DEBUG_LOGGING_PROP, false);
-    String loggingEnabled = configs.getString(LOGGING_ENABLED_PROP, "");
-    this.loggingEnabled =
-        StringUtils.isNotBlank(loggingEnabled)
-            ? Arrays.asList(loggingEnabled.split(","))
-            : new ArrayList<>();
+  public GrafanaLoggingConfig(boolean debugLogging, List<String> loggingEnabled) {
+    this.debugLogging = debugLogging;
+    this.loggingEnabled = loggingEnabled;
   }
 
   public boolean isDebugLogging() {
