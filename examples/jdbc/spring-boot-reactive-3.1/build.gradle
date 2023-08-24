@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.1.0'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'com.grafana'
+version = '0.0.1-SNAPSHOT'
+compileJava {
+  options.release.set(17)
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+   	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator' //because we use metrics from micrometer
+    runtimeOnly 'com.h2database:h2'
+   	runtimeOnly 'io.r2dbc:r2dbc-h2'
+}
+
+bootRun {
+    if ( project.hasProperty('jvmArgs') ) {
+        jvmArgs = (project.jvmArgs.split("\\s+") as List)
+    }
+}
