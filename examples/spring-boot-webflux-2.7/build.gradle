@@ -19,7 +19,7 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
   implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-  implementation 'redis.clients:jedis:4.4.1'
+  implementation 'redis.clients:jedis:4.4.3'
   implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
   implementation 'org.springframework.kafka:spring-kafka'
   implementation 'org.springframework.boot:spring-boot-starter-activemq'

@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-  implementation 'redis.clients:jedis:4.4.1'
+  implementation 'redis.clients:jedis:4.4.3'
   implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
   implementation 'org.springframework.kafka:spring-kafka'
   implementation 'org.springframework.boot:spring-boot-starter-activemq'
