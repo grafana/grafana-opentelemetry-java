@@ -27,11 +27,6 @@ public class CustomerController {
 
   @GetMapping("/customer")
   public Mono<String> getCustomer() {
-    try {
-      jmsTemplate.convertAndSend("jms_destination", new Customer());
-    } catch (JmsException e) {
-      logger.warn("could not send JMS message", e);
-    }
 
     return repository.findByFirstName("LGTM").map(customer -> customer.id).next();
   }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
 
   private final CustomerMongoRepository repository;
-  private final JmsTemplate jmsTemplate;
   private final Logger logger;
 
   public CustomerController(
@@ -27,7 +26,6 @@ public class CustomerController {
   @GetMapping("/customer")
   public String getCustomer() {
     try {
-      jmsTemplate.convertAndSend("jms_destination", new Customer());
     } catch (JmsException e) {
       logger.warn("could not send JMS message", e);
     }

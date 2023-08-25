@@ -15,8 +15,6 @@ import reactor.core.publisher.Mono;
 @RestController
 public class StockController {
 
-  private final ProductJpaRepository productJpaRepository;
-
   private final ReactiveRedisOperations<String, Coffee> coffeeOps;
 
   private final Random random = new Random();
@@ -24,7 +22,6 @@ public class StockController {
   public StockController(
       ProductJpaRepository productJpaRepository,
       ReactiveRedisOperations<String, Coffee> coffeeOps) {
-    this.productJpaRepository = productJpaRepository;
     this.coffeeOps = coffeeOps;
   }
 
@@ -36,7 +33,7 @@ public class StockController {
 
     return Flux.merge(
             coffeeOps.keys("*").flatMap(coffeeOps.opsForValue()::get).next().map(Coffee::getName),
-            productJpaRepository.findById(1L).map(Product::getName))
+            )
         .reduce((c, p) -> c + " " + p);
   }
 }

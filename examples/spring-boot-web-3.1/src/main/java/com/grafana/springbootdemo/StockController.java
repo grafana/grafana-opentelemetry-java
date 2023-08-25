@@ -35,8 +35,6 @@ public class StockController {
     } catch (Exception e) {
       logger.warn("error connecting to redis", e);
     }
-    Optional<Product> product = productJpaRepository.findById(1L);
-    logger.info("product found: " + product);
 
     if (random.nextDouble() < 0.3) {
       throw new RuntimeException("simulation error");
