@@ -1,0 +1,21 @@
+version: '3.9'
+
+x-default-logging: &logging
+  driver: "json-file"
+  options:
+    max-size: "5m"
+    max-file: "2"
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis-cart
+    user: redis
+    deploy:
+      resources:
+        limits:
+          memory: 20M
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    logging: *logging

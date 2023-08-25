@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.springbootdemo;
+package com.grafana.demo;
 
 import java.util.UUID;
 import javax.annotation.PostConstruct;

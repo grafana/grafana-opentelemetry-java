@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.springbootdemo;
+package com.grafana.demo;
 
 public class Coffee {
   private String id;

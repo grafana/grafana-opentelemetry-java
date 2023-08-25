@@ -38,19 +38,6 @@ services:
     ports:
       - "9092:9092"
 
-  redis:
-    image: redis:alpine
-    container_name: redis-cart
-    user: redis
-    deploy:
-      resources:
-        limits:
-          memory: 20M
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    logging: *logging
-
   #  postgres:
   #    image: 'postgres:13.1-alpine'
   #    container_name: postgres
