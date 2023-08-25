@@ -31,3 +31,8 @@ include "examples:kafka:spring-boot-non-reactive-2.7"
 include "examples:kafka:spring-boot-non-reactive-3.1"
 include "examples:kafka:spring-boot-reactive-2.7"
 include "examples:kafka:spring-boot-reactive-3.1"
+
+include "examples:mongodb:spring-boot-non-reactive-2.7"
+include "examples:mongodb:spring-boot-non-reactive-3.1"
+include "examples:mongodb:spring-boot-reactive-2.7"
+include "examples:mongodb:spring-boot-reactive-3.1"

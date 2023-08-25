@@ -39,6 +39,17 @@ Use `./run.sh` to start each example application.
 
 These options can be combined.
 
+## Variations
+
+### Log4j
+
+If you want to test log4j, change the following in "build.gradle":
+- add `implementation "org.springframework.boot:spring-boot-starter-log4j2"` in the dependencies section
+- add ```configurations {
+  all*.exclude module: 'spring-boot-starter-logging'
+} ```
+
+
 # Results
 
 ## Libraries used

@@ -1,0 +1,27 @@
+plugins {
+  id 'java'
+  id 'org.springframework.boot' version '2.7.12'
+  id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.grafana'
+version = '0.0.1-SNAPSHOT'
+compileJava {
+  options.release.set(8)
+}
+
+repositories {
+  mavenCentral()
+  mavenLocal()
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-webflux'
+  implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+}
+
+bootRun {
+  if (project.hasProperty('jvmArgs')) {
+    jvmArgs = (project.jvmArgs.split("\\s+") as List)
+  }
+}
