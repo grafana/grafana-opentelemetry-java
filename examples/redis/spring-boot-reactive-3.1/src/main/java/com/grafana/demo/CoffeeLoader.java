@@ -6,12 +6,11 @@
 package com.grafana.demo;
 
 import jakarta.annotation.PostConstruct;
+import java.util.UUID;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
-
-import java.util.UUID;
 
 @Component
 public class CoffeeLoader {
