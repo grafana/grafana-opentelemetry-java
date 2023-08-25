@@ -17,6 +17,9 @@ dependencies {
 }
 
 tasks.test {
+  onlyIf {
+    System.getenv("SMOKE_TEST_JAVA_VERSION") != null
+  }
   useJUnitPlatform()
 
   testLogging.showStandardStreams = true
