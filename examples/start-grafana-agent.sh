@@ -11,5 +11,3 @@ case "$OSTYPE" in
     echo "only works for Linux currently - please start grafana-agent-flow manually"
     ;;
 esac
-
-

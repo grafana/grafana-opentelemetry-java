@@ -1,4 +1,4 @@
-# Overview 
+# Overview
 
 The Demo application is a Spring Boot application to test various instrumentation libraries.
 
@@ -18,12 +18,12 @@ Everything else is mentioned below.
 use https://asdf-vm.com/ to switch jdk versions - or just look at `.tool-versions` and select the JDK manually
 
 ## Grafana Agent
-                          
+
 - Go to Grafana Home page
 - Click on "Connect data"
 - search for "OpenTelemetry (OTLP)"
 - follow the instructions there
-                                                        
+
 ## OpenTelemetry Collector
 
 (currently not recommended)
@@ -42,14 +42,14 @@ the latest Prometheus naming conventions (which we're not using at the moment)
 
 ## Demo Application
 
-- check that you have Java 17 or higher 
+- check that you have Java 17 or higher
 - `../../gradlew bootRun`
-- In another shell: `curl http://localhost:8080/cart` 
+- In another shell: `curl http://localhost:8080/cart`
 
 # Architecture
 
 The Demo application is a single Spring Boot application that calls itself using HTTP.
-                                        
+
 ```
 ┌──────────────────────────┐
 │                          │       ┌───────────────────┐
@@ -88,4 +88,3 @@ The Demo application is a single Spring Boot application that calls itself using
                                   │  the time                  │
                                   └────────────────────────────┘
 ```
-

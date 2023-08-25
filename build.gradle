@@ -58,6 +58,24 @@ subprojects {
       licenseHeaderFile(rootProject.file("buildscripts/spotless.license.java"), "(package|import|public)")
       target("src/**/*.java")
     }
+
+    format 'misc', {
+      // not using "**/..." to help keep spotless fast
+      target(
+        ".gitignore",
+        ".gitattributes",
+        ".gitconfig",
+        ".editorconfig",
+        "*.md",
+        "src/**/*.md",
+        "docs/**/*.md",
+        "*.sh",
+        "src/**/*.properties",
+      )
+      indentWithSpaces()
+      trimTrailingWhitespace()
+      endWithNewline()
+    }
   }
 
   dependencies {
