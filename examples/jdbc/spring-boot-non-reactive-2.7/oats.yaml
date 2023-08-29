@@ -1,0 +1,4 @@
+expected:
+  metrics:
+    - promql: 'db_client_connections_max{pool_name="HikariPool-1"}'
+      value: "== 10"
