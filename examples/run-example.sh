@@ -4,6 +4,11 @@ scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 while [[ $# -gt 0 ]]; do
   case $1 in
+    --enableAllModules)
+      echo "enabling all modules"
+      enableAllModules=true
+      shift
+      ;;
     -a|--attachDebugger)
       echo "attaching debugger on port 5000"
       attachDebugger=true
@@ -39,7 +44,7 @@ if [[ ! -f "$agentPath" ]]; then
 fi
 
 jvm_args=$(cat <<-END
--javaagent:$agentPath -Dotel.resource.attributes=deployment.environment=production,service.namespace=shop,service.version=1.1
+-javaagent:$agentPath -Dotel.resource.attributes=deployment.environment=production,service.namespace=shop,service.version=1.1 -Dotel.metric.export.interval=10000
 END
 )
 
@@ -50,11 +55,12 @@ if [[ $attachDebugger == "true" ]]; then
   fi
   jvm_args="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=$address $jvm_args"
 fi
-
+if [[ $enableAllModules == "true" ]]; then
+  jvm_args="$jvm_args -Dotel.instrumentation.common.default-enabled=true -Dgrafana.otel.instrumentation.enable-unsupported-modules=true"
+fi
 if [[ $debugModules == "true" ]]; then
   jvm_args="$jvm_args -Dotel.javaagent.debug=true"
 fi
-
 if [[ $debugLogging == "true" ]]; then
   jvm_args="$jvm_args -Dotel.logs.exporter=otlp,logging -Dotel.metrics.exporter=otlp,logging -Dotel.traces.exporter=otlp,logging"
 fi
