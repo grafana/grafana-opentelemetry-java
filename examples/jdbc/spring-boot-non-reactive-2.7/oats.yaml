@@ -1,12 +1,1 @@
-docker-compose:
-  generator: java
-input:
-  - url: http://localhost:8080/stock
-expected:
-  dashboards:
-    - path: ../jdbc-dashboard.json
-      panels:
-        - title: Connection pool waiting requests
-          value: "== 0"
-        - title: Connection pool utilization
-          value: "> 0"
+../oats-non-reactive.yaml

@@ -37,6 +37,8 @@ If a test case fails (lets say "examples/jdbc/spring-boot-reactive-2.7"), follow
 2. install ginkgo: `go install github.com/onsi/ginkgo/ginkgo`
 3. `export TESTCASE_TIMEOUT=2h && export TESTCASE_BASE_PATH=/path/to/this/repo/examples && ginkgo -v -r -focus 'jdbc-spring-boot-reactive-2'`
 4. go to http://localhost:3000 and login with admin/admin
+                                                                                                                                            
+Use `-focus 'yaml'` to run all acceptance tests.
 
 ## Known Issues
 
