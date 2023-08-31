@@ -1,8 +1,1 @@
-docker-compose:
-  generator: java
-input:
-  - url: http://localhost:8080/stock
-expected:
-  metrics:
-    - promql: mongodb_driver_pool_size{}
-      value: '> 0'
+../oats-template.yaml
