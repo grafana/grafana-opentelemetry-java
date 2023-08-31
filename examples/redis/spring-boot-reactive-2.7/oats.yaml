@@ -1,0 +1,13 @@
+docker-compose:
+  generator: java
+  file: ../docker-compose.yaml
+  java-generator-params:
+    otel-jmx-config: ../otel-jmx-config.yaml
+input:
+  - url: http://localhost:8080/stock
+expected:
+  metrics:
+    # connection pool usage ratio
+    - promql: 'sum by (instance, pool_name) (db_client_connections_usage{state="used", job=~"$job", instance=~"$instance"}) / on (instance, pool_name) 
+    sum by (instance, pool_name) (db_client_connections_max{job=~"$job", instance=~"$instance"})'
+      value: '> 0'
