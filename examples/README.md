@@ -283,4 +283,5 @@ OpenTelemetry metrics as described [here](https://github.com/open-telemetry/open
 
 #### JMS
 
-not available
+- ActiveMQ: not available
+- RabbitMQ: should be available in micrometer - not tested

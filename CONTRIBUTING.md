@@ -26,7 +26,21 @@ by adding the following command line arguments:
 ./run.sh --attachDebugger --debugLogging --debugModules --enableAllModules
 ```
 
+## Acceptance Tests
+                          
+Acceptance test cases are defined in `oats.yaml` files in the examples directory.
+The test cases are run by [oats]. The declarative yaml tests are described in https://github.com/grafana/oats/blob/main/yaml.
+
+If a test case fails (lets say "examples/jdbc/spring-boot-reactive-2.7"), follows these steps:
+
+1. Check out [oats] repo
+2. install ginkgo: `go install github.com/onsi/ginkgo/ginkgo`
+3. `export TESTCASE_TIMEOUT=2h && export TESTCASE_BASE_PATH=/path/to/this/repo/examples && ginkgo -v -r -focus 'jdbc-spring-boot-reactive-2'`
+4. go to http://localhost:3000 and login with admin/admin
+
 ## Known Issues
 
 The tests occasionally fail due to TestContainers not starting in time.  Please rerun the build for now, until
 a new wait strategy can be determined.
+
+[oats]: https://github.com/grafana/oats
