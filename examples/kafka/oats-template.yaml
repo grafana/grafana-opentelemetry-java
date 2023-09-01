@@ -6,6 +6,13 @@ docker-compose:
 input:
   - url: http://localhost:8080/stock
 expected:
+  traces:
+    - traceql: '{ name = "kafkaTopic publish"}'
+      spans:
+        - name: 'kafkaTopic publish'
+          attributes:
+            messaging.system: kafka
   metrics:
+    # this isn't better than using the error rate of the client spans - but maybe this is exactly enough
     - promql: 'sum(rate(kafka_producer_record_error_total[5m]))'
       value: "== 0"

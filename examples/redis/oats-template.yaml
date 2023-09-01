@@ -6,6 +6,12 @@ docker-compose:
 input:
   - url: http://localhost:8080/stock
 expected:
+  traces:
+    - traceql: '{ name = "SADD" }'
+      spans:
+        - name: SADD
+          attributes:
+            db.system: redis
   metrics:
     # connection pool usage ratio
     - promql: 'sum by (instance, pool_name) (db_client_connections_usage{state="used", job=~"$job", instance=~"$instance"}) / on (instance, pool_name) 

@@ -1,5 +1,6 @@
 docker-compose:
   generator: java
+  file: ../docker-compose.yaml
 input:
   - url: http://localhost:8080/stock
 expected:
