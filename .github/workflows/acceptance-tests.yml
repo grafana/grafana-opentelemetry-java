@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/checkout@v3
         with:
-          repository: github.com:grafana/oats.git
+          repository: grafana/oats
           path: oats
       - name: Set up JDK
         uses: actions/setup-java@v3
