@@ -13,6 +13,7 @@ jobs:
         with:
           repository: grafana/oats
           token: ${{ secrets.GH_PAT }}
+          ref: main
           path: oats
       - name: Set up JDK
         uses: actions/setup-java@v3
