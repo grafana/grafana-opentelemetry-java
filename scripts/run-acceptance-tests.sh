@@ -2,8 +2,6 @@
 
 set -euo pipefail
 
-git clone git@github.com:grafana/oats.git
-
 cd oats
 go install github.com/onsi/ginkgo/v2/ginkgo
 export TESTCASE_SKIP_BUILD=true

@@ -3,10 +3,14 @@ name: Acceptance Tests
 on: [ push ] # todo change to run daily or only when the PR has a certain label
 
 jobs:
-  build:
+  acceptance-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          repository: github.com:grafana/oats.git
+          path: oats
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
