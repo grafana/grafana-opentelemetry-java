@@ -219,7 +219,7 @@ Name: `jms_destination publish`
 
 ### Logging
 
-- using the Grafana Logs pattern `{job="demo-app"} | json | line_format "{{.severity}} [{{.resources_service_instance_id}}/{{.attributes_thread_name}}] -- {{trunc -40 .instrumentation_scope_name}} -- {{.body}}"` is a reasonable default
+- using the [Java Log pattern](https://grafana.com/docs/opentelemetry/visualization/loki-data/#common-framework-formats) is a reasonable default
 
 `2023-06-08 10:51:31.021
 INFO [nevla/main] -- com.grafana.demo.DemoApplication -- Started DemoApplication in 1.161 seconds (process running for 1.526)`
