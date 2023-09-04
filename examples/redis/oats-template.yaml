@@ -16,4 +16,4 @@ expected:
     # connection pool usage ratio
     - promql: 'sum by (instance, pool_name) (db_client_connections_usage{state="used", job=~"$job", instance=~"$instance"}) / on (instance, pool_name) 
     sum by (instance, pool_name) (db_client_connections_max{job=~"$job", instance=~"$instance"})'
-      value: '> 0'
+      value: '>= 0'

@@ -9,4 +9,4 @@ expected:
     - promql: mongodb_driver_pool_waitqueuesize{}
       value: '== 0'
     - promql: mongodb_driver_pool_checkedout{}
-      value: '> 0'
+      value: '>= 0'

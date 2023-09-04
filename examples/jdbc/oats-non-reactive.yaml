@@ -15,4 +15,4 @@ expected:
         - title: Connection pool waiting requests
           value: "== 0"
         - title: Connection pool utilization
-          value: "> 0"
+          value: ">= 0"

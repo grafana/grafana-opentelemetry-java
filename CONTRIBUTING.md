@@ -27,7 +27,7 @@ by adding the following command line arguments:
 ```
 
 ## Acceptance Tests
-                          
+
 Acceptance test cases are defined in `oats.yaml` files in the examples directory.
 The test cases are run by [oats]. The declarative yaml tests are described in https://github.com/grafana/oats/blob/main/yaml.
                                                                                  
@@ -41,6 +41,13 @@ If a test case fails (lets say "examples/jdbc/spring-boot-reactive-2.7"), follow
 4. go to http://localhost:3000 and login with admin/admin
                                                                                                                                             
 Use `-focus 'yaml'` to run all acceptance tests.
+           
+## Debugging GitHub Actions
+
+GitHub Actions for Acceptance test store the output log files - which can be found in the artifacts section of the
+GitHub Actions run.
+
+![](./docs/oats-logs.png)
 
 ## Known Issues
 

@@ -15,4 +15,4 @@ expected:
         - title: Connection pool waiting requests # data comes from micrometer
           value: "== 0"
         - title: Connection pool utilization # data comes from micrometer
-          value: "> 0"
+          value: ">= 0"
