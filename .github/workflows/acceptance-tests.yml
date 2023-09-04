@@ -1,4 +1,4 @@
-name: Build
+name: Acceptance Tests
 
 on: [ push ] # todo change to run daily or only when the PR has a certain label
 
