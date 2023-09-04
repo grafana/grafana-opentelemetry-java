@@ -13,7 +13,7 @@ jobs:
         with:
           repository: grafana/oats
           token: ${{ secrets.GH_PAT }}
-          ref: main
+          ref: java # todo change back to main once it works
           path: oats
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -33,3 +33,9 @@ jobs:
           arguments: build
       - name: Run acceptance tests
         run: ./scripts/run-acceptance-tests.sh
+      - name: upload log file
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: docker-compose.log
+          path: oats/yaml/build/**/output.log
