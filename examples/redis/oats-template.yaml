@@ -7,9 +7,9 @@ input:
   - url: http://localhost:8080/stock
 expected:
   traces:
-    - traceql: '{ name = "SADD" }'
+    - traceql: '{ name = "KEYS" }'
       spans:
-        - name: SADD
+        - name: KEYS
           attributes:
             db.system: redis
   metrics:

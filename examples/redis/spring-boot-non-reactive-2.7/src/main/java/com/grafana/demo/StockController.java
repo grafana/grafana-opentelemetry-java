@@ -16,7 +16,6 @@ public class StockController {
 
   @GetMapping("/stock")
   public String getStock() {
-    jedis.sadd("planets", "Venus");
-    return "Stock sent";
+    return String.join("", jedis.keys("hel?lo"));
   }
 }
