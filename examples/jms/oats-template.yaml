@@ -7,7 +7,7 @@ input:
   - url: http://localhost:8080/stock
 expected:
   traces:
-    - traceql: '{ name = "jms_destination send"}'
+    - traceql: '{ name = "jms_destination publish"}'
       spans:
         - name: 'jms_destination publish'
           attributes:
