@@ -47,6 +47,10 @@ Use `-focus 'yaml'` to run all acceptance tests.
 GitHub Actions for Acceptance test store the output log files - which can be found in the artifacts section of the
 GitHub Actions run.
 
+- If you need more files, you can change the `path` for `actions/upload-artifact@v3` in acceptance-tests.yml.
+- If you want to run a single test only, you can change the ginkgo command in run-acceptance-tests.sh to 
+  e.g. `ginkgo -v -r -focus 'redis-spring-boot-reactive-2'`.
+
 ![](./docs/oats-logs.png)
 
 ## Known Issues
