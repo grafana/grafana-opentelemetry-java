@@ -9,7 +9,6 @@ x-default-logging: &logging
 services:
   kafka:
     image: grafana-otel-java:0.1-kafka
-    container_name: kafka
     build:
       context: ./
       dockerfile: ./kafka/Dockerfile

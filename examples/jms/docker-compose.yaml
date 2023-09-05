@@ -3,7 +3,6 @@ version: '3.9'
 services:
   activemq:
     image: rmohr/activemq:5.15.9
-    container_name: activemq
     environment:
       - "TZ=Europe/Amsterdam"
     volumes:
