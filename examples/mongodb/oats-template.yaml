@@ -1,0 +1,12 @@
+docker-compose:
+  generator: java
+  file: ../docker-compose.yaml
+input:
+  - url: http://localhost:8080/stock
+expected:
+  metrics:
+    # https://github.com/micrometer-metrics/micrometer/blob/main/micrometer-core/src/main/java/io/micrometer/core/instrument/binder/mongodb/MongoMetricsConnectionPoolListener.java
+    - promql: mongodb_driver_pool_waitqueuesize{}
+      value: '== 0'
+    - promql: mongodb_driver_pool_checkedout{}
+      value: '>= 0'

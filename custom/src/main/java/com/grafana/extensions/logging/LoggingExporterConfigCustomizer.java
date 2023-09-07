@@ -5,6 +5,9 @@
 
 package com.grafana.extensions.logging;
 
+import static com.grafana.extensions.logging.GrafanaLoggingConfig.LOGGING_ENABLED_PROP;
+
+import com.grafana.extensions.util.StringUtils;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
 import java.util.ArrayList;
@@ -31,7 +34,15 @@ public final class LoggingExporterConfigCustomizer {
 
   static Map<String, String> customizeProperties(
       ConfigProperties configs, ConfigProperties userConfigs) {
-    GrafanaLoggingConfig logConfigs = new GrafanaLoggingConfig(configs);
+    String loggingEnabled = configs.getString(LOGGING_ENABLED_PROP, "");
+    List<String> enabled =
+        StringUtils.isNotBlank(loggingEnabled)
+            ? Arrays.asList(loggingEnabled.split(","))
+            : new ArrayList<>();
+
+    GrafanaLoggingConfig logConfigs =
+        new GrafanaLoggingConfig(
+            configs.getBoolean(GrafanaLoggingConfig.DEBUG_LOGGING_PROP, false), enabled);
     Map<String, String> advice = getAdviceExporters(logConfigs);
     Map<String, String> overrides = new HashMap<>();
     for (String signal : SIGNAL_TYPES) {

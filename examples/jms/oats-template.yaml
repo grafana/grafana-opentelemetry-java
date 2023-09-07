@@ -1,0 +1,19 @@
+docker-compose:
+  generator: java
+  file: ../docker-compose.yaml
+  resources:
+    - activemq.xml
+input:
+  - url: http://localhost:8080/stock
+expected:
+  traces:
+    - traceql: '{ name = "jms_destination publish"}'
+      spans:
+        - name: 'jms_destination publish'
+          attributes:
+            messaging.system: jms
+  metrics:
+    # there are no metrics for activemq clients, not even in JMX or micrometer
+    # RabbitMQ has micrometer metrics, but this hasn't been tested yet
+    - promql: http_server_request_duration_count{}
+      value: '> 0'

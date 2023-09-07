@@ -1,0 +1,41 @@
+name: Acceptance Tests
+
+on: [ push ] # todo change to run daily or only when the PR has a certain label
+
+jobs:
+  acceptance-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+      - name: Check out oats
+        uses: actions/checkout@v3
+        with:
+          repository: grafana/oats
+          token: ${{ secrets.GH_PAT }} # todo remove token once repo is public
+          ref: ac09cdfa0686f2a41ad421baa5e9261d6fcc926a
+          path: oats
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+          cache-dependency-path: oats/go.sum
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1.0.5
+      - name: Setup Gradle and run build
+        uses: gradle/gradle-build-action@v2.4.2
+        with:
+          arguments: build
+      - name: Run acceptance tests
+        run: ./scripts/run-acceptance-tests.sh
+      - name: upload log file
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: docker-compose.log
+          path: oats/yaml/build/**/output.log

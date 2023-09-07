@@ -25,7 +25,11 @@ public final class GrafanaCloudConfigCustomizer {
       return new HashMap<>();
     }
 
-    GrafanaCloudConfig cloudConfigs = new GrafanaCloudConfig(configs);
+    GrafanaCloudConfig cloudConfigs =
+        new GrafanaCloudConfig(
+            configs.getString(GrafanaCloudConfig.CLOUD_API_KEY_PROP, ""),
+            configs.getInt(GrafanaCloudConfig.CLOUD_INSTANCE_ID_PROP, 0),
+            configs.getString(GrafanaCloudConfig.CLOUD_ZONE_PROP, ""));
     return getOtlpCloudConfigs(cloudConfigs);
   }
 

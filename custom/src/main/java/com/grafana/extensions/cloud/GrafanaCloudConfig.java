@@ -5,17 +5,15 @@
 
 package com.grafana.extensions.cloud;
 
-import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
-
 public class GrafanaCloudConfig {
   public static final String CLOUD_API_KEY_PROP = "grafana.otlp.cloud.api.key";
   public static final String CLOUD_INSTANCE_ID_PROP = "grafana.otlp.cloud.instance.id";
   public static final String CLOUD_ZONE_PROP = "grafana.otlp.cloud.zone";
 
-  public GrafanaCloudConfig(ConfigProperties configs) {
-    this.apiKey = configs.getString(CLOUD_API_KEY_PROP, "");
-    this.instanceId = configs.getInt(CLOUD_INSTANCE_ID_PROP, 0);
-    this.zone = configs.getString(CLOUD_ZONE_PROP, "");
+  public GrafanaCloudConfig(String apiKey, int instanceId, String zone) {
+    this.apiKey = apiKey;
+    this.instanceId = instanceId;
+    this.zone = zone;
   }
 
   private final int instanceId;
