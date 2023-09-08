@@ -7,6 +7,7 @@ on:
 
 jobs:
   acceptance-tests:
+    # see https://stackoverflow.com/questions/62325286/run-github-actions-when-pull-requests-have-a-specific-label
     if: contains(github.event.pull_request.labels.*.name, 'oats')
     runs-on: ubuntu-latest
     steps:
@@ -17,7 +18,7 @@ jobs:
         with:
           repository: grafana/oats
           token: ${{ secrets.GH_PAT }} # todo remove token once repo is public
-          ref: 8a71ebb43ff2b0177e50a44ca8b665f5fc85e8cf
+          ref: bb2591f964a1cec5d88074805d58dae8a8569eb4 # todo update once merged to main
           path: oats
       - name: Set up JDK
         uses: actions/setup-java@v3
