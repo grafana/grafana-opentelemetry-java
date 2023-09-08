@@ -1,6 +1,9 @@
 name: Acceptance Tests
 
-on: [ push ] # todo change to run daily or only when the PR has a certain label
+on:
+  label:
+    types:
+      - created
 
 jobs:
   acceptance-tests:
