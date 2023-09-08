@@ -1,0 +1,3 @@
+spring:
+  activemq:
+    broker-url: tcp://activemq:61616
