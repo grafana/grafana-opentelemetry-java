@@ -12,7 +12,7 @@ import redis.clients.jedis.JedisPooled;
 @RestController
 public class StockController {
 
-  private final JedisPooled jedis = new JedisPooled("localhost", 6379);
+  private final JedisPooled jedis = new JedisPooled("redis", 6379);
 
   @GetMapping("/stock")
   public String getStock() {
