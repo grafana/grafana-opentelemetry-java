@@ -1,6 +1,21 @@
 version: 2
 updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: weekly
   - package-ecosystem: gradle
     directory: "/"
     schedule:
       interval: daily
+  - package-ecosystem: gradle
+    directory: "examples"
+    schedule:
+      interval: daily
+    ignore:
+      - dependency-name: "org.springframework.boot"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "io.spring.dependency-management"
+        update-types: ["version-update:semver-minor"]
+      - dependency-name: "redis.clients:jedis"
+        update-types: ["version-update:semver-major"]
