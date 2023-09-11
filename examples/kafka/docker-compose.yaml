@@ -33,5 +33,5 @@ services:
       timeout: 10s
       retries: 10
     logging: *logging
-    ports:
-      - "9092:9092"
+#    ports:
+#      - "9092:9092"

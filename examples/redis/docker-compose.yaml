@@ -15,6 +15,6 @@ services:
         limits:
           memory: 20M
     restart: unless-stopped
-    ports:
-      - "6379:6379"
+#    ports:
+#      - "6379:6379"
     logging: *logging
