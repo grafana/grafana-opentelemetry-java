@@ -12,6 +12,10 @@ updates:
     directory: "examples"
     schedule:
       interval: daily
+# We would like to trigger oats tests for dependency updates, but this doesn't work as long as oats is a private repo
+# see https://github.com/dependabot/dependabot-core/issues/3253#issuecomment-852541544
+#    labels:
+#      - oats
     ignore:
       - dependency-name: "org.springframework.boot"
         update-types: ["version-update:semver-major"]
