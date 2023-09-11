@@ -1,1 +1,2 @@
-../oats-template.yaml
+include:
+  - ../oats-template.yaml

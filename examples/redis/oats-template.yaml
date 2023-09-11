@@ -4,7 +4,7 @@ docker-compose:
   java-generator-params:
     otel-jmx-config: ../otel-jmx-config.yaml
 input:
-  - url: http://localhost:8080/stock
+  - path: /stock
 expected:
   traces:
     - traceql: '{ name = "KEYS" }'

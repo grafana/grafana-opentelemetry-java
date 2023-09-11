@@ -36,9 +36,11 @@ The test cases are run by [oats]. The declarative yaml tests are described in ht
 If a test case fails (lets say "examples/jdbc/spring-boot-reactive-2.7"), follows these steps:
 
 1. Check out [oats] repo
-2. install ginkgo: `go install github.com/onsi/ginkgo/ginkgo`
-3. `export TESTCASE_TIMEOUT=2h && export TESTCASE_BASE_PATH=/path/to/this/repo/examples && ginkgo -v -r -focus 'jdbc-spring-boot-reactive-2'`
-4. go to http://localhost:3000 and login with admin/admin
+2. Go to the oats folder
+3. `cd yaml`
+4. install ginkgo: `go install github.com/onsi/ginkgo/v2/ginkgo`
+5. `export TESTCASE_TIMEOUT=2h && export TESTCASE_BASE_PATH=/path/to/this/repo/examples && ginkgo -v -r -focus 'jdbc-spring-boot-reactive-2'`
+6. go to http://localhost:3000 and login with admin/admin
                                                                                                                                             
 Use `-focus 'yaml'` to run all acceptance tests.
            

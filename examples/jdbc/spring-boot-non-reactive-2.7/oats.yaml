@@ -1,1 +1,2 @@
-../oats-non-reactive.yaml
+include:
+  - ../oats-non-reactive.yaml

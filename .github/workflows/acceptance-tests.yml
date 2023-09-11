@@ -1,9 +1,14 @@
 name: Acceptance Tests
 
-on: [ push ] # todo change to run daily or only when the PR has a certain label
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   acceptance-tests:
+    # see https://stackoverflow.com/questions/62325286/run-github-actions-when-pull-requests-have-a-specific-label
+    if: contains(github.event.pull_request.labels.*.name, 'oats')
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -13,7 +18,7 @@ jobs:
         with:
           repository: grafana/oats
           token: ${{ secrets.GH_PAT }} # todo remove token once repo is public
-          ref: ac09cdfa0686f2a41ad421baa5e9261d6fcc926a
+          ref: 354a7ea0df2312760680269e626b13dc470e49c9 # todo update once merged to main
           path: oats
       - name: Set up JDK
         uses: actions/setup-java@v3

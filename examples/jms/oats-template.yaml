@@ -4,7 +4,7 @@ docker-compose:
   resources:
     - activemq.xml
 input:
-  - url: http://localhost:8080/stock
+  - path: /stock
 expected:
   traces:
     - traceql: '{ name = "jms_destination publish"}'

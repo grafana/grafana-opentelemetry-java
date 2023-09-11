@@ -7,7 +7,7 @@ services:
       - "TZ=Europe/Amsterdam"
     volumes:
       - "./activemq.xml:/conf/activemq.xml"
-    ports:
-      - "61616:61616" # broker (admin:adminactivemq)(amq:amq)
-      - "8161:8161"   # web    http://boot2docker:8161/admin (admin:admin)
+#    ports:
+#      - "61616:61616" # broker (admin:adminactivemq)(amq:amq)
+#      - "8161:8161"   # web    http://boot2docker:8161/admin (admin:admin)
 

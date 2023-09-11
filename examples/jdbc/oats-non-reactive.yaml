@@ -1,7 +1,7 @@
 docker-compose:
   generator: java
 input:
-  - url: http://localhost:8080/stock
+  - path: /stock
 expected:
   traces:
     - traceql: '{ name =~ "SELECT .*product"}'
