@@ -9,7 +9,7 @@ import static com.grafana.extensions.logging.GrafanaLoggingConfig.DEBUG_LOGGING_
 import static com.grafana.extensions.logging.GrafanaLoggingConfig.LOGGING_ENABLED_PROP;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.grafana.extensions.modules.EnabledInstrumentationModulesCustomizer;
+import com.grafana.extensions.modules.TestedModulesCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -39,7 +39,7 @@ public class LoggingExporterConfigCustomizerTest {
             LoggingExporterConfigCustomizer.customizeProperties(
                 configProperties, DefaultConfigProperties.createForTest(testCase.userConfigs)));
 
-    assertThat(EnabledInstrumentationModulesCustomizer.getAllProperties(configProperties))
+    assertThat(TestedModulesCustomizer.getAllProperties(configProperties))
         .containsAllEntriesOf(testCase.want);
   }
 

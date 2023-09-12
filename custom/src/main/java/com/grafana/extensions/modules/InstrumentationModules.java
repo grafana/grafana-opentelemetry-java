@@ -12,7 +12,7 @@ import java.util.List;
 
 public class InstrumentationModules {
 
-  public static final List<String> SUPPORTED_MODULES =
+  public static final List<String> TESTED_MODULES =
       Arrays.asList(
           "opentelemetry-extension-annotations",
           "opentelemetry-api",

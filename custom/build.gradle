@@ -54,7 +54,7 @@ public class DistributionVersion {
   }
 }
 
-task manageSupportedInstrumentationModulesClass() {
+task manageTestedInstrumentationModulesClass() {
   doLast {
     def modules = new File("${projectDir}/../README.md").text.split("\n")
       .dropWhile { !it.startsWith("| ID") }
@@ -77,7 +77,7 @@ import java.util.List;
 
 public class InstrumentationModules {
 
-  public static final List<String> SUPPORTED_MODULES =
+  public static final List<String> TESTED_MODULES =
       Arrays.asList(
 $modules);
 }
@@ -85,5 +85,5 @@ $modules);
   }
 }
 
-compileJava.dependsOn(manageVersionClass, manageSupportedInstrumentationModulesClass)
+compileJava.dependsOn(manageVersionClass, manageTestedInstrumentationModulesClass)
 

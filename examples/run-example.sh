@@ -4,9 +4,9 @@ scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 while [[ $# -gt 0 ]]; do
   case $1 in
-    --enableAllModules)
-      echo "enabling all modules"
-      enableAllModules=true
+    --includeAllModules)
+      echo "including all modules"
+      includeAllModules=true
       shift
       ;;
     -a|--attachDebugger)
@@ -55,8 +55,8 @@ if [[ $attachDebugger == "true" ]]; then
   fi
   jvm_args="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=$address $jvm_args"
 fi
-if [[ $enableAllModules == "true" ]]; then
-  jvm_args="$jvm_args -Dotel.instrumentation.common.default-enabled=true -Dgrafana.otel.instrumentation.enable-unsupported-modules=true"
+if [[ $includeAllModules != "true" ]]; then
+  jvm_args="$jvm_args -Dgrafana.otel.instrumentation.exclude-untested-modules=true"
 fi
 if [[ $debugModules == "true" ]]; then
   jvm_args="$jvm_args -Dotel.javaagent.debug=true"

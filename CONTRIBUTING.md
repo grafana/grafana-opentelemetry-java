@@ -23,7 +23,7 @@ If one of the test applications in the "examples" directory fails to produce the
 by adding the following command line arguments:
 
 ```sh
-./run.sh --attachDebugger --debugLogging --debugModules --enableAllModules
+./run.sh --attachDebugger --debugLogging --debugModules --includeAllModules
 ```
 
 ## Acceptance Tests

@@ -5,17 +5,18 @@
 
 package com.grafana.extensions.smoketest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
-import java.io.IOException;
-import java.util.Collection;
 import okhttp3.Request;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
-/** We use Play as an example of library that is not supported by Grafana Labs currently. */
-public class EnabledInstrumentationModulesSmokeTest extends SmokeTest {
+import java.io.IOException;
+import java.util.Collection;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+/** We use Play as an example of library that is not tested by Grafana Labs currently. */
+public class TestedModulesSmokeTest extends SmokeTest {
 
   @Override
   protected String getTargetImage(int jdk) {
@@ -30,16 +31,15 @@ public class EnabledInstrumentationModulesSmokeTest extends SmokeTest {
   }
 
   @Test
-  public void unsupportedInstrumentationsAreDisabled() throws IOException, InterruptedException {
-    startTarget();
+  public void untestedInstrumentationsAreExcluded() throws IOException, InterruptedException {
+    startTarget("-Dgrafana.otel.instrumentation.exclude-untested-modules=true");
 
     testAndVerify(0);
   }
 
   @Test
-  public void enableAllInstrumentations() throws IOException, InterruptedException {
-    startTarget(
-        "-Dotel.instrumentation.common.default-enabled=true -Dgrafana.otel.instrumentation.enable-unsupported-modules=true");
+  public void includeAllInstrumentations() throws IOException, InterruptedException {
+    startTarget();
 
     testAndVerify(1);
   }

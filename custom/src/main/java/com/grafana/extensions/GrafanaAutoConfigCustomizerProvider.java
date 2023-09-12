@@ -7,7 +7,7 @@ package com.grafana.extensions;
 
 import com.grafana.extensions.cloud.GrafanaCloudConfigCustomizer;
 import com.grafana.extensions.logging.LoggingExporterConfigCustomizer;
-import com.grafana.extensions.modules.EnabledInstrumentationModulesCustomizer;
+import com.grafana.extensions.modules.TestedModulesCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizerProvider;
 import java.util.HashMap;
@@ -19,8 +19,8 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
   public void customize(AutoConfigurationCustomizer autoConfiguration) {
     autoConfiguration
         .addPropertiesSupplier(GrafanaAutoConfigCustomizerProvider::getDefaultProperties)
-        .addPropertiesSupplier(EnabledInstrumentationModulesCustomizer::getDefaultProperties)
-        .addPropertiesCustomizer(EnabledInstrumentationModulesCustomizer::customizeProperties)
+        .addPropertiesSupplier(TestedModulesCustomizer::getDefaultProperties)
+        .addPropertiesCustomizer(TestedModulesCustomizer::customizeProperties)
         .addPropertiesCustomizer(LoggingExporterConfigCustomizer::customizeProperties)
         .addPropertiesCustomizer(GrafanaCloudConfigCustomizer::customizeProperties);
   }

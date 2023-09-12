@@ -15,7 +15,7 @@ Grafana OSS stack - but all configuration options of the [OpenTelemetry Javaagen
 
 - Java 8+
 - We regularly update to the latest version of the [OpenTelemetry Javaagent] - you can find the current version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
-- [Supported Libraries](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
+- [Tested Libraries](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/tested-libraries.md#libraries--frameworks)
 
 ## Getting Started
                                     
@@ -142,9 +142,9 @@ The following would only enable logging for metrics data.
 export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics"
 ```
 
-### Supported Libraries
+### Tested Libraries
 
-This is a dummy text here, just to test that the list of supported libraries can be parsed from this file at build time.
+This is a dummy text here, just to test that the list of tested libraries can be parsed from this file at build time.
                     
 Instrumentation Modules
                                                                                                               
