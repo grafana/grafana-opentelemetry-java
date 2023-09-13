@@ -25,8 +25,19 @@ by adding the following command line arguments:
 ```sh
 ./run.sh --attachDebugger --debugLogging --debugInstrumentations --includeAllInstrumentations
 ```
+        
+## Smoke Tests
+
+Smoke tests test the entire javaagent distribution, including the custom extension.
+To run the smoke tests, run the following command:
+
+```sh
+export SMOKE_TEST_JAVA_VERSION=8 && ./gradlew :smoke-tests:test
+```
 
 ## Acceptance Tests
+
+Unlike smoke tests, acceptance tests are only run if the pull request has the "oats" label.
 
 Acceptance test cases are defined in `oats.yaml` files in the examples directory.
 The test cases are run by [oats]. The declarative yaml tests are described in https://github.com/grafana/oats/blob/main/yaml.

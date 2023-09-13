@@ -5,19 +5,18 @@
 
 package com.grafana.extensions.instrumentations;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Named.named;
+
 import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.github.netmikey.logunit.api.LogCapturer;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
+import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.Map;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Named.named;
 
 class TestedInstrumentationsCustomizerTest {
 
