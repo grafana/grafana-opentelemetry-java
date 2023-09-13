@@ -81,7 +81,7 @@ do
 done
 
 # This is normally unused
-# shellcheck exclude=SC2034
+# shellcheck disable=SC2034
 APP_BASE_NAME=${0##*/}
 APP_HOME=$( cd "${APP_HOME:-./}" && pwd -P ) || exit
 
@@ -144,7 +144,7 @@ if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
     case $MAX_FD in #(
       max*)
         # In POSIX sh, ulimit -H is undefined. That's why the result is checked to see if it worked.
-        # shellcheck exclude=SC3045
+        # shellcheck disable=SC3045
         MAX_FD=$( ulimit -H -n ) ||
             warn "Could not query maximum file descriptor limit"
     esac
@@ -152,7 +152,7 @@ if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
       '' | soft) :;; #(
       *)
         # In POSIX sh, ulimit -n is undefined. That's why the result is checked to see if it worked.
-        # shellcheck exclude=SC3045
+        # shellcheck disable=SC3045
         ulimit -n "$MAX_FD" ||
             warn "Could not set maximum file descriptor limit to $MAX_FD"
     esac
