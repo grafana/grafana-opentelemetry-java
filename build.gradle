@@ -11,7 +11,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.diffplug.spotless:spotless-plugin-gradle:6.20.0"
+    classpath "com.diffplug.spotless:spotless-plugin-gradle:6.21.0"
     classpath "gradle.plugin.com.github.johnrengelman:shadow:8.0.0"
     classpath "io.opentelemetry.instrumentation:gradle-plugins:${otelVersion}-alpha"
   }
@@ -32,7 +32,7 @@ subprojects {
       opentelemetryJavaagent     : otelVersion,
       opentelemetryJavaagentAlpha: "${otelVersion}-alpha",
 
-      bytebuddy                  : "1.14.6",
+      bytebuddy                  : "1.14.7",
       autoservice                : "1.1.1",
       junit                      : "5.10.0",
       logUnit                    : "2.0.0",
