@@ -56,7 +56,7 @@ if [[ $attachDebugger == "true" ]]; then
   jvm_args="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=$address $jvm_args"
 fi
 if [[ $includeAllInstrumentations != "true" ]]; then
-  jvm_args="$jvm_args -Dgrafana.otel.instrumentation.use-tested-instrumentations=true"
+  jvm_args="$jvm_args -Dgrafana.otel.use-tested-instrumentations=true"
 fi
 if [[ $debugInstrumentations == "true" ]]; then
   jvm_args="$jvm_args -Dotel.javaagent.debug=true"

@@ -70,7 +70,7 @@ class TestedInstrumentationsCustomizerTest {
             named(
                 "use tested instrumentations - exactly those",
                 new TestCase(
-                    Map.of("grafana.otel.instrumentation.use-tested-instrumentations", "true"),
+                    Map.of("grafana.otel.use-tested-instrumentations", "true"),
                     Map.of(
                         "otel.instrumentation.common.default.enabled", "false",
                         "otel.instrumentation.spring.data.enabled", "true",
@@ -82,7 +82,7 @@ class TestedInstrumentationsCustomizerTest {
                 "exclude an instrumentation is not allowed",
                 new TestCase(
                     Map.of(
-                        "grafana.otel.instrumentation.use-tested-instrumentations",
+                        "grafana.otel.use-tested-instrumentations",
                         "true",
                         "otel.instrumentation.spring.data.enabled",
                         "false"),
@@ -92,16 +92,16 @@ class TestedInstrumentationsCustomizerTest {
                         "otel.instrumentation.jms.enabled", "true"),
                     testedVersion,
                     "Including instrumentation spring.data again (remove "
-                        + "grafana.otel.instrumentation.use-tested-instrumentations=true to remove this restriction)"))),
+                        + "grafana.otel.use-tested-instrumentations=true to remove this restriction)"))),
         Arguments.of(
             named(
                 "instrumentation play included - excluded again, because "
-                    + "grafana.otel.instrumentation.use-tested-instrumentations was found",
+                    + "grafana.otel.use-tested-instrumentations was found",
                 new TestCase(
                     Map.of(
                         "otel.instrumentation.play.enabled",
                         "true",
-                        "grafana.otel.instrumentation.use-tested-instrumentations",
+                        "grafana.otel.use-tested-instrumentations",
                         "true"),
                     Map.of(
                         "otel.instrumentation.common.default.enabled",
@@ -114,16 +114,16 @@ class TestedInstrumentationsCustomizerTest {
                         "false"),
                     testedVersion,
                     "Excluding untested instrumentation play (remove "
-                        + "grafana.otel.instrumentation.use-tested-instrumentations=true to remove this restriction)"))),
+                        + "grafana.otel.use-tested-instrumentations=true to remove this restriction)"))),
         Arguments.of(
             named(
                 "set all instrumentations included by default - excluded again, because "
-                    + "grafana.otel.instrumentation.use-tested-instrumentations was found",
+                    + "grafana.otel.use-tested-instrumentations was found",
                 new TestCase(
                     Map.of(
                         "otel.instrumentation.common.default.enabled",
                         "true",
-                        "grafana.otel.instrumentation.use-tested-instrumentations",
+                        "grafana.otel.use-tested-instrumentations",
                         "true"),
                     Map.of(
                         "otel.instrumentation.common.default.enabled",
@@ -134,7 +134,7 @@ class TestedInstrumentationsCustomizerTest {
                         "true"),
                     testedVersion,
                     "Excluding otel.instrumentation.common.default.enabled (remove "
-                        + "grafana.otel.instrumentation.use-tested-instrumentations=true to remove this restriction)"))),
+                        + "grafana.otel.use-tested-instrumentations=true to remove this restriction)"))),
         Arguments.of(
             named(
                 "instrumentation play included - but not all enabled by default",

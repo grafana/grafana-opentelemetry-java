@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 public class TestedInstrumentationsCustomizer {
 
   public static final String USE_TESTED_INSTRUMENTATIONS_PROPERTY =
-      "grafana.otel.instrumentation.use-tested-instrumentations";
+      "grafana.otel.use-tested-instrumentations";
   public static final String ENABLED_PREFIX = "otel.instrumentation.";
 
   private static final String DEFAULT_INCLUDED_INSTRUMENTATION = "common.default";
@@ -35,7 +35,7 @@ public class TestedInstrumentationsCustomizer {
   private static final Logger logger =
       Logger.getLogger(TestedInstrumentationsCustomizer.class.getName());
   public static final String USE_UNTESTED_MODE_HINT =
-      "(remove grafana.otel.instrumentation.use-tested-instrumentations=true to remove this restriction)";
+      "(remove grafana.otel.use-tested-instrumentations=true to remove this restriction)";
   public static final String ENABLED_SUFFIX = ".enabled";
 
   public static Map<String, String> customizeProperties(ConfigProperties configs) {

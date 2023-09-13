@@ -31,7 +31,7 @@ public class TestedInstrumentationsSmokeTest extends SmokeTest {
 
   @Test
   public void untestedInstrumentationsAreExcluded() throws IOException, InterruptedException {
-    startTarget("-Dgrafana.otel.instrumentation.use-tested-instrumentations=true");
+    startTarget("-Dgrafana.otel.use-tested-instrumentations=true");
 
     testAndVerify(0);
   }
