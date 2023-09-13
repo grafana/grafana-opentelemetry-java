@@ -4,9 +4,9 @@ scriptDir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 while [[ $# -gt 0 ]]; do
   case $1 in
-    --includeAllModules)
-      echo "including all modules"
-      includeAllModules=true
+    --includeAllInstrumentations)
+      echo "including all instrumentations"
+      includeAllInstrumentations=true
       shift
       ;;
     -a|--attachDebugger)
@@ -19,9 +19,9 @@ while [[ $# -gt 0 ]]; do
       debugLogging=true
       shift
       ;;
-    -m|--debugModules)
-      echo "show active instrumentations modules"
-      debugModules=true
+    -m|--debugInstrumentations)
+      echo "show active instrumentations instrumentations"
+      debugInstrumentations=true
       shift
       ;;
     *)
@@ -55,10 +55,10 @@ if [[ $attachDebugger == "true" ]]; then
   fi
   jvm_args="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=$address $jvm_args"
 fi
-if [[ $includeAllModules != "true" ]]; then
-  jvm_args="$jvm_args -Dgrafana.otel.instrumentation.exclude-untested-modules=true"
+if [[ $includeAllInstrumentations != "true" ]]; then
+  jvm_args="$jvm_args -Dgrafana.otel.instrumentation.use-tested-instrumentations=true"
 fi
-if [[ $debugModules == "true" ]]; then
+if [[ $debugInstrumentations == "true" ]]; then
   jvm_args="$jvm_args -Dotel.javaagent.debug=true"
 fi
 if [[ $debugLogging == "true" ]]; then

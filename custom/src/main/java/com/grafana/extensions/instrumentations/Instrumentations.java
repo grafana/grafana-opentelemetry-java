@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.extensions.modules;
+package com.grafana.extensions.instrumentations;
 
 // This class is generated from README.md in build.gradle.  Do not edit.
 
 import java.util.Arrays;
 import java.util.List;
 
-public class InstrumentationModules {
+public class Instrumentations {
 
-  public static final List<String> TESTED_MODULES =
+  public static final List<String> TESTED_INSTRUMENTATIONS =
       Arrays.asList(
           "opentelemetry-extension-annotations",
           "opentelemetry-api",

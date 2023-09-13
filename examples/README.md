@@ -34,9 +34,9 @@ Use `./run.sh` to start each example application.
 
 - Use `./run.sh --attachDebugger` to attach a debugger to https://github.com/open-telemetry/opentelemetry-java-instrumentation
   as explained in [debugging](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/contributing/debugging.md).
-- Use `./run.sh --debugModules` to output the modules that are loaded by the java agent.
+- Use `./run.sh --debugInstrumentations` to output the instrumentations that are loaded by the java agent.
 - Use `./run.sh --debugLogging` to output all telemetry data to the console.
-- Use `./run.sh --includeAllModules` to enable all modules.
+- Use `./run.sh --includeAllInstrumentations` to enable all instrumentations.
 
 These options can be combined.
 

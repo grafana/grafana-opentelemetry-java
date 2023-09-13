@@ -5,18 +5,17 @@
 
 package com.grafana.extensions.smoketest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
+import java.io.IOException;
+import java.util.Collection;
 import okhttp3.Request;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.util.Collection;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 /** We use Play as an example of library that is not tested by Grafana Labs currently. */
-public class TestedModulesSmokeTest extends SmokeTest {
+public class TestedInstrumentationsSmokeTest extends SmokeTest {
 
   @Override
   protected String getTargetImage(int jdk) {
@@ -32,7 +31,7 @@ public class TestedModulesSmokeTest extends SmokeTest {
 
   @Test
   public void untestedInstrumentationsAreExcluded() throws IOException, InterruptedException {
-    startTarget("-Dgrafana.otel.instrumentation.exclude-untested-modules=true");
+    startTarget("-Dgrafana.otel.instrumentation.use-tested-instrumentations=true");
 
     testAndVerify(0);
   }
