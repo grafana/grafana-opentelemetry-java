@@ -7,7 +7,7 @@ input:
   - path: /stock
 expected:
   traces:
-    - traceql: '{ name = "KEYS" }'
+    - traceql: '{ name = "KEYS" }'  # in reactive, we actually use lettuce to get the span - maybe jedis is not even used - try this out
       spans:
         - name: KEYS
           attributes:
