@@ -27,7 +27,7 @@ class SpringBootSmokeTest extends SmokeTest {
 
   @Test
   public void checkDistributionVersion() throws IOException, InterruptedException {
-    startTarget();
+    startTarget("-Dgrafana.otel.use-tested-instrumentations=true");
 
     String url = String.format("http://localhost:%d/greeting", target.getMappedPort(8080));
     Request request = new Request.Builder().url(url).get().build();
