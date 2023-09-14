@@ -14,8 +14,8 @@ import okhttp3.Request;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
-/** We use Play as an example of library that is not supported by Grafana Labs currently. */
-public class EnabledInstrumentationModulesSmokeTest extends SmokeTest {
+/** We use Play as an example of library that is not tested by Grafana Labs currently. */
+public class TestedInstrumentationsSmokeTest extends SmokeTest {
 
   @Override
   protected String getTargetImage(int jdk) {
@@ -30,16 +30,15 @@ public class EnabledInstrumentationModulesSmokeTest extends SmokeTest {
   }
 
   @Test
-  public void unsupportedInstrumentationsAreDisabled() throws IOException, InterruptedException {
-    startTarget();
+  public void untestedInstrumentationsAreExcluded() throws IOException, InterruptedException {
+    startTarget("-Dgrafana.otel.use-tested-instrumentations=true");
 
     testAndVerify(0);
   }
 
   @Test
-  public void enableAllInstrumentations() throws IOException, InterruptedException {
-    startTarget(
-        "-Dotel.instrumentation.common.default-enabled=true -Dgrafana.otel.instrumentation.enable-unsupported-modules=true");
+  public void includeAllInstrumentations() throws IOException, InterruptedException {
+    startTarget();
 
     testAndVerify(1);
   }

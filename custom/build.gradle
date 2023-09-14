@@ -54,36 +54,36 @@ public class DistributionVersion {
   }
 }
 
-task manageSupportedInstrumentationModulesClass() {
+task manageTestedInstrumentationsClass() {
   doLast {
-    def modules = new File("${projectDir}/../README.md").text.split("\n")
+    def instrumentations = new File("${projectDir}/../README.md").text.split("\n")
       .dropWhile { !it.startsWith("| ID") }
       .takeWhile { it.startsWith("|") }
       .drop(2)
       .collect { "          \"${it.split("\\|")[1].trim()}\"" }
       .join(",\n")
 
-    updateGeneratedFile(new File("${projectDir}/src/main/java/com/grafana/extensions/modules", "InstrumentationModules.java"), """/*
+    updateGeneratedFile(new File("${projectDir}/src/main/java/com/grafana/extensions/instrumentations", "Instrumentations.java"), """/*
  * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.extensions.modules;
+package com.grafana.extensions.instrumentations;
 
 // This class is generated from README.md in build.gradle.  Do not edit.
 
 import java.util.Arrays;
 import java.util.List;
 
-public class InstrumentationModules {
+public class Instrumentations {
 
-  public static final List<String> SUPPORTED_MODULES =
+  public static final List<String> TESTED_INSTRUMENTATIONS =
       Arrays.asList(
-$modules);
+$instrumentations);
 }
 """)
   }
 }
 
-compileJava.dependsOn(manageVersionClass, manageSupportedInstrumentationModulesClass)
+compileJava.dependsOn(manageVersionClass, manageTestedInstrumentationsClass)
 

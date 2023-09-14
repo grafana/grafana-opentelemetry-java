@@ -15,7 +15,7 @@ Grafana OSS stack - but all configuration options of the [OpenTelemetry Javaagen
 
 - Java 8+
 - We regularly update to the latest version of the [OpenTelemetry Javaagent] - you can find the current version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
-- [Supported Libraries](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md#libraries--frameworks)
+- [Tested Libraries](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/tested-libraries.md#libraries--frameworks)
 
 ## Getting Started
                                     
@@ -142,9 +142,9 @@ The following would only enable logging for metrics data.
 export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics"
 ```
 
-### Supported Libraries
+### Tested Libraries
 
-This is a dummy text here, just to test that the list of supported libraries can be parsed from this file at build time.
+This is a dummy text here, just to test that the list of tested libraries can be parsed from this file at build time.
                     
 Instrumentation Modules
                                                                                                               
@@ -153,14 +153,28 @@ Instrumentation Modules
 | opentelemetry-extension-annotations | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
 | opentelemetry-api                   | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
 | tomcat                              | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| spring-web                          | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| spring-webmvc                       | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| spring-data                         | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| jetty                               | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| netty                               | needed in reactive                                                                                                                                                                   |
+| undertow                            | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| spring-web                          | [Non-reactive spring boot, e.g. in JDBC example](./examples/jdbc/spring-boot-non-reactive-3.1)                                                                                       |
+| spring-webmvc                       | [Non-reactive spring boot, e.g. in JDBC example](./examples/jdbc/spring-boot-non-reactive-3.1)                                                                                       |
+| spring-webflux                      | [Reactive spring boot, e.g. in JDBC example](./examples/jdbc/spring-boot-reactive-3.1)                                                                                               |
+| reactor                             | [Reactive spring boot, e.g. in JDBC example](./examples/jdbc/spring-boot-reactive-3.1)                                                                                               |
+| spring-data                         | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                                                   |
+| jdbc                                | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                                                   |
+| hikaricp                            | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                                                   |
+| r2dbc                               | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                                                   |
 | jms                                 | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| logback-appender                    | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| logback-appender                    | [Logback logs, e.g. in JDBC example](./examples/jdbc/spring-boot-non-reactive-3.1)                                                                                                   |
 | log4j-appender                      | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
 | runtime-telemetry                   | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| executors                   | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| executors                           | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| micrometer                          | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| kafka-clients                       | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| spring-kafka                        | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| mongo                               | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| jedis                               | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
+| lettuce                             | used in reactive                                                                                                                                                                     |
                                                                                                                                 
 
 [OpenTelemetry Javaagent]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
