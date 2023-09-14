@@ -36,3 +36,9 @@ include "examples:mongodb:spring-boot-non-reactive-2.7"
 include "examples:mongodb:spring-boot-non-reactive-3.1"
 include "examples:mongodb:spring-boot-reactive-2.7"
 include "examples:mongodb:spring-boot-reactive-3.1"
+
+include "examples:logback:spring-boot-non-reactive-2.7"
+include "examples:logback:spring-boot-non-reactive-3.1"
+
+include "examples:log4j:spring-boot-non-reactive-2.7"
+include "examples:log4j:spring-boot-non-reactive-3.1"
