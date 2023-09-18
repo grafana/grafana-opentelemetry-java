@@ -8,36 +8,40 @@ This project provides a Java agent JAR that can be attached to any Java 8+
 application and dynamically injects bytecode to capture telemetry from a
 number of popular libraries and frameworks.
 
-As this is the Grafana distribution, there are some settings that make it easy to connect to Grafana Cloud or a 
-Grafana OSS stack - but all configuration options of the [OpenTelemetry Javaagent] are available as well.  
+As this is the Grafana distribution, there are some settings that make it easy to connect to Grafana Cloud or a
+Grafana OSS stack - but all configuration options of the [OpenTelemetry Javaagent] are available as well.
 
 ## Compatibility
 
 - Java 8+
-- We regularly update to the latest version of the [OpenTelemetry Javaagent] - you can find the current version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
+- We regularly update to the latest version of the [OpenTelemetry Javaagent] - you can find the current
+  version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
 - [Tested Libraries](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/tested-libraries.md#libraries--frameworks)
 
 ## Getting Started
-                                    
+
 ### Configure your application
 
-You can use the [Grafana Agent](#grafana-agent) or the [Grafana Cloud OTLP Gateway](#grafana-cloud-otlp-gateway) to send telemetry data to Grafana Cloud.
+You can use the [Grafana Agent](#grafana-agent) or the [Grafana Cloud OTLP Gateway](#grafana-cloud-otlp-gateway) to send
+telemetry data to Grafana Cloud.
 
 #### Grafana Cloud OTLP Gateway
 
 > ⚠️ Please use the Grafana Agent configuration for production use cases.
 
 The easiest setup is to use the Grafana Cloud OTLP Gateway, because you don't need to run any service to transport
-the telemetry data to Grafana Cloud. 
+the telemetry data to Grafana Cloud.
 The Grafana Cloud OTLP Gateway is a managed service that is available in all Grafana Cloud plans.
 
-First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
+First, download the latest release from
+the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-If you're just getting started with Grafana Cloud, you can [sign up for permanent free plan](https://grafana.com/products/cloud/).
+If you're just getting started with Grafana Cloud, you
+can [sign up for permanent free plan](https://grafana.com/products/cloud/).
 
 1. Click on "Details" button in the "Grafana" section on https://grafana.com/profile/org
 2. Copy "Instance ID" and "Zone" into the java command below
-3. On the left side, click on "Security" and then on "API Keys" 
+3. On the left side, click on "Security" and then on "API Keys"
 4. Click on "Create API Key" (MetricsPublisher role) and copy the key into the java command below
 
 Enable the instrumentation agent using the `-javaagent` flag to the JVM.
@@ -52,25 +56,30 @@ java -javaagent:path/to/opentelemetry-javaagent.jar \
   -jar myapp.jar
 ```
 
-- Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as explained [here]({{https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/}}).  
+- Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as
+  explained [here]({{https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/}}).
 - If the service.name is not set, the name of the jar file will be used as service name.
-- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a random UUID.
-- Note that service name can also be set in `otel.resource.attributes` using the key `service_name` 
+- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a
+  random UUID.
+- Note that service name can also be set in `otel.resource.attributes` using the key `service_name`
   (ex. `service_name=demo`).
-- Also note that you can use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/) instead of system properties for all configuration options.
+- Also note that you can
+  use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/)
+  instead of system properties for all configuration options.
 
 #### Grafana Agent
 
-The Grafana Agent is a single binary that can be deployed as a sidecar or daemonset in Kubernetes, or as a service 
+The Grafana Agent is a single binary that can be deployed as a sidecar or daemonset in Kubernetes, or as a service
 in your network. It provides an endpoint where the application can send its telemetry data to.
 The telemetry data is then forwarded to Grafana Cloud or a Grafana OSS stack.
 
-First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
+First, download the latest release from
+the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-> **Note**: If you use **Grafana Cloud**, follow the 
+> **Note**: If you use **Grafana Cloud**, follow the
 > [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/),
 > which creates a Grafana Agent configuration for you.
-> Instead of using the download link for the javaagent in the integration, 
+> Instead of using the download link for the javaagent in the integration,
 > you can use the download link from the releases page.
 
 Enable the instrumentation agent using the `-javaagent` flag to the JVM.
@@ -84,17 +93,22 @@ java -javaagent:path/to/opentelemetry-javaagent.jar \
   -jar myapp.jar
 ```
 
-The application will send data to the Grafana Agent. Please follow the 
-[Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/) guide.
+The application will send data to the Grafana Agent. Please follow the
+[Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/)
+guide.
 
 - If the grafana agent is **not** running locally with the default gRPC endpoint (localhost:4317), then you need to
   adjust endpoint and protocol.
-- Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as explained [here]({{https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/}}).  
+- Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as
+  explained [here]({{https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/}}).
 - If the service.name is not set, the name of the jar file will be used as service name.
-- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a random UUID.
-- Note that service name can also be set in `otel.resource.attributes` using the key `service_name` 
+- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a
+  random UUID.
+- Note that service name can also be set in `otel.resource.attributes` using the key `service_name`
   (ex. `service_name=demo`).
-- Also note that you can use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/) instead of system properties for all configuration options.
+- Also note that you can
+  use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/)
+  instead of system properties for all configuration options.
 
 ### Grafana Dashboard
 
@@ -103,9 +117,9 @@ and overview about the most important JVM metrics: CPU, memory, classes, threads
 
 <img src="docs/jvm-dashboard.png" alt="JVM Dashboard"><br/>
 
-### Getting Help 
+### Getting Help
 
-If anything is not working, or you have questions about the starter, we’re glad to help you on our 
+If anything is not working, or you have questions about the starter, we’re glad to help you on our
 [community chat](https://slack.grafana.com/) (#opentelemetry).
 
 ## Reference
@@ -117,7 +131,8 @@ If anything is not working, or you have questions about the starter, we’re gla
 
 ### Enable Debug Logging
 
-Log all metrics, traces, and logs that are created for debugging purposes (in addition to sending them to the backend via OTLP).
+Log all metrics, traces, and logs that are created for debugging purposes (in addition to sending them to the backend
+via OTLP).
 
 This will also send metrics and traces to Loki as an unintended side effect.
 
@@ -145,36 +160,35 @@ export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics"
 ### Tested Libraries
 
 This is a dummy text here, just to test that the list of tested libraries can be parsed from this file at build time.
-                    
+
 Instrumentation Modules
-                                                                                                              
-| ID                                  | Name                                                                                                                                                                                 |
-|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| opentelemetry-extension-annotations | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| opentelemetry-api                   | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| tomcat                              | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| jetty                               | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| netty                               | needed in reactive                                                                                                                                                                   |
-| undertow                            | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| spring-web                          | [Non-reactive spring boot, e.g. in JDBC example](./examples/jdbc/spring-boot-non-reactive-3.1)                                                                                       |
-| spring-webmvc                       | [Non-reactive spring boot, e.g. in JDBC example](./examples/jdbc/spring-boot-non-reactive-3.1)                                                                                       |
-| spring-webflux                      | [Reactive spring boot, e.g. in JDBC example](./examples/jdbc/spring-boot-reactive-3.1)                                                                                               |
-| reactor                             | [Reactive spring boot, e.g. in JDBC example](./examples/jdbc/spring-boot-reactive-3.1)                                                                                               |
-| spring-data                         | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                                                   |
-| jdbc                                | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                                                   |
-| hikaricp                            | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                                                   |
-| r2dbc                               | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                                                   |
-| jms                                 | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| logback-appender                    | [Logback logs, e.g. in JDBC example](./examples/jdbc/spring-boot-non-reactive-3.1)                                                                                                   |
-| log4j-appender                      | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| runtime-telemetry                   | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| executors                           | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| micrometer                          | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| kafka-clients                       | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| spring-kafka                        | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| mongo                               | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| jedis                               | [todo (the link is internal once merged)](https://github.com/grafana/grafana-opentelemetry-java/pull/17/files#diff-912c0488fe6c6df14ae6491c64e3a302553cfc2f07ce83f9b0.1de635f24fe0f) |
-| lettuce                             | used in reactive                                                                                                                                                                     |
-                                                                                                                                
+
+| ID                                        | Name                                                                                                                                              |
+|-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| opentelemetry-instrumentation-annotations | [@WithSpan annotation](./examples/manual/README.md)                                                                                               |
+| opentelemetry-api                         | [Manual instrumentation](./examples/manual/README.md)                                                                                             |
+| tomcat                                    | Non-reactive spring boot default web server, e.g. [JDBC](./examples/jdbc/spring-boot-non-reactive-3.1)                                            |
+| jetty                                     | [Jetty Web Server](./examples/jetty/README.md)                                                                                                    |
+| netty                                     | Reactive spring boot web server, e.g. in [JDBC](./examples/jdbc/spring-boot-reactive-3.1)                                                         |
+| undertow                                  | [Undertow Web Server](./examples/undertow/README.md)                                                                                              |
+| spring-web                                | Non-reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-non-reactive-3.1)                                                            |
+| spring-webmvc                             | Non-reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-non-reactive-3.1)                                                            |
+| spring-webflux                            | Reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-reactive-3.1)                                                                    |
+| reactor                                   | Reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-reactive-3.1)                                                                    |
+| spring-data                               | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                |
+| jdbc                                      | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                |
+| hikaricp                                  | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                |
+| r2dbc                                     | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                |
+| jms                                       | [JMS with ActiveMQ](./examples/jms/README.md)                                                                                                     |
+| logback-appender                          | [Logback logs](./examples/logback/README.md)                                                                                                      |
+| log4j-appender                            | [Log4j logs](./examples/log4j/README.md)                                                                                                          |
+| runtime-telemetry                         | JVM Runtime Metrics - used in all examples, e.g. in [JDBC](./examples/jdbc/README.md)                                                             |
+| executors                                 | Support library to synchronize thread local when using [Executors](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Executors.html) |
+| micrometer                                | Micrometer is used in some examples where the JavaAgent doesn't have a metric, e.g. [MongoDB](./examples/mongodb/README.md)                       |
+| kafka-clients                             | [Kafka](./examples/kafka/README.md)                                                                                                               |
+| spring-kafka                              | [Kafka](./examples/kafka/README.md)                                                                                                               |
+| mongo                                     | [MongoDB](./examples/mongodb/README.md)                                                                                                           |
+| jedis                                     | [Redis with Jedis client](./examples/redis/README.md)                                                                                             |
+| lettuce                                   | [Redis with Jedis client](./examples/redis/README.md)                                                                                             |
 
 [OpenTelemetry Javaagent]: https://github.com/open-telemetry/opentelemetry-java-instrumentation

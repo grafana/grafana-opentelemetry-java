@@ -14,7 +14,7 @@ public class Instrumentations {
 
   public static final List<String> TESTED_INSTRUMENTATIONS =
       Arrays.asList(
-          "opentelemetry-extension-annotations",
+          "opentelemetry-instrumentation-annotations",
           "opentelemetry-api",
           "tomcat",
           "jetty",
