@@ -18,7 +18,7 @@ jobs:
         with:
           repository: grafana/oats
           token: ${{ secrets.GH_PAT }} # todo remove token once repo is public
-          ref: 4e9bed7696ced6677b1ce348773d5c6affc923e3 # todo change to main once merged
+          ref: 4b027833b1513ce9a27c1623ff1e01dfa1bbbfe4 # todo change to main once merged
           path: oats
       - name: Set up JDK
         uses: actions/setup-java@v3
