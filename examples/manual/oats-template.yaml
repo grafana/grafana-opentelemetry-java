@@ -8,5 +8,5 @@ expected:
       spans:
         - name: 'get_cart'
   metrics:
-    - promql: 'cart_client_total{}' # created programmatically
+    - promql: 'cart_client{}' # created programmatically
       value: '>= 0'
