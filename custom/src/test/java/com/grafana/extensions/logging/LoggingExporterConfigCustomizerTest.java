@@ -31,8 +31,7 @@ public class LoggingExporterConfigCustomizerTest {
 
     DefaultConfigProperties configProperties =
         DefaultConfigProperties.createFromMap(Map.of("otel.logs.exporter", "none"))
-            .withOverrides(testCase.userConf
-              igs); // see
+            .withOverrides(testCase.userConfigs); // see
     // https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/acbab58a4696169802595e75e738572685abad0c/javaagent-tooling/src/main/java/io/opentelemetry/javaagent/tooling/OpenTelemetryInstaller.java#L33
 
     configProperties =
