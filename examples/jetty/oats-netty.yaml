@@ -1,0 +1,11 @@
+docker-compose:
+  generator: java
+input:
+  - path: /stock
+expected:
+  traces:
+    - traceql: '{ kind = server }'
+      spans:
+        - name: 'GET /stock'
+          attributes:
+            otel.library.name: io.opentelemetry.netty-4.1

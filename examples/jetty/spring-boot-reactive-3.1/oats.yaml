@@ -1,0 +1,2 @@
+include:
+  - ../oats-netty.yaml
