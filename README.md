@@ -165,6 +165,7 @@ Instrumentation Modules
 
 | ID                                        | Name                                                                                                                                              |
 |-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| opentelemetry-extension-annotations       | [@WithSpan annotation](./examples/manual/README.md)                                                                                               |
 | opentelemetry-instrumentation-annotations | [@WithSpan annotation](./examples/manual/README.md)                                                                                               |
 | opentelemetry-api                         | [Manual instrumentation](./examples/manual/README.md)                                                                                             |
 | tomcat                                    | Non-reactive spring boot default web server, e.g. [JDBC](./examples/jdbc/spring-boot-non-reactive-3.1)                                            |
