@@ -5,8 +5,8 @@
 
 package com.grafana.extensions.smoketest;
 
-import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_NAME;
-import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_VERSION;
+import static io.opentelemetry.semconv.ResourceAttributes.TELEMETRY_SDK_NAME;
+import static io.opentelemetry.semconv.ResourceAttributes.TELEMETRY_SDK_VERSION;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.resources.internal.DistributionVersion;

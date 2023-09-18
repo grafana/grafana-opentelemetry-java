@@ -9,7 +9,7 @@ import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.autoconfigure.spi.ResourceProvider;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.ConditionalResourceProvider;
 import io.opentelemetry.sdk.resources.Resource;
-import io.opentelemetry.semconv.resource.attributes.ResourceAttributes;
+import io.opentelemetry.semconv.ResourceAttributes;
 
 /** {@link ResourceProvider} for automatically configuring {@link ServiceInstanceIdResource}. */
 public final class ServiceInstanceIdResourceProvider implements ConditionalResourceProvider {

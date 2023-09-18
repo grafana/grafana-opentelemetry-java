@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
 import io.opentelemetry.sdk.resources.Resource;
-import io.opentelemetry.semconv.resource.attributes.ResourceAttributes;
+import io.opentelemetry.semconv.ResourceAttributes;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,7 +26,7 @@ class ServiceInstanceIdResourceTest {
   void serviceInstanceId(String name, ServiceInstanceIdTestCase testCase) {
     Resource r =
         ServiceInstanceIdResource.getResource(
-            DefaultConfigProperties.createForTest(
+            DefaultConfigProperties.createFromMap(
                 Map.of(
                     ServiceInstanceIdResource.RESOURCE_ATTRIBUTES,
                     testCase.resource.entrySet().stream()
