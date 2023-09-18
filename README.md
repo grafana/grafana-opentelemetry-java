@@ -157,11 +157,22 @@ The following would only enable logging for metrics data.
 export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics"
 ```
 
-### Tested Libraries
+### Tested Instrumentations
+             
+This project provides end-to-end tests for a number of libraries. The tests are located in the `examples` folder 
+and are run by [oats](https://github.com/grafana/oats/). They cover the integration into the Grafana LTGM stack.
 
-This is a dummy text here, just to test that the list of tested libraries can be parsed from this file at build time.
+You can run the Grafana distribution in a mode that includes all instrumentation modules that are covered by the tests,
+no more, no less.
 
-Instrumentation Modules
+```shell
+java -javaagent:path/to/opentelemetry-javaagent.jar \
+  # add the same configuration as above
+  -Dgrafana.otel.use-tested-instrumentations=true 
+  -jar myapp.jar
+```
+
+These are the tested instrumentations:
 
 | ID                                        | Name                                                                                                                                              |
 |-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
