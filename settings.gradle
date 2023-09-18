@@ -42,6 +42,11 @@ include "examples:jetty:spring-boot-non-reactive-3.1"
 include "examples:jetty:spring-boot-reactive-2.7"
 include "examples:jetty:spring-boot-reactive-3.1"
 
+include "examples:undertow:spring-boot-non-reactive-2.7"
+include "examples:undertow:spring-boot-non-reactive-3.1"
+include "examples:undertow:spring-boot-reactive-2.7"
+include "examples:undertow:spring-boot-reactive-3.1"
+
 include "examples:logback:spring-boot-non-reactive-2.7"
 include "examples:logback:spring-boot-non-reactive-3.1"
 
