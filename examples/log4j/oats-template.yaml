@@ -1,0 +1,10 @@
+docker-compose:
+  generator: java
+input:
+  - path: /stock
+expected:
+  logs:
+    - logql: '{exporter = "OTLP"}'
+      # the instrumentation scope contains the logger name, not "log4j" so we cannot assert that log4j was actually used
+      contains:
+        - 'hello LGTM'

@@ -1,0 +1,12 @@
+docker-compose:
+  generator: java
+input:
+  - path: /stock
+expected:
+  traces:
+    - traceql: '{ name = "get_cart" }' # created by @WithSpan
+      spans:
+        - name: 'get_cart'
+  metrics:
+    - promql: 'cart_client{}' # created programmatically
+      value: '>= 0'
