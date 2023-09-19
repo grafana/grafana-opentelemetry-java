@@ -10,7 +10,7 @@ dependencies {
   testImplementation("com.squareup.okhttp3:okhttp:4.11.0")
   testImplementation("io.opentelemetry.proto:opentelemetry-proto:1.0.0-alpha")
   testImplementation("io.opentelemetry:opentelemetry-api")
-  testImplementation("io.opentelemetry:opentelemetry-semconv")
+  testImplementation("io.opentelemetry.semconv:opentelemetry-semconv")
 
   testImplementation("ch.qos.logback:logback-classic:1.4.11")
   testImplementation("org.awaitility:awaitility:4.2.0")

@@ -37,7 +37,7 @@ class TestedInstrumentationsCustomizerTest {
   void getCustomProperties(TestCase testCase) {
 
     DefaultConfigProperties configProperties =
-        DefaultConfigProperties.createForTest(testCase.inputProperties);
+        DefaultConfigProperties.createFromMap(testCase.inputProperties);
     configProperties =
         configProperties.withOverrides(
             TestedInstrumentationsCustomizer.customizeProperties(configProperties));

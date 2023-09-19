@@ -5,13 +5,13 @@
 
 package com.grafana.extensions.resources;
 
-import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_NAME;
-import static io.opentelemetry.semconv.resource.attributes.ResourceAttributes.TELEMETRY_SDK_VERSION;
+import static io.opentelemetry.semconv.ResourceAttributes.TELEMETRY_SDK_NAME;
+import static io.opentelemetry.semconv.ResourceAttributes.TELEMETRY_SDK_VERSION;
 
 import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.sdk.resources.Resource;
-import io.opentelemetry.semconv.resource.attributes.ResourceAttributes;
+import io.opentelemetry.semconv.ResourceAttributes;
 
 public final class DistributionResource {
 

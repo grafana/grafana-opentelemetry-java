@@ -30,14 +30,14 @@ public class LoggingExporterConfigCustomizerTest {
   void getCustomProperties(String name, TestCase testCase) {
 
     DefaultConfigProperties configProperties =
-        DefaultConfigProperties.createForTest(Map.of("otel.logs.exporter", "none"))
+        DefaultConfigProperties.createFromMap(Map.of("otel.logs.exporter", "none"))
             .withOverrides(testCase.userConfigs); // see
     // https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/acbab58a4696169802595e75e738572685abad0c/javaagent-tooling/src/main/java/io/opentelemetry/javaagent/tooling/OpenTelemetryInstaller.java#L33
 
     configProperties =
         configProperties.withOverrides(
             LoggingExporterConfigCustomizer.customizeProperties(
-                configProperties, DefaultConfigProperties.createForTest(testCase.userConfigs)));
+                configProperties, DefaultConfigProperties.createFromMap(testCase.userConfigs)));
 
     assertThat(TestedInstrumentationsCustomizer.getAllProperties(configProperties))
         .containsAllEntriesOf(testCase.want);
