@@ -32,7 +32,7 @@ Smoke tests test the entire javaagent distribution, including the custom extensi
 To run the smoke tests, run the following command:
 
 ```sh
-export SMOKE_TEST_JAVA_VERSION=8 && ./gradlew :smoke-tests:test
+SMOKE_TEST_JAVA_VERSION=8 ./gradlew :smoke-tests:test
 ```
 
 ## Acceptance Tests
@@ -50,10 +50,30 @@ If a test case fails (lets say "examples/jdbc/spring-boot-reactive-2.7"), follow
 2. Go to the oats folder
 3. `cd yaml`
 4. install ginkgo: `go install github.com/onsi/ginkgo/v2/ginkgo`
-5. `export TESTCASE_TIMEOUT=2h && export TESTCASE_BASE_PATH=/path/to/this/repo/examples && ginkgo -v -r -focus 'jdbc-spring-boot-reactive-2'`
+5. `TESTCASE_TIMEOUT=2h TESTCASE_BASE_PATH=/path/to/this/repo/examples ginkgo -v -r -focus 'jdbc-spring-boot-reactive-2'`
 6. go to http://localhost:3000 and login with admin/admin
                                                                                                                                             
 Use `-focus 'yaml'` to run all acceptance tests.
+                   
+Also see [Java specific options](https://github.com/grafana/oats/blob/main/yaml/README.md#java-specific-options)
+for additional options.
+
+### Common problems
+
+First, check the [java specific oats options](https://github.com/grafana/oats/tree/main/yaml#java-specific-options), 
+which can be used for debugging.
+
+#### Instrumentation not included
+
+Check if the test passes with `TESTCASE_INCLUDE_ALL_INSTRUMENTATIONS=true`.
+                                   
+If yes, check what the instrumentation scope is, and include this instrumentation in the list of 
+[tested instrumentations](./README.md#tested-instrumentations). 
+You should also include a test case for this instrumentation, similar to the other tests in the examples directory.
+    
+Where you can find the instrumentation scope:
+- for traces - look in tempo plugin in grafana
+- for metrics - look at the debug log output in output.log
            
 ## Debugging GitHub Actions
 
