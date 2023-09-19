@@ -7,4 +7,4 @@ go install github.com/onsi/ginkgo/v2/ginkgo
 export TESTCASE_SKIP_BUILD=true
 export TESTCASE_TIMEOUT=2m
 export TESTCASE_BASE_PATH=../../examples
-ginkgo -r # -p see if it works without parallel
+ginkgo -r -p
