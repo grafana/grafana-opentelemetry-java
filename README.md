@@ -2,19 +2,16 @@
 
 ## About
 
-The Grafana distribution of the [OpenTelemetry Javaagent].
+The Grafana distribution of the [OpenTelemetry JavaAgent].
 
-This project provides a Java agent JAR that can be attached to any Java 8+
-application and dynamically injects bytecode to capture telemetry from a
-number of popular libraries and frameworks.
+This project provides a Java agent JAR that can be attached to any Java 8+ application and dynamically injects bytecode to capture telemetry from a number of popular libraries and frameworks.
 
-As this is the Grafana distribution, there are some settings that make it easy to connect to Grafana Cloud or a
-Grafana OSS stack - but all configuration options of the [OpenTelemetry Javaagent] are available as well.
+As this is the Grafana distribution, there are some settings that make it easy to connect to Grafana Cloud or a Grafana OSS stack - but all configuration options of the [OpenTelemetry JavaAgent] are available as well.
 
 ## Compatibility
 
 - Java 8+
-- We regularly update to the latest version of the [OpenTelemetry Javaagent] - you can find the current
+- We regularly update to the latest version of the [OpenTelemetry JavaAgent] - you can find the current
   version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
 - [Tested Libraries](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/tested-libraries.md#libraries--frameworks)
 
@@ -22,27 +19,22 @@ Grafana OSS stack - but all configuration options of the [OpenTelemetry Javaagen
 
 ### Configure your application
 
-You can use the [Grafana Agent](#grafana-agent) or the [Grafana Cloud OTLP Gateway](#grafana-cloud-otlp-gateway) to send
-telemetry data to Grafana Cloud.
+You can use the [Grafana Agent](#grafana-agent) or the [Grafana Cloud OTLP Gateway](#grafana-cloud-otlp-gateway) to send telemetry data to Grafana Cloud.
 
 #### Grafana Cloud OTLP Gateway
 
-> ⚠️ Please use the Grafana Agent configuration for production use cases.
+> **Important**: Please use the Grafana Agent configuration for production use cases.
 
-The easiest setup is to use the Grafana Cloud OTLP Gateway, because you don't need to run any service to transport
-the telemetry data to Grafana Cloud.
-The Grafana Cloud OTLP Gateway is a managed service that is available in all Grafana Cloud plans.
+The easiest setup is to use the Grafana Cloud OTLP Gateway, because you don't need to run any service to transport the telemetry data to Grafana Cloud. The Grafana Cloud OTLP Gateway is a managed service that is available in all Grafana Cloud plans.
 
-First, download the latest release from
-the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
+First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-If you're just getting started with Grafana Cloud, you
-can [sign up for permanent free plan](https://grafana.com/products/cloud/).
+If you're just getting started with Grafana Cloud, you can [sign up for permanent free plan](https://grafana.com/products/cloud/).
 
-1. Click on "Details" button in the "Grafana" section on https://grafana.com/profile/org
-2. Copy "Instance ID" and "Zone" into the java command below
-3. On the left side, click on "Security" and then on "API Keys"
-4. Click on "Create API Key" (MetricsPublisher role) and copy the key into the java command below
+1. Click **Details** in the **Grafana** section on <https://grafana.com/profile/org>
+2. Copy **Instance ID** and **Zone** into the java command below
+3. On the left side, click on **Security** and then on **API Keys**
+4. Click on **Create API Key** (MetricsPublisher role) and copy the key into the java command below
 
 Enable the instrumentation agent using the `-javaagent` flag to the JVM.
 
@@ -57,30 +49,19 @@ java -javaagent:path/to/opentelemetry-javaagent.jar \
 ```
 
 - Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as
-  explained [here]({{https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/}}).
+  explained in the [Grafana OpenTelemetry documentation](https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/).
 - If the service.name is not set, the name of the jar file will be used as service name.
-- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a
-  random UUID.
-- Note that service name can also be set in `otel.resource.attributes` using the key `service_name`
-  (ex. `service_name=demo`).
-- Also note that you can
-  use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/)
-  instead of system properties for all configuration options.
+- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a random UUID.
+- Note that service name can also be set in `otel.resource.attributes` using the key `service_name` (ex. `service_name=demo`).
+- Also note that you can use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/) instead of system properties for all configuration options.
 
 #### Grafana Agent
 
-The Grafana Agent is a single binary that can be deployed as a sidecar or daemonset in Kubernetes, or as a service
-in your network. It provides an endpoint where the application can send its telemetry data to.
-The telemetry data is then forwarded to Grafana Cloud or a Grafana OSS stack.
+The Grafana Agent is a single binary that can be deployed as a sidecar or daemonset in Kubernetes, or as a service in your network. It provides an endpoint where the application can send its telemetry data to. The telemetry data is then forwarded to Grafana Cloud or a Grafana OSS stack.
 
-First, download the latest release from
-the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
+First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-> **Note**: If you use **Grafana Cloud**, follow the
-> [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/),
-> which creates a Grafana Agent configuration for you.
-> Instead of using the download link for the javaagent in the integration,
-> you can use the download link from the releases page.
+> **Note**: If you use **Grafana Cloud**, follow the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/), which creates a Grafana Agent configuration for you. Instead of using the download link for the javaagent in the integration, you can use the download link from the releases page.
 
 Enable the instrumentation agent using the `-javaagent` flag to the JVM.
 
@@ -93,53 +74,41 @@ java -javaagent:path/to/opentelemetry-javaagent.jar \
   -jar myapp.jar
 ```
 
-The application will send data to the Grafana Agent. Please follow the
-[Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/)
-guide.
+The application will send data to the Grafana Agent. Please follow the [Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/) guide.
 
-- If the grafana agent is **not** running locally with the default gRPC endpoint (localhost:4317), then you need to
-  adjust endpoint and protocol.
+- If the grafana agent is **not** running locally with the default gRPC endpoint (localhost:4317), then you need to adjust endpoint and protocol.
 - Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as
-  explained [here]({{https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/}}).
+  explained in the [Grafana OpenTelemetry documentation](https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/).
 - If the service.name is not set, the name of the jar file will be used as service name.
-- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a
-  random UUID.
-- Note that service name can also be set in `otel.resource.attributes` using the key `service_name`
-  (ex. `service_name=demo`).
-- Also note that you can
-  use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/)
-  instead of system properties for all configuration options.
+- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a random UUID.
+- Note that service name can also be set in `otel.resource.attributes` using the key `service_name` (ex. `service_name=demo`).
+- Also note that you can use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/) instead of system properties for all configuration options.
 
 ### Grafana Dashboard
 
-You can use [this dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) to get
-and overview about the most important JVM metrics: CPU, memory, classes, threads, and garbage collection.
+You can use [this dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) to get and overview about the most important JVM metrics: CPU, memory, classes, threads, and garbage collection.
 
-<img src="docs/jvm-dashboard.png" alt="JVM Dashboard"><br/>
+![JVM Dashboard](docs/jvm-dashboard.png "JVM Dashboard")
 
 ### Getting Help
 
-If anything is not working, or you have questions about the starter, we’re glad to help you on our
-[community chat](https://slack.grafana.com/) (#opentelemetry).
+If anything is not working, or you have questions about the starter, we’re glad to help you on our [community chat](https://slack.grafana.com/) (#opentelemetry).
 
 ## Reference
 
-- In addition to the configuration explained above, you can use all system properties or environment variables from the
-  [SDK auto-configuration](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure) -
-  which will take precedence.
+- In addition to the configuration explained above, you can use all system properties or environment variables from the [SDK auto-configuration](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure) - which will take precedence.
 - All exporters are set to `otlp` by default (even the logs exporter).
 
 ### Enable Debug Logging
 
-Log all metrics, traces, and logs that are created for debugging purposes (in addition to sending them to the backend
-via OTLP).
+Log all metrics, traces, and logs that are created for debugging purposes (in addition to sending them to the backend via OTLP).
 
 This will also send metrics and traces to Loki as an unintended side effect.
 
 Add the following command line parameter:
 
 ```shell
--Dgrafana.otlp.debug.logging=true 
+-Dgrafana.otlp.debug.logging=true
 ```
 
 For more fine-grained control, you can also enable debug logging for specific signal types:
@@ -148,8 +117,7 @@ For more fine-grained control, you can also enable debug logging for specific si
 export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics,logs,traces"
 ```
 
-The above would enable debug logging for all signal types (Note that order/case do not matter).  
-If you only wish to enable logging for specific signals, simply include those of interest in the list.
+The above would enable debug logging for all signal types (Note that order/case do not matter). If you only wish to enable logging for specific signals, simply include those of interest in the list.
 
 The following would only enable logging for metrics data.
 
@@ -158,24 +126,22 @@ export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics"
 ```
 
 ### Tested Instrumentations
-             
-This project provides end-to-end tests for a number of libraries. The tests are located in the `examples` folder 
-and are run by [oats](https://github.com/grafana/oats/). They cover the integration into the Grafana LTGM stack.
 
-You can run the Grafana distribution in a mode that includes all instrumentation modules that are covered by the tests,
-no more, no less.
+This project provides end-to-end tests for a number of libraries. The tests are located in the `examples` folder and are run by [oats](https://github.com/grafana/oats/). They cover the integration into the Grafana LTGM stack.
+
+You can run the Grafana distribution in a mode that includes all instrumentation modules that are covered by the tests, no more, no less.
 
 ```shell
 java -javaagent:path/to/opentelemetry-javaagent.jar \
   # add the same configuration as above
-  -Dgrafana.otel.use-tested-instrumentations=true 
+  -Dgrafana.otel.use-tested-instrumentations=true
   -jar myapp.jar
 ```
 
 These are the tested instrumentations:
 
 | ID                                        | Name                                                                                                                                              |
-|-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | opentelemetry-extension-annotations       | [@WithSpan annotation](./examples/manual/README.md)                                                                                               |
 | opentelemetry-instrumentation-annotations | [@WithSpan annotation](./examples/manual/README.md)                                                                                               |
 | opentelemetry-api                         | [Manual instrumentation](./examples/manual/README.md)                                                                                             |
