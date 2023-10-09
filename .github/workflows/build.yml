@@ -23,7 +23,7 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1.1.0
       - name: Setup Gradle and run build
-        uses: gradle/gradle-build-action@v2.8.0
+        uses: gradle/gradle-build-action@v2.9.0
         env:
           CHECK_GENERATED_FILES: true
           SMOKE_TEST_JAVA_VERSION: ${{ matrix.java }} # the smoke tests will pick this up
