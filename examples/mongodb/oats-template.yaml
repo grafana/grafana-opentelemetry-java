@@ -1,6 +1,7 @@
 docker-compose:
   generator: java
-  file: ../docker-compose.yaml
+  files:
+    - ../docker-compose.yaml
 input:
   - path: /stock
 expected:

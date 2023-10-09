@@ -36,8 +36,6 @@ Unlike smoke tests, acceptance tests are only run if the pull request has the "o
 
 Acceptance test cases are defined in `oats.yaml` files in the examples directory. The test cases are run by [oats]. The declarative yaml tests are described in <https://github.com/grafana/oats/blob/main/yaml>.
 
-> **Note**: that many `oats.yaml` files are symlinks to avoid repetition.
-
 If a test case fails (lets say "examples/jdbc/spring-boot-reactive-2.7"), follows these steps:
 
 1. Check out the [oats] repo
