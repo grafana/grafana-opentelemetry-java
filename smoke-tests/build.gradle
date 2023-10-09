@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
   testImplementation(project(":custom"))
-  testImplementation("org.testcontainers:testcontainers:1.19.0")
+  testImplementation("org.testcontainers:testcontainers:1.19.1")
   testImplementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
   testImplementation("com.google.protobuf:protobuf-java-util:3.24.4")
   testImplementation("com.squareup.okhttp3:okhttp:4.11.0")
