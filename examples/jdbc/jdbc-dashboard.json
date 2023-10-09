@@ -52,7 +52,7 @@
       }
     ]
   },
-  "description": "Dashboard for JVM metrics with OpenTelemetry instrumentation",
+  "description": "Dashboard for JDBC metrics with OpenTelemetry instrumentation",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "gnetId": 17582,

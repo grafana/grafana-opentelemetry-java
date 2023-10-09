@@ -1,23 +1,555 @@
-version: 2
+# generated from scripts/generate-dependabot.py
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: weekly
-  - package-ecosystem: gradle
-    directory: "/"
-    schedule:
-      interval: daily
-  - package-ecosystem: gradle
-    directory: "examples"
-    schedule:
-      interval: daily
-    labels:
-      - oats
-    ignore:
-      - dependency-name: "org.springframework.boot"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "io.spring.dependency-management"
-        update-types: ["version-update:semver-minor"]
-      - dependency-name: "redis.clients:jedis"
-        update-types: ["version-update:semver-major"]
+- directory: /
+  package-ecosystem: github-actions
+  schedule:
+    interval: weekly
+- directory: /
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jms/spring-boot-non-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jms/spring-boot-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jms/spring-boot-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jms/spring-boot-non-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/log4j/spring-boot-non-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/log4j/spring-boot-non-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/logback/spring-boot-non-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/logback/spring-boot-non-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/manual/spring-boot-non-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/manual/spring-boot-non-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jetty/spring-boot-non-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jetty/spring-boot-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jetty/spring-boot-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jetty/spring-boot-non-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/redis/spring-boot-non-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/redis/spring-boot-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/redis/spring-boot-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/redis/spring-boot-non-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/mongodb/spring-boot-non-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/mongodb/spring-boot-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/mongodb/spring-boot-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/mongodb/spring-boot-non-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/undertow/spring-boot-non-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/undertow/spring-boot-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/undertow/spring-boot-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/undertow/spring-boot-non-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jdbc/spring-boot-non-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jdbc/spring-boot-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jdbc/spring-boot-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/jdbc/spring-boot-non-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/kafka/spring-boot-non-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/kafka/spring-boot-reactive-3.1
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/kafka/spring-boot-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+- directory: examples/kafka/spring-boot-non-reactive-2.7
+  ignore:
+  - dependency-name: org.springframework.boot
+    update-types:
+    - version-update:semver-major
+  - dependency-name: io.spring.dependency-management
+    update-types:
+    - version-update:semver-minor
+  - dependency-name: redis.clients:jedis
+    update-types:
+    - version-update:semver-major
+  labels:
+  - oats
+  package-ecosystem: gradle
+  schedule:
+    interval: daily
+version: 2
