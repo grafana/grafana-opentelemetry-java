@@ -1,6 +1,6 @@
 plugins {
   id 'java'
-  id 'org.springframework.boot' version '2.7.16'
+  id 'org.springframework.boot' version '2.7.17'
   id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-  implementation 'redis.clients:jedis:4.4.1'
+  implementation 'redis.clients:jedis:4.4.6'
   implementation 'org.springframework.boot:spring-boot-starter-webflux'
 }
 
