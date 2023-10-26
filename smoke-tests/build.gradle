@@ -18,7 +18,9 @@ dependencies {
 
 tasks.test {
   onlyIf {
-    System.getenv("SMOKE_TEST_JAVA_VERSION") != null
+    // always execute smoke tests when running in IntelliJ
+    // on the command line, don't run smoke tests, unless the SMOKE_TEST_JAVA_VERSION environment variable is set
+    System.getProperty("idea.active") != null || System.getenv("SMOKE_TEST_JAVA_VERSION") != null
   }
   useJUnitPlatform()
 

@@ -20,6 +20,7 @@ import io.opentelemetry.proto.metrics.v1.Metric;
 import io.opentelemetry.proto.trace.v1.Span;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -186,12 +187,12 @@ public abstract class SmokeTest {
         .flatMap(it -> it.getMetricsList().stream());
   }
 
-  protected static Stream<String> getLogMessages(Collection<ExportLogsServiceRequest> logs) {
-    return getLogStream(logs).map(l -> l.getBody().getStringValue());
+  protected static List<String> getLogMessages(Collection<ExportLogsServiceRequest> logs) {
+    return getLogStream(logs).map(l -> l.getBody().getStringValue()).collect(Collectors.toList());
   }
 
-  protected static Stream<String> getMetricNames(Collection<ExportMetricsServiceRequest> metrics) {
-    return getMetricsStream(metrics).map(Metric::getName);
+  protected static List<String> getMetricNames(Collection<ExportMetricsServiceRequest> metrics) {
+    return getMetricsStream(metrics).map(Metric::getName).collect(Collectors.toList());
   }
 
   protected Collection<ExportTraceServiceRequest> waitForTraces()
