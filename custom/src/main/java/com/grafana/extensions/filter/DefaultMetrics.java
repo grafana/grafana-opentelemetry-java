@@ -26,7 +26,7 @@ public class DefaultMetrics {
           "r2dbc.pool.acquired",
           "r2dbc.pool.max.allocated",
           "r2dbc.pool.pending",
-          "kafka.producer.record.error_total",
+          "kafka.producer.record_error_total",
           "mongodb.driver.pool.waitqueuesize",
           "mongodb.driver.pool.checkedout");
 }

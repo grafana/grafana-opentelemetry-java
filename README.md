@@ -175,6 +175,8 @@ In order to reduce metric costs, only a subset of metrics is enabled by default.
                   
 TODO - document in overview, use env vars?
 
+- manually created metrics are always enabled if the meter name is `application`
+
 ```shell
 -Dgrafana.otlp.metrics.enabled=true
 ```
@@ -195,7 +197,7 @@ The following metrics are enabled by default:
 | r2dbc.pool.acquired                        | Used by [reactive Database example](examples/jdbc/README.md)                                     |
 | r2dbc.pool.max.allocated                   | Used by [reactive Database example](examples/jdbc/README.md)                                     |
 | r2dbc.pool.pending                         | Used by [reactive Database example](examples/jdbc/README.md)                                     |
-| kafka.producer.record.error_total          | Used by [Kafka example](examples/kafka/README.md)                                                |
+| kafka.producer.record_error_total          | Used by [Kafka example](examples/kafka/README.md)                                                |
 | mongodb.driver.pool.waitqueuesize          | Used by [MongoDB example](examples/mongodb/README.md)                                            |
 | mongodb.driver.pool.checkedout             | Used by [MongoDB example](examples/mongodb/README.md)                                            |
 
