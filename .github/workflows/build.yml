@@ -13,6 +13,7 @@ jobs:
           - 8 # TestedInstrumentationsSmokeTest only runs with this version, so update this test when 8 gets removed from the test matrix
           - 11
           - 17
+          - 21
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK
