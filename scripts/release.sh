@@ -7,5 +7,5 @@ if [ -z "$newVersion" ]; then
 fi
 
 oldVersion=$(grep -oP "(?<=^version )(.*)" build.gradle | sed "s/'//g")
-sed -i "s/$oldVersion/$newVersion/g" README.md
-sed -i "s/$oldVersion/$newVersion/g" build.gradle
+#sed -i "s/$oldVersion/$newVersion/g" README.md
+sed -i "s/^version '$oldVersion'/version '$newVersion'/g" build.gradle
