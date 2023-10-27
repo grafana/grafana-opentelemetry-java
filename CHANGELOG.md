@@ -1,5 +1,5 @@
 # Changelog
 
-## Unreleased
+## 0.2 (2023-10-27)
 
-TODO: The release process should generate the changelog and update this section - check if this actually happens.
+- Update to OpenTelemtry 1.31.0
