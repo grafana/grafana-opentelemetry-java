@@ -13,7 +13,8 @@ import io.opentelemetry.sdk.metrics.View;
 
 public class MetricFilter {
 
-  public static final String APPLICATION_OBSERVABILITY_METRICS = "grafana.otel.application-observability-metrics";
+  public static final String APPLICATION_OBSERVABILITY_METRICS =
+      "grafana.otel.application-observability-metrics";
 
   public static SdkMeterProviderBuilder dropUnusedMetrics(
       SdkMeterProviderBuilder sdkMeterProviderBuilder, ConfigProperties properties) {
