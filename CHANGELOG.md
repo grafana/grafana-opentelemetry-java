@@ -1,5 +1,9 @@
 # Changelog
+                   
+## Unreleased 
 
-## Unreleased
+- Add resource detectors for Google Cloud and AWS - mainly for Kubernetes monitoring
 
-TODO: The release process should generate the changelog and update this section - check if this actually happens.
+## 0.2.0 (2023-10-27)
+
+- Update to OpenTelemetry 1.31.0
