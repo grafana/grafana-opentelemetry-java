@@ -169,19 +169,18 @@ These are the tested instrumentations:
 | jedis                                     | [Redis with Jedis client](./examples/redis/README.md)                                                                                             |
 | lettuce                                   | [Redis with Jedis client](./examples/redis/README.md)                                                                                             |
 
-### Enabled Metrics
-                                             
-In order to reduce metric costs, only a subset of metrics is enabled by default. You can enable all metrics by setting the following system property:
-                  
-TODO - document in overview, use env vars?
+### Application Observability Metrics
 
-- manually created metrics are always enabled if the meter name is `application`
+If you're using [Application Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/),
+you can reduce metrics costs by turning off all metrics that are not used by the dashboards in Application Observability.
 
 ```shell
--Dgrafana.otlp.metrics.enabled=true
+export GRAFANA_OTEL_APPLICATION_OBSERVABILITY_METRICS=true
 ```
+
+> **Note**: If you're creating metrics manually, you can enable them by setting the meter name to `application`.
  
-The following metrics are enabled by default:
+The following metrics are currently (or planned to be) used by Application Observability:
 
 | Metric                                     | Description                                                                                      |
 |--------------------------------------------|--------------------------------------------------------------------------------------------------|
