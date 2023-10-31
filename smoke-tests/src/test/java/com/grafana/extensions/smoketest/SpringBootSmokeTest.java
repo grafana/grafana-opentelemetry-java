@@ -48,11 +48,7 @@ class SpringBootSmokeTest extends SmokeTest {
         .isGreaterThan(0);
 
     assertThat(getLogMessages(waitForLogs())).contains("HTTP request received");
-    List<String> metricNames = getMetricNames(waitForMetrics());
-    assertThat(metricNames).contains("process.runtime.jvm.memory.usage");
-    // all other metrics should have been filtered out
-    assertThat(DefaultMetrics.DEFAULT_METRICS)
-        .containsOnlyOnceElementsOf(new HashSet<>(metricNames));
+    assertThat(getMetricNames(waitForMetrics())).contains("process.runtime.jvm.buffer.limit");
   }
 
   private String makeGreetCall() {
@@ -63,11 +59,15 @@ class SpringBootSmokeTest extends SmokeTest {
   }
 
   @Test
-  public void allMetricsEnabled() throws IOException, InterruptedException {
-    startTarget("-Dgrafana.otel.enable-all-metrics=true");
+  public void applicationObservabilityMetrics() throws IOException, InterruptedException {
+    startTarget("-Dgrafana.otel.application-observability-metrics=true");
 
     makeGreetCall();
 
-    assertThat(getMetricNames(waitForMetrics())).contains("process.runtime.jvm.buffer.limit");
+    List<String> metricNames = getMetricNames(waitForMetrics());
+    assertThat(metricNames).contains("process.runtime.jvm.memory.usage");
+    // all other metrics should have been filtered out
+    assertThat(DefaultMetrics.DEFAULT_METRICS)
+        .containsOnlyOnceElementsOf(new HashSet<>(metricNames));
   }
 }

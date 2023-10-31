@@ -13,11 +13,11 @@ import io.opentelemetry.sdk.metrics.View;
 
 public class MetricFilter {
 
-  public static final String ENABLE_ALL_METRICS = "grafana.otel.enable-all-metrics";
+  public static final String APPLICATION_OBSERVABILITY_METRICS = "grafana.otel.application-observability-metrics";
 
   public static SdkMeterProviderBuilder dropUnusedMetrics(
       SdkMeterProviderBuilder sdkMeterProviderBuilder, ConfigProperties properties) {
-    if (properties.getBoolean(ENABLE_ALL_METRICS, false)) {
+    if (!properties.getBoolean(APPLICATION_OBSERVABILITY_METRICS, false)) {
       return sdkMeterProviderBuilder;
     }
 
