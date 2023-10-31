@@ -9,10 +9,13 @@ import static io.opentelemetry.semconv.ResourceAttributes.TELEMETRY_SDK_NAME;
 import static io.opentelemetry.semconv.ResourceAttributes.TELEMETRY_SDK_VERSION;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.grafana.extensions.filter.DefaultMetrics;
 import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import okhttp3.Request;
 import org.junit.jupiter.api.Test;
 
@@ -29,10 +32,7 @@ class SpringBootSmokeTest extends SmokeTest {
   public void checkDistributionVersion() throws IOException, InterruptedException {
     startTarget("-Dgrafana.otel.use-tested-instrumentations=true");
 
-    String url = String.format("http://localhost:%d/greeting", target.getMappedPort(8080));
-    Request request = new Request.Builder().url(url).get().build();
-
-    String response = makeCall(request);
+    String response = makeGreetCall();
 
     Collection<ExportTraceServiceRequest> traces = waitForTraces();
 
@@ -48,6 +48,26 @@ class SpringBootSmokeTest extends SmokeTest {
         .isGreaterThan(0);
 
     assertThat(getLogMessages(waitForLogs())).contains("HTTP request received");
-    assertThat(getMetricNames(waitForMetrics())).contains("process.runtime.jvm.memory.usage");
+    assertThat(getMetricNames(waitForMetrics())).contains("process.runtime.jvm.buffer.limit");
+  }
+
+  private String makeGreetCall() {
+    String url = String.format("http://localhost:%d/greeting", target.getMappedPort(8080));
+    Request request = new Request.Builder().url(url).get().build();
+
+    return makeCall(request);
+  }
+
+  @Test
+  public void applicationObservabilityMetrics() throws IOException, InterruptedException {
+    startTarget("-Dgrafana.otel.application-observability-metrics=true");
+
+    makeGreetCall();
+
+    List<String> metricNames = getMetricNames(waitForMetrics());
+    assertThat(metricNames).contains("process.runtime.jvm.memory.usage");
+    // all other metrics should have been filtered out
+    assertThat(DefaultMetrics.DEFAULT_METRICS)
+        .containsOnlyOnceElementsOf(new HashSet<>(metricNames));
   }
 }

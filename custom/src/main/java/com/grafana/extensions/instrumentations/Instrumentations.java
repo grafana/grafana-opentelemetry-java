@@ -5,7 +5,7 @@
 
 package com.grafana.extensions.instrumentations;
 
-// This class is generated from README.md in build.gradle.  Do not edit.
+// This class is generated from README.md in custom/build.gradle.  Do not edit.
 
 import java.util.Arrays;
 import java.util.List;

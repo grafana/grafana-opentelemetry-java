@@ -169,4 +169,36 @@ These are the tested instrumentations:
 | jedis                                     | [Redis with Jedis client](./examples/redis/README.md)                                                                                             |
 | lettuce                                   | [Redis with Jedis client](./examples/redis/README.md)                                                                                             |
 
+### Application Observability Metrics
+
+If you're using [Application Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/),
+you can reduce metrics costs by turning off all metrics that are not used by the dashboards in Application Observability.
+
+```shell
+export GRAFANA_OTEL_APPLICATION_OBSERVABILITY_METRICS=true
+```
+
+> **Note**: If you're creating metrics manually, you can enable them by setting the meter name to `application`.
+ 
+The following metrics are currently (or planned to be) used by Application Observability:
+
+| Metric                                     | Description                                                                                      |
+|--------------------------------------------|--------------------------------------------------------------------------------------------------|
+| process.runtime.jvm.system.cpu.utilization | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
+| process.runtime.jvm.memory.usage           | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
+| process.runtime.jvm.memory.limit           | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
+| process.runtime.jvm.gc.duration            | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
+| process.runtime.jvm.classes.current_loaded | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
+| process.runtime.jvm.threads.count          | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
+| db.client.connections.usage                | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732)                           |
+| db.client.connections.max                  | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732)                           |
+| db.client.connections.pending_requests     | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732)                           |
+| r2dbc.pool.acquired                        | Used by [reactive Database example](examples/jdbc/README.md)                                     |
+| r2dbc.pool.max.allocated                   | Used by [reactive Database example](examples/jdbc/README.md)                                     |
+| r2dbc.pool.pending                         | Used by [reactive Database example](examples/jdbc/README.md)                                     |
+| kafka.producer.record_error_total          | Used by [Kafka example](examples/kafka/README.md)                                                |
+| mongodb.driver.pool.waitqueuesize          | Used by [MongoDB example](examples/mongodb/README.md)                                            |
+| mongodb.driver.pool.checkedout             | Used by [MongoDB example](examples/mongodb/README.md)                                            |
+
+
 [OpenTelemetry Javaagent]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
