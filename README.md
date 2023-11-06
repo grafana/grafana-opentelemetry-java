@@ -105,10 +105,6 @@ You can use [this dashboard](https://grafana.com/grafana/dashboards/18812-jvm-ov
 
 ![JVM Dashboard](docs/jvm-dashboard.png "JVM Dashboard")
 
-### Getting Help
-
-If anything is not working, or you have questions about the starter, we’re glad to help you on our [community chat](https://slack.grafana.com/) (#opentelemetry).
-
 ## Reference
 
 - In addition to the configuration explained above, you can use all system properties or environment variables from the [SDK auto-configuration](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure) - which will take precedence.
