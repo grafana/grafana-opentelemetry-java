@@ -39,21 +39,26 @@ If you're just getting started with Grafana Cloud, you can [sign up for permanen
 Enable the instrumentation agent using the `-javaagent` flag to the JVM.
 
 ```shell
-java -javaagent:path/to/opentelemetry-javaagent.jar \
-  -Dgrafana.otlp.cloud.instance.id=<GRAFANA_INSTANCE_ID> \
-  -Dgrafana.otlp.cloud.zone=<GRAFANA_ZONE> \
-  -Dgrafana.otlp.cloud.api.key=<GRAFANA_CLOUD_API_KEY> \
-  -Dotel.service.name=shopping-cart \
-  -Dotel.resource.attributes=deployment.environment=production,service.namespace=shop,service.version=1.1,service.instance.id=shopping-cart-66b6c48dd5-hprdn \
-  -jar myapp.jar
+GRAFANA_OTLP_CLOUD_INSTANCE_ID=<GRAFANA_INSTANCE_ID> \
+GRAFANA_OTLP_CLOUD_ZONE=<GRAFANA_ZONE> \
+GRAFANA_OTLP_CLOUD_API_KEY=<GRAFANA_CLOUD_API_KEY> \
+OTEL_SERVICE_NAME=<APP_NAME> \
+OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,service.namespace=<AREA_OF_APP>,service.version=<APP_VERSION> \
+java -javaagent:path/to/opentelemetry-javaagent.jar -jar myapp.jar
 ```
 
-- Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as
-  explained in the [Grafana OpenTelemetry documentation](https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/).
-- If the service.name is not set, the name of the jar file will be used as service name.
-- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a random UUID.
-- Note that service name can also be set in `otel.resource.attributes` using the key `service_name` (ex. `service_name=demo`).
-- Also note that you can use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/) instead of system properties for all configuration options.
+> **Note**: You can also use system properties instead of environment variables, 
+> e.g. `-Dgrafana.otlp.cloud.instance.id=<GRAFANA_INSTANCE_ID>` instead of 
+> `export GRAFANA_OTLP_CLOUD_INSTANCE_ID=<GRAFANA_INSTANCE_ID>`.
+
+
+| Attribute              | Description                                                           | Default Value                                                      |
+|------------------------|-----------------------------------------------------------------------|--------------------------------------------------------------------|
+| service.namespace      | An optional namespace for `service.name`                              | -                                                                  |
+| service.name           | The application name                                                  | name of the jar file                                               |
+| deployment.environment | Name of the deployment environment (`staging` or `production`)        | -                                                                  |
+| service.instance.id    | The unique instance, e.g. the pod name                                | random UUID or `<k8s.pod.name>/<k8s.container.name>` (if provided) |
+| service.version        | The application version, to see if a new version has introduced a bug | -                                                                  |
 
 #### Grafana Agent
 
@@ -61,28 +66,38 @@ The Grafana Agent is a single binary that can be deployed as a sidecar or daemon
 
 First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-> **Note**: If you use **Grafana Cloud**, follow the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/), which creates a Grafana Agent configuration for you. Instead of using the download link for the javaagent in the integration, you can use the download link from the releases page.
+> **Important**: If you use **Grafana Cloud**, follow the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/), 
+> which creates a Grafana Agent configuration for you. Instead of using the download link for the javaagent in 
+> the integration, you can use the download link from the releases page.
 
 Enable the instrumentation agent using the `-javaagent` flag to the JVM.
 
 ```shell
-java -javaagent:path/to/opentelemetry-javaagent.jar \
-  -Dotel.exporter.otlp.endpoint=http://localhost:4317 \
-  -Dotel.exporter.otlp.protocol=grpc \
-  -Dotel.service.name=shopping-cart \
-  -Dotel.resource.attributes=deployment.environment=production,service.namespace=shop,service.version=1.1,service.instance.id=shopping-cart-66b6c48dd5-hprdn \
-  -jar myapp.jar
+OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 \
+OTEL_EXPORTER_OTLP_PROTOCOL=grpc \
+OTEL_SERVICE_NAME=<APP_NAME> \
+OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,service.namespace=<AREA_OF_APP>,service.version=<APP_VERSION> \
+java -javaagent:path/to/opentelemetry-javaagent.jar -jar myapp.jar
 ```
 
-The application will send data to the Grafana Agent. Please follow the [Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/) guide.
+> **Note**: You can also use system properties instead of environment variables, 
+> e.g. `-Dgrafana.otlp.cloud.instance.id=<GRAFANA_INSTANCE_ID>` instead of 
+> `export GRAFANA_OTLP_CLOUD_INSTANCE_ID=<GRAFANA_INSTANCE_ID>`.
 
-- If the grafana agent is **not** running locally with the default gRPC endpoint (localhost:4317), then you need to adjust endpoint and protocol.
-- Please replace `demo`, `1.1`, and `shopping-cart-66b6c48dd5-hprdn` as
-  explained in the [Grafana OpenTelemetry documentation](https://grafana.com/docs/opentelemetry/instrumentation/configuration/resource-attributes/).
-- If the service.name is not set, the name of the jar file will be used as service name.
-- If the service.instance.id is not set, it will fall back to `<k8s.pod.name>/<k8s.container.name>` (if provided) or a random UUID.
-- Note that service name can also be set in `otel.resource.attributes` using the key `service_name` (ex. `service_name=demo`).
-- Also note that you can use [environment variables](https://grafana.com/docs/opentelemetry/instrumentation/configuration/environment-variables/) instead of system properties for all configuration options.
+
+| Attribute              | Description                                                           | Default Value                                                      |
+|------------------------|-----------------------------------------------------------------------|--------------------------------------------------------------------|
+| service.namespace      | An optional namespace for `service.name`                              | -                                                                  |
+| service.name           | The application name                                                  | name of the jar file                                               |
+| deployment.environment | Name of the deployment environment (`staging` or `production`)        | -                                                                  |
+| service.instance.id    | The unique instance, e.g. the pod name                                | random UUID or `<k8s.pod.name>/<k8s.container.name>` (if provided) |
+| service.version        | The application version, to see if a new version has introduced a bug | -                                                                  |
+
+
+The application will send data to the Grafana Agent. Please follow the [Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/) guide.
+       
+> **Note**: If the grafana agent is **not** running locally with the default gRPC endpoint (localhost:4317), 
+> adjust the endpoint and protocol.
 
 ### Grafana Dashboard
 
@@ -108,7 +123,7 @@ This will also send metrics and traces to Loki as an unintended side effect.
 Add the following command line parameter:
 
 ```shell
--Dgrafana.otlp.debug.logging=true
+export GRAFANA_OTLP_DEBUG_LOGGING=true
 ```
 
 For more fine-grained control, you can also enable debug logging for specific signal types:
@@ -132,10 +147,7 @@ This project provides end-to-end tests for a number of libraries. The tests are 
 You can run the Grafana distribution in a mode that includes all instrumentation modules that are covered by the tests, no more, no less.
 
 ```shell
-java -javaagent:path/to/opentelemetry-javaagent.jar \
-  # add the same configuration as above
-  -Dgrafana.otel.use-tested-instrumentations=true
-  -jar myapp.jar
+export GRAFANA_OTEL_USE_TESTED_INSTRUMENTATIONS=true
 ```
 
 These are the tested instrumentations:
