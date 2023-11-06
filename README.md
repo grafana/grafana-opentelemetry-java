@@ -13,7 +13,7 @@ As this is the Grafana distribution, there are some settings that make it easy t
 - Java 8+
 - We regularly update to the latest version of the [OpenTelemetry JavaAgent] - you can find the current
   version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
-- [Tested Libraries](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/tested-libraries.md#libraries--frameworks)
+- [Tested Libraries](examples/README.md)
 
 ## Getting Started
 
