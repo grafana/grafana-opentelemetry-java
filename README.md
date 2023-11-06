@@ -99,12 +99,6 @@ The application will send data to the Grafana Agent. Please follow the [Grafana 
 > **Note**: If the grafana agent is **not** running locally with the default gRPC endpoint (localhost:4317), 
 > adjust the endpoint and protocol.
 
-### Grafana Dashboard
-
-You can use [this dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) to get and overview about the most important JVM metrics: CPU, memory, classes, threads, and garbage collection.
-
-![JVM Dashboard](docs/jvm-dashboard.png "JVM Dashboard")
-
 ## Reference
 
 - In addition to the configuration explained above, you can use all system properties or environment variables from the [SDK auto-configuration](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure) - which will take precedence.
