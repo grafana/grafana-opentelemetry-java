@@ -1,12 +1,22 @@
 # grafana-opentelemetry-java
 
+# <img src="docs/grafana.png" alt="Grafana Icon" width="45" height=""> <img src="https://opentelemetry.io/img/logos/opentelemetry-logo-nav.png" alt="OpenTelemetry Icon" width="45" height=""> Grafana OpenTelemetry distribution for Java
+
 ## About
 
-The Grafana distribution of the [OpenTelemetry JavaAgent].
+Grafana Distribution of the [OpenTelemetry JavaAgent] - Optimized for [Application Observability]. 
 
-This project provides a Java agent JAR that can be attached to any Java 8+ application and dynamically injects bytecode to capture telemetry from a number of popular libraries and frameworks.
+This project provides a Java agent JAR that can be attached to any Java 8+ application and dynamically 
+injects bytecode to capture telemetry from a number of popular libraries and frameworks.
 
-As this is the Grafana distribution, there are some settings that make it easy to connect to Grafana Cloud or a Grafana OSS stack - but all configuration options of the [OpenTelemetry JavaAgent] are available as well.
+As this is the Grafana distribution, there are some settings that make it easy to connect to Grafana Cloud - 
+but all configuration options of the [OpenTelemetry JavaAgent] are available as well.
+
+> **Note**: 
+> - You can use the [OpenTelemetry JavaAgent] directly for [Application Observability] - this distribution is just a convenience wrapper.
+>   You can find more information how to send telemetry data to Grafana Cloud Databases 
+>   [here](https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/).
+> - You can use this distribution for any OpenTelemetry use case, not just Grafana Cloud.
 
 ## Compatibility
 
@@ -25,7 +35,9 @@ You can use the [Grafana Agent](#grafana-agent) or the [Grafana Cloud OTLP Gatew
 
 > **Important**: Please use the Grafana Agent configuration for production use cases.
 
-The easiest setup is to use the Grafana Cloud OTLP Gateway, because you don't need to run any service to transport the telemetry data to Grafana Cloud. The Grafana Cloud OTLP Gateway is a managed service that is available in all Grafana Cloud plans.
+The easiest setup is to use the Grafana Cloud OTLP Gateway, because you don't need to run any service to transport the 
+telemetry data to Grafana Cloud. 
+The Grafana Cloud OTLP Gateway is a managed service that is available in all Grafana Cloud plans.
 
 First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
@@ -42,9 +54,9 @@ Enable the instrumentation agent using the `-javaagent` flag to the JVM.
 GRAFANA_OTLP_CLOUD_INSTANCE_ID=<GRAFANA_INSTANCE_ID> \
 GRAFANA_OTLP_CLOUD_ZONE=<GRAFANA_ZONE> \
 GRAFANA_OTLP_CLOUD_API_KEY=<GRAFANA_CLOUD_API_KEY> \
-OTEL_SERVICE_NAME=<APP_NAME> \
-OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,service.namespace=<AREA_OF_APP>,service.version=<APP_VERSION> \
-java -javaagent:path/to/opentelemetry-javaagent.jar -jar myapp.jar
+OTEL_SERVICE_NAME=<SERVICE_NAME> \
+OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,service.namespace=<AREA_OF_SERVICE>,service.version=<SERVICE_VERSION> \
+java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 ```
 
 > **Note**: You can also use system properties instead of environment variables, 
@@ -62,22 +74,24 @@ java -javaagent:path/to/opentelemetry-javaagent.jar -jar myapp.jar
 
 #### Grafana Agent
 
-The Grafana Agent is a single binary that can be deployed as a sidecar or daemonset in Kubernetes, or as a service in your network. It provides an endpoint where the application can send its telemetry data to. The telemetry data is then forwarded to Grafana Cloud or a Grafana OSS stack.
+The Grafana Agent is a single binary that can be deployed as a sidecar or daemonset in Kubernetes, 
+or as a service in your network. It provides an endpoint where the application can send its telemetry data to. 
+The telemetry data is then forwarded to Grafana Cloud.
+
+> **Important**: Skip this section and let the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/) 
+> create everything for you. 
+> Instead of using the download link for the javaagent in the integration, you can use the download link from the releases page.
 
 First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
-
-> **Important**: If you use **Grafana Cloud**, follow the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/), 
-> which creates a Grafana Agent configuration for you. Instead of using the download link for the javaagent in 
-> the integration, you can use the download link from the releases page.
 
 Enable the instrumentation agent using the `-javaagent` flag to the JVM.
 
 ```shell
 OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 \
 OTEL_EXPORTER_OTLP_PROTOCOL=grpc \
-OTEL_SERVICE_NAME=<APP_NAME> \
-OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,service.namespace=<AREA_OF_APP>,service.version=<APP_VERSION> \
-java -javaagent:path/to/opentelemetry-javaagent.jar -jar myapp.jar
+OTEL_SERVICE_NAME=<SERVICE_NAME> \
+OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,service.namespace=<AREA_OF_SERVICE>,service.version=<SERVICE_VERSION> \
+java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 ```
 
 > **Note**: You can also use system properties instead of environment variables, 
@@ -204,3 +218,4 @@ The following metrics are currently (or planned to be) used by Application Obser
 
 
 [OpenTelemetry Javaagent]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
+[Application Observability]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/
