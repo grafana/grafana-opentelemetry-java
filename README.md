@@ -1,10 +1,20 @@
-# grafana-opentelemetry-java
+<p>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Grafana_icon.svg" alt="Grafana logo" height="70"/ >
+  <img src="https://opentelemetry.io/img/logos/opentelemetry-logo-nav.png" alt="OpenTelemetry logo" width="70"/ >
+</p>
 
-# <img src="docs/grafana.png" alt="Grafana Icon" width="45" height=""> <img src="https://opentelemetry.io/img/logos/opentelemetry-logo-nav.png" alt="OpenTelemetry Icon" width="45" height=""> Grafana OpenTelemetry distribution for Java
+# Grafana distribution of OpenTelemetry Java Instrumentation
+
+[![Build](https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/build.yml)
+
+* [About](#about)
+* [Getting Started](#getting-started)
+* [Installation](#getting-started)
+* [Troubleshooting](#troubleshooting)
 
 ## About
 
-Grafana Distribution of the [OpenTelemetry JavaAgent] - Optimized for [Application Observability]. 
+Grafana Distribution of the [OpenTelemetry JavaAgent] - Optimized for [Grafana Cloud Application Observability]. 
 
 This project provides a Java agent JAR that can be attached to any Java 8+ application and dynamically 
 injects bytecode to capture telemetry from a number of popular libraries and frameworks.
@@ -13,7 +23,7 @@ As this is the Grafana distribution, there are some settings that make it easy t
 but all configuration options of the [OpenTelemetry JavaAgent] are available as well.
 
 > **Note**: 
-> - You can use the [OpenTelemetry JavaAgent] directly for [Application Observability] - this distribution is just a convenience wrapper.
+> - You can use the [OpenTelemetry JavaAgent] directly for [Grafana Cloud Application Observability] - this distribution is just a convenience wrapper.
 >   You can find more information how to send telemetry data to Grafana Cloud Databases 
 >   [here](https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/).
 > - You can use this distribution for any OpenTelemetry use case, not just Grafana Cloud.
@@ -80,7 +90,6 @@ The telemetry data is then forwarded to Grafana Cloud.
 
 > **Important**: Skip this section and let the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/) 
 > create everything for you. 
-> Instead of using the download link for the javaagent in the integration, you can use the download link from the releases page.
 
 First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
@@ -112,6 +121,10 @@ The application will send data to the Grafana Agent. Please follow the [Grafana 
        
 > **Note**: If the grafana agent is **not** running locally with the default gRPC endpoint (localhost:4317), 
 > adjust the endpoint and protocol.
+
+## Troubleshooting
+
+TODO
 
 ## Reference
 
@@ -185,10 +198,9 @@ These are the tested instrumentations:
 | jedis                                     | [Redis with Jedis client](./examples/redis/README.md)                                                                                             |
 | lettuce                                   | [Redis with Jedis client](./examples/redis/README.md)                                                                                             |
 
-### Application Observability Metrics
+### Grafana Cloud Application Observability Metrics
 
-If you're using [Application Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/),
-you can reduce metrics costs by turning off all metrics that are not used by the dashboards in Application Observability.
+You can reduce metrics costs by turning off all metrics that are not used by the dashboards in Application Observability.
 
 ```shell
 export GRAFANA_OTEL_APPLICATION_OBSERVABILITY_METRICS=true
@@ -198,24 +210,24 @@ export GRAFANA_OTEL_APPLICATION_OBSERVABILITY_METRICS=true
  
 The following metrics are currently (or planned to be) used by Application Observability:
 
-| Metric                                     | Description                                                                                      |
-|--------------------------------------------|--------------------------------------------------------------------------------------------------|
-| process.runtime.jvm.system.cpu.utilization | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
-| process.runtime.jvm.memory.usage           | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
-| process.runtime.jvm.memory.limit           | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
-| process.runtime.jvm.gc.duration            | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
-| process.runtime.jvm.classes.current_loaded | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
-| process.runtime.jvm.threads.count          | Used in [JVM dashboard](https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry) |
-| db.client.connections.usage                | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732)                           |
-| db.client.connections.max                  | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732)                           |
-| db.client.connections.pending_requests     | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732)                           |
-| r2dbc.pool.acquired                        | Used by [reactive Database example](examples/jdbc/README.md)                                     |
-| r2dbc.pool.max.allocated                   | Used by [reactive Database example](examples/jdbc/README.md)                                     |
-| r2dbc.pool.pending                         | Used by [reactive Database example](examples/jdbc/README.md)                                     |
-| kafka.producer.record_error_total          | Used by [Kafka example](examples/kafka/README.md)                                                |
-| mongodb.driver.pool.waitqueuesize          | Used by [MongoDB example](examples/mongodb/README.md)                                            |
-| mongodb.driver.pool.checkedout             | Used by [MongoDB example](examples/mongodb/README.md)                                            |
+| Metric                                     | Description                                                            |
+|--------------------------------------------|------------------------------------------------------------------------|
+| process.runtime.jvm.system.cpu.utilization | Used in the JVM tab in Application Observability                       |
+| process.runtime.jvm.memory.usage           | Used in the JVM tab in Application Observability                       |
+| process.runtime.jvm.memory.limit           | Used in the JVM tab in Application Observability                       |
+| process.runtime.jvm.gc.duration            | Used in the JVM tab in Application Observability                       |
+| process.runtime.jvm.classes.current_loaded | Used in the JVM tab in Application Observability                       |
+| process.runtime.jvm.threads.count          | Used in the JVM tab in Application Observability                       |
+| db.client.connections.usage                | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732) |
+| db.client.connections.max                  | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732) |
+| db.client.connections.pending_requests     | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732) |
+| r2dbc.pool.acquired                        | Used by [reactive Database example](examples/jdbc/README.md)           |
+| r2dbc.pool.max.allocated                   | Used by [reactive Database example](examples/jdbc/README.md)           |
+| r2dbc.pool.pending                         | Used by [reactive Database example](examples/jdbc/README.md)           |
+| kafka.producer.record_error_total          | Used by [Kafka example](examples/kafka/README.md)                      |
+| mongodb.driver.pool.waitqueuesize          | Used by [MongoDB example](examples/mongodb/README.md)                  |
+| mongodb.driver.pool.checkedout             | Used by [MongoDB example](examples/mongodb/README.md)                  |
 
 
 [OpenTelemetry Javaagent]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
-[Application Observability]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/
+[Grafana Cloud Application Observability]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/
