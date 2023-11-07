@@ -3,7 +3,7 @@
   <img src="https://opentelemetry.io/img/logos/opentelemetry-logo-nav.png" alt="OpenTelemetry logo" width="70"/ >
 </p>
 
-# Grafana distribution of OpenTelemetry Java Instrumentation
+# Grafana OpenTelemetry distribution for Java
 
 [![Build](https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/build.yml)
 
