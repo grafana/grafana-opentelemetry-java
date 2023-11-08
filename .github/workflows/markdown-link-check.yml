@@ -22,4 +22,4 @@ jobs:
       run: sudo npm install -g markdown-link-check
 
     - name: run markdown-link-check
-      run: "find . -name '*.md' -print0 | xargs -0 -n1 markdown-link-check"
+      run: "find . -name '*.md' -print0 | xargs -0 -n1 markdown-link-check -c .markdown-link-check.json"
