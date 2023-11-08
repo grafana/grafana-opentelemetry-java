@@ -1,7 +1,9 @@
+<!-- markdownlint-disable -->
 <p>
   <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Grafana_icon.svg" alt="Grafana logo" height="70"/ >
   <img src="https://opentelemetry.io/img/logos/opentelemetry-logo-nav.png" alt="OpenTelemetry logo" width="70"/ >
 </p>
+<!-- markdownlint-enable -->
 
 # Grafana OpenTelemetry distribution for Java
 
@@ -10,7 +12,8 @@
 
 ## About
 
-Grafana Distribution of [OpenTelemetry Instrumentation for Java] - optimized for [Grafana Cloud Application Observability].
+Grafana Distribution of [OpenTelemetry Instrumentation for Java] -
+optimized for [Grafana Cloud Application Observability].
 
 This project provides a Java agent JAR that can be attached to any Java 8+ application and dynamically
 injects bytecode to capture telemetry from a number of popular libraries and frameworks.
@@ -39,7 +42,8 @@ but all configuration options of [OpenTelemetry Instrumentation for Java] are av
 
 ### Configure your application
 
-You can use the [Grafana Agent](#grafana-agent) or the [Grafana Cloud OTLP Gateway] to send telemetry data to Grafana Cloud.
+You can use the [Grafana Agent](#grafana-agent) or the
+[Grafana Cloud OTLP Gateway] to send telemetry data to Grafana Cloud.
 
 #### Grafana Cloud OTLP Gateway
 
@@ -49,9 +53,11 @@ The easiest setup is to use the Grafana Cloud OTLP Gateway, because you don't ne
 telemetry data to Grafana Cloud.
 The Grafana Cloud OTLP Gateway is a managed service that is available in all Grafana Cloud plans.
 
-First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
+First, download the latest release from the
+[releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-If you're just getting started with Grafana Cloud, you can [sign up for permanent free plan](https://grafana.com/products/cloud/).
+If you're just getting started with Grafana Cloud, you can
+[sign up for permanent free plan](https://grafana.com/products/cloud/).
 
 1. Click **Details** in the **Grafana** section on <https://grafana.com/profile/org>
 2. Copy **Instance ID** and **Zone** into the java command below
@@ -95,7 +101,8 @@ The telemetry data is then forwarded to Grafana Cloud.
 > **Important**: Skip this section and let the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/)
 > create everything for you.
 
-First, download the latest release from the [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
+First, download the latest release from the
+[releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
 Enable the instrumentation agent using the `-javaagent` flag to the JVM.
 
@@ -123,7 +130,9 @@ java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 > e.g. `-Dotel.service.name=<OTEL_SERVICE_NAME>` instead of
 > `export OTEL_SERVICE_NAME=<OTEL_SERVICE_NAME>`.
 
-The application will send data to the Grafana Agent. Please follow the [Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/) guide.
+The application will send data to the Grafana Agent. Please follow the
+[Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/)
+guide.
 
 ## Troubleshooting
 
@@ -155,12 +164,13 @@ parameter.
 
 ### Log telemetry data in Grafana Agent or OpenTelemetry Collector
 
-If the application is sending data to a Grafana Agent or OpenTelemetry Collector instead of [Grafana Cloud OTLP Gateway],
-make sure that there is no error forwarding the telemetry data.
+If the application is sending data to a Grafana Agent or OpenTelemetry Collector instead of
+[Grafana Cloud OTLP Gateway], make sure that there is no error forwarding the telemetry data.
 
 ### OpenTelemetry Instrumentation for Java troubleshooting guide
 
-Finally, there also the [troubleshooting guide](https://github.com/open-telemetry/opentelemetry-java-instrumentation#troubleshooting)
+Finally, there also the
+[troubleshooting guide](https://github.com/open-telemetry/opentelemetry-java-instrumentation#troubleshooting)
 of the upstream OpenTelemetry Instrumentation for Java.
 
 ## Community
@@ -177,12 +187,15 @@ channel.
 
 ## Reference
 
-- In addition to the configuration explained above, you can use all system properties or environment variables from the [SDK auto-configuration](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure) - which will take precedence.
+- In addition to the configuration explained above, you can use all system properties or environment variables from the
+  [SDK auto-configuration](https://github.com/open-telemetry/opentelemetry-java/tree/main/sdk-extensions/autoconfigure),
+  which will take precedence.
 - All exporters are set to `otlp` by default (even the logs exporter).
 
 ### Enable Debug Logging
 
-Log all metrics, traces, and logs that are created for debugging purposes (in addition to sending them to the backend via OTLP).
+Log all metrics, traces, and logs that are created for debugging purposes (in addition to sending them to the backend
+via OTLP).
 
 This will also send metrics and traces to Loki as an unintended side effect.
 
@@ -198,7 +211,8 @@ For more fine-grained control, you can also enable debug logging for specific si
 export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics,logs,traces"
 ```
 
-The above would enable debug logging for all signal types (Note that order/case do not matter). If you only wish to enable logging for specific signals, simply include those of interest in the list.
+The above would enable debug logging for all signal types (Note that order/case do not matter). If you only wish to
+enable logging for specific signals, simply include those of interest in the list.
 
 The following would only enable logging for metrics data.
 
@@ -208,9 +222,11 @@ export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics"
 
 ### Tested Instrumentations
 
-This project provides end-to-end tests for a number of libraries. The tests are located in the `examples` folder and are run by [oats](https://github.com/grafana/oats/). They cover the integration into the Grafana LTGM stack.
+This project provides end-to-end tests for a number of libraries. The tests are located in the `examples` folder and
+are run by [oats](https://github.com/grafana/oats/). They cover the integration into the Grafana LTGM stack.
 
-You can run the Grafana distribution in a mode that includes all instrumentation modules that are covered by the tests, no more, no less.
+You can run the Grafana distribution in a mode that includes all instrumentation modules that are covered by the tests,
+no more, no less.
 
 ```shell
 export GRAFANA_OTEL_USE_TESTED_INSTRUMENTATIONS=true
@@ -249,7 +265,8 @@ These are the tested instrumentations:
 
 ### Data Saver
 
-You can reduce metrics costs by turning off all metrics that are not used by the dashboards in Application Observability.
+You can reduce metrics costs by turning off all metrics that are not used by the dashboards in
+Application Observability.
 
 ```shell
 export GRAFANA_OTEL_APPLICATION_OBSERVABILITY_METRICS=true
