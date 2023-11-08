@@ -39,7 +39,7 @@ but all configuration options of the [OpenTelemetry JavaAgent] are available as 
 
 ### Configure your application
 
-You can use the [Grafana Agent](#grafana-agent) or the [Grafana Cloud OTLP Gateway](#grafana-cloud-otlp-gateway) to send telemetry data to Grafana Cloud.
+You can use the [Grafana Agent](#grafana-agent) or the [Grafana Cloud OTLP Gateway] to send telemetry data to Grafana Cloud.
 
 #### Grafana Cloud OTLP Gateway
 
@@ -124,7 +124,41 @@ The application will send data to the Grafana Agent. Please follow the [Grafana 
 
 ## Troubleshooting
 
-TODO
+If you don't see any data in [Grafana Cloud Application Observability], these are the most common causes:
+                                                                                                         
+### No Traffic
+
+Make a few requests to your service to make sure it sends data to Grafana Cloud.
+
+### Be Patient
+
+Even after you've made a few requests, it can take a couple of minutes 
+until the data is visible in Application Observability.
+
+### Look for errors 
+
+Look for error - either on the console or in docker or Kubernetes logs 
+(using Application Observability logs doesn't make sense in this case).
+
+If there are errors sending telemetry data, one of the parameters is usually wrong.
+A 5xx response code means that there's something wrong with the [Grafana Cloud OTLP Gateway]. 
+
+### Log all sent telemetry data
+
+If there are not errors in the logs, make sure that the application is actually sending data all using 
+[debug logging](#enable-debug-logging).
+If the application is not sending data, the java agent was probably not loaded - look for the `-javaagent` command line
+parameter.
+
+### Log telemetry data in Grafana Agent or OpenTelemetry Collector
+
+If the application is sending data to a Grafana Agent or OpenTelemetry Collector instead of [Grafana Cloud OTLP Gateway], 
+make sure that there is no error forwarding the telemetry data.
+
+### OpenTelemetry Instrumentation for Java troubleshooting guide
+
+Finally, there also the [troubleshooting guide](https://github.com/open-telemetry/opentelemetry-java-instrumentation#troubleshooting)
+of the upstream OpenTelemetry Instrumentation for Java.
 
 ## Reference
 
@@ -231,3 +265,4 @@ The following metrics are currently (or planned to be) used by Application Obser
 
 [OpenTelemetry Javaagent]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
 [Grafana Cloud Application Observability]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/
+[Grafana Cloud OTLP Gateway]: #grafana-cloud-otlp-gateway
