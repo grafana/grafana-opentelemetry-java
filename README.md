@@ -7,11 +7,6 @@
 
 [![Build](https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/build.yml)
 
-* [About](#about)
-* [Getting Started](#getting-started)
-* [Installation](#getting-started)
-* [Troubleshooting](#troubleshooting)
-
 ## About
 
 Grafana Distribution of [OpenTelemetry Instrumentation for Java] - optimized for [Grafana Cloud Application Observability]. 
@@ -72,18 +67,22 @@ export OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,s
 java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 ```
 
+> **Important**: Please check the [Troubleshooting guide](#troubleshooting) if you don't see data in Application Observability.
+
+| Attribute                 | Description                                                                      | Default Value                                                      |
+|---------------------------|----------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| GRAFANA_CLOUD_INSTANCE_ID | **Instance ID** in  **Grafana**/**Details** on <https://grafana.com/profile/org> | -                                                                  |
+| GRAFANA_CLOUD_ZONE        | **Zone** in  **Grafana**/**Details** on <https://grafana.com/profile/org>        | -                                                                  |
+| GRAFANA_CLOUD_API_KEY     | Create an API key (see above)                                                    | -                                                                  |
+| OTEL_SERVICE_NAME         | The application name                                                             | name of the jar file                                               |
+| service.namespace         | An optional namespace for `service.name`                                         | -                                                                  |
+| deployment.environment    | Name of the deployment environment (`staging` or `production`)                   | -                                                                  |
+| service.instance.id       | The unique instance, e.g. the pod name                                           | random UUID or `<k8s.pod.name>/<k8s.container.name>` (if provided) |
+| service.version           | The application version, to see if a new version has introduced a bug            | -                                                                  |
+
 > **Note**: You can also use system properties instead of environment variables, 
 > e.g. `-Dgrafana.cloud.instance.id=<GRAFANA_CLOUD_INSTANCE_ID>` instead of 
-> `export GRAFANA_CLOUD_INSTANCE_ID=<GRAFANA_CLOUD_INSTANCE_ID>`.
-
-
-| Attribute              | Description                                                           | Default Value                                                      |
-|------------------------|-----------------------------------------------------------------------|--------------------------------------------------------------------|
-| service.namespace      | An optional namespace for `service.name`                              | -                                                                  |
-| service.name           | The application name                                                  | name of the jar file                                               |
-| deployment.environment | Name of the deployment environment (`staging` or `production`)        | -                                                                  |
-| service.instance.id    | The unique instance, e.g. the pod name                                | random UUID or `<k8s.pod.name>/<k8s.container.name>` (if provided) |
-| service.version        | The application version, to see if a new version has introduced a bug | -                                                                  |
+> `export GRAFANA_CLOUD_INSTANCE_ID=<GRAFANA_CLOUD_INSTANCE_ID>`. 
 
 #### Grafana Agent
 
@@ -106,24 +105,23 @@ export OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,s
 java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 ```
 
+> **Important**: Please check the [Troubleshooting guide](#troubleshooting) if you don't see data in Application Observability.
+
+| Attribute                   | Description                                                           | Default Value                                                      |
+|-----------------------------|-----------------------------------------------------------------------|--------------------------------------------------------------------|
+| OTEL_EXPORTER_OTLP_ENDPOINT | URL of the Grafana Agent or OpenTelemetry Collector                   | http://localhost:4317                                              |
+| OTEL_EXPORTER_OTLP_PROTOCOL | Protocol of the Grafana Agent or OpenTelemetry Collector              | grpc                                                               |
+| OTEL_SERVICE_NAME           | The application name                                                  | name of the jar file                                               |
+| service.namespace           | An optional namespace for `service.name`                              | -                                                                  |
+| deployment.environment      | Name of the deployment environment (`staging` or `production`)        | -                                                                  |
+| service.instance.id         | The unique instance, e.g. the pod name                                | random UUID or `<k8s.pod.name>/<k8s.container.name>` (if provided) |
+| service.version             | The application version, to see if a new version has introduced a bug | -                                                                  |
+
 > **Note**: You can also use system properties instead of environment variables, 
 > e.g. `-Dotel.service.name=<OTEL_SERVICE_NAME>` instead of 
 > `export OTEL_SERVICE_NAME=<OTEL_SERVICE_NAME>`.
 
-
-| Attribute              | Description                                                           | Default Value                                                      |
-|------------------------|-----------------------------------------------------------------------|--------------------------------------------------------------------|
-| service.namespace      | An optional namespace for `service.name`                              | -                                                                  |
-| service.name           | The application name                                                  | name of the jar file                                               |
-| deployment.environment | Name of the deployment environment (`staging` or `production`)        | -                                                                  |
-| service.instance.id    | The unique instance, e.g. the pod name                                | random UUID or `<k8s.pod.name>/<k8s.container.name>` (if provided) |
-| service.version        | The application version, to see if a new version has introduced a bug | -                                                                  |
-
-
 The application will send data to the Grafana Agent. Please follow the [Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/) guide.
-       
-> **Note**: If the Grafana Agent is **not** running locally with the default gRPC endpoint (localhost:4317), 
-> adjust the endpoint and protocol.
 
 ## Troubleshooting
 
