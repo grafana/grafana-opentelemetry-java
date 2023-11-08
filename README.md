@@ -140,7 +140,7 @@ until the data is visible in Application Observability.
 
 ### Look for errors 
 
-Look for error - either on the console or in docker or Kubernetes logs 
+Look for errors - either on the console or in docker or Kubernetes logs 
 (using Application Observability logs doesn't make sense in this case).
 
 If there are errors sending telemetry data, one of the parameters is usually wrong.
