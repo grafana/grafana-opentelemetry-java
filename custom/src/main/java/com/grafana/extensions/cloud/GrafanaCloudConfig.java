@@ -6,9 +6,9 @@
 package com.grafana.extensions.cloud;
 
 public class GrafanaCloudConfig {
-  public static final String CLOUD_API_KEY_PROP = "grafana.otlp.cloud.api.key";
-  public static final String CLOUD_INSTANCE_ID_PROP = "grafana.otlp.cloud.instance.id";
-  public static final String CLOUD_ZONE_PROP = "grafana.otlp.cloud.zone";
+  public static final String CLOUD_API_KEY_PROP = "grafana.cloud.api.key";
+  public static final String CLOUD_INSTANCE_ID_PROP = "grafana.cloud.instance.id";
+  public static final String CLOUD_ZONE_PROP = "grafana.cloud.zone";
 
   public GrafanaCloudConfig(String apiKey, int instanceId, String zone) {
     this.apiKey = apiKey;
