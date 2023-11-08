@@ -14,24 +14,27 @@
 
 ## About
 
-Grafana Distribution of the [OpenTelemetry JavaAgent] - Optimized for [Grafana Cloud Application Observability]. 
+Grafana Distribution of [OpenTelemetry Instrumentation for Java] - optimized for [Grafana Cloud Application Observability]. 
 
 This project provides a Java agent JAR that can be attached to any Java 8+ application and dynamically 
 injects bytecode to capture telemetry from a number of popular libraries and frameworks.
 
 As this is the Grafana distribution, there are some settings that make it easy to connect to Grafana Cloud - 
-but all configuration options of the [OpenTelemetry JavaAgent] are available as well.
+but all configuration options of [OpenTelemetry Instrumentation for Java] are available as well.
 
 > **Note**: 
-> - You can use the [OpenTelemetry JavaAgent] directly for [Grafana Cloud Application Observability] - this distribution is just a convenience wrapper.
+> - You can use [OpenTelemetry Instrumentation for Java] directly for [Grafana Cloud Application Observability] - 
+>   this distribution is just a convenience wrapper.
 >   You can find more information how to send telemetry data to Grafana Cloud Databases 
 >   [here](https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/).
 > - You can use this distribution for any OpenTelemetry use case, not just Grafana Cloud.
+> - You can migrate from this distribution to OpenTelemetry Instrumentation for Java as explained
+>   [here](#migrating-to-opentelemetry-instrumentation-for-java).
 
 ## Compatibility
 
 - Java 8+
-- We regularly update to the latest version of the [OpenTelemetry JavaAgent] - you can find the current
+- We regularly update to the latest version of [OpenTelemetry Instrumentation for Java] - you can find the current
   version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
 - [Tested Libraries](examples/README.md)
 
@@ -232,7 +235,7 @@ These are the tested instrumentations:
 | jedis                                     | [Redis with Jedis client](./examples/redis/README.md)                                                                                             |
 | lettuce                                   | [Redis with Jedis client](./examples/redis/README.md)                                                                                             |
 
-### Grafana Cloud Application Observability Metrics
+### Data Saver
 
 You can reduce metrics costs by turning off all metrics that are not used by the dashboards in Application Observability.
 
@@ -263,6 +266,31 @@ The following metrics are currently (or planned to be) used by Application Obser
 | mongodb.driver.pool.checkedout             | Used by [MongoDB example](examples/mongodb/README.md)                  |
 
 
-[OpenTelemetry Javaagent]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
+[OpenTelemetry Instrumentation for Java]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
 [Grafana Cloud Application Observability]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/
 [Grafana Cloud OTLP Gateway]: #grafana-cloud-otlp-gateway
+
+### Migrating to OpenTelemetry Instrumentation for Java
+                                     
+Follow these steps if you want to migrate from this distribution to the upstream project 
+OpenTelemetry Instrumentation for Java: 
+
+- Replace all environment variables or system properties with the "grafana" prefix as explained 
+  [here](https://grafana.com/docs/grafana-cloud/send-data/otlp/send-data-otlp/#push-directly-from-applications-using-the-opentelemetry-sdks).
+- Add the `service.instance.id` to the `OTEL_RESOURCE_ATTRIBUTES`, e.g. `OTEL_RESOURCE_ATTRIBUTES=service.instance.id=<pod123>,deployment.environment=...` 
+  where `<pod123>` it the name of the Kubernetes pod or some other unique identifier within the service
+  (future versions of OpenTelemetry Instrumentation for Java might include this feature).
+- If you use [Data Saver](#data-saver), you can filter the metrics in the OpenTelemetry Collector instead
+  ([docs](https://opentelemetry.io/docs/collector/transforming-telemetry/#basic-filtering)).
+  The Data Saver section lists all metrics to keep. 
+- The resource detectors for Kubernetes (for EKS and GKE) are not bundled in OpenTelemetry Instrumentation for Java.
+  You can get the same and more resource attributes using the OpenTelemetry collector
+  ([docs](https://grafana.com/docs/opentelemetry/collector/enriching-attributes-in-cloud/#adding-kubernetes-resource-attributes)).
+- Add the environment variables below for the best experience with Application Observability:
+
+```shell
+export OTEL_SEMCONV_STABILITY_OPT_IN=http
+export OTEL_INSTRUMENTATION_MICROMETER_BASE_TIME_UNIT=s
+export OTEL_INSTRUMENTATION_LOG4J_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true
+export OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true 
+```
