@@ -14,6 +14,7 @@ From the project root, run the following command to update the repo with the new
 
 ```sh
 ./scripts/release.sh "<VERSION>"
+gradle build # this will update the version in Java
 ```
 
 1. Update the repo's CHANGELOG with details about the release.

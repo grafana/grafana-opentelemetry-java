@@ -64,6 +64,10 @@ Where you can find the instrumentation scope:
 - for traces - look in tempo plugin in grafana
 - for metrics - look at the debug log output in output.log
 
+## Releasing
+
+See [RELEASING](RELEASING.md).
+
 ## Debugging GitHub Actions
 
 GitHub Actions for Acceptance test store the output log files - which can be found in the artifacts section of the GitHub Actions run.
