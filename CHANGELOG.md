@@ -1,6 +1,6 @@
 # Changelog
-                   
-## Unreleased 
+
+## Unreleased
 
 - Add resource detectors for Google Cloud and AWS - mainly for Kubernetes monitoring.
 - Add ability to drop metrics that are not needed for Application Observability ([docs](README.md#data-saver)).

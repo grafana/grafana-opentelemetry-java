@@ -14,7 +14,7 @@ Each example project is run in the same way - so these instructions apply to all
 
 ### Java
 
-Use https://asdf-vm.com/ to switch jdk versions - or just look at `.tool-versions` and select the JDK manually
+Use <https://asdf-vm.com/> to switch jdk versions - or just look at `.tool-versions` and select the JDK manually
 before running any of the examples.
 
 ### Grafana Agent
@@ -32,7 +32,7 @@ Use `./run.sh` to start each example application.
 
 ### Debugging the example application
 
-- Use `./run.sh --attachDebugger` to attach a debugger to https://github.com/open-telemetry/opentelemetry-java-instrumentation
+- Use `./run.sh --attachDebugger` to attach a debugger to <https://github.com/open-telemetry/opentelemetry-java-instrumentation>
   as explained in [debugging](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/contributing/debugging.md).
 - Use `./run.sh --debugInstrumentations` to output the instrumentations that are loaded by the java agent.
 - Use `./run.sh --debugLogging` to output all telemetry data to the console.
@@ -45,11 +45,11 @@ These options can be combined.
 ### Log4j
 
 If you want to test log4j, change the following in "build.gradle":
+
 - add `implementation "org.springframework.boot:spring-boot-starter-log4j2"` in the dependencies section
 - add ```configurations {
   all*.exclude module: 'spring-boot-starter-logging'
-} ```
-
+}```
 
 # Results
 
@@ -104,7 +104,6 @@ it's noted separately in the section (e.g. [Jedis client span](#jedis-client-spa
 | Hibernate / JPA | ☑️     | ☑️                        |
 | Active MQ / JMS | ☑️     | ❌                         |
 
-
 ### Traces
 
 Full trace for a request to the Cart Controller:
@@ -116,6 +115,7 @@ For a reactive spring application
 ![](doc/trace-reactive.png)
 
 Notes:
+
 - the nesting level in the reactive trace is "too flat" - not investigated why
 - the server span "GET /controller" is missing - not investigated why
 
@@ -234,7 +234,7 @@ Log message attributes:
 
 #### JVM overview metrics
 
-Use https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry/ or the Application Observability app
+Use <https://grafana.com/grafana/dashboards/18812-jvm-overview-opentelemetry/> or the Application Observability app
 
 #### Web Server metrics
 
