@@ -6,6 +6,7 @@
 # Grafana OpenTelemetry distribution for Java
 
 [![Build](https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/build.yml)
+[![Slack](https://img.shields.io/badge/join%20slack-%23app--o11y-brightgreen.svg?logo=slack)](https://grafana.slack.com/archives/C05E87XRK3J)
 
 ## About
 
@@ -160,6 +161,19 @@ make sure that there is no error forwarding the telemetry data.
 
 Finally, there also the [troubleshooting guide](https://github.com/open-telemetry/opentelemetry-java-instrumentation#troubleshooting)
 of the upstream OpenTelemetry Instrumentation for Java.
+
+
+## Community
+
+To engage with the Grafana Application Observability community:
+
+* Chat with us on our community Slack channel. To invite yourself to the
+  Grafana Slack, visit [https://slack.grafana.com/](https://slack.grafana.com)
+  and join the [#application-observability](https://grafana.slack.com/archives/C05E87XRK3J)
+channel.
+* Ask questions on the [Discussions page](https://github.com/grafana/grafana-opentelemetry-java/discussions).
+* [File an issue](https://github.com/grafana/grafana-opentelemetry-java/issues/new)
+  for bugs, issues, and feature suggestions.
 
 ## Reference
 
