@@ -122,7 +122,7 @@ java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 
 The application will send data to the Grafana Agent. Please follow the [Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/) guide.
        
-> **Note**: If the grafana agent is **not** running locally with the default gRPC endpoint (localhost:4317), 
+> **Note**: If the Grafana Agent is **not** running locally with the default gRPC endpoint (localhost:4317), 
 > adjust the endpoint and protocol.
 
 ## Troubleshooting
