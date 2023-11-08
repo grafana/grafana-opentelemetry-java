@@ -61,17 +61,17 @@ If you're just getting started with Grafana Cloud, you can [sign up for permanen
 Enable the instrumentation agent using the `-javaagent` flag to the JVM.
 
 ```shell
-GRAFANA_OTLP_CLOUD_INSTANCE_ID=<GRAFANA_INSTANCE_ID> \
-GRAFANA_OTLP_CLOUD_ZONE=<GRAFANA_ZONE> \
-GRAFANA_OTLP_CLOUD_API_KEY=<GRAFANA_CLOUD_API_KEY> \
-OTEL_SERVICE_NAME=<SERVICE_NAME> \
-OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,service.namespace=<AREA_OF_SERVICE>,service.version=<SERVICE_VERSION> \
+export GRAFANA_CLOUD_INSTANCE_ID=<GRAFANA_CLOUD_INSTANCE_ID>
+export GRAFANA_CLOUD_ZONE=<GRAFANA_CLOUD_ZONE>
+export GRAFANA_CLOUD_API_KEY=<GRAFANA_CLOUD_API_KEY>
+export OTEL_SERVICE_NAME=<SERVICE_NAME>
+export OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,service.namespace=<AREA_OF_SERVICE>,service.version=<SERVICE_VERSION>
 java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 ```
 
 > **Note**: You can also use system properties instead of environment variables, 
-> e.g. `-Dgrafana.otlp.cloud.instance.id=<GRAFANA_INSTANCE_ID>` instead of 
-> `export GRAFANA_OTLP_CLOUD_INSTANCE_ID=<GRAFANA_INSTANCE_ID>`.
+> e.g. `-Dgrafana.cloud.instance.id=<GRAFANA_CLOUD_INSTANCE_ID>` instead of 
+> `export GRAFANA_CLOUD_INSTANCE_ID=<GRAFANA_CLOUD_INSTANCE_ID>`.
 
 
 | Attribute              | Description                                                           | Default Value                                                      |
@@ -96,16 +96,16 @@ First, download the latest release from the [releases page](https://github.com/g
 Enable the instrumentation agent using the `-javaagent` flag to the JVM.
 
 ```shell
-OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317 \
-OTEL_EXPORTER_OTLP_PROTOCOL=grpc \
-OTEL_SERVICE_NAME=<SERVICE_NAME> \
-OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,service.namespace=<AREA_OF_SERVICE>,service.version=<SERVICE_VERSION> \
+export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+export OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+export OTEL_SERVICE_NAME=<SERVICE_NAME>
+export OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<PRODUCTION_OR_STAGING>,service.namespace=<AREA_OF_SERVICE>,service.version=<SERVICE_VERSION>
 java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 ```
 
 > **Note**: You can also use system properties instead of environment variables, 
-> e.g. `-Dgrafana.otlp.cloud.instance.id=<GRAFANA_INSTANCE_ID>` instead of 
-> `export GRAFANA_OTLP_CLOUD_INSTANCE_ID=<GRAFANA_INSTANCE_ID>`.
+> e.g. `-Dotel.service.name=<OTEL_SERVICE_NAME>` instead of 
+> `export OTEL_SERVICE_NAME=<OTEL_SERVICE_NAME>`.
 
 
 | Attribute              | Description                                                           | Default Value                                                      |
