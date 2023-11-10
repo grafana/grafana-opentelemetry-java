@@ -77,7 +77,7 @@ java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 Finally, make a few requests to your service (to make sure it sends data to Grafana Cloud) and observer your service in
 [Grafana Cloud Application Observability] (it might take up to a minute for data to appear).
 
-> **Important**: Please check the [Troubleshooting guide](#troubleshooting) if you don't see data in 
+> **Important**: Please check the [Troubleshooting guide](#troubleshooting) if you don't see data in
 > Application Observability.
 
 ## Grafana Agent
@@ -92,7 +92,7 @@ The telemetry data is then forwarded to Grafana Cloud.
 First, download the latest release from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-1. If the Grafana Agent is not running locally or doesn't use the default grpc endpoint, 
+1. If the Grafana Agent is not running locally or doesn't use the default grpc endpoint,
    adjust OTEL_EXPORTER_OTLP_ENDPOINT or OTEL_EXPORTER_OTLP_PROTOCOL.
 2. Choose a **Service Name** to identify your service.
 3. Optionally, you can make it easier to filter your data in Application Observability by adding the following
@@ -119,7 +119,7 @@ guide.
 Finally, make a few requests to your service (to make sure it sends data to Grafana Cloud) and observer your service in
 [Grafana Cloud Application Observability] (it might take up to a minute for data to appear).
 
-> **Important**: Please check the [Troubleshooting guide](#troubleshooting) if you don't see data in 
+> **Important**: Please check the [Troubleshooting guide](#troubleshooting) if you don't see data in
 > Application Observability.
 
 ## Troubleshooting

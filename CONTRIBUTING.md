@@ -16,6 +16,13 @@ This project is a javaagent distribution of the OpenTelemetry Java instrumentati
 The build process will generate `agent/build/libs/grafana-opentelemetry-java.jar`, which contains the upstream
 javaagent.jar as well as our custom extension.
 
+## Code formatting
+
+- Java: `./gradlew spotlessApply`
+- Markdown lint: `markdownlint -f .` (`-f` fixes simple violations, requires [markdownlint](https://github.com/DavidAnson/markdownlint#markdownlint))
+- Markdown link checker: `find . -name '*.md' -print0 | xargs -0 -n1 markdown-link-check -c .markdown-link-check.json`
+  (requires [markdown-link-check](https://github.com/tcort/markdown-link-check))
+
 ## Debugging
 
 If one of the test applications in the "examples" directory fails to produce the right telemetry
