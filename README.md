@@ -40,10 +40,10 @@ but all configuration options of [OpenTelemetry Instrumentation for Java] are av
 
 ## Getting Started
 
-> **Important**: Please use the [Grafana Agent](#grafana-agent) configuration for production use cases.
-
 The easiest setup is Cloud OTLP Gateway - no additional service required
 (Grafana Cloud OTLP Gateway is a managed service that is available in all Grafana Cloud plans).
+
+> **Important**: Please use the [Grafana Agent](#grafana-agent) configuration for production use cases.
 
 First, download the latest release from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
