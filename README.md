@@ -66,7 +66,8 @@ is a managed service that is available in all Grafana Cloud plans.
 First, download the latest release of this distribution from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-Login to Grafana Cloud and follow the following instructions to obtain the necessary information to send telemetry data to Grafana Cloud:
+Login to Grafana Cloud and follow the following instructions
+to obtain the necessary information to send telemetry data to Grafana Cloud:
 
 If you're just getting started with Grafana Cloud, you can
 [sign up for permanent free plan](https://grafana.com/products/cloud/).
@@ -94,7 +95,8 @@ export OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<Environment>,service.nam
 java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 ```
 
-Finally, make a few requests to the service to make sure it sends data to Grafana Cloud. It might take up to a minute for data to appear.
+Finally, make a few requests to the service to make sure it sends data to Grafana Cloud.
+It might take up to a minute for data to appear.
 
 **Important**: refer to the [troubleshooting guide](#troubleshooting) if there is no data in Application Observability.
 
@@ -110,7 +112,8 @@ The telemetry data is then forwarded to Grafana Cloud.
 First, download the latest release of this distribution from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-Login to Grafana Cloud and follow the following instructions to obtain the necessary information to send telemetry data to Grafana Cloud:
+Login to Grafana Cloud and follow the following instructions to obtain the necessary information
+to send telemetry data to Grafana Cloud:
 
 If you're just getting started with Grafana Cloud, you can
 [sign up for permanent free plan](https://grafana.com/products/cloud/).
@@ -139,7 +142,8 @@ The application will send data to the Grafana Agent. Please follow the
 [Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/)
 guide.
 
-Finally, make a few requests to the service to make sure it sends data to Grafana Cloud. It might take up to a minute for data to appear.
+Finally, make a few requests to the service to make sure it sends data to Grafana Cloud.
+It might take up to a minute for data to appear.
 
 **Important**: refer to the [troubleshooting guide](#troubleshooting) if there is no data in Application Observability.
 
@@ -172,7 +176,8 @@ The application will send data to the OpenTelemetry Collector. Please follow the
 [OpenTelemetry Collector configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/)
 guide.
 
-Finally, make a few requests to the service to make sure it sends data to Grafana Cloud. It might take up to a minute for data to appear.
+Finally, make a few requests to the service to make sure it sends data to Grafana Cloud.
+It might take up to a minute for data to appear.
 
 **Important**: refer to the [troubleshooting guide](#troubleshooting) if there is no data in Application Observability.
 
@@ -370,5 +375,5 @@ export OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true
 [OpenTelemetry Collector]: #opentelemetry-collector
 
 [^1]:
-    System properties can be used instead of environment variables, for example 
+    System properties can be used instead of environment variables, for example
     `-Dotel.service.name=<OTEL_SERVICE_NAME>` instead of `export OTEL_SERVICE_NAME=<OTEL_SERVICE_NAME>`.
