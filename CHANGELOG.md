@@ -1,11 +1,11 @@
 # Changelog
-        
+
 ## 0.31.0 (2023-11-13)
-                        
+
 - This is the **first public preview release** of this distribution which is released together with the
-  public release of 
+  public release of
   [Grafana Cloud Application Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/).
-- This release is based on OpenTelemetry 1.31.0 - so the version number becomes 0.31.0 
+- This release is based on OpenTelemetry 1.31.0 - so the version number becomes 0.31.0
   (we'll switch to 1.x.y with the first GA release).
 - No functional changes.
 
