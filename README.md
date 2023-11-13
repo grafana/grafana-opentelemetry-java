@@ -26,7 +26,7 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
   you can use all configuration options of upstream.
 - **Optimized for Application Observability and Grafana Agent**: No need to tweak any configuration settings
   if you use the latest version of the Grafana Agent.
-- **Fast Bug Fixes**: We can fix bugs faster without waiting for the next release of 
+- **Fast Bug Fixes**: We can fix bugs faster without waiting for the next release of
   upstream.
 - **Cost Optimized**: You can save costs by sending only the metrics that are actually used by the dashboards in
   Application Observability ([opt-in](#data-saver)).
