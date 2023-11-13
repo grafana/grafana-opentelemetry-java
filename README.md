@@ -30,9 +30,6 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
   upstream.
 - **Cost Optimized**: You can save costs by sending only the metrics that are actually used by the dashboards in
   Application Observability ([opt-in](#data-saver)).
-- **Easy to migrate**: Finally, rest assured that you can always
-  [migrate](#migrating-to-opentelemetry-instrumentation-for-java) from this distribution to
-  upstream at any time.
   
 > **Open Source Friendly**:
 >
