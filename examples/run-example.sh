@@ -33,7 +33,7 @@ done
 
 "$scriptDir"/start-grafana-agent.sh
 
-agentVersion=0.1.0
+agentVersion=0.31.0
 agent="grafana-opentelemetry-java-$agentVersion.jar"
 agentPath="$scriptDir/$agent"
 
