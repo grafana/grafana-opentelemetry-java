@@ -14,6 +14,8 @@
 
 Grafana Distribution of [OpenTelemetry Instrumentation for Java] -
 optimized for [Grafana Cloud Application Observability].
+                                                                       
+![Application Observability](https://grafana.com/media/blog/otel-distro-java/application-observability-grafana-cloud-overview-go.png)
 
 This project provides a Java agent JAR that can be attached to any Java 8+ application and dynamically
 injects bytecode to capture telemetry from a number of popular libraries and frameworks.
