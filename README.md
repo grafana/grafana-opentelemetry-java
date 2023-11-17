@@ -14,7 +14,7 @@
 
 Grafana Distribution of [OpenTelemetry Instrumentation for Java] -
 optimized for [Grafana Cloud Application Observability].
-                                                                       
+
 ![Application Observability](https://grafana.com/media/blog/otel-distro-java/application-observability-grafana-cloud-overview-go.png)
 
 This project provides a Java agent JAR that can be attached to any Java 8+ application and dynamically
@@ -172,7 +172,7 @@ In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/s
 
 ### OpenTelemetry Collector
 
-> 💨 **Try it out quickly with Spring PetClinic**: Follow the instructions in the [Dockerfile](Dockerfile.production). 
+> 💨 **Try it out quickly with Spring PetClinic**: Follow the instructions in the [Dockerfile](Dockerfile.production).
 
 #### Step 1: Download the instrumentation agent
 
