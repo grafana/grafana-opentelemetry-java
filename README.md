@@ -61,10 +61,10 @@ For an easier local development setup, send directly to Grafana Cloud OTLP Gatew
 **Note**: The [Grafana Cloud OTLP Gateway](https://grafana.com/docs/grafana-cloud/send-data/otlp/send-data-otlp/)
 is a managed service that is available in all Grafana Cloud plans.
 
-> **Try it out quickly with Spring PetClinic**: 
+> **Try it out quickly with Spring PetClinic**:
 > Follow the instructions in the [Dockerfile](Dockerfile) or [Dockerfile.production](Dockerfile.production).
 
-**Step 1: Download the instrumentation agent**
+#### Step 1: Download the instrumentation agent
 
 Download the latest release of this distribution from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
@@ -123,7 +123,7 @@ The telemetry data is then forwarded to Grafana Cloud.
 > **Important**: Skip this section and let the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/)
 > create everything for you.
 
-**Step 1: Download the instrumentation agent**
+#### Step 1: Download the instrumentation agent**
 
 Download the latest release of this distribution from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
