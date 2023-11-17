@@ -61,8 +61,7 @@ For an easier local development setup, send directly to Grafana Cloud OTLP Gatew
 **Note**: The [Grafana Cloud OTLP Gateway](https://grafana.com/docs/grafana-cloud/send-data/otlp/send-data-otlp/)
 is a managed service that is available in all Grafana Cloud plans.
 
-> **Try it out quickly with Spring PetClinic**:
-> Follow the instructions in the [Dockerfile](Dockerfile) or [Dockerfile.production](Dockerfile.production).
+> 💨 **Try it out quickly with Spring PetClinic**: Follow the instructions in the [Dockerfile](Dockerfile).
 
 #### Step 1: Download the instrumentation agent
 
@@ -121,7 +120,7 @@ The Grafana Agent is a single binary that can be deployed as a sidecar or daemon
 or as a service in your network. It provides an endpoint where the application can send its telemetry data to.
 The telemetry data is then forwarded to Grafana Cloud.
 
-> **Important**: Skip this section and let the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/)
+> 💨 Skip this section and let the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/)
 > create everything for you.
 
 #### Step 1: Download the instrumentation agent
@@ -170,6 +169,8 @@ In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/s
 **Important**: refer to the [troubleshooting guide](#troubleshooting) if there is no data in Application Observability.
 
 ### OpenTelemetry Collector
+
+> 💨 **Try it out quickly with Spring PetClinic**: Follow the instructions in the [Dockerfile](Dockerfile.production). 
 
 #### Step 1: Download the instrumentation agent
 
