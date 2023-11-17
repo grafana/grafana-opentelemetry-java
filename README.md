@@ -69,7 +69,7 @@ is a managed service that is available in all Grafana Cloud plans.
 Download the latest release of this distribution from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-**Step 2: Instrument an application**
+#### Step 2: Instrument an application
 
 Login to Grafana Cloud and follow the following instructions
 to obtain the necessary information to send telemetry data to Grafana Cloud:
@@ -102,9 +102,10 @@ export OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<Environment>,service.nam
 java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 ```
 
-Finally, make some requests to the service to validate data is sent to Grafana Cloud. It might take up to five minutes for data to appear.
+Finally, make some requests to the service to validate data is sent to Grafana Cloud.
+It might take up to five minutes for data to appear.
 
-**Step 3: Observe the Service in Application Observability**
+#### Step 3: Observe the Service in Application Observability
 
 In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/services` or:
 
@@ -123,12 +124,12 @@ The telemetry data is then forwarded to Grafana Cloud.
 > **Important**: Skip this section and let the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/)
 > create everything for you.
 
-#### Step 1: Download the instrumentation agent**
+#### Step 1: Download the instrumentation agent
 
 Download the latest release of this distribution from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-**Step 2: Instrument an application**
+#### Step 2: Instrument an application
 
 1. If the Grafana Agent is not running locally or doesn't use the default grpc endpoint,
    adjust OTEL_EXPORTER_OTLP_ENDPOINT or OTEL_EXPORTER_OTLP_PROTOCOL (to `http/protobuf`).
@@ -155,9 +156,10 @@ The application will send data to the Grafana Agent. Please follow the
 [Grafana Agent configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/instrumentation/configuration/grafana-agent/)
 guide.
 
-Finally, make some requests to the service to validate data is sent to Grafana Cloud. It might take up to five minutes for data to appear.
+Finally, make some requests to the service to validate data is sent to Grafana Cloud.
+It might take up to five minutes for data to appear.
 
-**Step 3: Observe the Service in Application Observability**
+#### Step 3: Observe the Service in Application Observability
 
 In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/services` or:
 
@@ -169,12 +171,12 @@ In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/s
 
 ### OpenTelemetry Collector
 
-**Step 1: Download the instrumentation agent**
+#### Step 1: Download the instrumentation agent
 
 Download the latest release of this distribution from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-**Step 2: Instrument an application**
+#### Step 2: Instrument an application
 
 1. If the OpenTelemetry Collector is not running locally or doesn't use the default grpc endpoint,
    adjust OTEL_EXPORTER_OTLP_ENDPOINT or OTEL_EXPORTER_OTLP_PROTOCOL (to `http/protobuf`).
@@ -201,9 +203,10 @@ The application will send data to the OpenTelemetry Collector. Please follow the
 [OpenTelemetry Collector configuration for OpenTelemetry](https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/)
 guide.
 
-Finally, make some requests to the service to validate data is sent to Grafana Cloud. It might take up to five minutes for data to appear.
+Finally, make some requests to the service to validate data is sent to Grafana Cloud.
+It might take up to five minutes for data to appear.
 
-**Step 3: Observe the Service in Application Observability**
+#### Step 3: Observe the Service in Application Observability
 
 In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/services` or:
 
