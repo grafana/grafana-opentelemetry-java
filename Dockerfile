@@ -1,4 +1,7 @@
-# Example dockerfile using the Spring petclinic: https://github.com/spring-projects/spring-petclinic
+# Example quickstart Dockerfile:
+# - Spring petclinic:           https://github.com/spring-projects/spring-petclinic
+# - Grafana Cloud OTLP Gateway: https://github.com/grafana/grafana-opentelemetry-java#grafana-cloud-otlp-gateway
+# For production, use Dockerfile.production instead.
 
 FROM springio/petclinic
 
