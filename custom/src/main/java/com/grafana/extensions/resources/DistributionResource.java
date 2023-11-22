@@ -5,15 +5,17 @@
 
 package com.grafana.extensions.resources;
 
-import static io.opentelemetry.semconv.ResourceAttributes.TELEMETRY_SDK_NAME;
-import static io.opentelemetry.semconv.ResourceAttributes.TELEMETRY_SDK_VERSION;
-
 import com.grafana.extensions.resources.internal.DistributionVersion;
+import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.sdk.resources.Resource;
 import io.opentelemetry.semconv.ResourceAttributes;
 
 public final class DistributionResource {
+  public static final AttributeKey<String> DISTRIBUTION_NAME =
+      AttributeKey.stringKey("telemetry.distro.name");
+  public static final AttributeKey<String> DISTRIBUTION_VERSION =
+      AttributeKey.stringKey("telemetry.distro.version");
 
   private static final Resource INSTANCE = buildResource();
 
@@ -26,7 +28,10 @@ public final class DistributionResource {
   static Resource buildResource() {
     return Resource.create(
         Attributes.of(
-            TELEMETRY_SDK_NAME, "grafana", TELEMETRY_SDK_VERSION, DistributionVersion.VERSION),
+            DISTRIBUTION_NAME,
+            "grafana-opentelemetry-java",
+            DISTRIBUTION_VERSION,
+            DistributionVersion.VERSION),
         ResourceAttributes.SCHEMA_URL);
   }
 }
