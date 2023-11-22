@@ -43,6 +43,18 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
 > - You can migrate from this distribution to OpenTelemetry Instrumentation for Java as explained
 >   [here](#migrating-to-opentelemetry-instrumentation-for-java).
 
+## Community
+
+To engage with the Grafana Cloud Application Observability community:
+
+- Chat with us on our community Slack channel. To invite yourself to the
+  Grafana Slack, visit [https://slack.grafana.com/](https://slack.grafana.com)
+  and join the [#application-observability](https://grafana.slack.com/archives/C05E87XRK3J)
+channel.
+- Ask questions on the [Discussions page](https://github.com/grafana/grafana-opentelemetry-java/discussions).
+- [File an issue](https://github.com/grafana/grafana-opentelemetry-java/issues/new)
+  for bugs, enhancements, and feature suggestions.
+
 ## Compatibility
 
 - Java 8+
@@ -229,7 +241,7 @@ Make a few requests to the service to make sure it sends data to Grafana Cloud.
 
 ### Be Patient
 
-Even after you've made a few requests, it can take a couple of minutes
+Even after you've made a few requests, it can take up to 5 minutes
 until the data is visible in Application Observability.
 
 ### Look for errors
@@ -242,8 +254,8 @@ A 5xx response code means that there's something wrong with the [Grafana Cloud O
 
 ### Log all sent telemetry data
 
-If there are not errors in the logs, make sure that the application is actually sending data all using
-[debug logging](#enable-debug-logging).
+If there are no errors in the logs, make sure that the application is actually sending data all using
+[debug logging](#enable-otlp-debug-logging).
 If the application is not sending data, the java agent was probably not loaded - look for the `-javaagent` command line
 parameter.
 
@@ -252,23 +264,24 @@ parameter.
 If the application is sending data to a [Grafana Agent] or [OpenTelemetry Collector] instead of
 [Grafana Cloud OTLP Gateway], make sure that there is no error forwarding the telemetry data.
 
-### OpenTelemetry Instrumentation for Java troubleshooting guide
+### Enable debug logging in javaagent
 
-Finally, there is the
-[troubleshooting guide](https://github.com/open-telemetry/opentelemetry-java-instrumentation#troubleshooting)
-of the upstream OpenTelemetry Instrumentation for Java.
+To turn on the javaagent's internal debug logging:
+                   
+```shell
+export OTEL_JAVAAGENT_DEBUG=true
+```
 
-## Community
+**Note:** These logs are extremely verbose. Enable debug logging only when needed. Debug logging negatively impacts the performance of your application.
 
-To engage with the Grafana Cloud Application Observability community:
+### Disable javaagent
 
-- Chat with us on our community Slack channel. To invite yourself to the
-  Grafana Slack, visit [https://slack.grafana.com/](https://slack.grafana.com)
-  and join the [#application-observability](https://grafana.slack.com/archives/C05E87XRK3J)
-channel.
-- Ask questions on the [Discussions page](https://github.com/grafana/grafana-opentelemetry-java/discussions).
-- [File an issue](https://github.com/grafana/grafana-opentelemetry-java/issues/new)
-  for bugs, enhancements, and feature suggestions.
+If your service causes errors, and you want to check if it's because of a bug in the java agent, 
+you can disable the java completely:
+
+```shell
+export OTEL_JAVAAGENT_ENABLED=false
+```
 
 ## Reference
 
@@ -277,7 +290,7 @@ channel.
   which will take precedence.
 - All exporters are set to `otlp` by default (even the logs exporter).
 
-### Enable Debug Logging
+### Enable OTLP Debug Logging
 
 Log all metrics, traces, and logs that are created for debugging purposes (in addition to sending them to the backend
 via OTLP).
@@ -403,8 +416,6 @@ export OTEL_INSTRUMENTATION_MICROMETER_BASE_TIME_UNIT=s
 export OTEL_INSTRUMENTATION_LOG4J_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true
 export OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true 
 ```
-
---
 
 [OpenTelemetry Instrumentation for Java]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
 [Grafana Cloud Application Observability]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/
