@@ -374,23 +374,23 @@ export GRAFANA_OTEL_APPLICATION_OBSERVABILITY_METRICS=true
 
 The following metrics are currently (or planned to be) used by Application Observability:
 
-| Metric                                     | Description                                                            |
-|--------------------------------------------|------------------------------------------------------------------------|
-| process.runtime.jvm.system.cpu.utilization | Used in the JVM tab in Application Observability                       |
-| process.runtime.jvm.memory.usage           | Used in the JVM tab in Application Observability                       |
-| process.runtime.jvm.memory.limit           | Used in the JVM tab in Application Observability                       |
-| process.runtime.jvm.gc.duration            | Used in the JVM tab in Application Observability                       |
-| process.runtime.jvm.classes.current_loaded | Used in the JVM tab in Application Observability                       |
-| process.runtime.jvm.threads.count          | Used in the JVM tab in Application Observability                       |
-| db.client.connections.usage                | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732) |
-| db.client.connections.max                  | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732) |
-| db.client.connections.pending_requests     | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732) |
-| r2dbc.pool.acquired                        | Used by [reactive Database example](examples/jdbc/README.md)           |
-| r2dbc.pool.max.allocated                   | Used by [reactive Database example](examples/jdbc/README.md)           |
-| r2dbc.pool.pending                         | Used by [reactive Database example](examples/jdbc/README.md)           |
-| kafka.producer.record_error_total          | Used by [Kafka example](examples/kafka/README.md)                      |
-| mongodb.driver.pool.waitqueuesize          | Used by [MongoDB example](examples/mongodb/README.md)                  |
-| mongodb.driver.pool.checkedout             | Used by [MongoDB example](examples/mongodb/README.md)                  |
+| Metric                                 | Description                                                            |
+|----------------------------------------|------------------------------------------------------------------------|
+| jvm.cpu.recent_utilization             | Used in the JVM tab in Application Observability                       |
+| jvm.memory.used                        | Used in the JVM tab in Application Observability                       |
+| jvm.memory.limit                       | Used in the JVM tab in Application Observability                       |
+| jvm.gc.duration                        | Used in the JVM tab in Application Observability                       |
+| jvm.class.count                        | Used in the JVM tab in Application Observability                       |
+| jvm.thread.count                       | Used in the JVM tab in Application Observability                       |
+| db.client.connections.usage            | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732) |
+| db.client.connections.max              | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732) |
+| db.client.connections.pending_requests | Used in [JDBC dashboard](https://grafana.com/grafana/dashboards/19732) |
+| r2dbc.pool.acquired                    | Used by [reactive Database example](examples/jdbc/README.md)           |
+| r2dbc.pool.max.allocated               | Used by [reactive Database example](examples/jdbc/README.md)           |
+| r2dbc.pool.pending                     | Used by [reactive Database example](examples/jdbc/README.md)           |
+| kafka.producer.record_error_total      | Used by [Kafka example](examples/kafka/README.md)                      |
+| mongodb.driver.pool.waitqueuesize      | Used by [MongoDB example](examples/mongodb/README.md)                  |
+| mongodb.driver.pool.checkedout         | Used by [MongoDB example](examples/mongodb/README.md)                  |
 
 ### Migrating to OpenTelemetry Instrumentation for Java
 
