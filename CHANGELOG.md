@@ -1,4 +1,13 @@
 # Changelog
+                     
+## 0.32.0-beta.1 (2023-11-22)
+
+- Update to OpenTelemetry 1.32.0
+- **Breaking Change**: Use new [JVM semantic conventions](https://opentelemetry.io/docs/specs/semconv/runtime/jvm-metrics/)
+- **Breaking Change**: Use `telemetry.distro.name` = `grafana-opentelemetry-java` 
+  and `telemetry.distro.version` = `0.32.0-beta.1` to identify this distribution instead of 
+  `telemetry.sdk.name` = `grafana-opentelemetry-java` and `telemetry.sdk.version` = `0.32.0`
+  (for reference: from now on `telemetry.sdk.name` = `opentelemetry` and `telemetry.sdk.version` = `1.32.0`.
 
 ## 0.31.0 (2023-11-13)
 
