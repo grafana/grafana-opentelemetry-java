@@ -5,11 +5,10 @@
 
 package com.grafana.extensions.smoketest;
 
-import static io.opentelemetry.semconv.ResourceAttributes.TELEMETRY_SDK_NAME;
-import static io.opentelemetry.semconv.ResourceAttributes.TELEMETRY_SDK_VERSION;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.filter.DefaultMetrics;
+import com.grafana.extensions.resources.DistributionResource;
 import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
 import java.io.IOException;
@@ -42,13 +41,19 @@ class SpringBootSmokeTest extends SmokeTest {
     assertThat(countSpansByName(traces, "WebController.withSpan")).isEqualTo(1);
     assertThat(
             countResourcesByValue(
-                traces, TELEMETRY_SDK_VERSION.getKey(), DistributionVersion.VERSION))
+                traces,
+                DistributionResource.DISTRIBUTION_VERSION.getKey(),
+                DistributionVersion.VERSION))
         .isGreaterThan(0);
-    assertThat(countResourcesByValue(traces, TELEMETRY_SDK_NAME.getKey(), "grafana"))
+    assertThat(
+            countResourcesByValue(
+                traces,
+                DistributionResource.DISTRIBUTION_NAME.getKey(),
+                "grafana-opentelemetry-java"))
         .isGreaterThan(0);
 
     assertThat(getLogMessages(waitForLogs())).contains("HTTP request received");
-    assertThat(getMetricNames(waitForMetrics())).contains("process.runtime.jvm.buffer.limit");
+    assertThat(getMetricNames(waitForMetrics())).contains("jvm.memory.committed");
   }
 
   private String makeGreetCall() {
@@ -65,7 +70,7 @@ class SpringBootSmokeTest extends SmokeTest {
     makeGreetCall();
 
     List<String> metricNames = getMetricNames(waitForMetrics());
-    assertThat(metricNames).contains("process.runtime.jvm.memory.usage");
+    assertThat(metricNames).contains("jvm.memory.used");
     // all other metrics should have been filtered out
     assertThat(DefaultMetrics.DEFAULT_METRICS)
         .containsOnlyOnceElementsOf(new HashSet<>(metricNames));
