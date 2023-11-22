@@ -267,16 +267,17 @@ If the application is sending data to a [Grafana Agent] or [OpenTelemetry Collec
 ### Enable debug logging in javaagent
 
 To turn on the javaagent's internal debug logging:
-                   
+
 ```shell
 export OTEL_JAVAAGENT_DEBUG=true
 ```
 
-**Note:** These logs are extremely verbose. Enable debug logging only when needed. Debug logging negatively impacts the performance of your application.
+**Note:** These logs are extremely verbose. Enable debug logging only when needed.
+Debug logging negatively impacts the performance of your application.
 
 ### Disable javaagent
 
-If your service causes errors, and you want to check if it's because of a bug in the java agent, 
+If your service causes errors, and you want to check if it's because of a bug in the java agent,
 you can disable the java completely:
 
 ```shell
