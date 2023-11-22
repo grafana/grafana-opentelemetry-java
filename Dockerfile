@@ -48,7 +48,7 @@ ENV OTEL_SERVICE_NAME=<Service Name>
 #     - Click on "Application"
 # Note: It might take up to five minutes for data to appear.
 
-ARG version=0.31.0
+ARG version=0.32.0-beta.1
 WORKDIR /app/
 
 # use a fixed version
