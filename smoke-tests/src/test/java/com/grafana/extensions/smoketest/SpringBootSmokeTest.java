@@ -8,7 +8,6 @@ package com.grafana.extensions.smoketest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.filter.DefaultMetrics;
-import com.grafana.extensions.resources.DistributionResource;
 import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
 import java.io.IOException;
@@ -40,16 +39,9 @@ class SpringBootSmokeTest extends SmokeTest {
     assertThat(countSpansByName(traces, "WebController.greeting")).isEqualTo(1);
     assertThat(countSpansByName(traces, "WebController.withSpan")).isEqualTo(1);
     assertThat(
-            countResourcesByValue(
-                traces,
-                DistributionResource.DISTRIBUTION_VERSION.getKey(),
-                DistributionVersion.VERSION))
+            countResourcesByValue(traces, "telemetry.distro.version", DistributionVersion.VERSION))
         .isGreaterThan(0);
-    assertThat(
-            countResourcesByValue(
-                traces,
-                DistributionResource.DISTRIBUTION_NAME.getKey(),
-                "grafana-opentelemetry-java"))
+    assertThat(countResourcesByValue(traces, "telemetry.distro.name", "grafana-opentelemetry-java"))
         .isGreaterThan(0);
 
     assertThat(getLogMessages(waitForLogs())).contains("HTTP request received");
