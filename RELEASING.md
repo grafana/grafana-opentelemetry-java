@@ -14,6 +14,7 @@ From the project root, run the following command to update the repo with the new
 
 ```sh
 ./scripts/release.sh "<VERSION>"
+gradle build # this will update the version in Java
 ```
 
 1. Update the repo's CHANGELOG with details about the release.
@@ -25,3 +26,5 @@ From the project root, run the following command to update the repo with the new
 git tag -a v<VERSION> -m "Release v<VERSION>"
 git push origin v<VERSION>
 ```
+
+Copy the CHANGELOG entry to the release description on Github.

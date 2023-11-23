@@ -13,5 +13,5 @@ if [ "${#res}" -ne 2 ]; then
 fi
 
 oldVersion=$(grep -oP "(?<=^version )(.*)" build.gradle | sed "s/'//g")
-#sed -i "s/$oldVersion/$newVersion/g" README.md
+sed -i "s/$oldVersion/$newVersion/g" examples/run-example.sh Dockerfile
 sed -i "s/^version '$oldVersion'/version '$newVersion'/g" build.gradle
