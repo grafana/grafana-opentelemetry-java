@@ -1,0 +1,7 @@
+contact_links:
+  - name: Slack
+    url: https://grafana.slack.com/archives/C05E87XRK3J
+    about: Please ask questions here (you can invite yourself).
+  - name: GitHub Discussions
+    url: https://github.com/grafana/grafana-opentelemetry-java/discussions/new/choose
+    about: Or here.
