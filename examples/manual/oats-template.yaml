@@ -10,3 +10,16 @@ expected:
   metrics:
     - promql: 'cart_client{}' # created programmatically
       value: '>= 0'
+  dashboards:
+    - path: ../jvm-dashboard.json
+      panels:
+        - title: CPU utilization
+          value: "> 0"
+        - title: Heap Memory Utilization
+          value: "> 0"
+        - title: Garbage Collection
+          value: ">= 0"
+        - title: Classes
+          value: "> 0"
+        - title: Threads
+          value: "> 0"
