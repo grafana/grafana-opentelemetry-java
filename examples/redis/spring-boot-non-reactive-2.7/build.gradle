@@ -1,7 +1,7 @@
 plugins {
   id 'java'
   id 'org.springframework.boot' version '2.7.17'
-  id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+  id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'com.grafana'
@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation 'redis.clients:jedis:5.0.2'
+  implementation 'redis.clients:jedis:5.1.0'
 }
 
 bootRun {
