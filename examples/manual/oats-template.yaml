@@ -1,20 +1,25 @@
 matrix:
-  - name: new
+  - name: data-saver
     docker-compose:
       generator: java
-  - name: old-jvm-metrics
+  - name: no-data-saver-new
+    docker-compose:
+      generator: java
+      java-generator-params:
+        disable-data-saver: true # RED metrics are not included in data saver
+  - name: no-data-saver-old-jvm-metrics
     docker-compose:
       generator: java
       java-generator-params:
         old-jvm-metrics: true
         disable-data-saver: true
-  - name: prom-naming
+  - name: no-data-saver-prom-naming
     docker-compose:
       generator: java
       java-generator-params:
         disable-data-saver: true
         prom-naming: true
-  - name: prom-naming-old-jvm-metrics
+  - name: no-data-saver-prom-naming-old-jvm-metrics
     docker-compose:
       generator: java
       java-generator-params:
@@ -31,9 +36,22 @@ expected:
   metrics:
     - promql: 'cart_client{}' # created programmatically
       value: '>= 0'
+      matrix-condition: "^data-saver$"
+    - promql: 'cart_client_total{}' # created programmatically
+      value: '>= 0'
+      matrix-condition: ".*prom-naming.*"
   dashboards:
     - path: ../jvm-dashboard.json
       panels:
+        - title: Rate
+          value: "> 0"
+          matrix-condition: "no-data-saver-.*"
+        - title: Error %
+          value: "> 0"
+          matrix-condition: "no-data-saver-.*"
+        - title: Duration
+          value: "> 0"
+          matrix-condition: "no-data-saver-.*"
         - title: CPU utilization
           value: ">= 0"
         - title: Heap Memory Utilization

@@ -1,7 +1,7 @@
 {
   "__inputs": [
     {
-      "name": "DS_PROMETHEUS",
+      "name": "datasource",
       "label": "Prometheus",
       "description": "",
       "type": "datasource",
@@ -15,7 +15,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "10.0.5"
+      "version": "10.1.0-57731pre"
     },
     {
       "type": "datasource",
@@ -77,7 +77,295 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "${datasource}"
+      },
+      "description": "HTTP server request rate",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 51,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+            "expr": "sum by (instance) (rate({__name__=~\"http_server_(request_)?duration_(milli)?(seconds_)?count\", job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]))",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Rate",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "HTTP server error ratio - ratio of requests that return 5xx",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 4,
+        "y": 0
+      },
+      "id": 50,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "(sum by (instance)(rate({__name__=~\"http_server_request_duration_(milli)?(seconds_)?count\", job=~\"$job\", instance=~\"$instance\", http_response_status_code=~\"5.*\"}[$__rate_interval]))) / on (instance) (sum by (instance)(rate({__name__=~\"http_server_request_duration_(milli)?(seconds_)?count\", job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]))) or (sum by (instance)(rate({__name__=~\"http_server_duration_(milli)?(seconds_)?count\", job=~\"$job\", instance=~\"$instance\", http_status_code=~\"5.*\"}[$__rate_interval]))) / on (instance) (sum by (instance)(rate({__name__=~\"http_server_duration_(milli)?(seconds_)?count\", job=~\"$job\", instance=~\"$instance\"}[$__rate_interval])))\n",
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Error %",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "description": "HTTP server request duration",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 9,
+        "y": 0
+      },
+      "id": 52,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "(histogram_quantile(0.95, sum by(le, instance) (rate({__name__=~\"http_server_(request_)?duration_(milli)?(seconds_)?bucket\", job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]))))",
+          "instant": false,
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Duration",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
       },
       "description": "CPU utilization for the whole system",
       "fieldConfig": {
@@ -92,13 +380,14 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 30,
+            "fillOpacity": 25,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -137,7 +426,7 @@
         "h": 7,
         "w": 7,
         "x": 0,
-        "y": 0
+        "y": 8
       },
       "id": 38,
       "options": {
@@ -156,10 +445,11 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "{__name__=~\"(jvm_cpu_recent_utilization(_ratio)?|process_runtime_jvm_system_cpu_utilization(_ratio)?)\", job=~\"$job\", instance=~\"$instance\"}",
+          "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
         }
@@ -170,9 +460,9 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "${datasource}"
       },
-      "description": "How much of the available heap memory is used",
+      "description": "Used heap memory / heap memory limit ",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -192,6 +482,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -230,7 +521,7 @@
         "h": 7,
         "w": 7,
         "x": 7,
-        "y": 0
+        "y": 8
       },
       "id": 30,
       "options": {
@@ -249,7 +540,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "(sum by (instance) ({__name__=~\"jvm_memory_used(_bytes)?\",job=~\"$job\",jvm_memory_type=\"heap\", instance=~\"$instance\"}) / on(instance) sum by (instance) ({__name__=~\"jvm_memory_limit(_bytes)?\",job=~\"$job\",jvm_memory_type=\"heap\", instance=~\"$instance\"})) or (sum by (instance) ({__name__=~\"process_runtime_jvm_memory_usage(_bytes)?\",job=~\"$job\",type=\"heap\", instance=~\"$instance\"}) / on(instance) sum by (instance) ({__name__=~\"process_runtime_jvm_memory_limit(_bytes)?\",job=~\"$job\",type=\"heap\", instance=~\"$instance\"}))",
@@ -264,7 +555,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "${datasource}"
       },
       "description": "Percentage of time spend for garbage collection pauses",
       "fieldConfig": {
@@ -279,13 +570,14 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 30,
+            "fillOpacity": 25,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -320,7 +612,7 @@
         "h": 7,
         "w": 4,
         "x": 0,
-        "y": 7
+        "y": 15
       },
       "id": 46,
       "options": {
@@ -339,7 +631,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (rate({__name__=~\"(process_runtime_)?jvm_gc_duration_(seconds_)?sum\",job=~\"$job\", instance=~\"$instance\"}[1m]))",
@@ -355,7 +647,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "${datasource}"
       },
       "description": "Number of currently loaded classes",
       "fieldConfig": {
@@ -377,6 +669,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -415,7 +708,7 @@
         "h": 7,
         "w": 5,
         "x": 4,
-        "y": 7
+        "y": 15
       },
       "id": 33,
       "options": {
@@ -434,7 +727,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "{__name__=~\"(jvm_class_count|process_runtime_jvm_classes_current_loaded)\",job=~\"$job\", instance=~\"$instance\"}",
@@ -449,7 +742,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "${datasource}"
       },
       "description": "Number of currently executing (also called \"live\") threads",
       "fieldConfig": {
@@ -464,13 +757,14 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 30,
+            "fillOpacity": 25,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -509,7 +803,7 @@
         "h": 7,
         "w": 5,
         "x": 9,
-        "y": 7
+        "y": 15
       },
       "id": 42,
       "options": {
@@ -528,7 +822,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum({__name__=~\"(jvm_thread_count|process_runtime_jvm_threads_count)\",job=~\"$job\", instance=~\"$instance\"}) by (instance)",
@@ -541,7 +835,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "schemaVersion": 38,
   "style": "dark",
   "tags": [
@@ -557,8 +851,8 @@
       {
         "current": {
           "selected": false,
-          "text": "Prometheus",
-          "value": "Prometheus"
+          "text": "default",
+          "value": "default"
         },
         "description": "Choose a Prometheus data source",
         "hide": 0,
@@ -579,7 +873,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(process_runtime_jvm_memory_usage,job)",
         "hide": 0,
@@ -606,7 +900,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(process_runtime_jvm_memory_usage{job=~\"$job\"},instance)",
         "description": "The instance of the application, e.g. pod1",
@@ -662,7 +956,7 @@
   },
   "timezone": "",
   "title": "JVM Overview (OpenTelemetry)",
-  "uid": "8Z6ACMK41",
-  "version": 1,
+  "uid": "b91844d7-121e-4d0a-93b8-a9c1a05703b3",
+  "version": 13,
   "weekStart": ""
 }
