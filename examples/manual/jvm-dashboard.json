@@ -159,8 +159,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "jvm_cpu_recent_utilization{job=~\"$job\", instance=~\"$instance\"} or process_runtime_jvm_system_cpu_utilization{job=~\"$job\", instance=~\"$instance\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "{__name__=~\"(jvm_cpu_recent_utilization(_ratio)?|process_runtime_jvm_system_cpu_utilization(_ratio)?)\", job=~\"$job\", instance=~\"$instance\"}",
           "range": true,
           "refId": "A"
         }
@@ -253,7 +252,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "(sum by (instance) (jvm_memory_used{job=~\"$job\",jvm_memory_type=\"heap\", instance=~\"$instance\"}) / on(instance) sum by (instance) (jvm_memory_limit{job=~\"$job\",jvm_memory_type=\"heap\", instance=~\"$instance\"})) or (sum by (instance) (process_runtime_jvm_memory_usage{job=~\"$job\",type=\"heap\", instance=~\"$instance\"}) / on(instance) sum by (instance) (process_runtime_jvm_memory_limit{job=~\"$job\",type=\"heap\", instance=~\"$instance\"}))",
+          "expr": "(sum by (instance) ({__name__=~\"jvm_memory_used(_bytes)?\",job=~\"$job\",jvm_memory_type=\"heap\", instance=~\"$instance\"}) / on(instance) sum by (instance) ({__name__=~\"jvm_memory_limit(_bytes)?\",job=~\"$job\",jvm_memory_type=\"heap\", instance=~\"$instance\"})) or (sum by (instance) ({__name__=~\"process_runtime_jvm_memory_usage(_bytes)?\",job=~\"$job\",type=\"heap\", instance=~\"$instance\"}) / on(instance) sum by (instance) ({__name__=~\"process_runtime_jvm_memory_limit(_bytes)?\",job=~\"$job\",type=\"heap\", instance=~\"$instance\"}))",
           "legendFormat": "{{instance}} - used",
           "range": true,
           "refId": "A"
@@ -343,7 +342,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum by(instance) (rate(jvm_gc_duration_sum{job=~\"$job\", instance=~\"$instance\"}[1m])) or sum by(instance) (rate(process_runtime_jvm_gc_duration_sum{job=~\"$job\", instance=~\"$instance\"}[1m]))",
+          "expr": "sum by(instance) (rate({__name__=~\"(process_runtime_)?jvm_gc_duration_(seconds_)?sum\",job=~\"$job\", instance=~\"$instance\"}[1m]))",
           "hide": false,
           "legendFormat": "__auto",
           "range": true,
@@ -438,7 +437,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "jvm_class_count{job=~\"$job\", instance=~\"$instance\"} or process_runtime_jvm_classes_current_loaded{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "{__name__=~\"(jvm_class_count|process_runtime_jvm_classes_current_loaded)\",job=~\"$job\", instance=~\"$instance\"}",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -532,7 +531,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(jvm_thread_count{job=~\"$job\", instance=~\"$instance\"}) by (instance) or sum(process_runtime_jvm_threads_count{job=~\"$job\", instance=~\"$instance\"}) by (instance)",
+          "expr": "sum({__name__=~\"(jvm_thread_count|process_runtime_jvm_threads_count)\",job=~\"$job\", instance=~\"$instance\"}) by (instance)",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
