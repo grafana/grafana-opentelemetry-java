@@ -1,4 +1,35 @@
 {
+  "__inputs": [
+    {
+      "name": "datasource",
+      "label": "Prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "10.1.0-57731pre"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -26,7 +57,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 18812,
   "graphTooltip": 0,
-  "id": 1,
+  "id": null,
   "links": [
     {
       "asDropdown": false,
@@ -35,8 +66,8 @@
       "keepTime": false,
       "tags": [],
       "targetBlank": false,
-      "title": "Semantic Conventions: 1.20.0",
-      "tooltip": "",
+      "title": "Semantic Conventions: 1.20.0 - 1.22.0",
+      "tooltip": "multiple versions of the semantic conventions are supported using 'or' and regex queries",
       "type": "link",
       "url": "https://github.com/open-telemetry/semantic-conventions/blob/main/schemas/1.20.0"
     }
@@ -68,6 +99,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -163,6 +195,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -258,6 +291,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -353,6 +387,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -447,6 +482,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -541,6 +577,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -597,7 +634,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(instance) (rate({__name__=~\"jvm_gc_duration_sum|jvm_gc_duration_seconds_sum|process_runtime_jvm_gc_duration_sum|process_runtime_jvm_gc_duration_seconds_sum\",job=~\"$job\", instance=~\"$instance\"}[1m]))",
+          "expr": "sum by(instance) (rate({__name__=~\"jvm_gc_duration_sum|jvm_gc_duration_seconds_sum|process_runtime_jvm_gc_duration_sum|process_runtime_jvm_gc_duration_seconds_sum\",job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]))",
           "hide": false,
           "legendFormat": "__auto",
           "range": true,
@@ -632,6 +669,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -726,6 +764,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -796,7 +835,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "schemaVersion": 38,
   "style": "dark",
   "tags": [
@@ -812,8 +851,8 @@
       {
         "current": {
           "selected": false,
-          "text": "Prometheus",
-          "value": "Prometheus"
+          "text": "default",
+          "value": "default"
         },
         "description": "Choose a Prometheus data source",
         "hide": 0,
@@ -934,6 +973,6 @@
   "timezone": "",
   "title": "JVM Overview (OpenTelemetry)",
   "uid": "b91844d7-121e-4d0a-93b8-a9c1a05703b3",
-  "version": 1,
+  "version": 4,
   "weekStart": ""
 }
