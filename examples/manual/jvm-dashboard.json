@@ -1,7 +1,7 @@
 {
   "__inputs": [
     {
-      "name": "datasource",
+      "name": "DS_PROMETHEUS",
       "label": "Prometheus",
       "description": "",
       "type": "datasource",
@@ -15,7 +15,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "10.1.0-57731pre"
+      "version": "10.0.5"
     },
     {
       "type": "datasource",
@@ -77,7 +77,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "HTTP server request rate",
       "fieldConfig": {
@@ -99,7 +99,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -157,7 +156,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum by (instance) (rate({__name__=~\"http_server_request_duration_seconds_count|http_server_request_duration_count|http_server_duration_milliseconds_count|http_server_duration_seconds_count|http_server_duration_count\", job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]))",
@@ -173,7 +172,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "HTTP server error ratio - ratio of requests that return 5xx",
       "fieldConfig": {
@@ -195,7 +194,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -253,7 +251,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "(sum by (instance)(rate({__name__=~\"http_server_request_duration_seconds_count|http_server_request_duration_count\", job=~\"$job\", instance=~\"$instance\", http_response_status_code=~\"5.*\"}[$__rate_interval]))) / on (instance) (sum by (instance)(rate({__name__=~\"http_server_request_duration_seconds_count|http_server_request_duration_count\", job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]))) or (sum by (instance)(rate({__name__=~\"http_server_duration_milliseconds_count|http_server_duration_seconds_count|http_server_duration_count\", job=~\"$job\", instance=~\"$instance\", http_status_code=~\"5.*\"}[$__rate_interval]))) / on (instance) (sum by (instance)(rate({__name__=~\"http_server_duration_milliseconds_count|http_server_duration_seconds_count|http_server_duration_count\", job=~\"$job\", instance=~\"$instance\"}[$__rate_interval])))\n",
@@ -269,7 +267,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "HTTP server request duration",
       "fieldConfig": {
@@ -291,7 +289,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -349,7 +346,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "(histogram_quantile(0.95, sum by(le, instance) (rate({__name__=~\"http_server_request_duration_seconds_bucket|http_server_request_duration_bucket|http_server_duration_milliseconds_bucket|http_server_duration_seconds_bucket|http_server_duration_bucket\", job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]))))",
@@ -365,7 +362,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "CPU utilization for the whole system",
       "fieldConfig": {
@@ -387,7 +384,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -445,7 +441,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "{__name__=~\"jvm_cpu_recent_utilization|jvm_cpu_recent_utilization_ratio|process_runtime_jvm_system_cpu_utilization|process_runtime_jvm_system_cpu_utilization_ratio\", job=~\"$job\", instance=~\"$instance\"}",
@@ -460,7 +456,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Used heap memory / heap memory limit ",
       "fieldConfig": {
@@ -482,7 +478,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -540,7 +535,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "(sum by (instance) ({__name__=~\"jvm_memory_used|jvm_memory_used_bytes\",job=~\"$job\",jvm_memory_type=\"heap\", instance=~\"$instance\"}) / on(instance) sum by (instance) ({__name__=~\"jvm_memory_limit|jvm_memory_limit_bytes\",job=~\"$job\",jvm_memory_type=\"heap\", instance=~\"$instance\"})) or (sum by (instance) ({__name__=~\"process_runtime_jvm_memory_usage|process_runtime_jvm_memory_usage_bytes\",job=~\"$job\",type=\"heap\", instance=~\"$instance\"}) / on(instance) sum by (instance) ({__name__=~\"process_runtime_jvm_memory_limit|process_runtime_jvm_memory_limit_bytes\",job=~\"$job\",type=\"heap\", instance=~\"$instance\"}))",
@@ -555,7 +550,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Percentage of time spend for garbage collection pauses",
       "fieldConfig": {
@@ -577,7 +572,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -631,7 +625,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum by(instance) (rate({__name__=~\"jvm_gc_duration_sum|jvm_gc_duration_seconds_sum|process_runtime_jvm_gc_duration_sum|process_runtime_jvm_gc_duration_seconds_sum\",job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]))",
@@ -647,7 +641,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Number of currently loaded classes",
       "fieldConfig": {
@@ -669,7 +663,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -727,7 +720,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "{__name__=~\"jvm_class_count|process_runtime_jvm_classes_current_loaded\",job=~\"$job\", instance=~\"$instance\"}",
@@ -742,7 +735,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${datasource}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Number of currently executing (also called \"live\") threads",
       "fieldConfig": {
@@ -764,7 +757,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -822,7 +814,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum({__name__=~\"jvm_thread_count|process_runtime_jvm_threads_count\",job=~\"$job\", instance=~\"$instance\"}) by (instance)",
@@ -835,7 +827,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": false,
+  "refresh": "",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [
@@ -851,8 +843,8 @@
       {
         "current": {
           "selected": false,
-          "text": "default",
-          "value": "default"
+          "text": "Prometheus",
+          "value": "Prometheus"
         },
         "description": "Choose a Prometheus data source",
         "hide": 0,
@@ -870,18 +862,10 @@
       },
       {
         "allValue": ".+",
-        "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${datasource}"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values({__name__=~\"(jvm_class_count|process_runtime_jvm_classes_current_loaded)\"},job)",
         "hide": 0,
@@ -905,18 +889,10 @@
       },
       {
         "allValue": ".+",
-        "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${datasource}"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values({__name__=~\"(jvm_class_count|process_runtime_jvm_classes_current_loaded)\", job=~\"$job\"},instance)",
         "description": "The instance of the application, e.g. pod1",
@@ -973,6 +949,6 @@
   "timezone": "",
   "title": "JVM Overview (OpenTelemetry)",
   "uid": "b91844d7-121e-4d0a-93b8-a9c1a05703b3",
-  "version": 4,
+  "version": 1,
   "weekStart": ""
 }
