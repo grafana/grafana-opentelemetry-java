@@ -730,7 +730,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "{__name__=~\"(jvm_class_count|process_runtime_jvm_classes_current_loaded)\",job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "{__name__=~\"jvm_class_count|process_runtime_jvm_classes_current_loaded\",job=~\"$job\", instance=~\"$instance\"}",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -825,7 +825,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum({__name__=~\"(jvm_thread_count|process_runtime_jvm_threads_count)\",job=~\"$job\", instance=~\"$instance\"}) by (instance)",
+          "expr": "sum({__name__=~\"jvm_thread_count|process_runtime_jvm_threads_count\",job=~\"$job\", instance=~\"$instance\"}) by (instance)",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
