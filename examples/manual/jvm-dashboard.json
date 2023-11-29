@@ -1,35 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "datasource",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "10.1.0-57731pre"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -57,7 +26,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 18812,
   "graphTooltip": 0,
-  "id": null,
+  "id": 1,
   "links": [
     {
       "asDropdown": false,
@@ -99,7 +68,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -160,7 +128,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-            "expr": "sum by (instance) (rate({__name__=~\"http_server_request_duration_seconds_count|http_server_request_duration_count|http_server_duration_milliseconds_count|http_server_duration_seconds_count|http_server_duration_count\", job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]))",
+          "expr": "sum by (instance) (rate({__name__=~\"http_server_request_duration_seconds_count|http_server_request_duration_count|http_server_duration_milliseconds_count|http_server_duration_seconds_count|http_server_duration_count\", job=~\"$job\", instance=~\"$instance\"}[$__rate_interval]))",
           "instant": false,
           "legendFormat": "__auto",
           "range": true,
@@ -195,7 +163,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -291,7 +258,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -387,7 +353,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -482,7 +447,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -577,7 +541,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -669,7 +632,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -764,7 +726,6 @@
               "tooltip": false,
               "viz": false
             },
-            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -835,7 +796,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": false,
+  "refresh": "",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [
@@ -851,8 +812,8 @@
       {
         "current": {
           "selected": false,
-          "text": "default",
-          "value": "default"
+          "text": "Prometheus",
+          "value": "Prometheus"
         },
         "description": "Choose a Prometheus data source",
         "hide": 0,
@@ -870,12 +831,20 @@
       },
       {
         "allValue": ".+",
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(process_runtime_jvm_memory_usage,job)",
+        "definition": "label_values({__name__=~\"(jvm_class_count|process_runtime_jvm_classes_current_loaded)\"},job)",
         "hide": 0,
         "includeAll": true,
         "label": "Job",
@@ -883,7 +852,7 @@
         "name": "job",
         "options": [],
         "query": {
-          "query": "label_values(process_runtime_jvm_memory_usage,job)",
+          "query": "label_values({__name__=~\"(jvm_class_count|process_runtime_jvm_classes_current_loaded)\"},job)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
@@ -897,12 +866,20 @@
       },
       {
         "allValue": ".+",
-        "current": {},
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "label_values(process_runtime_jvm_memory_usage{job=~\"$job\"},instance)",
+        "definition": "label_values({__name__=~\"(jvm_class_count|process_runtime_jvm_classes_current_loaded)\", job=~\"$job\"},instance)",
         "description": "The instance of the application, e.g. pod1",
         "hide": 0,
         "includeAll": true,
@@ -911,7 +888,7 @@
         "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values(process_runtime_jvm_memory_usage{job=~\"$job\"},instance)",
+          "query": "label_values({__name__=~\"(jvm_class_count|process_runtime_jvm_classes_current_loaded)\", job=~\"$job\"},instance)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
@@ -957,6 +934,6 @@
   "timezone": "",
   "title": "JVM Overview (OpenTelemetry)",
   "uid": "b91844d7-121e-4d0a-93b8-a9c1a05703b3",
-  "version": 13,
+  "version": 1,
   "weekStart": ""
 }
