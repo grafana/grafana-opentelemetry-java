@@ -1,6 +1,6 @@
 plugins {
   id "java"
-  id "org.owasp.dependencycheck" version "8.4.2"
+  id "org.owasp.dependencycheck" version "9.0.2"
 }
 
 apply from: "$rootDir/gradle/checkstyle.gradle"
