@@ -1,5 +1,31 @@
-docker-compose:
-  generator: java
+matrix:
+  - name: data-saver-on--prom-naming-off--new-jvm-metrics
+    docker-compose:
+      generator: java
+  - name: data-saver-off--prom-naming-off--new-jvm-metrics
+    docker-compose:
+      generator: java
+      java-generator-params:
+        disable-data-saver: true
+  - name: data-saver-off--prom-naming-off--old-jvm-metrics
+    docker-compose:
+      generator: java
+      java-generator-params:
+        old-jvm-metrics: true
+        disable-data-saver: true
+  - name: data-saver-off--prom-naming-on--new-jvm-metrics
+    docker-compose:
+      generator: java
+      java-generator-params:
+        disable-data-saver: true
+        prom-naming: true
+  - name: data-saver-off--prom-naming-on--old-jvm-metrics
+    docker-compose:
+      generator: java
+      java-generator-params:
+        disable-data-saver: true
+        old-jvm-metrics: true
+        prom-naming: true
 input:
   - path: /stock
 expected:
@@ -10,3 +36,29 @@ expected:
   metrics:
     - promql: 'cart_client{}' # created programmatically
       value: '>= 0'
+      matrix-condition: "prom-naming-off"
+    - promql: 'cart_client_total{}' # created programmatically
+      value: '>= 0'
+      matrix-condition: "prom-naming-on"
+  dashboards:
+    - path: ../jvm-dashboard.json
+      panels:
+        - title: Rate
+          value: "> 0"
+          matrix-condition: "data-saver-off"
+        - title: Error %
+          value: "> 0"
+          matrix-condition: "data-saver-off"
+        - title: Duration
+          value: "> 0"
+          matrix-condition: "data-saver-off"
+        - title: CPU utilization
+          value: ">= 0"
+        - title: Heap Memory Utilization
+          value: "> 0"
+        - title: Garbage Collection
+          value: ">= 0"
+        - title: Classes
+          value: "> 0"
+        - title: Threads
+          value: "> 0"

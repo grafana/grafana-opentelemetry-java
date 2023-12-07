@@ -14,12 +14,12 @@ public class DefaultMetrics {
 
   public static final List<String> DEFAULT_METRICS =
       Arrays.asList(
-          "process.runtime.jvm.system.cpu.utilization",
-          "process.runtime.jvm.memory.usage",
-          "process.runtime.jvm.memory.limit",
-          "process.runtime.jvm.gc.duration",
-          "process.runtime.jvm.classes.current_loaded",
-          "process.runtime.jvm.threads.count",
+          "jvm.cpu.recent_utilization",
+          "jvm.memory.used",
+          "jvm.memory.limit",
+          "jvm.gc.duration",
+          "jvm.class.count",
+          "jvm.thread.count",
           "db.client.connections.usage",
           "db.client.connections.max",
           "db.client.connections.pending_requests",
