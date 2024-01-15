@@ -3,7 +3,7 @@ version '0.32.0-beta.1'
 
 buildscript {
   ext {
-    otelVersion = "1.32.0"
+    otelInstrumentationVersion = "2.0.0"
   }
   repositories {
     maven {
@@ -13,7 +13,7 @@ buildscript {
   dependencies {
     classpath "com.diffplug.spotless:spotless-plugin-gradle:6.22.0"
     classpath "gradle.plugin.com.github.johnrengelman:shadow:8.0.0"
-    classpath "io.opentelemetry.instrumentation:gradle-plugins:${otelVersion}-alpha"
+    classpath "io.opentelemetry.instrumentation:gradle-plugins:${otelInstrumentationVersion}-alpha"
   }
 }
 
@@ -26,11 +26,11 @@ subprojects {
   ext {
     versions = [
       // this line is managed by .github/scripts/update-sdk-version.sh
-      opentelemetrySdk           : otelVersion,
+      opentelemetrySdk           : "1.34.1",
 
       // these lines are managed by .github/scripts/update-version.sh
-      opentelemetryJavaagent     : otelVersion,
-      opentelemetryJavaagentAlpha: "${otelVersion}-alpha",
+      opentelemetryJavaagent     : otelInstrumentationVersion,
+      opentelemetryJavaagentAlpha: "${otelInstrumentationVersion}-alpha",
 
       bytebuddy                  : "1.14.10",
       autoservice                : "1.1.1",
