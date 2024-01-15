@@ -93,6 +93,7 @@ public abstract class SmokeTest {
             .withEnv("OTEL_METRIC_EXPORT_INTERVAL", "2000")
             .withEnv("OTEL_PROPAGATORS", "tracecontext,baggage")
             .withEnv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://backend:8080")
+            .withEnv("OTEL_EXPORTER_OTLP_PROTOCOL", "grpc")
             .withEnv("GRAFANA_OTLP_DEBUG_LOGGING", "true");
     target.start();
   }

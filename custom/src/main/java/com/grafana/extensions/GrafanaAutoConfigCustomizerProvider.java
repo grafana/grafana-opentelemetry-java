@@ -28,7 +28,6 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
 
   private static Map<String, String> getDefaultProperties() {
     HashMap<String, String> map = new HashMap<>();
-    map.put("otel.semconv-stability.opt-in", "http,jvm");
     map.put("otel.instrumentation.micrometer.base-time-unit", "s");
     map.put("otel.instrumentation.log4j-appender.experimental-log-attributes", "true");
     map.put("otel.instrumentation.logback-appender.experimental-log-attributes", "true");

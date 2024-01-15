@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: grafana/oats
-          ref: d2e59f9857d898f9d0f606714de3b22ee9d61804
+          ref: 557ba8902303e3e83580d79fc1d2c07afe14d715
           path: oats
       - name: Set up JDK
         uses: actions/setup-java@v4
