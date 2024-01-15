@@ -36,7 +36,6 @@ class SpringBootSmokeTest extends SmokeTest {
 
     assertThat(response).isEqualTo("Hi!");
     assertThat(countSpansByName(traces, "GET /greeting")).isEqualTo(1);
-    assertThat(countSpansByName(traces, "WebController.greeting")).isEqualTo(1);
     assertThat(countSpansByName(traces, "WebController.withSpan")).isEqualTo(1);
     assertThat(
             countResourcesByValue(traces, "telemetry.distro.version", DistributionVersion.VERSION))

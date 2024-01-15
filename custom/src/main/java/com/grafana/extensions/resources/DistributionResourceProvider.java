@@ -15,4 +15,11 @@ public class DistributionResourceProvider implements ResourceProvider {
   public Resource createResource(ConfigProperties config) {
     return DistributionResource.get();
   }
+
+  @Override
+  public int order() {
+    // make sure we have a higher priority than the default resource provider for otel.distro.name
+    // and otel.distro.version
+    return Integer.MAX_VALUE;
+  }
 }
