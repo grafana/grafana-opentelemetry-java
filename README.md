@@ -350,18 +350,18 @@ export GRAFANA_OTEL_USE_TESTED_INSTRUMENTATIONS=true
 These are the tested instrumentations:
 
 | ID                                        | Name                                                                                                                                              |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+|-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
 | opentelemetry-extension-annotations       | [@WithSpan annotation](./examples/manual/README.md)                                                                                               |
 | opentelemetry-instrumentation-annotations | [@WithSpan annotation](./examples/manual/README.md)                                                                                               |
 | opentelemetry-api                         | [Manual instrumentation](./examples/manual/README.md)                                                                                             |
-| tomcat                                    | Non-reactive spring boot default web server, e.g. [JDBC](./examples/jdbc/spring-boot-non-reactive-3.1)                                            |
+| tomcat                                    | Non-reactive spring boot default web server, e.g. [JDBC](./examples/jdbc/spring-boot-non-reactive-3)                                              |
 | jetty                                     | [Jetty Web Server](./examples/jetty/README.md)                                                                                                    |
-| netty                                     | Reactive spring boot web server, e.g. in [JDBC](./examples/jdbc/spring-boot-reactive-3.1)                                                         |
+| netty                                     | Reactive spring boot web server, e.g. in [JDBC](./examples/jdbc/spring-boot-reactive-3)                                                           |
 | undertow                                  | [Undertow Web Server](./examples/undertow/README.md)                                                                                              |
-| spring-web                                | Non-reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-non-reactive-3.1)                                                            |
-| spring-webmvc                             | Non-reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-non-reactive-3.1)                                                            |
-| spring-webflux                            | Reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-reactive-3.1)                                                                    |
-| reactor                                   | Reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-reactive-3.1)                                                                    |
+| spring-web                                | Non-reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-non-reactive-3)                                                              |
+| spring-webmvc                             | Non-reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-non-reactive-3)                                                              |
+| spring-webflux                            | Reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-reactive-3)                                                                      |
+| reactor                                   | Reactive spring boot, e.g. in [JDBC](./examples/jdbc/spring-boot-reactive-3)                                                                      |
 | spring-data                               | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                |
 | jdbc                                      | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                |
 | hikaricp                                  | [JDBC Database Clients](./examples/jdbc/README.md)                                                                                                |
