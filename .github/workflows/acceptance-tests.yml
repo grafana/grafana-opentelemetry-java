@@ -43,7 +43,7 @@ jobs:
       - name: Run acceptance tests
         run: ./scripts/run-acceptance-tests.sh
       - name: upload log file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: docker-compose.log
