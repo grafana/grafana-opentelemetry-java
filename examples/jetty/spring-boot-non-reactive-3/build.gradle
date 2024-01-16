@@ -1,0 +1,35 @@
+plugins {
+  id 'java'
+  id 'org.springframework.boot' version '3.1.5' // 3.2 is blocked by Jetty 12 Support in upstream
+  id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.grafana'
+version = '0.0.1-SNAPSHOT'
+compileJava {
+  options.release.set(17)
+}
+
+repositories {
+  mavenCentral()
+  mavenLocal()
+}
+
+// Can be removed with Spring Boot 3.2 which uses Jetty 12
+ext["jakarta-servlet.version"] = "5.0.0"
+ext["jakarta-servlet-api.version"] = "5.0.0"
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation "org.springframework.boot:spring-boot-starter-jetty"
+}
+
+configurations {
+  all*.exclude module: 'spring-boot-starter-tomcat'
+}
+
+bootRun {
+  if (project.hasProperty('jvmArgs')) {
+    jvmArgs = (project.jvmArgs.split("\\s+") as List)
+  }
+}

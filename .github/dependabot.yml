@@ -8,7 +8,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jms/spring-boot-non-reactive-3.1
+- directory: examples/jms/spring-boot-non-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -24,7 +24,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jms/spring-boot-reactive-3.1
+- directory: examples/jms/spring-boot-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -40,7 +40,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jms/spring-boot-reactive-2.7
+- directory: examples/jms/spring-boot-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -56,7 +56,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jms/spring-boot-non-reactive-2.7
+- directory: examples/jms/spring-boot-non-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -72,7 +72,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/log4j/spring-boot-non-reactive-3.1
+- directory: examples/log4j/spring-boot-non-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -88,7 +88,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/log4j/spring-boot-non-reactive-2.7
+- directory: examples/log4j/spring-boot-non-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -104,7 +104,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/logback/spring-boot-non-reactive-3.1
+- directory: examples/logback/spring-boot-non-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -120,7 +120,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/logback/spring-boot-non-reactive-2.7
+- directory: examples/logback/spring-boot-non-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -136,7 +136,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/manual/spring-boot-non-reactive-3.1
+- directory: examples/manual/spring-boot-non-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -152,7 +152,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/manual/spring-boot-non-reactive-2.7
+- directory: examples/manual/spring-boot-non-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -168,7 +168,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jetty/spring-boot-non-reactive-3.1
+- directory: examples/jetty/spring-boot-non-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -184,7 +184,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jetty/spring-boot-reactive-3.1
+- directory: examples/jetty/spring-boot-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -200,7 +200,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jetty/spring-boot-reactive-2.7
+- directory: examples/jetty/spring-boot-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -216,7 +216,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jetty/spring-boot-non-reactive-2.7
+- directory: examples/jetty/spring-boot-non-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -232,7 +232,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/redis/spring-boot-non-reactive-3.1
+- directory: examples/redis/spring-boot-non-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -248,7 +248,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/redis/spring-boot-reactive-3.1
+- directory: examples/redis/spring-boot-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -264,7 +264,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/redis/spring-boot-reactive-2.7
+- directory: examples/redis/spring-boot-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -280,7 +280,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/redis/spring-boot-non-reactive-2.7
+- directory: examples/redis/spring-boot-non-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -296,7 +296,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/mongodb/spring-boot-non-reactive-3.1
+- directory: examples/mongodb/spring-boot-non-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -312,7 +312,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/mongodb/spring-boot-reactive-3.1
+- directory: examples/mongodb/spring-boot-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -328,7 +328,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/mongodb/spring-boot-reactive-2.7
+- directory: examples/mongodb/spring-boot-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -344,7 +344,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/mongodb/spring-boot-non-reactive-2.7
+- directory: examples/mongodb/spring-boot-non-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -360,7 +360,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/undertow/spring-boot-non-reactive-3.1
+- directory: examples/undertow/spring-boot-non-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -376,7 +376,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/undertow/spring-boot-reactive-3.1
+- directory: examples/undertow/spring-boot-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -392,7 +392,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/undertow/spring-boot-reactive-2.7
+- directory: examples/undertow/spring-boot-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -408,7 +408,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/undertow/spring-boot-non-reactive-2.7
+- directory: examples/undertow/spring-boot-non-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -424,7 +424,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jdbc/spring-boot-non-reactive-3.1
+- directory: examples/jdbc/spring-boot-non-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -440,7 +440,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jdbc/spring-boot-reactive-3.1
+- directory: examples/jdbc/spring-boot-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -456,7 +456,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jdbc/spring-boot-reactive-2.7
+- directory: examples/jdbc/spring-boot-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -472,7 +472,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/jdbc/spring-boot-non-reactive-2.7
+- directory: examples/jdbc/spring-boot-non-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -488,7 +488,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/kafka/spring-boot-non-reactive-3.1
+- directory: examples/kafka/spring-boot-non-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -504,7 +504,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/kafka/spring-boot-reactive-3.1
+- directory: examples/kafka/spring-boot-reactive-3
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -520,7 +520,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/kafka/spring-boot-reactive-2.7
+- directory: examples/kafka/spring-boot-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:
@@ -536,7 +536,7 @@ updates:
   package-ecosystem: gradle
   schedule:
     interval: daily
-- directory: examples/kafka/spring-boot-non-reactive-2.7
+- directory: examples/kafka/spring-boot-non-reactive-2
   ignore:
   - dependency-name: org.springframework.boot
     update-types:

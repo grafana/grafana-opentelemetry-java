@@ -1,0 +1,25 @@
+plugins {
+  id 'java'
+  id 'org.springframework.boot' version '2.7.18'
+  id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.grafana'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+  mavenCentral()
+  mavenLocal()
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.kafka:spring-kafka'
+}
+
+bootRun {
+  if (project.hasProperty('jvmArgs')) {
+    jvmArgs = (project.jvmArgs.split("\\s+") as List)
+  }
+}
