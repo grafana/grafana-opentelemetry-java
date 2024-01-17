@@ -58,9 +58,12 @@ channel.
 ## Compatibility
 
 - Java 8+
+- Spring Boot 2.7+
+  - Older Spring Boot versions also mostly work, but this is not tested explicitly
+  - Jetty is supported for Spring Boot 3.2+, because it requires Jetty 12, which is not supported
 - We regularly update to the latest version of [OpenTelemetry Instrumentation for Java] - you can find the current
   version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
-- [Tested Libraries](examples/README.md)
+- [Tested Libraries](#tested-instrumentations)
 
 ## Getting Started
 
@@ -309,30 +312,36 @@ export OTEL_JAVAAGENT_ENABLED=false
 
 ### Enable OTLP Debug Logging
 
-Log all metrics, traces, and logs that are created for debugging purposes (in addition to sending them to the backend
-via OTLP).
+OTLP debug logging can be configured via environment variables:
 
-This will also send metrics and traces to Loki as an unintended side effect.
+| Configuration                        | Result                                                |
+|--------------------------------------|-------------------------------------------------------|
+| `OTEL_SPAN_EXPORTER=otlp,logging`    | Log all spans. This will also send spans to Loki.     |
+| `OTEL_METRICS_EXPORTER=otlp,logging` | Log all metrics. This will also send metrics to Loki. |
+| `OTEL_LOGS_EXPORTER=otlp,logging`    | Log all logs (again, just to see they are sent).      |
 
-Add the following command line parameter:
+**Note that this is going to produce a lot of log output, so it should be disabled again as soon as possible.**
+
+This will produce log output like this:
+
+Spans - look for `LoggingSpanExporter`:
 
 ```shell
-export GRAFANA_OTLP_DEBUG_LOGGING=true
+INFO io.opentelemetry.exporter.logging.LoggingSpanExporter - 'WebController.withSpan' : 2337335133908c9ce6e0dfc7bda74d7c 8bfef4eaac83e8cb INTERNAL [tracer: io.opentelemetry.opentelemetry-extension-annotations-1.0:1.32.0-alpha] AttributesMap{data={thread.id=32, code.namespace=io.opentelemetry.smoketest.springboot.controller.WebController, code.function=withSpan, thread.name=http-nio-8080-exec-1}, capacity=128, totalAddedValues=4}
 ```
 
-For more fine-grained control, you can also enable debug logging for specific signal types:
+Metrics - look for `LoggingMetricExporter`:
 
 ```shell
-export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics,logs,traces"
+INFO io.opentelemetry.exporter.logging.LoggingMetricExporter - metric: ImmutableMetricData{resource=Resource{schemaUrl=https://opentelemetry.io/schemas/1.21.0, attributes={container.id="048b9982e0b98cdc5579334bb1decc157ed1ebc23f391ebe306898898ec32fa4", host.arch="amd64", host.name="048b9982e0b9", os.description="Linux 6.2.0-39-generic", os.type="linux", process.command_line="/usr/lib/jvm/jdk-8u312-bellsoft-x86_64/jre/bin/java -javaagent:/opentelemetry-javaagent.jar -Dgrafana.otel.use-tested-instrumentations=true io.opentelemetry.smoketest.springboot.SpringbootApplication", process.executable.path="/usr/lib/jvm/jdk-8u312-bellsoft-x86_64/jre/bin/java", process.pid=1, process.runtime.description="BellSoft OpenJDK 64-Bit Server VM 25.312-b07", process.runtime.name="OpenJDK Runtime Environment", process.runtime.version="1.8.0_312-b07", service.instance.id="8231ca95-e9aa-474a-bd98-88349a9942ad", service.name="unknown_service:java", telemetry.auto.version="1.32.0", telemetry.distro.name="grafana-opentelemetry-java", telemetry.distro.version="0.32.0-beta.1", telemetry.sdk.language="java", telemetry.sdk.name="opentelemetry", telemetry.sdk.version="1.32.0"}}, instrumentationScopeInfo=InstrumentationScopeInfo{name=io.opentelemetry.runtime-telemetry-java8, version=1.32.0-alpha, schemaUrl=null, attributes={}}, name=jvm.cpu.count, description=Number of processors available to the Java virtual machine., unit={cpu}, type=LONG_SUM, data=ImmutableSumData{points=[ImmutableLongPointData{startEpochNanos=1704964347622000000, epochNanos=1704964351627000000, attributes={}, value=12, exemplars=[]}], monotonic=false, aggregationTemporality=CUMULATIVE}}
 ```
 
-The above would enable debug logging for all signal types (Note that order/case do not matter). If you only wish to
-enable logging for specific signals, simply include those of interest in the list.
-
-The following would only enable logging for metrics data.
+Logs - look for `[scopeInfo:` and duplicated log body
+(the second line is just for reference to see that is also contains `HTTP request received`):
 
 ```shell
-export GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED="metrics"
+10:12:34.031 [docker-java-stream-636643381] INFO  c.g.extensions.smoketest.SmokeTest - STDOUT: 2024-01-11T09:12:34.03Z INFO 'HTTP request received' : 2337335133908c9ce6e0dfc7bda74d7c 50d689015fd0a33c [scopeInfo: io.opentelemetry.smoketest.springboot.controller.WebController:] {thread.id=32, thread.name="http-nio-8080-exec-1"}
+10:12:34.031 [docker-java-stream-636643381] INFO  c.g.extensions.smoketest.SmokeTest - STDOUT: INFO  [http-nio-8080-exec-1] io.opentelemetry.smoketest.springboot.controller.WebController: HTTP request received trace_id=
 ```
 
 ### Tested Instrumentations

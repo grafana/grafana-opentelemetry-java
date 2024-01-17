@@ -1,5 +1,5 @@
 group 'com.grafana'
-version '0.32.0-beta.1'
+version '2.0.0-beta.1'
 
 buildscript {
   ext {

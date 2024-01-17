@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.200.0-beta.1 (todo)
+## 2.0.0-beta.1 (2024-01-17)
 
 - Update to [OpenTelemetry 2.0.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-200-2024-01-12)
   - Many **Breaking Change**, most notably:
@@ -13,7 +13,15 @@
         or `-Dotel.instrumentation.micrometer.enabled=true`.
   - Stable JVM semantic conventions are now emitted by default - but this was already the case in 0.32.0-beta.1
      (via opt-in), so no change here.
-- todo: decide on versioning scheme when upstream bumps major version - is it time to end beta maybe?
+- (Informational, not related to this release) Spring Boot 3.2 is supported, except for Jetty
+  (see [compatibility matrix](README.md#compatibility)).
+- The following `GRAFANA_*` environment variables are now deprecated and will be removed in a future release.
+  Please use `OTEL_*` environment variables instead
+  (in the spirit of making it easy to migrate away from this distribution).
+  - `GRAFANA_OTLP_DEBUG_LOGGING` and `GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED`
+      ([details](README.md#enable-otlp-debug-logging))
+  - `GRAFANA_CLOUD_INSTANCE_ID`, `GRAFANA_CLOUD_ZONE`, and `GRAFANA_CLOUD_API_KEY`
+      ([details](README.md#grafana-cloud-otlp-gateway))
 
 ## 0.32.0-beta.1 (2023-11-22)
 

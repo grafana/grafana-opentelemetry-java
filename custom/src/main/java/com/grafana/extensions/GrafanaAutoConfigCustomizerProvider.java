@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCustomizerProvider {
 
+  @SuppressWarnings("deprecation")
   @Override
   public void customize(AutoConfigurationCustomizer autoConfiguration) {
     autoConfiguration
