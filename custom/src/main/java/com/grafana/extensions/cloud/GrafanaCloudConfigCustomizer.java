@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+@Deprecated
 public final class GrafanaCloudConfigCustomizer {
 
   private static final Logger logger =

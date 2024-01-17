@@ -7,6 +7,7 @@ package com.grafana.extensions.logging;
 
 import java.util.List;
 
+@Deprecated
 public class GrafanaLoggingConfig {
 
   public static final String LOGGING_ENABLED_PROP = "grafana.otlp.logging.exporter.enabled";

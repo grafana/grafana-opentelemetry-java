@@ -5,6 +5,7 @@
 
 package com.grafana.extensions.cloud;
 
+@Deprecated
 public class GrafanaCloudConfig {
   public static final String CLOUD_API_KEY_PROP = "grafana.cloud.api.key";
   public static final String CLOUD_INSTANCE_ID_PROP = "grafana.cloud.instance.id";
