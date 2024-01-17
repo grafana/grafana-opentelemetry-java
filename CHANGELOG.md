@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.200.0-beta.1 (unreleased)
+## 2.0.0-beta.1 (2024-01-17)
 
 - Update to [OpenTelemetry 2.0.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-200-2024-01-12)
   - Many **Breaking Change**, most notably:
@@ -22,8 +22,6 @@
       ([details](README.md#enable-otlp-debug-logging))
   - `GRAFANA_CLOUD_INSTANCE_ID`, `GRAFANA_CLOUD_ZONE`, and `GRAFANA_CLOUD_API_KEY`
       ([details](README.md#grafana-cloud-otlp-gateway))
-
-- todo: decide on versioning scheme when upstream bumps major version - is it time to end beta maybe?
 
 ## 0.32.0-beta.1 (2023-11-22)
 
