@@ -1,6 +1,6 @@
 plugins {
   id 'java'
-  id 'org.springframework.boot' version '3.1.5'  // 3.2 is blocked by Jetty 12 Support in upstream
+  id 'org.springframework.boot' version '3.2.2'  // 3.2 is blocked by Jetty 12 Support in upstream
   id 'io.spring.dependency-management' version '1.1.4'
 }
 
