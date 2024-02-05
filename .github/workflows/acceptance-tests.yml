@@ -37,7 +37,7 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1.1.0
       - name: Setup Gradle and run build
-        uses: gradle/gradle-build-action@v2.12.0
+        uses: gradle/gradle-build-action@v3.0.0
         with:
           arguments: build
       - name: Run acceptance tests
