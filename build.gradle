@@ -103,7 +103,7 @@ subprojects {
 
     compileJava {
       options.release.set(8)
-      options.compilerArgs << "-Werror"
+      options.compilerArgs.addAll(["-Werror", "-Xlint:-options"]) //Java 8 is deprecated as of JDK 21
     }
     compileTestJava {
       options.release.set(17)
