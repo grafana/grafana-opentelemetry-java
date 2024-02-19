@@ -12,5 +12,5 @@ if [[ ! "$newVersion" =~ ^2\.[0-9]+\.[0-9]+-beta\.[1-9]$ ]]; then
 fi
 
 oldVersion=$(grep -oP "(?<=^version )(.*)" build.gradle | sed "s/'//g")
-sed -i "s/$oldVersion/$newVersion/g" examples/run-example.sh Dockerfile
+sed -i "s/$oldVersion/$newVersion/g" examples/run-example.sh Dockerfile Dockerfile.production
 sed -i "s/^version '$oldVersion'/version '$newVersion'/g" build.gradle

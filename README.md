@@ -73,19 +73,19 @@ For production, we recommend to use [Grafana Agent], because Application Observa
 
 For an easier local development setup, send directly to Grafana Cloud OTLP Gateway.
 
-### Grafana Cloud OTLP Gateway
+### Quickstart
 
 **Note**: The [Grafana Cloud OTLP Gateway](https://grafana.com/docs/grafana-cloud/send-data/otlp/send-data-otlp/)
 is a managed service that is available in all Grafana Cloud plans.
 
 > 💨 **Try it out quickly with Spring PetClinic**: Follow the instructions in the [Dockerfile](Dockerfile).
 
-#### Step 1: Download the instrumentation agent
+#### Quickstart Step 1: Download the instrumentation agent
 
 Download the latest release of this distribution from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-#### Step 2: Instrument an application
+#### Quickstart Step 2: Instrument an application
 
 1. Sign in to [Grafana Cloud](https://grafana.com), register for a Free Grafana Cloud account if required.
 
@@ -137,7 +137,7 @@ java -javaagent:path/to/grafana-opentelemetry-java.jar -jar myapp.jar
 Finally, make some requests to the service to validate data is sent to Grafana Cloud.
 It might take up to five minutes for data to appear.
 
-#### Step 3: Observe the Service in Application Observability
+#### Quickstart Step 3: Observe the Service in Application Observability
 
 In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/services` or:
 
@@ -156,12 +156,12 @@ The telemetry data is then forwarded to Grafana Cloud.
 > 💨 Skip this section and let the [OpenTelemetry Integration](https://grafana.com/docs/grafana-cloud/data-configuration/integrations/integration-reference/integration-opentelemetry/)
 > create everything for you.
 
-#### Step 1: Download the instrumentation agent
+#### Grafana Agent Step 1: Download the instrumentation agent
 
 Download the latest release of this distribution from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-#### Step 2: Instrument an application
+#### Grafana Agent Step 2: Instrument an application
 
 1. If the Grafana Agent is not running locally or doesn't use the default grpc endpoint,
    adjust OTEL_EXPORTER_OTLP_ENDPOINT or OTEL_EXPORTER_OTLP_PROTOCOL (to `http/protobuf`).
@@ -191,7 +191,7 @@ guide.
 Finally, make some requests to the service to validate data is sent to Grafana Cloud.
 It might take up to five minutes for data to appear.
 
-#### Step 3: Observe the Service in Application Observability
+#### Grafana Agent Step 3: Observe the Service in Application Observability
 
 In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/services` or:
 
@@ -205,12 +205,12 @@ In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/s
 
 > 💨 **Try it out quickly with Spring PetClinic**: Follow the instructions in the [Dockerfile](Dockerfile.production).
 
-#### Step 1: Download the instrumentation agent
+#### OpenTelemetry Collector Step 1: Download the instrumentation agent
 
 Download the latest release of this distribution from the
 [releases page](https://github.com/grafana/grafana-opentelemetry-java/releases).
 
-#### Step 2: Instrument an application
+#### OpenTelemetry Collector Step 2: Instrument an application
 
 1. If the OpenTelemetry Collector is not running locally or doesn't use the default grpc endpoint,
    adjust OTEL_EXPORTER_OTLP_ENDPOINT or OTEL_EXPORTER_OTLP_PROTOCOL (to `http/protobuf`).
@@ -240,7 +240,7 @@ guide.
 Finally, make some requests to the service to validate data is sent to Grafana Cloud.
 It might take up to five minutes for data to appear.
 
-#### Step 3: Observe the Service in Application Observability
+#### OpenTelemetry Collector Step 3: Observe the Service in Application Observability
 
 In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/services` or:
 
@@ -445,7 +445,7 @@ export OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true
 
 [OpenTelemetry Instrumentation for Java]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
 [Grafana Cloud Application Observability]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/
-[Grafana Cloud OTLP Gateway]: #grafana-cloud-otlp-gateway
+[Grafana Cloud OTLP Gateway]: #quickstart
 [Grafana Agent]: #grafana-agent
 [OpenTelemetry Collector]: #opentelemetry-collector
 

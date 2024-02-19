@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0-beta.1 (todo)
+
+- Update to [OpenTelemetry 2.1.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-210-2024-02-15)
+  - Actuator instrumentation has been disabled by default. You can enable using
+    `OTEL_INSTRUMENTATION_SPRING_BOOT_ACTUATOR_AUTOCONFIGURE_ENABLED=true` or
+    `-Dotel.instrumentation.spring-boot-actuator-autoconfigure.enabled=true`.
+
 ## 2.0.0-beta.1 (2024-01-17)
 
 - Update to [OpenTelemetry 2.0.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-200-2024-01-12)
