@@ -23,7 +23,7 @@ class SpringBootSmokeTest extends SmokeTest {
   protected String getTargetImage(int jdk) {
     return "ghcr.io/open-telemetry/opentelemetry-java-instrumentation/smoke-test-spring-boot:jdk"
         + jdk
-        + "-20211213.1570880324";
+        + "-20240214.7897623950";
   }
 
   @Test
