@@ -43,3 +43,4 @@ jobs:
           tags: |-
             "2.1.0-beta.1" # change to type=semver,pattern={{version}}, see https://github.com/docker/metadata-action?tab=readme-ov-file#typesemver
             "latest"
+          push: true
