@@ -30,3 +30,12 @@ jobs:
           SMOKE_TEST_JAVA_VERSION: ${{ matrix.java }} # the smoke tests will pick this up
         with:
           arguments: build
+      - id: push-to-dockerhub # move to release after the first push has worked
+        uses: grafana/shared-workflows/actions/build-push-to-dockerhub@main
+        with:
+          repository: ${{ github.repository }} # or any other dockerhub repository
+          context: .
+          file: scripts/otel_operator/Dockerfile
+          tags: |-
+            "2.1.0-beta.1" # change to type=semver,pattern={{version}}, see https://github.com/docker/metadata-action?tab=readme-ov-file#typesemver
+            "latest"
