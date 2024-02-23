@@ -11,7 +11,7 @@ dependencies {
   compileOnly("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi")
   compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
   compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-tooling")
-  implementation("io.opentelemetry.contrib:opentelemetry-aws-resources:1.32.0-alpha") {
+  implementation("io.opentelemetry.contrib:opentelemetry-aws-resources:1.33.0-alpha") {
     exclude group: "io.opentelemetry", module: "opentelemetry-api"
     exclude group: "io.opentelemetry", module: "opentelemetry-sdk"
     exclude group: "io.opentelemetry.semconv", module: "opentelemetry-semconv"
