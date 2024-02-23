@@ -65,6 +65,7 @@ tasks {
 
     mergeServiceFiles()
     exclude("**/module-info.class")
+    exclude("META-INF/versions/21/**/*.class") // unused but cause problems due to https://github.com/johnrengelman/shadow/issues/888
     relocatePackages(it)
 
     // exclude known bootstrap dependencies - they can't appear in the inst/ directory
