@@ -1,3 +1,2 @@
 com.grafana.extensions.resources.DistributionResourceProvider
 com.grafana.extensions.resources.ServiceInstanceIdResourceProvider
-com.grafana.extensions.resources.gcp.GCPResource
