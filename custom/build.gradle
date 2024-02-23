@@ -17,6 +17,12 @@ dependencies {
     exclude group: "io.opentelemetry.semconv", module: "opentelemetry-semconv"
   }
 
+  implementation("io.opentelemetry.contrib:opentelemetry-gcp-resources:1.33.0-alpha") {
+    exclude group: "io.opentelemetry", module: "opentelemetry-api"
+    exclude group: "io.opentelemetry", module: "opentelemetry-sdk"
+    exclude group: "io.opentelemetry.semconv", module: "opentelemetry-semconv"
+  }
+
   testImplementation("io.opentelemetry.semconv:opentelemetry-semconv")
   testImplementation("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi")
 }
