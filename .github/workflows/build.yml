@@ -35,7 +35,7 @@ jobs:
         with:
           arguments: build
       - id: push-to-dockerhub # move to release after the first push has worked
-        uses: grafana/shared-workflows/actions/build-push-to-dockerhub@main
+        uses: grafana/shared-workflows/actions/build-push-to-dockerhub@rwhitaker/git-clone-without-clean
         with:
           repository: ${{ github.repository }} # or any other dockerhub repository
           context: .
@@ -44,3 +44,4 @@ jobs:
             "2.1.0-beta.1" # change to type=semver,pattern={{version}}, see https://github.com/docker/metadata-action?tab=readme-ov-file#typesemver
             "latest"
           push: true
+          clean_repo: false
