@@ -60,7 +60,6 @@ channel.
 - Java 8+
 - Spring Boot 2.7+
   - Older Spring Boot versions also mostly work, but this is not tested explicitly
-  - Jetty is supported for Spring Boot 3.2+, because it requires Jetty 12, which is not supported
 - We regularly update to the latest version of [OpenTelemetry Instrumentation for Java] - you can find the current
   version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
 - [Tested Libraries](README.md#tested-instrumentations)
