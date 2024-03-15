@@ -31,7 +31,7 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
 - **Fast Bug Fixes**: We can fix bugs faster without waiting for the next release of
   upstream.
 - **Cost Optimized**: You can save costs by sending only the metrics that are actually used by the dashboards in
-  Application Observability ([opt-in](#data-saver)).
+  Application Observability ([opt-in](README.md#data-saver)).
   
 > **Open Source Friendly**:
 >
@@ -41,7 +41,7 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
 >   [here](https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/).
 > - You can use this distribution for any OpenTelemetry use case, not just Grafana Cloud.
 > - You can migrate from this distribution to OpenTelemetry Instrumentation for Java as explained
->   [here](#migrating-to-opentelemetry-instrumentation-for-java).
+>   [here](README.md#migrating-to-opentelemetry-instrumentation-for-java).
 
 ## Community
 
@@ -63,7 +63,7 @@ channel.
   - Jetty is supported for Spring Boot 3.2+, because it requires Jetty 12, which is not supported
 - We regularly update to the latest version of [OpenTelemetry Instrumentation for Java] - you can find the current
   version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
-- [Tested Libraries](#tested-instrumentations)
+- [Tested Libraries](README.md#tested-instrumentations)
 
 ## Getting Started
 
@@ -145,7 +145,7 @@ In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/s
 2. Open the _Observability_ menu
 3. Click on _Application_
 
-**Important**: refer to the [troubleshooting guide](#troubleshooting) if there is no data in Application Observability.
+**Important**: refer to the [troubleshooting guide](README.md#troubleshooting) if there is no data in Application Observability.
 
 ### Grafana Agent
 
@@ -199,7 +199,7 @@ In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/s
 2. Open the _Observability_ menu
 3. Click on _Application_
 
-**Important**: refer to the [troubleshooting guide](#troubleshooting) if there is no data in Application Observability.
+**Important**: refer to the [troubleshooting guide](README.md#troubleshooting) if there is no data in Application Observability.
 
 ### OpenTelemetry Collector
 
@@ -248,7 +248,7 @@ In Grafana, replace the path of the URL with `/a/grafana-app-observability-app/s
 2. Open the _Observability_ menu
 3. Click on _Application_
 
-**Important**: refer to the [troubleshooting guide](#troubleshooting) if there is no data in Application Observability.
+**Important**: refer to the [troubleshooting guide](README.md#troubleshooting) if there is no data in Application Observability.
 
 ## Troubleshooting
 
@@ -274,7 +274,7 @@ A 5xx response code means that there's something wrong with the [Grafana Cloud O
 ### Log all sent telemetry data
 
 If there are no errors in the logs, make sure that the application is actually sending data all using
-[debug logging](#enable-otlp-debug-logging).
+[debug logging](README.md#enable-otlp-debug-logging).
 If the application is not sending data, the java agent was probably not loaded - look for the `-javaagent` command line
 parameter.
 
@@ -428,7 +428,7 @@ OpenTelemetry Instrumentation for Java:
 - Add the `service.instance.id` to the `OTEL_RESOURCE_ATTRIBUTES`, e.g. `OTEL_RESOURCE_ATTRIBUTES=service.instance.id=<pod123>,deployment.environment=...`
   where `<pod123>` it the name of the Kubernetes pod or some other unique identifier within the service
   (future versions of OpenTelemetry Instrumentation for Java might include this feature).
-- If you use [Data Saver](#data-saver), you can filter the metrics in the OpenTelemetry Collector instead
+- If you use [Data Saver](README.md#data-saver), you can filter the metrics in the OpenTelemetry Collector instead
   ([docs](https://opentelemetry.io/docs/collector/transforming-telemetry/#basic-filtering)).
   The Data Saver section lists all metrics to keep.
 - The resource detectors for Kubernetes (for EKS and GKE) are not bundled in OpenTelemetry Instrumentation for Java.
@@ -445,9 +445,9 @@ export OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true
 
 [OpenTelemetry Instrumentation for Java]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
 [Grafana Cloud Application Observability]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/
-[Grafana Cloud OTLP Gateway]: #quickstart
-[Grafana Agent]: #grafana-agent
-[OpenTelemetry Collector]: #opentelemetry-collector
+[Grafana Cloud OTLP Gateway]: README.md#quickstart
+[Grafana Agent]: README.md#grafana-agent
+[OpenTelemetry Collector]: README.md#opentelemetry-collector
 
 [^1]:
     System properties can be used instead of environment variables, for example

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0-beta.1 (2024-03-15)
+
+- Update to [OpenTelemetry 2.2.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-220-2024-03-14)
+  - The resource providers for Google Cloud and AWS are not enabled by default anymore.
+    You can enable them using `OTEL_RESOURCE_PROVIDERS_AWS_ENABLED=true` and `OTEL_RESOURCE_PROVIDERS_GCP_ENABLED=true`.
+
 ## 2.1.0-beta.1 (2024-02-19)
 
 - Update to [OpenTelemetry 2.1.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-210-2024-02-15)
