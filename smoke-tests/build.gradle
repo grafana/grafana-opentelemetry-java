@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
   testImplementation(project(":custom"))
-  testImplementation("org.testcontainers:testcontainers:1.19.6")
+  testImplementation("org.testcontainers:testcontainers:1.19.7")
   testImplementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
   testImplementation("com.google.protobuf:protobuf-java-util:3.25.3")
   testImplementation("com.squareup.okhttp3:okhttp:4.12.0")
@@ -12,7 +12,7 @@ dependencies {
   testImplementation("io.opentelemetry:opentelemetry-api")
   testImplementation("io.opentelemetry.semconv:opentelemetry-semconv")
 
-  testImplementation("ch.qos.logback:logback-classic:1.5.0")
+  testImplementation("ch.qos.logback:logback-classic:1.5.3")
   testImplementation("org.awaitility:awaitility:4.2.0")
 }
 
