@@ -23,7 +23,7 @@ jobs:
         with:
           arguments: build -x test
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             agent/build/libs/grafana-opentelemetry-java.jar
