@@ -233,7 +233,7 @@ Not sure what the best practice is to get a good overview, maybe error rate: `su
 
 #### RestTemplate client
 
-Same metrics as for [http server](#web-server-metrics), just replace `server` by `client`,
+Same metrics as for [http server](README.md#web-server-metrics), just replace `server` by `client`,
 e.g. for rate: `sum by (instance) (rate(http_client_duration_count{}[$__rate_interval]))`
 
 #### MongoDB client
