@@ -13,7 +13,7 @@ dependencies {
   testImplementation("io.opentelemetry.semconv:opentelemetry-semconv")
 
   testImplementation("ch.qos.logback:logback-classic:1.5.3")
-  testImplementation("org.awaitility:awaitility:4.2.0")
+  testImplementation("org.awaitility:awaitility:4.2.1")
 }
 
 tasks.test {
