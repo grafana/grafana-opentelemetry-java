@@ -15,9 +15,6 @@ jobs:
         os: [ubuntu]
         java:
           - 8 # TestedInstrumentationsSmokeTest only runs with this version, so update this test when 8 gets removed from the test matrix
-          - 11
-          - 17
-          - 21
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK
@@ -34,14 +31,12 @@ jobs:
           SMOKE_TEST_JAVA_VERSION: ${{ matrix.java }} # the smoke tests will pick this up
         with:
           arguments: build
-      - id: push-to-dockerhub # move to release after the first push has worked
-        uses: grafana/shared-workflows/actions/build-push-to-dockerhub@rwhitaker/git-clone-without-clean
+      - id: push-to-docker # move to release after the first push has worked
+        uses: grafana/shared-workflows/actions/push-to-gar-docker@main
         with:
-          repository: ${{ github.repository }} # or any other dockerhub repository
+          image_name: grafana-opentelemetry-java
           context: .
           file: scripts/otel_operator/Dockerfile
           tags: |-
             "2.2.0-beta.1" # change to type=semver,pattern={{version}}, see https://github.com/docker/metadata-action?tab=readme-ov-file#typesemver
             "latest"
-          push: true
-          clean_repo: false
