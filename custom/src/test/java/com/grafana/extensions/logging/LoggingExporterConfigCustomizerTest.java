@@ -68,13 +68,13 @@ public class LoggingExporterConfigCustomizerTest {
                     DEBUG_LOGGING_PROP,
                     "true",
                     METRICS_EXPORTER_PROP,
-                    "otlp,console",
+                    "otlp,logging", // logging is the old name for console, but still supported
                     TRACES_EXPORTER_PROP,
                     "otlp,console",
                     LOG_EXPORTER_PROP,
                     "otlp,console"),
                 Map.of(
-                    METRICS_EXPORTER_PROP, "otlp,console",
+                    METRICS_EXPORTER_PROP, "otlp,logging",
                     TRACES_EXPORTER_PROP, "otlp,console",
                     LOG_EXPORTER_PROP, "otlp,console"))),
         Arguments.of(
