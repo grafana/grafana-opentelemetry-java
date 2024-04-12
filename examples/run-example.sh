@@ -33,7 +33,7 @@ done
 
 "$scriptDir"/start-grafana-agent.sh
 
-agentVersion=2.2.0-beta.1
+agentVersion=2.3.0-beta.1
 agent="grafana-opentelemetry-java-$agentVersion.jar"
 agentPath="$scriptDir/$agent"
 
@@ -62,7 +62,7 @@ if [[ $debugInstrumentations == "true" ]]; then
   jvm_args="$jvm_args -Dotel.javaagent.debug=true"
 fi
 if [[ $debugLogging == "true" ]]; then
-  jvm_args="$jvm_args -Dotel.logs.exporter=otlp,logging -Dotel.metrics.exporter=otlp,logging -Dotel.traces.exporter=otlp,logging"
+  jvm_args="$jvm_args -Dotel.logs.exporter=otlp,console -Dotel.metrics.exporter=otlp,console -Dotel.traces.exporter=otlp,console"
 fi
 
 echo "Used JVM args: $jvm_args"

@@ -58,48 +58,48 @@ public class LoggingExporterConfigCustomizerTest {
             new TestCase(
                 Map.of(DEBUG_LOGGING_PROP, "true"),
                 Map.of(
-                    METRICS_EXPORTER_PROP, "otlp,logging",
-                    TRACES_EXPORTER_PROP, "otlp,logging",
-                    LOG_EXPORTER_PROP, "otlp,logging"))),
+                    METRICS_EXPORTER_PROP, "otlp,console",
+                    TRACES_EXPORTER_PROP, "otlp,console",
+                    LOG_EXPORTER_PROP, "otlp,console"))),
         Arguments.of(
-            "debugLogging is on but logging exporter is already set",
+            "debugLogging is on but console exporter is already set",
             new TestCase(
                 Map.of(
                     DEBUG_LOGGING_PROP,
                     "true",
                     METRICS_EXPORTER_PROP,
-                    "otlp,logging",
+                    "otlp,console",
                     TRACES_EXPORTER_PROP,
-                    "otlp,logging",
+                    "otlp,console",
                     LOG_EXPORTER_PROP,
-                    "otlp,logging"),
+                    "otlp,console"),
                 Map.of(
-                    METRICS_EXPORTER_PROP, "otlp,logging",
-                    TRACES_EXPORTER_PROP, "otlp,logging",
-                    LOG_EXPORTER_PROP, "otlp,logging"))),
+                    METRICS_EXPORTER_PROP, "otlp,console",
+                    TRACES_EXPORTER_PROP, "otlp,console",
+                    LOG_EXPORTER_PROP, "otlp,console"))),
         Arguments.of(
             "loggingExporterEnabled set with all signals",
             new TestCase(
                 Map.of(LOGGING_ENABLED_PROP, "metrics,traces,logs"),
                 Map.of(
-                    METRICS_EXPORTER_PROP, "otlp,logging",
-                    TRACES_EXPORTER_PROP, "otlp,logging",
-                    LOG_EXPORTER_PROP, "otlp,logging"))),
+                    METRICS_EXPORTER_PROP, "otlp,console",
+                    TRACES_EXPORTER_PROP, "otlp,console",
+                    LOG_EXPORTER_PROP, "otlp,console"))),
         Arguments.of(
             "loggingExporterEnabled set with metrics,traces",
             new TestCase(
                 Map.of(LOGGING_ENABLED_PROP, "metrics,traces"),
                 Map.of(
                     LOG_EXPORTER_PROP, "otlp",
-                    METRICS_EXPORTER_PROP, "otlp,logging",
-                    TRACES_EXPORTER_PROP, "otlp,logging"))),
+                    METRICS_EXPORTER_PROP, "otlp,console",
+                    TRACES_EXPORTER_PROP, "otlp,console"))),
         Arguments.of(
             "Logging cannot be appended for exporter that is manually set to `none`",
             new TestCase(
                 Map.of(DEBUG_LOGGING_PROP, "true", METRICS_EXPORTER_PROP, "none"),
                 Map.of(
                     METRICS_EXPORTER_PROP, "none",
-                    TRACES_EXPORTER_PROP, "otlp,logging",
-                    LOG_EXPORTER_PROP, "otlp,logging"))));
+                    TRACES_EXPORTER_PROP, "otlp,console",
+                    LOG_EXPORTER_PROP, "otlp,console"))));
   }
 }
