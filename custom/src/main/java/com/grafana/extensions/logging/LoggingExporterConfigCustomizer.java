@@ -57,7 +57,10 @@ public final class LoggingExporterConfigCustomizer {
       String userExporter = userConfigs.getString(propName, "otlp");
       String adviceExporter = advice.get(propName);
       String exporter =
-          userExporter.equals("none") || userExporter.contains("logging") || adviceExporter == null
+          userExporter.equals("none")
+                  || userExporter.contains("console")
+                  || userExporter.contains("logging")
+                  || adviceExporter == null
               ? userExporter
               : userExporter.concat(adviceExporter);
       overrides.put(propName, exporter);
@@ -85,7 +88,7 @@ public final class LoggingExporterConfigCustomizer {
                     LoggingExporterConfigCustomizer::getOtelExporterPropName, v -> ""));
     for (String signal : signalsToEnable) {
       if (SIGNAL_TYPES.contains(signal.toLowerCase())) {
-        loggingConfig.put(getOtelExporterPropName(signal), ",logging");
+        loggingConfig.put(getOtelExporterPropName(signal), ",console");
       }
     }
     logger.fine("Logging status: " + loggingConfig);
