@@ -40,3 +40,4 @@ jobs:
           tags: |-
             "0.0.0-test.1" # change to type=semver,pattern={{version}}, see https://github.com/docker/metadata-action?tab=readme-ov-file#typesemver
             "latest"
+          environment: "prod"
