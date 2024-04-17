@@ -5,6 +5,10 @@ on:
     tags:
       - "v*.*.*"
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -22,6 +26,17 @@ jobs:
         uses: gradle/gradle-build-action@v3.2.0
         with:
           arguments: build -x test
+      - id: push-to-docker
+        uses: grafana/shared-workflows/actions/push-to-gar-docker@main
+        with:
+          registry: "us-docker.pkg.dev"
+          image_name: grafana-opentelemetry-java
+          context: .
+          file: scripts/otel_operator/Dockerfile
+          tags: |-
+            "type=semver,pattern={{version}}" # see https://github.com/docker/metadata-action?tab=readme-ov-file#typesemver
+            "latest"
+          environment: "prod"
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
