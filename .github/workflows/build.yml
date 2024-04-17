@@ -34,10 +34,11 @@ jobs:
       - id: push-to-docker # move to release after the first push has worked
         uses: grafana/shared-workflows/actions/push-to-gar-docker@main
         with:
+          registry: "us-docker.pkg.dev"
           image_name: grafana-opentelemetry-java
           context: .
           file: scripts/otel_operator/Dockerfile
           tags: |-
-            "0.0.0-test.1" # change to type=semver,pattern={{version}}, see https://github.com/docker/metadata-action?tab=readme-ov-file#typesemver
+            "2.3.0-beta.1" # change to type=semver,pattern={{version}}, see https://github.com/docker/metadata-action?tab=readme-ov-file#typesemver
             "latest"
           environment: "prod"
