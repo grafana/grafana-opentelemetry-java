@@ -22,7 +22,7 @@ public final class GrafanaCloudConfigCustomizer {
   public static Map<String, String> customizeProperties(ConfigProperties configs) {
     String otelEndpoint = configs.getString("otel.exporter.otlp.endpoint", "");
     if (StringUtils.isNotBlank(otelEndpoint)) {
-      logger.info("will attempt to send data to otel.exporter.otlp.endpoint: " + otelEndpoint);
+      logger.fine("will attempt to send data to otel.exporter.otlp.endpoint: " + otelEndpoint);
       return new HashMap<>();
     }
 
