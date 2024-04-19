@@ -65,7 +65,7 @@ public final class LoggingExporterConfigCustomizer {
               : userExporter.concat(adviceExporter);
       overrides.put(propName, exporter);
     }
-    logger.info("Property overrides:  " + overrides);
+    logger.fine("Property overrides:  " + overrides);
     return overrides;
   }
 
