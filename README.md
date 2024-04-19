@@ -20,9 +20,32 @@ optimized for [Grafana Cloud Application Observability].
 This project provides a Java agent JAR that can be attached to any Java 8+ application and dynamically
 injects bytecode to capture telemetry from a number of popular libraries and frameworks.
 
+Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (upstream) directly?
+
+- **Easy to get started**: This distribution is optimized for [Grafana Cloud Application Observability] -
+  you can get started with just a few environment variables.
+- **Fully Compatible**: This distribution is fully compatible with upstream -
+  you can use all configuration options of upstream.
+- **Optimized for Application Observability and Grafana Agent**: No need to tweak any configuration settings
+  if you use the latest version of the Grafana Agent.
+- **Fast Bug Fixes**: We can fix bugs faster without waiting for the next release of
+  upstream.
+- **Cost Optimized**: You can save costs by sending only the metrics that are actually used by the dashboards in
+  Application Observability ([opt-in](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java/configuration/#data-saver)).
+  
+> **Open Source Friendly**:
+>
+> - You can use [OpenTelemetry Instrumentation for Java] directly for [Grafana Cloud Application Observability] -
+>   this distribution is just a convenience wrapper.
+>   You can find more information how to send telemetry data to Grafana Cloud Databases
+>   [here](https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/).
+> - You can use this distribution for any OpenTelemetry use case, not just Grafana Cloud.
+> - You can migrate from this distribution to OpenTelemetry Instrumentation for Java as explained
+>   [here](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java/migrate-upstream/).
+
 ## Documentation
 
-The documentation can be found in [Application Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java/distro).
+The documentation can be found in [Application Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java).
 
 ## Community
 
