@@ -7,6 +7,7 @@ package com.grafana.demo;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 @RestController
 public class StockController {
@@ -18,7 +19,7 @@ public class StockController {
   }
 
   @GetMapping("/stock")
-  public String getStock() {
-    return String.valueOf(repository.findByFirstName("LGTM"));
+  public Flux<Customer> getStock() {
+    return repository.findByFirstName("LGTM");
   }
 }
