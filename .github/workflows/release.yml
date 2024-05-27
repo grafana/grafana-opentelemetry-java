@@ -26,16 +26,16 @@ jobs:
         uses: gradle/gradle-build-action@v3.3.2
         with:
           arguments: build -x test
-      - id: push-to-docker
+      - name: Push to Docker (for OpenTelemetry Operator)
         uses: grafana/shared-workflows/actions/push-to-gar-docker@main
         with:
           registry: "us-docker.pkg.dev"
           image_name: grafana-opentelemetry-java
           context: .
           file: scripts/otel_operator/Dockerfile
-          tags: |-
-            "type=semver,pattern={{version}}" # see https://github.com/docker/metadata-action?tab=readme-ov-file#typesemver
-            "latest"
+          tags: |
+            type=match,pattern=v(.*),group=1
+            latest
           environment: "prod"
       - name: Release
         uses: softprops/action-gh-release@v2
