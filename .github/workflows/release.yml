@@ -6,7 +6,7 @@ on:
       - "v*.*.*"
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
@@ -26,6 +26,12 @@ jobs:
         uses: gradle/gradle-build-action@v3.3.2
         with:
           arguments: build -x test
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            agent/build/libs/grafana-opentelemetry-java.jar
+            LICENSE
       - name: Push to Docker (for OpenTelemetry Operator)
         uses: grafana/shared-workflows/actions/push-to-gar-docker@main
         with:
@@ -37,9 +43,4 @@ jobs:
             type=match,pattern=v(.*),group=1
             latest
           environment: "prod"
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            agent/build/libs/grafana-opentelemetry-java.jar
-            LICENSE
+
