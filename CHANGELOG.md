@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.0-beta.1 (2024-05-27)
+
+- Update to [OpenTelemetry 2.4.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-240-2024-05-18)
+
 ## 2.3.0-beta.1 (2024-04-12)
 
 - Update to [OpenTelemetry 2.3.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-230-2024-04-12)
