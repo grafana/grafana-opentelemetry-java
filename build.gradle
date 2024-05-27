@@ -1,9 +1,9 @@
 group 'com.grafana'
-version '2.3.0-beta.1'
+version '2.4.0-beta.1'
 
 buildscript {
   ext {
-    otelInstrumentationVersion = "2.3.0"
+    otelInstrumentationVersion = "2.4.0"
   }
   repositories {
     maven {

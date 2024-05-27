@@ -9,5 +9,5 @@ package com.grafana.extensions.resources.internal;
 
 public class DistributionVersion {
 
-  public static final String VERSION = "2.3.0-beta.1";
+  public static final String VERSION = "2.4.0-beta.1";
 }
