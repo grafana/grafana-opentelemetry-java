@@ -31,7 +31,7 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
 - **Fast Bug Fixes**: We can fix bugs faster without waiting for the next release of
   upstream.
 - **Cost Optimized**: You can save costs by sending only the metrics that are actually used by the dashboards in
-  Application Observability ([opt-in](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java/configuration/#data-saver)).
+  [Grafana Cloud Application Observability] ([opt-in](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java/configuration/#data-saver)).
   
 > **Open Source Friendly**:
 >
@@ -45,7 +45,7 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
 
 ## Documentation
 
-The documentation can be found in [Application Observability](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java).
+The documentation can be found in [Grafana Cloud / Application Observability / Instrument / Java](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java).
 
 ## Community
 
