@@ -28,3 +28,4 @@ git push origin v<VERSION>
 ```
 
 Copy the CHANGELOG entry to the release description on Github.
+                                                                     .
