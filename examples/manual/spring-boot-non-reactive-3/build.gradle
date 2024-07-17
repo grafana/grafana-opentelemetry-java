@@ -1,7 +1,7 @@
 plugins {
   id 'java'
   id 'org.springframework.boot' version '3.3.1'
-  id 'io.spring.dependency-management' version '1.1.5'
+  id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.grafana'
@@ -17,8 +17,8 @@ repositories {
 
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation('io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:2.5.0')
-  implementation('io.opentelemetry:opentelemetry-api:1.39.0')
+  implementation('io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:2.6.0')
+  implementation('io.opentelemetry:opentelemetry-api:1.40.0')
 }
 
 bootRun {
