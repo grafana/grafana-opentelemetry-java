@@ -3,6 +3,8 @@
 # - Grafana Cloud OTLP Gateway: https://github.com/grafana/grafana-opentelemetry-java#grafana-cloud-otlp-gateway
 # For production, use Dockerfile.production instead.
 
+FROM us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java:2.6.0-beta.1 AS agent
+
 FROM springio/petclinic
 
 # 1. Sign in to Grafana Cloud (https://grafana.com), register for a Free Grafana Cloud account if required.
@@ -54,12 +56,8 @@ ENV OTEL_SERVICE_NAME=<Service Name>
 #     - Click on "Application"
 # Note: It might take up to five minutes for data to appear.
 
-ARG version=2.6.0-beta.1
 WORKDIR /app/
 
-# use a fixed version
-# ADD https://github.com/grafana/grafana-opentelemetry-java/releases/download/v$version/grafana-opentelemetry-java.jar /app/grafana-opentelemetry-java.jar
-# use the latest version
-# user is changed, because the springio/petclinic image is running as cnb
-ADD --chown=cnb https://github.com/grafana/grafana-opentelemetry-java/releases/latest/download/grafana-opentelemetry-java.jar /app/grafana-opentelemetry-java.jar
-ENV JAVA_TOOL_OPTIONS=-javaagent:/app/grafana-opentelemetry-java.jar
+COPY --from=agent --chown=cnb /javaagent.jar /app/javaagent.jar
+
+ENV JAVA_TOOL_OPTIONS=-javaagent:/app/javaagent.jar
