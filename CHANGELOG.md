@@ -2,7 +2,7 @@
 
 ## 2.6.0-beta.2 (2024-07-31)
 
-- Add `grafana.otel.trace-response-header.enabled` to enable the trace response header for RUM tracing 
+- Add `grafana.otel.trace-response-header.enabled` to enable the trace response header for RUM tracing
   (enabled by default).
 
 ## 2.6.0-beta.1 (2024-07-17)
