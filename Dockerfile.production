@@ -1,18 +1,18 @@
 # Example production Dockerfile:
 # - Spring petclinic: https://github.com/spring-projects/spring-petclinic
-# - Grafana Agent OR OpenTelemetry Collector
+# - Alloy OR OpenTelemetry Collector
+
+FROM us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java:2.6.0-beta.1 AS agent
 
 FROM springio/petclinic
 
-# 1. Install the Grafana Agent or OpenTelemetry Collector:
-# -    Grafana Agent:           https://github.com/grafana/grafana-opentelemetry-java#grafana-agent
-# - OR OpenTelemetry Collector: https://github.com/grafana/grafana-opentelemetry-java#opentelemetry-collector
+# 1. Install Alloy or OpenTelemetry Collector: https://grafana.com/docs/grafana-cloud/monitor-applications/collector
 
-# 2. If the Grafana Agent or OpenTelemetry Collector is running on a different host, set the URL:
-ENV OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+# 2. If Alloy or OpenTelemetry Collector is running on a different host, set the URL:
+ENV OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
 
-# 3. If the Grafana Agent or OpenTelemetry Collector does not offer gRPC, set the protocol to "http/protobuf":
-ENV OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+# 3. If Alloy or OpenTelemetry Collector does not offer gRPC, set the protocol to "http/protobuf":
+ENV OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 
 # 4. Choose a **Service Name** to identify the service (e.g. `cart`)
 ENV OTEL_SERVICE_NAME=<Service Name>
@@ -36,12 +36,8 @@ ENV OTEL_RESOURCE_ATTRIBUTES=deployment.environment=<Environment>,service.namesp
 #     - Click on "Application"
 # Note: It might take up to five minutes for data to appear.
 
-ARG version=2.6.0-beta.1
 WORKDIR /app/
 
-# use a fixed version
-# ADD https://github.com/grafana/grafana-opentelemetry-java/releases/download/v$version/grafana-opentelemetry-java.jar /app/grafana-opentelemetry-java.jar
-# use the latest version
-# user is changed, because the springio/petclinic image is running as cnb
-ADD --chown=cnb https://github.com/grafana/grafana-opentelemetry-java/releases/latest/download/grafana-opentelemetry-java.jar /app/grafana-opentelemetry-java.jar
-ENV JAVA_TOOL_OPTIONS=-javaagent:/app/grafana-opentelemetry-java.jar
+COPY --from=agent --chown=cnb /javaagent.jar /app/javaagent.jar
+
+ENV JAVA_TOOL_OPTIONS=-javaagent:/app/javaagent.jar

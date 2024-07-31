@@ -26,8 +26,8 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
   you can get started with just a few environment variables.
 - **Fully Compatible**: This distribution is fully compatible with upstream -
   you can use all configuration options of upstream.
-- **Optimized for Application Observability and Grafana Agent**: No need to tweak any configuration settings
-  if you use the latest version of the Grafana Agent.
+- **Optimized for Application Observability and Alloy**: No need to tweak any configuration settings
+  if you use the latest version of Alloy.
 - **Fast Bug Fixes**: We can fix bugs faster without waiting for the next release of
   upstream.
 - **Cost Optimized**: You can save costs by sending only the metrics that are actually used by the dashboards in

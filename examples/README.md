@@ -17,14 +17,14 @@ Each example project is run in the same way - so these instructions apply to all
 Use <https://asdf-vm.com/> to switch jdk versions - or just look at `.tool-versions` and select the JDK manually
 before running any of the examples.
 
-### Grafana Agent
+### Alloy
 
 - Go to Grafana Home page
 - Click on "Connect data"
 - search for "OpenTelemetry (OTLP)"
 - follow the instructions there
 
-If you're running on Linux, the script will also start the grafana agent if it is not running already.
+If you're running on Linux, the script will also start Alloy if it is not running already.
 
 ## Starting the example application
 
