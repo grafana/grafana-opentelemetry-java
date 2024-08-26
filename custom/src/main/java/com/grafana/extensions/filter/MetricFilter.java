@@ -16,12 +16,9 @@ public class MetricFilter {
   public static final String APPLICATION_OBSERVABILITY_METRICS =
       "grafana.otel.application-observability-metrics";
 
-  public static SdkMeterProviderBuilder dropUnusedMetrics(
-      SdkMeterProviderBuilder sdkMeterProviderBuilder, ConfigProperties properties) {
-    if (!properties.getBoolean(APPLICATION_OBSERVABILITY_METRICS, false)) {
-      return sdkMeterProviderBuilder;
-    }
+  private MetricFilter() {}
 
+  static void dropUnusedMetrics(SdkMeterProviderBuilder sdkMeterProviderBuilder) {
     View allow = View.builder().build();
 
     // allow all manually created metrics
@@ -38,7 +35,12 @@ public class MetricFilter {
     sdkMeterProviderBuilder.registerView(
         InstrumentSelector.builder().setName("*").build(),
         View.builder().setAggregation(Aggregation.drop()).build());
+  }
 
-    return sdkMeterProviderBuilder;
+  static void configure(
+      SdkMeterProviderBuilder sdkMeterProviderBuilder, ConfigProperties properties) {
+    if (properties.getBoolean(APPLICATION_OBSERVABILITY_METRICS, false)) {
+      dropUnusedMetrics(sdkMeterProviderBuilder);
+    }
   }
 }

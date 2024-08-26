@@ -9,15 +9,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.filter.DefaultMetrics;
 import com.grafana.extensions.resources.internal.DistributionVersion;
+import io.opentelemetry.proto.collector.metrics.v1.ExportMetricsServiceRequest;
 import io.opentelemetry.proto.collector.trace.v1.ExportTraceServiceRequest;
+import io.opentelemetry.proto.common.v1.KeyValue;
+import io.opentelemetry.proto.metrics.v1.Metric;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import okhttp3.Request;
 import org.junit.jupiter.api.Test;
 
 class SpringBootSmokeTest extends SmokeTest {
+
+  private static final String HTTP_SERVER_REQUEST_DURATION = "http.server.request.duration";
 
   @Override
   protected String getTargetImage(int jdk) {
@@ -60,10 +66,55 @@ class SpringBootSmokeTest extends SmokeTest {
 
     makeGreetCall();
 
-    List<String> metricNames = getMetricNames(waitForMetrics());
+    Collection<ExportMetricsServiceRequest> metrics = waitForMetrics();
+    List<String> metricNames = getMetricNames(metrics);
     assertThat(metricNames).contains("jvm.memory.used");
+
+    // checked below
+    metricNames.remove(HTTP_SERVER_REQUEST_DURATION);
+
     // all other metrics should have been filtered out
     assertThat(DefaultMetrics.DEFAULT_METRICS)
         .containsOnlyOnceElementsOf(new HashSet<>(metricNames));
+
+    assertRequestDuration(5, metrics);
+  }
+
+  @Test
+  public void includeServerAddress() throws IOException, InterruptedException {
+    startTarget("-Dgrafana.otel.server-address.enabled=true");
+
+    makeGreetCall();
+
+    assertRequestDuration(7, waitForMetrics());
+  }
+
+  private void assertRequestDuration(
+      int expectedAttributes, Collection<ExportMetricsServiceRequest> metrics)
+      throws IOException, InterruptedException {
+    Optional<Metric> o =
+        getMetricsStream(metrics)
+            .filter(metric -> metric.getName().equals(HTTP_SERVER_REQUEST_DURATION))
+            .findFirst();
+    assertThat(o).isPresent();
+
+    List<String> attributes =
+        o.get().getHistogram().getDataPoints(0).getAttributesList().stream()
+            .map(KeyValue::getKey)
+            .toList();
+
+    assertThat(attributes)
+        .containsAll(
+            List.of(
+                "http.route",
+                "http.request.method",
+                "http.response.status_code",
+                "network.protocol.version",
+                "url.scheme"));
+    if (expectedAttributes == 9) {
+      assertThat(attributes).containsAll(List.of("server.address", "server.port"));
+    }
+
+    assertThat(attributes).hasSize(expectedAttributes);
   }
 }

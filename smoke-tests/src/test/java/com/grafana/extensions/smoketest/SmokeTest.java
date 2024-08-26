@@ -167,8 +167,8 @@ public abstract class SmokeTest {
             .count();
   }
 
-  protected static Stream<Span> getSpanStream(Collection<ExportTraceServiceRequest> traces) {
-    return traces.stream()
+  protected static Stream<Span> getSpanStream(Collection<ExportTraceServiceRequest> logs) {
+    return logs.stream()
         .flatMap(it -> it.getResourceSpansList().stream())
         .flatMap(it -> it.getScopeSpansList().stream())
         .flatMap(it -> it.getSpansList().stream());
@@ -181,8 +181,9 @@ public abstract class SmokeTest {
         .flatMap(it -> it.getLogRecordsList().stream());
   }
 
-  protected static Stream<Metric> getMetricsStream(Collection<ExportMetricsServiceRequest> traces) {
-    return traces.stream()
+  protected static Stream<Metric> getMetricsStream(
+      Collection<ExportMetricsServiceRequest> metrics) {
+    return metrics.stream()
         .flatMap(it -> it.getResourceMetricsList().stream())
         .flatMap(it -> it.getScopeMetricsList().stream())
         .flatMap(it -> it.getMetricsList().stream());
@@ -234,6 +235,9 @@ public abstract class SmokeTest {
 
   protected Collection<ExportMetricsServiceRequest> waitForMetrics()
       throws IOException, InterruptedException {
+    // Wait for the metric to be fully exported.
+    Thread.sleep(1000);
+
     String content = waitForContent("metrics");
 
     return StreamSupport.stream(OBJECT_MAPPER.readTree(content).spliterator(), false)
