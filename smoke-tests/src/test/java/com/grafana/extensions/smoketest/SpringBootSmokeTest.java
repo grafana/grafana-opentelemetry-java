@@ -5,7 +5,9 @@
 
 package com.grafana.extensions.smoketest;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
 import com.grafana.extensions.filter.DefaultMetrics;
 import com.grafana.extensions.resources.internal.DistributionVersion;
@@ -66,8 +68,7 @@ class SpringBootSmokeTest extends SmokeTest {
 
     makeGreetCall();
 
-    Collection<ExportMetricsServiceRequest> metrics = waitForMetrics();
-    List<String> metricNames = getMetricNames(metrics);
+    List<String> metricNames = getMetricNames(waitForMetrics());
     assertThat(metricNames).contains("jvm.memory.used");
 
     // checked below
@@ -77,7 +78,7 @@ class SpringBootSmokeTest extends SmokeTest {
     assertThat(DefaultMetrics.DEFAULT_METRICS)
         .containsOnlyOnceElementsOf(new HashSet<>(metricNames));
 
-    assertRequestDuration(5, metrics);
+    assertRequestDuration(5);
   }
 
   @Test
@@ -86,20 +87,24 @@ class SpringBootSmokeTest extends SmokeTest {
 
     makeGreetCall();
 
-    assertRequestDuration(7, waitForMetrics());
+    assertRequestDuration(7);
   }
 
-  private void assertRequestDuration(
-      int expectedAttributes, Collection<ExportMetricsServiceRequest> metrics)
-      throws IOException, InterruptedException {
-    Optional<Metric> o =
-        getMetricsStream(metrics)
-            .filter(metric -> metric.getName().equals(HTTP_SERVER_REQUEST_DURATION))
-            .findFirst();
-    assertThat(o).isPresent();
+  private void assertRequestDuration(int expectedAttributes) {
+    Optional<Metric> metricOptional =
+        await()
+            .atMost(10, SECONDS)
+            .until(
+                () -> {
+                  Collection<ExportMetricsServiceRequest> metrics = waitForMetrics();
+                  return getMetricsStream(metrics)
+                      .filter(metric -> metric.getName().equals(HTTP_SERVER_REQUEST_DURATION))
+                      .findFirst();
+                },
+                Optional::isPresent);
 
     List<String> attributes =
-        o.get().getHistogram().getDataPoints(0).getAttributesList().stream()
+        metricOptional.get().getHistogram().getDataPoints(0).getAttributesList().stream()
             .map(KeyValue::getKey)
             .toList();
 

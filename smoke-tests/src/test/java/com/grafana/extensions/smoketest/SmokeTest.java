@@ -235,9 +235,6 @@ public abstract class SmokeTest {
 
   protected Collection<ExportMetricsServiceRequest> waitForMetrics()
       throws IOException, InterruptedException {
-    // Wait for the metric to be fully exported.
-    Thread.sleep(1000);
-
     String content = waitForContent("metrics");
 
     return StreamSupport.stream(OBJECT_MAPPER.readTree(content).spliterator(), false)
