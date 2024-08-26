@@ -6,7 +6,7 @@
 package com.grafana.extensions;
 
 import com.grafana.extensions.cloud.GrafanaCloudConfigCustomizer;
-import com.grafana.extensions.filter.MetricFilter;
+import com.grafana.extensions.filter.MetricsCustomizer;
 import com.grafana.extensions.instrumentations.TestedInstrumentationsCustomizer;
 import com.grafana.extensions.logging.LoggingExporterConfigCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizer;
@@ -24,7 +24,7 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
         .addPropertiesCustomizer(TestedInstrumentationsCustomizer::customizeProperties)
         .addPropertiesCustomizer(LoggingExporterConfigCustomizer::customizeProperties)
         .addPropertiesCustomizer(GrafanaCloudConfigCustomizer::customizeProperties)
-        .addMeterProviderCustomizer(MetricFilter::dropUnusedMetrics);
+        .addMeterProviderCustomizer(MetricsCustomizer::configure);
   }
 
   private static Map<String, String> getDefaultProperties() {

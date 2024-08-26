@@ -174,15 +174,16 @@ public abstract class SmokeTest {
         .flatMap(it -> it.getSpansList().stream());
   }
 
-  protected static Stream<LogRecord> getLogStream(Collection<ExportLogsServiceRequest> traces) {
-    return traces.stream()
+  protected static Stream<LogRecord> getLogStream(Collection<ExportLogsServiceRequest> logs) {
+    return logs.stream()
         .flatMap(it -> it.getResourceLogsList().stream())
         .flatMap(it -> it.getScopeLogsList().stream())
         .flatMap(it -> it.getLogRecordsList().stream());
   }
 
-  protected static Stream<Metric> getMetricsStream(Collection<ExportMetricsServiceRequest> traces) {
-    return traces.stream()
+  protected static Stream<Metric> getMetricsStream(
+      Collection<ExportMetricsServiceRequest> metrics) {
+    return metrics.stream()
         .flatMap(it -> it.getResourceMetricsList().stream())
         .flatMap(it -> it.getScopeMetricsList().stream())
         .flatMap(it -> it.getMetricsList().stream());
