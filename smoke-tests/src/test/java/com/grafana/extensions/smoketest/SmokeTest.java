@@ -167,15 +167,15 @@ public abstract class SmokeTest {
             .count();
   }
 
-  protected static Stream<Span> getSpanStream(Collection<ExportTraceServiceRequest> logs) {
-    return logs.stream()
+  protected static Stream<Span> getSpanStream(Collection<ExportTraceServiceRequest> traces) {
+    return traces.stream()
         .flatMap(it -> it.getResourceSpansList().stream())
         .flatMap(it -> it.getScopeSpansList().stream())
         .flatMap(it -> it.getSpansList().stream());
   }
 
-  protected static Stream<LogRecord> getLogStream(Collection<ExportLogsServiceRequest> traces) {
-    return traces.stream()
+  protected static Stream<LogRecord> getLogStream(Collection<ExportLogsServiceRequest> logs) {
+    return logs.stream()
         .flatMap(it -> it.getResourceLogsList().stream())
         .flatMap(it -> it.getScopeLogsList().stream())
         .flatMap(it -> it.getLogRecordsList().stream());

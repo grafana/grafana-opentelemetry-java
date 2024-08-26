@@ -82,8 +82,8 @@ class SpringBootSmokeTest extends SmokeTest {
   }
 
   @Test
-  public void includeServerAddress() throws IOException, InterruptedException {
-    startTarget("-Dgrafana.otel.server-address.enabled=true");
+  public void includeServerAddress() {
+    startTarget("-Dgrafana.otel.http-server-request-duration.server-attributes.enabled=true");
 
     makeGreetCall();
 

@@ -13,7 +13,8 @@ import io.opentelemetry.sdk.metrics.ViewBuilder;
 import java.util.HashSet;
 
 public class ServerAddressConfig {
-  public static final String SERVER_ADDRESS_OPT_IN = "grafana.otel.server-address.enabled";
+  public static final String SERVER_ADDRESS_OPT_IN =
+      "grafana.otel.http-server-request-duration.server-attributes.enabled";
 
   private ServerAddressConfig() {}
 
