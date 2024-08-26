@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.7.0-beta.1 (2024-xx-xx)
+
+- Update to [OpenTelemetry 2.7.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-270-2024-08-16)
+
 ## 2.6.0-beta.2 (2024-07-31)
 
 - Add `grafana.otel.trace-response-header.enabled` to enable the trace response header for RUM tracing
