@@ -3,8 +3,8 @@
 ## 2.7.0-beta.1 (2024-xx-xx)
 
 - Update to [OpenTelemetry 2.7.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-270-2024-08-16)
-- Add `grafana.otel.http-server-request-duration.server-attributes.enabled` to opt-in to the `server.address` and `server.port` attributes
-  for the `http.server.request.duration` metric (disabled by default).
+- Add `grafana.otel.http-server-request-duration.server-attributes.enabled` to opt-in to the `server.address` and
+  `server.port` attributes for the `http.server.request.duration` metric (disabled by default).
 
 ## 2.6.0-beta.2 (2024-07-31)
 
