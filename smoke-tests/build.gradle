@@ -11,8 +11,9 @@ dependencies {
   testImplementation("io.opentelemetry.proto:opentelemetry-proto:1.3.2-alpha")
   testImplementation("io.opentelemetry:opentelemetry-api")
   testImplementation("io.opentelemetry.semconv:opentelemetry-semconv")
-
   testImplementation("ch.qos.logback:logback-classic:1.5.6")
+  testImplementation("org.awaitility:awaitility:4.2.2")
+  testImplementation("ch.qos.logback:logback-classic:1.5.7")
   testImplementation("org.awaitility:awaitility:4.2.2")
 }
 
