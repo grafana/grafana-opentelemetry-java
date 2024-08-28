@@ -9,6 +9,7 @@ import com.grafana.extensions.cloud.GrafanaCloudConfigCustomizer;
 import com.grafana.extensions.filter.MetricsCustomizer;
 import com.grafana.extensions.instrumentations.TestedInstrumentationsCustomizer;
 import com.grafana.extensions.logging.LoggingExporterConfigCustomizer;
+import com.grafana.extensions.resources.ResourceCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizerProvider;
 import java.util.HashMap;
@@ -24,7 +25,8 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
         .addPropertiesCustomizer(TestedInstrumentationsCustomizer::customizeProperties)
         .addPropertiesCustomizer(LoggingExporterConfigCustomizer::customizeProperties)
         .addPropertiesCustomizer(GrafanaCloudConfigCustomizer::customizeProperties)
-        .addMeterProviderCustomizer(MetricsCustomizer::configure);
+        .addMeterProviderCustomizer(MetricsCustomizer::configure)
+        .addResourceCustomizer(ResourceCustomizer::truncate);
   }
 
   private static Map<String, String> getDefaultProperties() {
