@@ -161,7 +161,7 @@
             "uid": "${DS_GRAFANACLOUD-GREGORZEITLINGER-PROM}"
           },
           "editorMode": "code",
-          "expr": "sum by (instance, name) (r2dbc_pool_acquired{job=~\"$job\", instance=~\"$instance\"}) / on (instance, name) \nsum by (instance, name) (r2dbc_pool_max_allocated{job=~\"$job\", instance=~\"$instance\"})",
+          "expr": "sum by (instance, name) (r2dbc_pool_acquired_connections{job=~\"$job\", instance=~\"$instance\"}) / on (instance, name) \nsum by (instance, name) (r2dbc_pool_max_allocated_connections{job=~\"$job\", instance=~\"$instance\"})",
           "legendFormat": "{{instance}} - {{name}}",
           "range": true,
           "refId": "A"
@@ -256,7 +256,7 @@
             "uid": "${DS_GRAFANACLOUD-GREGORZEITLINGER-PROM}"
           },
           "editorMode": "code",
-          "expr": "r2dbc_pool_pending{job=~\"$job\", instance=~\"$instance\"}",
+          "expr": "r2dbc_pool_pending_connections{job=~\"$job\", instance=~\"$instance\"}",
           "legendFormat": "{{instance}} - {{name}}",
           "range": true,
           "refId": "A"
