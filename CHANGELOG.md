@@ -1,5 +1,5 @@
 # Changelog
-                        
+
 ## Unreleased
 
 - Update to [OpenTelemetry 2.7.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-280-2024-09-13)
