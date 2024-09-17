@@ -1,8 +1,9 @@
 # Changelog
+                        
+## Unreleased
 
-## 2.7.0-beta.1 (2024-xx-xx)
-
-- Update to [OpenTelemetry 2.7.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-270-2024-08-16)
+- Update to [OpenTelemetry 2.7.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-280-2024-09-13)
+- Update to [OpenTelemetry 2.8.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-270-2024-08-16)
 - Add `grafana.otel.http-server-request-duration.server-attributes.enabled` to opt in to the `server.address` and
   `server.port` attributes for the `http.server.request.duration` metric (disabled by default).
 - Add `grafana.otel.resource.attribute.value.length.limit` to limit the length of attribute values in the resource
