@@ -4,7 +4,7 @@ input:
   - path: /stock
 expected:
   logs:
-    - logql: '{exporter = "OTLP"}'
+    - logql: '{service_name="app"}'
       # the instrumentation scope contains the logger name, not "log4j" so we cannot assert that log4j was actually used
       contains:
         - 'hello LGTM'

@@ -1,9 +1,9 @@
 group 'com.grafana'
-version '2.7.0-beta.1'
+version '2.8.0-beta.1'
 
 buildscript {
   ext {
-    otelInstrumentationVersion = "2.7.0"
+    otelInstrumentationVersion = "2.8.0"
   }
   repositories {
     maven {
@@ -26,7 +26,7 @@ subprojects {
   ext {
     versions = [
       // this line is managed by .github/scripts/update-sdk-version.sh
-      opentelemetrySdk           : "1.41.0",
+      opentelemetrySdk           : "1.42.1",
 
       // these lines are managed by .github/scripts/update-version.sh
       opentelemetryJavaagent     : otelInstrumentationVersion,

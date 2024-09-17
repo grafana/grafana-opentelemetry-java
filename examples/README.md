@@ -224,7 +224,7 @@ A very useful set of metrics is the current and max. number of connections to de
 - max: `db_client_connections_max{pool_name="HikariPool-1"}`
 - current: `db_client_connections_usage{pool_name="HikariPool-1", state="used"}`
 
-For reactive, `r2dbc_pool_acquired{}` seems like a good metric to monitor pool usage.
+For reactive, `r2dbc_pool_acquired_connections{}` seems like a good metric to monitor pool usage.
 
 #### Kafka client metrics
 
