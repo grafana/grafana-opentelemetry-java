@@ -6,8 +6,8 @@ if [ -z "$newVersion" ]; then
   exit 1
 fi
 
-if [[ ! "$newVersion" =~ ^2\.[0-9]+\.[0-9]+-beta\.[1-9]$ ]]; then
-  echo "new version $newVersion is not valid - new version should be in the format of x.y.z-beta.w"
+if [[ ! "$newVersion" =~ ^2\.[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+  echo "new version $newVersion is not valid - new version should be in the format of x.y.z.g?"
   exit 1
 fi
 

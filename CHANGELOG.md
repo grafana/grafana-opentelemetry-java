@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 2.8.0 (2024-09-19)
+
+This is the first GA release of this distribution.
 
 - Update to [OpenTelemetry 2.7.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-280-2024-09-13)
 - Update to [OpenTelemetry 2.8.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-270-2024-08-16)
@@ -8,6 +10,8 @@
   `server.port` attributes for the `http.server.request.duration` metric (disabled by default).
 - Add `grafana.otel.resource.attribute.value.length.limit` to limit the length of attribute values in the resource
   (default is 2048 characters - which aligns with Grafana Cloud).
+- **Breaking Change**: remove the deprecated `GRAFANA_CLOUD_*`, `GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED` and
+  `GRAFANA_OTLP_DEBUG_LOGGING` environment variables.
 
 ## 2.6.0-beta.2 (2024-07-31)
 
