@@ -5,10 +5,8 @@
 
 package com.grafana.extensions;
 
-import com.grafana.extensions.cloud.GrafanaCloudConfigCustomizer;
 import com.grafana.extensions.filter.MetricsCustomizer;
 import com.grafana.extensions.instrumentations.TestedInstrumentationsCustomizer;
-import com.grafana.extensions.logging.LoggingExporterConfigCustomizer;
 import com.grafana.extensions.resources.ResourceCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizerProvider;
@@ -23,8 +21,6 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
     autoConfiguration
         .addPropertiesSupplier(GrafanaAutoConfigCustomizerProvider::getDefaultProperties)
         .addPropertiesCustomizer(TestedInstrumentationsCustomizer::customizeProperties)
-        .addPropertiesCustomizer(LoggingExporterConfigCustomizer::customizeProperties)
-        .addPropertiesCustomizer(GrafanaCloudConfigCustomizer::customizeProperties)
         .addMeterProviderCustomizer(MetricsCustomizer::configure)
         .addResourceCustomizer(ResourceCustomizer::truncate);
   }

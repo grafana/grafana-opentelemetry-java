@@ -8,6 +8,7 @@ package com.grafana.extensions.instrumentations;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Named.named;
 
+import com.grafana.extensions.VersionLogger;
 import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.github.netmikey.logunit.api.LogCapturer;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
@@ -23,8 +24,8 @@ class TestedInstrumentationsCustomizerTest {
   @RegisterExtension
   LogCapturer logs =
       LogCapturer.create()
-          .captureForType(TestedInstrumentationsCustomizer.class)
-          .captureForType(TestedInstrumentationsContext.class);
+          .captureForType(VersionLogger.class)
+          .captureForType(TestedInstrumentationsCustomizer.class);
 
   record TestCase(
       Map<String, String> inputProperties,
@@ -35,7 +36,6 @@ class TestedInstrumentationsCustomizerTest {
   @ParameterizedTest
   @MethodSource("testCases")
   void getCustomProperties(TestCase testCase) {
-
     DefaultConfigProperties configProperties =
         DefaultConfigProperties.createFromMap(testCase.inputProperties);
     configProperties =

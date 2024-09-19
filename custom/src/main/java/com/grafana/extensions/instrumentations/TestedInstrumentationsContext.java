@@ -5,15 +5,12 @@
 
 package com.grafana.extensions.instrumentations;
 
+import com.grafana.extensions.VersionLogger;
 import com.grafana.extensions.resources.internal.DistributionVersion;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class TestedInstrumentationsContext {
-
-  private static final Logger logger =
-      Logger.getLogger(TestedInstrumentationsContext.class.getName());
 
   private boolean useTestedInstrumentations;
   private boolean includeAllInstrumentations = true;
@@ -41,7 +38,7 @@ public class TestedInstrumentationsContext {
   }
 
   public void print() {
-    logger.info(
+    VersionLogger.LOGGER.info(
         String.format(
             "Grafana OpenTelemetry Javaagent: version=%s, "
                 + "includeAllInstrumentations=%b, useTestedInstrumentations=%b, "
