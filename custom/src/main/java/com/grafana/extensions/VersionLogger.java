@@ -11,5 +11,5 @@ public class VersionLogger {
 
   public VersionLogger() {}
 
-  public static final Logger LOGGER = Logger.getLogger(VersionLogger.class.getName());
+  public static final Logger logger = Logger.getLogger(VersionLogger.class.getName());
 }

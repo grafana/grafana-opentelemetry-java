@@ -38,7 +38,7 @@ public class TestedInstrumentationsContext {
   }
 
   public void print() {
-    VersionLogger.LOGGER.info(
+    VersionLogger.logger.info(
         String.format(
             "Grafana OpenTelemetry Javaagent: version=%s, "
                 + "includeAllInstrumentations=%b, useTestedInstrumentations=%b, "
