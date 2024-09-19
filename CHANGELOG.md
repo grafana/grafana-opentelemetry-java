@@ -2,8 +2,7 @@
 
 ## 2.8.0 (2024-09-19)
 
-This is the first GA release of this distribution - you can read more about it in the
-[announcement blog post](https://grafana.com/blogblog/2024/09/19/grafana-opentelemetry-distributions-prioritizing-simplicity-sticking-to-oss-values/).
+This is the first GA release of this distribution.
 
 - Update to [OpenTelemetry 2.7.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-280-2024-09-13)
 - Update to [OpenTelemetry 2.8.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-270-2024-08-16)
