@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-  implementation 'redis.clients:jedis:5.1.5'
+  implementation 'redis.clients:jedis:5.2.0'
   implementation 'org.springframework.boot:spring-boot-starter-webflux'
 }
 
