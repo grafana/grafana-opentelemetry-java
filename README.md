@@ -41,11 +41,35 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
 >   [here](https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/).
 > - You can use this distribution for any OpenTelemetry use case, not just Grafana Cloud.
 > - You can migrate from this distribution to OpenTelemetry Instrumentation for Java as explained
->   [here](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java/migrate-upstream/).
+>   [below](#migrating-to-opentelemetry-instrumentation-for-java).
 
 ## Documentation
 
 The documentation can be found in [Grafana Cloud / Application Observability / Instrument / Java](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java).
+
+### Compatibility
+
+- Java 8+
+- Spring Boot 2.7+
+  - Older Spring Boot versions also mostly work, but this is not tested explicitly
+- We regularly update to the latest version of [OpenTelemetry Instrumentation for Java] - you can find the current
+  version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
+
+### Migrating to OpenTelemetry Instrumentation for Java
+
+Follow these steps if you want to migrate from this distribution to the upstream project
+OpenTelemetry Instrumentation for Java:
+
+- If you use [Data Saver](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/instrument/jvm/#data-saver),
+  you can filter the metrics in the OpenTelemetry Collector instead
+  ([docs](https://opentelemetry.io/docs/collector/transforming-telemetry/#basic-filtering)).
+- Add the environment variables below for the best experience with Application Observability:
+
+```shell
+export OTEL_INSTRUMENTATION_MICROMETER_BASE_TIME_UNIT=s
+export OTEL_INSTRUMENTATION_LOG4J_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true
+export OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true 
+```
 
 ## Community
 
