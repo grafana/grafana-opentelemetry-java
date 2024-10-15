@@ -60,7 +60,7 @@ The documentation can be found in [Grafana Cloud / Application Observability / I
 Follow these steps if you want to migrate from this distribution to the upstream project
 OpenTelemetry Instrumentation for Java:
 
-- If you use [Data Saver](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/instrument/jvm/#data-saver), 
+- If you use [Data Saver](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/instrument/jvm/#data-saver),
   you can filter the metrics in the OpenTelemetry Collector instead
   ([docs](https://opentelemetry.io/docs/collector/transforming-telemetry/#basic-filtering)).
 - Add the environment variables below for the best experience with Application Observability:
