@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
     paths:
       - build.gradle # Tag is here
+      - .github/workflows/create-tag.yml # This file
 
 jobs:
   create-tag:
