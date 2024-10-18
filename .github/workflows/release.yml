@@ -2,19 +2,35 @@ name: Release
 
 on:
   push:
-    tags:
-      - "v*.*.*"
+    branches: [ "main" ]
+    paths:
+      - build.gradle # Tag is here
+      - .github/workflows/release.yml # This file
 
 permissions:
   contents: write
   id-token: write
 
 jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read Tag Version
+        run: |
+          sed -nr "s/version '([^\']+)'/TAG=\1/p" build.gradle >> $GITHUB_ENV
+      - name: Create Tag
+        uses: rickstaa/action-create-tag@v1
+        id: "tag_create"
+        with:
+          tag: "v${{ env.TAG }}"
+          tag_exists_error: false
   release:
+    needs: create-tag
+    if: needs.create-tag.outputs.tag_exists == 'false'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
