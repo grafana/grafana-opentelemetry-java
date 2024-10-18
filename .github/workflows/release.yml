@@ -21,12 +21,10 @@ jobs:
           java-version: 17
           distribution: temurin
           cache: "gradle"
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v3.5.0
       - name: Setup Gradle and run build
-        uses: gradle/gradle-build-action@v3.5.0
-        with:
-          arguments: build -x test
+        uses: gradle/actions/setup-gradle@v4
+      - name: Build
+        run: ./gradlew assemble
       - name: Release
         uses: softprops/action-gh-release@v2
         with:

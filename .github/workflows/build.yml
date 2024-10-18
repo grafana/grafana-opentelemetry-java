@@ -22,12 +22,10 @@ jobs:
           java-version: 17
           distribution: temurin
           cache: "gradle"
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v3.5.0
       - name: Setup Gradle and run build
-        uses: gradle/gradle-build-action@v3.5.0
+        uses: gradle/actions/setup-gradle@v4
+      - name: Build
+        run: ./gradlew build
         env:
           CHECK_GENERATED_FILES: true
           SMOKE_TEST_JAVA_VERSION: ${{ matrix.java }} # the smoke tests will pick this up
-        with:
-          arguments: build
