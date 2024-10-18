@@ -16,16 +16,18 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tag_exists: ${{ steps.tag_create.outputs.tag_exists }}
+      tag: ${{ steps.read_tag.outputs.tag }}
     steps:
       - uses: actions/checkout@v4
       - name: Read Tag Version
+        id: "read_tag"
         run: |
-          sed -nr "s/version '([^\']+)'/TAG=\1/p" build.gradle >> $GITHUB_ENV
+          sed -nr "s/version '([^\']+)'/tag=v\1/p" build.gradle >> "$GITHUB_OUTPUT"
       - name: Create Tag
         uses: rickstaa/action-create-tag@v1
         id: "tag_create"
         with:
-          tag: "v${{ env.TAG }}"
+          tag: ${{ steps.read_tag.outputs.tag }}
           tag_exists_error: false
   release:
     needs: create-tag
@@ -46,6 +48,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ needs.create-tag.outputs.tag }}
           files: |
             agent/build/libs/grafana-opentelemetry-java.jar
             LICENSE
