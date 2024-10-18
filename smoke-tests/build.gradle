@@ -33,3 +33,4 @@ tasks.test {
     jvmArgs("-Dio.opentelemetry.smoketest.agent.shadowJar.path=${shadowTask.archiveFile.get()}")
   }
 }
+                         ]

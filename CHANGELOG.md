@@ -1,5 +1,5 @@
 # Changelog
-                      
+
 ## 2.9.0 (2024-10-18)
 
 - Update to [OpenTelemetry 2.9.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-290-2024-10-17)
