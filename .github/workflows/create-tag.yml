@@ -1,0 +1,24 @@
+name: Create Tag if needed
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - build.gradle # Tag is here
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read Tag Version
+        run: |
+          sed -nr "s/version '([^\']+)'/TAG=\1/p" build.gradle > >> $GITHUB_ENV
+      - name: Create Tag
+        uses: rickstaa/action-create-tag@v1
+        id: "tag_create"
+        with:
+          tag: "v${{ env.TAG }}"
+          tag_exists_error: false
+
