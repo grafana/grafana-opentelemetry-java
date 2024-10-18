@@ -37,8 +37,6 @@ jobs:
           cache-dependency-path: oats/go.sum
       - name: Setup Gradle and run build
         uses: gradle/actions/setup-gradle@v4
-        with:
-          arguments: build
       - name: Build
         run: ./gradlew assemble
       - name: Run acceptance tests
