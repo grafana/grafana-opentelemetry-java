@@ -14,7 +14,8 @@ permissions:
 jobs:
   create-tag:
     runs-on: ubuntu-latest
-
+    outputs:
+      tag_exists: ${{ steps.tag_create.outputs.tag_exists }}
     steps:
       - uses: actions/checkout@v4
       - name: Read Tag Version
