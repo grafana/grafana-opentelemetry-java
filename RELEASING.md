@@ -21,11 +21,6 @@ gradle build # this will update the version in Java
 2. Then commit/push the changes and open a PR.
 3. Add the "oats" label to the PR to have all acceptance tests run against the PR.
 4. Merge the PR once approved.
-
-```sh
-git tag -a v<VERSION> -m "Release v<VERSION>"
-git push origin v<VERSION>
-```
-
-Copy the CHANGELOG entry to the release description on Github.
+5. The tag and release will be created automatically by the Github workflow.
+6. Copy the CHANGELOG entry to the release description on Github.
                                                                      .
