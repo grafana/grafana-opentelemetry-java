@@ -4,6 +4,11 @@
 
 Make sure that there is a recent Pull Request with the "oats" label that has been merged into the `main` branch.
 This will ensure that the release is tested against the OATS test suite.
+You can also trigger tests manually by running the following command:
+
+```sh
+gh workflow run acceptance-tests.yml
+```
 
 ## Create a Release
 
