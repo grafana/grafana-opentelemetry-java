@@ -1,0 +1,118 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "branchPrefix": "grafanarenovatebot/",
+  "platformCommit": true,
+  "dependencyDashboard": false,
+  "forkProcessing": "enabled",
+  "rebaseWhen": "behind-base-branch",
+  "repositories": [
+    "grafana/grafana-opentelemetry-java",
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "labels": [
+        "update-major"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "labels": [
+        "update-minor"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "labels": [
+        "automerge-patch"
+      ]
+    },
+    {
+      "matchUpdateTypes": [
+        "digest"
+      ],
+      "labels": [
+        "update-digest"
+      ],
+    },
+    {
+      // keep spring 2 examples
+      "matchFileNames": [
+        "examples/**/build.gradle",
+      ],
+      "matchPackagePrefixes": [
+        "org.springframework.boot:"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    },
+    {
+      // keep spring 2 examples
+      "matchFileNames": [
+        "examples/**/build.gradle",
+      ],
+      "matchPackagePrefixes": [
+        "io.spring.dependency-management"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    },
+    {
+      // spring 2 examples can't use the next major version
+      "matchFileNames": [
+        "examples/**/build.gradle",
+      ],
+      "matchPackagePrefixes": [
+        "redis.clients:"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    },
+    {
+      "matchFileNames": [
+        "examples/**/build.gradle",
+      ],
+      "labels": [
+        "oats"
+      ],
+      "groupName": "examples"
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "automerge-security-update"
+    ]
+  },
+  "osvVulnerabilityAlerts": true,
+  customManagers: [
+    {
+      // Update renovate version in GHA workflow file.
+      "customType": "regex",
+      "depNameTemplate": "ghcr.io/renovatebot/renovate",
+      "datasourceTemplate": "docker",
+      "fileMatch": [
+        "^\\.github/workflows/.*\\.ya?ml$",
+      ],
+      "matchStrings": [
+        "renovate-version: (?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?",
+        "RENOVATE_IMAGE=ghcr.io/renovatebot/renovate:(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?"
+      ]
+    }
+  ]
+}
