@@ -1,26 +1,18 @@
 # Releasing
 
-## Publish Release via Github Workflow
+## Preparing a Release
 
-### Prepare for Release
-
-Create/switch to a new branch off of `main`.
-
-```sh
-git checkout -b Update_for_new_release
-```
-
-From the project root, run the following command to update the repo with the new version (ex. 1.0.0)
+Make sure that there is a recent Pull Request with the "oats" label that has been merged into the `main` branch.
+This will ensure that the release is tested against the OATS test suite.
+You can also trigger tests manually by running the following command:
 
 ```sh
-./scripts/release.sh "<VERSION>"
-gradle build # this will update the version in Java
+gh workflow run acceptance-tests.yml
 ```
 
-1. Update the repo's CHANGELOG with details about the release.
-2. Then commit/push the changes and open a PR.
-3. Add the "oats" label to the PR to have all acceptance tests run against the PR.
-4. Merge the PR once approved.
-5. The tag and release will be created automatically by the Github workflow.
-6. Copy the CHANGELOG entry to the release description on Github.
-                                                                     .
+## Create a Release
+
+1. Go to <https://github.com/grafana/grafana-opentelemetry-java/releases>
+2. Click on "Choose a tag", enter the tag name (e.g. `v0.1.0`), and click "Create a new tag".
+3. Click on "Generate release notes" to auto-generate the release notes based on the commits since the last release.
+4. Click on "Publish release".

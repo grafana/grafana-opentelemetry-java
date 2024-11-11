@@ -2,39 +2,19 @@ name: Release
 
 on:
   push:
-    branches: [ "main" ]
-    paths:
-      - build.gradle # Tag is here
-      - .github/workflows/release.yml # This file
+    tags:
+      - "v*.*.*"
 
 permissions:
   contents: write
   id-token: write
 
 jobs:
-  create-tag:
-    runs-on: ubuntu-latest
-    outputs:
-      tag_exists: ${{ steps.tag_create.outputs.tag_exists }}
-      tag: ${{ steps.read_tag.outputs.tag }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Read Tag Version
-        id: "read_tag"
-        run: |
-          sed -nr "s/version '([^\']+)'/tag=v\1/p" build.gradle >> "$GITHUB_OUTPUT"
-      - name: Create Tag
-        uses: rickstaa/action-create-tag@v1
-        id: "tag_create"
-        with:
-          tag: ${{ steps.read_tag.outputs.tag }}
-          tag_exists_error: false
   release:
-    needs: create-tag
-    if: needs.create-tag.outputs.tag_exists == 'false'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -44,11 +24,10 @@ jobs:
       - name: Setup Gradle and run build
         uses: gradle/actions/setup-gradle@v4
       - name: Build
-        run: ./gradlew assemble
+        run: ./scripts/build-release.sh ${{ github.ref_name }}
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.create-tag.outputs.tag }}
           files: |
             agent/build/libs/grafana-opentelemetry-java.jar
             LICENSE

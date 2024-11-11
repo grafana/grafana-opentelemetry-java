@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-newVersion=$1
+set -euo pipefail
+
+tag=$1
+newVersion=${tag#v}
 if [ -z "$newVersion" ]; then
   echo "new version is missing"
   exit 1
