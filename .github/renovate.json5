@@ -8,9 +8,6 @@
   "dependencyDashboard": false,
   "forkProcessing": "enabled",
   "rebaseWhen": "behind-base-branch",
-  "repositories": [
-    "grafana/grafana-opentelemetry-java",
-  ],
   "packageRules": [
     {
       "matchUpdateTypes": [
@@ -50,33 +47,10 @@
         "examples/**/build.gradle",
       ],
       "matchPackagePrefixes": [
-        "org.springframework.boot:"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "enabled": false
-    },
-    {
-      // keep spring 2 examples
-      "matchFileNames": [
-        "examples/**/build.gradle",
-      ],
-      "matchPackagePrefixes": [
-        "io.spring.dependency-management"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "enabled": false
-    },
-    {
-      // spring 2 examples can't use the next major version
-      "matchFileNames": [
-        "examples/**/build.gradle",
-      ],
-      "matchPackagePrefixes": [
+        "org.springframework.boot:",
+        "io.spring.dependency-management",
         "redis.clients:"
+        // spring 2 examples can't use the next major version
       ],
       "matchUpdateTypes": [
         "major"
@@ -116,7 +90,20 @@
     },
     {
       "customType": "regex",
+      "description": "Update _VERSION variables in Dockerfiles",
+      "fileMatch": [
+        "(^|/|\\.)Dockerfile$",
+        "(^|/)Dockerfile\\.[^/]*$"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?<currentValue>.+?)\\s"
+      ]
+    },
+    {
+      "customType": "regex",
       "description": "Update release in run-example.sh",
+      "depNameTemplate": "grafana/grafana-opentelemetry-java",
+      "datasourceTemplate": "github-releases",
       "fileMatch": [
         "^examples/run-example.sh$",
       ],
