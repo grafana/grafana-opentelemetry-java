@@ -33,14 +33,14 @@ done
 
 "$scriptDir"/start-grafana-agent.sh
 
-agentVersion=2.9.0
-agent="grafana-opentelemetry-java-$agentVersion.jar"
+RELEASE=2.9.0
+agent="grafana-opentelemetry-java-$RELEASE.jar"
 agentPath="$scriptDir/$agent"
 
 if [[ ! -f "$agentPath" ]]; then
   echo "Downloading $agent"
   # this still needs a token until the project is public
-  curl -Lo "$agentPath" https://github.com/grafana/grafana-opentelemetry-java/releases/download/v$agentVersion/grafana-opentelemetry-java.jar
+  curl -Lo "$agentPath" https://github.com/grafana/grafana-opentelemetry-java/releases/download/v$RELEASE/grafana-opentelemetry-java.jar
 fi
 
 jvm_args=$(cat <<-END

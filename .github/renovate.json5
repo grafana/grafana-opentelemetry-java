@@ -113,6 +113,16 @@
         "renovate-version: (?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?",
         "RENOVATE_IMAGE=ghcr.io/renovatebot/renovate:(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?"
       ]
+    },
+    {
+      "customType": "regex",
+      "description": "Update release in run-example.sh",
+      "fileMatch": [
+        "^examples/run-example.sh$",
+      ],
+      "matchStrings": [
+        "RELEASE=(?<currentValue>[^\\s]+)"
+      ]
     }
   ]
 }
