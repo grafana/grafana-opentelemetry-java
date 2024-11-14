@@ -3,7 +3,7 @@ version '2.9.0'
 
 buildscript {
   ext {
-    otelInstrumentationVersion = "2.9.0"
+    otelInstrumentationVersion = "2.10.0"
   }
   repositories {
     maven {
@@ -12,7 +12,7 @@ buildscript {
   }
   dependencies {
     classpath "com.diffplug.spotless:spotless-plugin-gradle:6.25.0"
-    classpath "gradle.plugin.com.github.johnrengelman:shadow:8.0.0"
+    classpath "com.gradleup.shadow:shadow-gradle-plugin:8.3.5"
     classpath "io.opentelemetry.instrumentation:gradle-plugins:${otelInstrumentationVersion}-alpha"
   }
 }
@@ -25,8 +25,6 @@ subprojects {
 
   ext {
     versions = [
-      opentelemetrySdk           : "1.44.1",
-
       opentelemetryJavaagent     : otelInstrumentationVersion,
       opentelemetryJavaagentAlpha: "${otelInstrumentationVersion}-alpha",
 
@@ -77,10 +75,7 @@ subprojects {
   }
 
   dependencies {
-    implementation(platform("io.opentelemetry:opentelemetry-bom:${versions.opentelemetrySdk}"))
-
     // these serve as a test of the instrumentation boms
-    implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:${versions.opentelemetryJavaagent}"))
     implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:${versions.opentelemetryJavaagentAlpha}"))
 
     testImplementation("org.assertj:assertj-core:${versions.assertj}")

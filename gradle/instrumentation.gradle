@@ -1,5 +1,5 @@
 apply plugin: 'java'
-apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'com.gradleup.shadow'
 apply plugin: 'io.opentelemetry.instrumentation.muzzle-generation'
 apply plugin: 'io.opentelemetry.instrumentation.muzzle-check'
 
@@ -17,7 +17,6 @@ dependencies {
   compileOnly("io.opentelemetry.instrumentation:opentelemetry-instrumentation-api")
   compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
 
-  compileOnly deps.bytebuddy
   annotationProcessor deps.autoservice
   compileOnly deps.autoservice
 
@@ -53,7 +52,6 @@ tasks.withType(Test).configureEach {
   jvmArgs "-Dotel.javaagent.testing.fail-on-context-leak=true"
   // prevent sporadic gradle deadlocks, see SafeLogger for more details
   jvmArgs "-Dotel.javaagent.testing.transform-safe-logging.enabled=true"
-  jvmArgs "-Dotel.metrics.exporter=otlp"
 
   dependsOn shadowJar
   dependsOn configurations.testAgent.buildDependencies
@@ -61,7 +59,7 @@ tasks.withType(Test).configureEach {
   // The sources are packaged into the testing jar so we need to make sure to exclude from the test
   // classpath, which automatically inherits them, to ensure our shaded versions are used.
   classpath = classpath.filter {
-    if (it == file("$buildDir/resources/main") || it == file("$buildDir/classes/java/main")) {
+    if (it == file(layout.buildDirectory.dir("resources/main")) || it == file(layout.buildDirectory.dir("classes/java/main"))) {
       return false
     }
     return true
