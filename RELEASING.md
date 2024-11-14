@@ -5,7 +5,7 @@
    (run workflow)
 2. Go to <https://github.com/grafana/grafana-opentelemetry-java/releases>
 3. Click on "Choose a tag", enter the tag name (e.g. `v0.1.0`), and click "Create a new tag".
-   The version number should be the same as the 
+   The version number should be the same as the
    [upstream version](https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases) that we are using.
    Bugfix releases should be `v2.3.4.1`, where `2.3.4` is the upstream version.
 4. Click on "Generate release notes" to auto-generate the release notes based on the commits since the last release.
