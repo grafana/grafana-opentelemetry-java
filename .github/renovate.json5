@@ -42,6 +42,12 @@
       ],
     },
     {
+      // is only used for running "markdownlint -f ." locally
+      matchFileNames: [ ".tool-versions" ],
+      matchPackageNames: [ "nodejs"],
+      enabled: false
+    },
+    {
       // keep spring 2 examples
       "matchFileNames": [
         "examples/**/build.gradle",
