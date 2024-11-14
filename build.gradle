@@ -3,7 +3,7 @@ version '2.9.0'
 
 buildscript {
   ext {
-    otelInstrumentationVersion = "2.9.0"
+    otelInstrumentationVersion = "2.10.0"
   }
   repositories {
     maven {
