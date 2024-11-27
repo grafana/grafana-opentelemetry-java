@@ -47,31 +47,6 @@
       matchPackageNames: [ "nodejs"],
       enabled: false
     },
-    {
-      // keep spring 2 examples
-      "matchFileNames": [
-        "examples/**/build.gradle",
-      ],
-      "matchPackagePrefixes": [
-        "org.springframework.boot:",
-        "io.spring.dependency-management",
-        "redis.clients:"
-        // spring 2 examples can't use the next major version
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "enabled": false
-    },
-    {
-      "matchFileNames": [
-        "examples/**/build.gradle",
-      ],
-      "labels": [
-        "oats"
-      ],
-      "groupName": "examples"
-    }
   ],
   "vulnerabilityAlerts": {
     "enabled": true,
@@ -105,17 +80,5 @@
         "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?<currentValue>.+?)\\s"
       ]
     },
-    {
-      "customType": "regex",
-      "description": "Update release in run-example.sh",
-      "depNameTemplate": "grafana/grafana-opentelemetry-java",
-      "datasourceTemplate": "github-releases",
-      "fileMatch": [
-        "^examples/run-example.sh$",
-      ],
-      "matchStrings": [
-        "RELEASE=(?<currentValue>[^\\s]+)"
-      ]
-    }
   ]
 }
