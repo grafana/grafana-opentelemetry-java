@@ -5,6 +5,7 @@
   ],
   "branchPrefix": "grafanarenovatebot/",
   "platformCommit": true,
+  automerge: true,
   "dependencyDashboard": false,
   "forkProcessing": "enabled",
   "rebaseWhen": "behind-base-branch",
@@ -39,14 +40,28 @@
       ],
       "labels": [
         "update-digest"
-      ],
+      ]
     },
     {
       // is only used for running "markdownlint -f ." locally
-      matchFileNames: [ ".tool-versions" ],
-      matchPackageNames: [ "nodejs"],
+      matchFileNames: [
+        ".tool-versions"
+      ],
+      matchPackageNames: [
+        "node"
+      ],
       enabled: false
     },
+    {
+      "matchPackageNames": [
+        "ghcr.io/renovatebot/renovate",
+        "renovatebot/github-action"
+      ],
+      "groupName": "renovatebot",
+      "schedule": [
+        "before 4am on monday"
+      ]
+    }
   ],
   "vulnerabilityAlerts": {
     "enabled": true,
@@ -62,7 +77,7 @@
       "depNameTemplate": "ghcr.io/renovatebot/renovate",
       "datasourceTemplate": "docker",
       "fileMatch": [
-        "^\\.github/workflows/.*\\.ya?ml$",
+        "^\\.github/workflows/.*\\.ya?ml$"
       ],
       "matchStrings": [
         "renovate-version: (?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?",
@@ -79,6 +94,6 @@
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?<currentValue>.+?)\\s"
       ]
-    },
+    }
   ]
 }
