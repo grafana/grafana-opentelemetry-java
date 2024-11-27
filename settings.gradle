@@ -12,47 +12,4 @@ include ":custom"
 include ":smoke-tests"
 include ":testing:agent-for-testing"
 
-include ":examples:jdbc:spring-boot-non-reactive-2"
-include ":examples:jdbc:spring-boot-non-reactive-3"
-include ":examples:jdbc:spring-boot-reactive-2"
-include ":examples:jdbc:spring-boot-reactive-3"
-
-include ":examples:jms:spring-boot-non-reactive-2"
-include ":examples:jms:spring-boot-non-reactive-3"
-include ":examples:jms:spring-boot-reactive-2"
-include ":examples:jms:spring-boot-reactive-3"
-
-include ":examples:redis:spring-boot-non-reactive-2"
-include ":examples:redis:spring-boot-non-reactive-3"
-include ":examples:redis:spring-boot-reactive-2"
-include ":examples:redis:spring-boot-reactive-3"
-
-include ":examples:kafka:spring-boot-non-reactive-2"
-include ":examples:kafka:spring-boot-non-reactive-3"
-include ":examples:kafka:spring-boot-reactive-2"
-include ":examples:kafka:spring-boot-reactive-3"
-
-include "examples:mongodb:spring-boot-non-reactive-2"
-include "examples:mongodb:spring-boot-non-reactive-3"
-include "examples:mongodb:spring-boot-reactive-2"
-include "examples:mongodb:spring-boot-reactive-3"
-
-include "examples:jetty:spring-boot-non-reactive-2"
-include "examples:jetty:spring-boot-non-reactive-3"
-include "examples:jetty:spring-boot-reactive-2"
-include "examples:jetty:spring-boot-reactive-3"
-
-include "examples:undertow:spring-boot-non-reactive-2"
-include "examples:undertow:spring-boot-non-reactive-3"
-include "examples:undertow:spring-boot-reactive-2"
-include "examples:undertow:spring-boot-reactive-3"
-
-include "examples:logback:spring-boot-non-reactive-2"
-include "examples:logback:spring-boot-non-reactive-3"
-
-include "examples:log4j:spring-boot-non-reactive-2"
-include "examples:log4j:spring-boot-non-reactive-3"
-
-include "examples:manual:spring-boot-non-reactive-2"
-include "examples:manual:spring-boot-non-reactive-3"
 
