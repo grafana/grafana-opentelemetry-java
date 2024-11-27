@@ -39,7 +39,7 @@ SMOKE_TEST_JAVA_VERSION=8 ./gradlew :smoke-tests:test
 Check if the test passes with `TESTCASE_INCLUDE_ALL_INSTRUMENTATIONS=true`.
 
 If yes, check what the instrumentation scope is, and include this instrumentation in the list of
-[tested instrumentations](https://github.com/grafana/grafana-opentelemetry-java/blob/main/custom/src/main/java/com/grafana/extensions/instrumentations/Instrumentations.java). 
+[tested instrumentations](https://github.com/grafana/grafana-opentelemetry-java/blob/main/custom/src/main/java/com/grafana/extensions/instrumentations/Instrumentations.java).
 
 Where you can find the instrumentation scope:
 
