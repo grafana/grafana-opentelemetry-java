@@ -9,6 +9,7 @@ import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.context.Context;
+import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.trace.data.LinkData;
 import io.opentelemetry.sdk.trace.samplers.Sampler;
 import io.opentelemetry.sdk.trace.samplers.SamplingResult;
@@ -18,12 +19,18 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MovingAverageThresholdSampler implements Sampler {
   private final Map<String, MovingAverage> movingAvgs = new ConcurrentHashMap<>();
-  private final double threshHoldVal;
+  private final double thresholdVal;
   private final int windowSize;
 
-  public MovingAverageThresholdSampler(double threshHoldVal, int windowSize) {
-    this.threshHoldVal = threshHoldVal;
+  protected MovingAverageThresholdSampler(double thresholdVal, int windowSize) {
+    this.thresholdVal = thresholdVal;
     this.windowSize = windowSize;
+  }
+
+  public static Sampler configure(Sampler sampler, ConfigProperties properties) {
+    double threshold = properties.getDouble("threshold", 1.5);
+    int windowSize = properties.getInt("window", 20);
+    return new MovingAverageThresholdSampler(threshold, windowSize);
   }
 
   @Override
@@ -48,7 +55,7 @@ public class MovingAverageThresholdSampler implements Sampler {
     }
 
     double avg = currMovingAvg.addAndCalcAverage(duration);
-    if (duration < avg * threshHoldVal) {
+    if (duration < avg * thresholdVal) {
       return SamplingResult.drop();
     }
 
@@ -57,6 +64,6 @@ public class MovingAverageThresholdSampler implements Sampler {
 
   @Override
   public String getDescription() {
-    return "";
+    return "MovingAverageThresholdSampler";
   }
 }
