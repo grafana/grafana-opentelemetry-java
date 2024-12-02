@@ -5,6 +5,7 @@
 
 package com.grafana.extensions;
 
+import com.grafana.extensions.exporter.MovingAverageThresholdSampler;
 import com.grafana.extensions.filter.MetricsCustomizer;
 import com.grafana.extensions.instrumentations.TestedInstrumentationsCustomizer;
 import com.grafana.extensions.resources.ResourceCustomizer;
@@ -27,6 +28,7 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
         .addTracerProviderCustomizer(SamplingSpanProcessor::configure)
         .addSpanExporterCustomizer(SamplingExporter::configure)
         .addSamplerCustomizer(DeferredSampler::configure)
+        .addSpanExporterCustomizer(MovingAverageThresholdSampler::configure)
         .addResourceCustomizer(ResourceCustomizer::truncate);
   }
 

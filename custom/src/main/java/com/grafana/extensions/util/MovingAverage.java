@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.grafana.extensions.sampling;
+package com.grafana.extensions.util;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -21,13 +21,16 @@ public class MovingAverage {
     return this.window.size();
   }
 
-  public double addAndCalcAverage(long val) {
+  public void add(long val) {
     window.offer(val);
     sum += val;
-    if (window.size() > size) {
+    if (!window.isEmpty() && window.size() > size) {
       sum -= window.poll();
     }
+  }
 
+  public double addAndCalcAverage(long val) {
+    add(val);
     return calcAverage();
   }
 
