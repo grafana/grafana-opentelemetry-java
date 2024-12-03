@@ -9,13 +9,15 @@ import static com.grafana.extensions.servertiming.ServerTimingHeaderCustomizer.E
 import static com.grafana.extensions.servertiming.ServerTimingHeaderCustomizer.SERVER_TIMING;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.grafana.extensions.sampler.DynamicSampler;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.instrumentation.testing.junit.InstrumentationExtension;
 import io.opentelemetry.instrumentation.testing.junit.LibraryInstrumentationExtension;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.BeforeAll;
+import java.util.function.Consumer;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -25,9 +27,10 @@ class ServerTimingHeaderTest {
 
   private final ServerTimingHeaderCustomizer serverTiming = new ServerTimingHeaderCustomizer();
 
-  @BeforeAll
-  static void setUp() {
+  @BeforeEach
+  void setUp() {
     ServerTimingHeaderCustomizer.enabled = true;
+    DynamicSampler.clear();
   }
 
   @Test
@@ -41,14 +44,18 @@ class ServerTimingHeaderTest {
 
   @Test
   void shouldSetHeaders() {
+    assertSetHeader("00", span -> {});
+    assertSetHeader("01", span -> DynamicSampler.setSampled(span.getSpanContext().getTraceId()));
+  }
+
+  private void assertSetHeader(String traceFlags, Consumer<Span> spanConsumer) {
     var headers = new HashMap<String, String>();
 
     var spanContext =
         testing.runWithSpan(
             "server",
             () -> {
-              ServerTimingHeaderCustomizer.sampledTraces.add(
-                  Span.current().getSpanContext().getTraceId());
+              spanConsumer.accept(Span.current());
               serverTiming.customize(Context.current(), headers, Map::put);
               return Span.current().getSpanContext();
             });
@@ -60,7 +67,9 @@ class ServerTimingHeaderTest {
             + spanContext.getTraceId()
             + "-"
             + spanContext.getSpanId()
-            + "-01\"";
+            + "-"
+            + traceFlags
+            + "\"";
     assertThat(headers)
         .containsEntry(SERVER_TIMING, serverTimingHeaderValue)
         .containsEntry(EXPOSE_HEADERS, SERVER_TIMING);

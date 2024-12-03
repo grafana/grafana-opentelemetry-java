@@ -7,6 +7,7 @@ package com.grafana.extensions.servertiming;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.grafana.extensions.sampler.DynamicSampler;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.instrumentation.testing.junit.InstrumentationExtension;
@@ -23,7 +24,7 @@ class ServerTimingHeaderReaderTest {
 
   @BeforeEach
   void setUp() {
-    ServerTimingHeaderCustomizer.sampledTraces.clear();
+    DynamicSampler.clear();
   }
 
   @Test
@@ -35,7 +36,7 @@ class ServerTimingHeaderReaderTest {
 
           serverTimingHeaderReader.consume(
               new StringHttpCommonAttributesGetter(serverTiming), "request", "response");
-          assertThat(ServerTimingHeaderCustomizer.sampledTraces).isEmpty();
+          assertThat(DynamicSampler.getSampledTraces()).isEmpty();
         });
   }
 
@@ -45,14 +46,14 @@ class ServerTimingHeaderReaderTest {
         "server",
         () -> {
           String traceId = Span.current().getSpanContext().getTraceId();
-          ServerTimingHeaderCustomizer.sampledTraces.add(traceId);
+          DynamicSampler.setSampled(traceId);
           String serverTiming = ServerTimingHeaderCustomizer.toHeaderValue(Context.current());
 
           // remove the traceId to see that it is added back by the reader
-          ServerTimingHeaderCustomizer.sampledTraces.clear();
+          DynamicSampler.clear();
           serverTimingHeaderReader.consume(
               new StringHttpCommonAttributesGetter(serverTiming), "request", "response");
-          assertThat(ServerTimingHeaderCustomizer.sampledTraces).contains(traceId);
+          assertThat(DynamicSampler.getSampledTraces()).contains(traceId);
         });
   }
 }
