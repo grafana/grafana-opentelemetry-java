@@ -26,7 +26,7 @@ class ServerTimingHeaderReaderTest {
 
   @BeforeEach
   void setUp() {
-    DynamicSampler.clear();
+    DynamicSampler.getInstance().clear();
   }
 
   @Test
@@ -38,7 +38,7 @@ class ServerTimingHeaderReaderTest {
 
           serverTimingHeaderReader.consume(
               new StringHttpCommonAttributesGetter(serverTiming), "request", "response");
-          assertThat(DynamicSampler.getSampledTraces()).isEmpty();
+          assertThat(DynamicSampler.getInstance().getSampledTraces()).isEmpty();
         });
   }
 
@@ -48,14 +48,14 @@ class ServerTimingHeaderReaderTest {
         "server",
         () -> {
           String traceId = Span.current().getSpanContext().getTraceId();
-          DynamicSampler.setSampled(traceId);
+          DynamicSampler.getInstance().setSampled(traceId);
           String serverTiming = ServerTimingHeaderCustomizer.toHeaderValue(Context.current());
 
           // remove the traceId to see that it is added back by the reader
-          DynamicSampler.clear();
+          DynamicSampler.getInstance().clear();
           serverTimingHeaderReader.consume(
               new StringHttpCommonAttributesGetter(serverTiming), "request", "response");
-          assertThat(DynamicSampler.getSampledTraces()).contains(traceId);
+          assertThat(DynamicSampler.getInstance().getSampledTraces()).contains(traceId);
         });
   }
 }

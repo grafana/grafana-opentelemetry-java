@@ -14,6 +14,8 @@ import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.instrumentation.testing.junit.InstrumentationExtension;
 import io.opentelemetry.instrumentation.testing.junit.LibraryInstrumentationExtension;
+import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import io.opentelemetry.sdk.resources.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -27,10 +29,12 @@ class ServerTimingHeaderTest {
 
   private final ServerTimingHeaderCustomizer serverTiming = new ServerTimingHeaderCustomizer();
 
+  record TestCase(Resource want, ConfigProperties config) {}
+
   @BeforeEach
   void setUp() {
     ServerTimingHeaderCustomizer.enabled = true;
-    DynamicSampler.clear();
+    DynamicSampler.getInstance().clear();
   }
 
   @Test
@@ -46,8 +50,9 @@ class ServerTimingHeaderTest {
   void shouldSetHeaders() {
     assertSetHeader("00", span -> {});
     // todo: fix propagation
-    //    assertSetHeader("01", span ->
-    // DynamicSampler.setSampled(span.getSpanContext().getTraceId()));
+    //    assertSetHeader(
+        "01", span ->
+    // DynamicSampler.getInstance().setSampled(span.getSpanContext().getTraceId()));
   }
 
   private void assertSetHeader(String traceFlags, Consumer<Span> spanConsumer) {

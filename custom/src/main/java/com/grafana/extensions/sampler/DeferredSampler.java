@@ -18,9 +18,14 @@ import java.util.List;
 public class DeferredSampler implements Sampler {
 
   private static final Sampler FROM_PARENT = Sampler.parentBased(Sampler.alwaysOff());
+  private final ConfigProperties properties;
+
+  public DeferredSampler(ConfigProperties properties) {
+    this.properties = properties;
+  }
 
   public static Sampler configure(Sampler configured, ConfigProperties configProperties) {
-    return new DeferredSampler();
+    return new DeferredSampler(configProperties);
   }
 
   @Override
@@ -42,7 +47,7 @@ public class DeferredSampler implements Sampler {
             .getDecision();
     if (SamplingDecision.RECORD_AND_SAMPLE.equals(parentDecision)) {
       // todo: fix propagation
-      //      DynamicSampler.setSampled(traceId);
+      //      DynamicSampler.getInstance().setSampled(traceId);
     }
 
     // always return true - because a child span might be sampled even if the parent is not
