@@ -10,6 +10,7 @@ import com.grafana.extensions.instrumentations.TestedInstrumentationsCustomizer;
 import com.grafana.extensions.resources.ResourceCustomizer;
 import com.grafana.extensions.sampler.DeferredSampler;
 import com.grafana.extensions.sampler.SamplingExporter;
+import com.grafana.extensions.sampler.SamplingSpanProcessor;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizerProvider;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
         .addPropertiesSupplier(GrafanaAutoConfigCustomizerProvider::getDefaultProperties)
         .addPropertiesCustomizer(TestedInstrumentationsCustomizer::customizeProperties)
         .addMeterProviderCustomizer(MetricsCustomizer::configure)
+        .addTracerProviderCustomizer(SamplingSpanProcessor::configure)
         .addSpanExporterCustomizer(SamplingExporter::configure)
         .addSamplerCustomizer(DeferredSampler::configure)
         .addResourceCustomizer(ResourceCustomizer::truncate);

@@ -46,7 +46,7 @@ class ServerTimingHeaderReaderTest {
         "server",
         () -> {
           String traceId = Span.current().getSpanContext().getTraceId();
-          DynamicSampler.sample(traceId);
+          DynamicSampler.setSampled(traceId);
           String serverTiming = ServerTimingHeaderCustomizer.toHeaderValue(Context.current());
 
           // remove the traceId to see that it is added back by the reader

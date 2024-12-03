@@ -13,6 +13,7 @@ import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.javaagent.bootstrap.http.HttpServerResponseCustomizer;
 import io.opentelemetry.javaagent.bootstrap.http.HttpServerResponseMutator;
+import io.opentelemetry.sdk.trace.ReadWriteSpan;
 
 /**
  * Adds {@code Server-Timing} header (and {@code Access-Control-Expose-Headers}) to the HTTP
@@ -37,18 +38,19 @@ public class ServerTimingHeaderCustomizer implements HttpServerResponseCustomize
   }
 
   static String toHeaderValue(Context context) {
-    SpanContext c = Span.fromContext(context).getSpanContext();
-    boolean sampled = DynamicSampler.isSampled(c.getTraceId());
+    ReadWriteSpan span = (ReadWriteSpan) Span.fromContext(context);
+    SpanContext spanContext = span.getSpanContext();
+    boolean sampled = DynamicSampler.evaluateSampled(span);
     TraceParentHolder traceParentHolder = new TraceParentHolder();
     W3CTraceContextPropagator.getInstance()
         .inject(
             context.with(
                 Span.wrap(
                     SpanContext.create(
-                        c.getTraceId(),
-                        c.getSpanId(),
+                        spanContext.getTraceId(),
+                        spanContext.getSpanId(),
                         sampled ? TraceFlags.getSampled() : TraceFlags.getDefault(),
-                        c.getTraceState()))),
+                        spanContext.getTraceState()))),
             traceParentHolder,
             TraceParentHolder::set);
     return "traceparent;desc=\"" + traceParentHolder.traceParent + "\"";

@@ -15,35 +15,25 @@ import java.util.Collection;
 public class SamplingExporter implements SpanExporter {
 
   private final SpanExporter delegate;
-  private final DynamicSampler dynamicSampler;
 
-  public SamplingExporter(SpanExporter delegate, DynamicSampler dynamicSampler) {
+  public SamplingExporter(SpanExporter delegate) {
     this.delegate = delegate;
-    this.dynamicSampler = dynamicSampler;
   }
 
   public static SpanExporter configure(SpanExporter delegate, ConfigProperties properties) {
-    return new SamplingExporter(delegate, new DynamicSampler(properties));
+    return new SamplingExporter(delegate);
   }
 
   @Override
   public CompletableResultCode export(Collection<SpanData> collection) {
     ArrayList<SpanData> export = new ArrayList<>();
     for (SpanData data : collection) {
-      if (isSampled(data)) {
+      if (DynamicSampler.isSampled(data.getSpanContext().getTraceId())) {
         export.add(data);
       }
     }
     DynamicSampler.clear();
     return delegate.export(export);
-  }
-
-  private boolean isSampled(SpanData data) {
-    boolean basedOnParentOrChild = DynamicSampler.isSampled(data.getTraceId());
-    if (basedOnParentOrChild) {
-      return true;
-    }
-    return dynamicSampler.shouldSample(data);
   }
 
   @Override
