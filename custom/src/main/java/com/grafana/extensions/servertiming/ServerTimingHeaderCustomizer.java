@@ -5,6 +5,7 @@
 
 package com.grafana.extensions.servertiming;
 
+import com.grafana.extensions.sampler.DynamicSampler;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanContext;
 import io.opentelemetry.api.trace.TraceFlags;
@@ -12,8 +13,7 @@ import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.javaagent.bootstrap.http.HttpServerResponseCustomizer;
 import io.opentelemetry.javaagent.bootstrap.http.HttpServerResponseMutator;
-import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
+import io.opentelemetry.sdk.trace.ReadWriteSpan;
 
 /**
  * Adds {@code Server-Timing} header (and {@code Access-Control-Expose-Headers}) to the HTTP
@@ -25,8 +25,6 @@ public class ServerTimingHeaderCustomizer implements HttpServerResponseCustomize
 
   // not using volatile because this field is set only once during agent initialization
   static boolean enabled = false;
-
-  public static Set<String> sampledTraces = new ConcurrentSkipListSet<>();
 
   @Override
   public <RESPONSE> void customize(
@@ -40,18 +38,19 @@ public class ServerTimingHeaderCustomizer implements HttpServerResponseCustomize
   }
 
   static String toHeaderValue(Context context) {
-    SpanContext c = Span.fromContext(context).getSpanContext();
-    boolean sampled = sampledTraces.remove(c.getTraceId());
+    ReadWriteSpan span = (ReadWriteSpan) Span.fromContext(context);
+    SpanContext spanContext = span.getSpanContext();
+    boolean sampled = DynamicSampler.evaluateSampled(span);
     TraceParentHolder traceParentHolder = new TraceParentHolder();
     W3CTraceContextPropagator.getInstance()
         .inject(
             context.with(
                 Span.wrap(
                     SpanContext.create(
-                        c.getTraceId(),
-                        c.getSpanId(),
+                        spanContext.getTraceId(),
+                        spanContext.getSpanId(),
                         sampled ? TraceFlags.getSampled() : TraceFlags.getDefault(),
-                        c.getTraceState()))),
+                        spanContext.getTraceState()))),
             traceParentHolder,
             TraceParentHolder::set);
     return "traceparent;desc=\"" + traceParentHolder.traceParent + "\"";
