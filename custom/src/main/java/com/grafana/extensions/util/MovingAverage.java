@@ -7,6 +7,7 @@ package com.grafana.extensions.util;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MovingAverage {
   private final Queue<Long> window = new LinkedList<>();
@@ -15,6 +16,14 @@ public class MovingAverage {
 
   public MovingAverage(int size) {
     this.size = size;
+  }
+
+  public static MovingAverage getPrepopulatedMovingAvgForTest(int size, int lowerBound) {
+    MovingAverage ma = new MovingAverage(size);
+    for (int i = 0; i < size; i++) {
+      ma.add(ThreadLocalRandom.current().nextLong(lowerBound, 30_000_000));
+    }
+    return ma;
   }
 
   public int getCount() {

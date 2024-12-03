@@ -10,15 +10,19 @@ import static com.grafana.extensions.servertiming.ServerTimingHeaderCustomizer.S
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.sampler.DynamicSampler;
+import com.grafana.extensions.util.MovingAverage;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.instrumentation.testing.junit.InstrumentationExtension;
 import io.opentelemetry.instrumentation.testing.junit.LibraryInstrumentationExtension;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
 import io.opentelemetry.sdk.resources.Resource;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -30,6 +34,11 @@ class ServerTimingHeaderTest {
   private final ServerTimingHeaderCustomizer serverTiming = new ServerTimingHeaderCustomizer();
 
   record TestCase(Resource want, ConfigProperties config) {}
+
+  @BeforeAll
+  static void initialize() {
+    DynamicSampler.configure(DefaultConfigProperties.createFromMap(Collections.emptyMap()));
+  }
 
   @BeforeEach
   void setUp() {
@@ -48,6 +57,8 @@ class ServerTimingHeaderTest {
 
   @Test
   void shouldSetHeaders() {
+    MovingAverage testMovingAvg = MovingAverage.getPrepopulatedMovingAvgForTest(3, 11_900_000);
+    DynamicSampler.getInstance().setMovingAvg("server", testMovingAvg);
     assertSetHeader("00", span -> {});
     // todo: fix propagation
     //    assertSetHeader(
@@ -77,6 +88,7 @@ class ServerTimingHeaderTest {
             + "-"
             + traceFlags
             + "\"";
+
     assertThat(headers)
         .containsEntry(SERVER_TIMING, serverTimingHeaderValue)
         .containsEntry(EXPOSE_HEADERS, SERVER_TIMING);

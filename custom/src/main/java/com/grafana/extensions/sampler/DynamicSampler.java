@@ -20,14 +20,14 @@ public class DynamicSampler {
   private final Set<String> sampledTraces = new ConcurrentSkipListSet<>();
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
   private final int windowSize;
-  private final double thresholdVal;
+  private final double threshold;
   private final Map<String, MovingAverage> movingAvgs = new ConcurrentHashMap<>();
   private static DynamicSampler INSTANCE;
 
   private DynamicSampler(ConfigProperties properties) {
     // read properties and configure dynamic sampling
-    this.thresholdVal = properties.getDouble("threshold", 1.5);
-    this.windowSize = properties.getInt("window", 5);
+    this.threshold = properties.getDouble("threshold", 1.3); // 30%
+    this.windowSize = properties.getInt("window", 3);
   }
 
   public static void configure(ConfigProperties properties) {
@@ -40,6 +40,11 @@ public class DynamicSampler {
 
   public void setSampled(String traceId) {
     sampledTraces.add(traceId);
+  }
+
+  // for testing
+  public void setMovingAvg(String spanName, MovingAverage ma) {
+    this.movingAvgs.put(spanName, ma);
   }
 
   boolean isSampled(String traceId) {
@@ -74,7 +79,7 @@ public class DynamicSampler {
         Level.INFO,
         "spanName {0} - windowSize {1}: {2}",
         new Object[] {span.getName(), windowSize, span.getAttributes()});
-    long duration = (span.getLatencyNanos()) / 1_000_000;
+    long duration = span.getLatencyNanos();
     MovingAverage currMovingAvg =
         movingAvgs.computeIfAbsent(spanName, ma -> new MovingAverage(windowSize));
     currMovingAvg.add(duration);
@@ -83,12 +88,16 @@ public class DynamicSampler {
       logger.log(
           Level.INFO,
           "avg {0} * threshold {1} = {2}, duration {3}",
-          new Object[] {avg, thresholdVal, avg * thresholdVal, duration});
+          new Object[] {avg, threshold, avg * threshold, duration});
       // discard
-      if (duration < avg * thresholdVal) {
+      if (duration < avg * threshold) {
         return false;
       }
     }
+    logger.log(
+        Level.INFO,
+        "sending span part of Trace: {0} - {1}",
+        new Object[] {span.toSpanData().getTraceId(), duration});
     return true;
   }
 }
