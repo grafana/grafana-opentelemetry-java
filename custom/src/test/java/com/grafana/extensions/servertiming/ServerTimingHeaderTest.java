@@ -47,6 +47,8 @@ class ServerTimingHeaderTest {
         testing.runWithSpan(
             "server",
             () -> {
+              ServerTimingHeaderCustomizer.sampledTraces.add(
+                  Span.current().getSpanContext().getTraceId());
               serverTiming.customize(Context.current(), headers, Map::put);
               return Span.current().getSpanContext();
             });
