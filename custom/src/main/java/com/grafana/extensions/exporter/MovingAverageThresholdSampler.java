@@ -24,16 +24,19 @@ public class MovingAverageThresholdSampler implements SpanExporter {
 
   public static final Logger logger =
       Logger.getLogger(MovingAverageThresholdSampler.class.getName());
+  private final SpanExporter delegate;
 
-  protected MovingAverageThresholdSampler(double thresholdVal, int windowSize) {
+  protected MovingAverageThresholdSampler(
+      double thresholdVal, int windowSize, SpanExporter delegate) {
+    this.delegate = delegate;
     this.thresholdVal = 0.5;
     this.windowSize = windowSize;
   }
 
-  public static SpanExporter configure(SpanExporter se, ConfigProperties properties) {
+  public static SpanExporter configure(SpanExporter delegate, ConfigProperties properties) {
     double threshold = properties.getDouble("threshold", 1.5);
     int windowSize = properties.getInt("window", 5);
-    return new MovingAverageThresholdSampler(threshold, windowSize);
+    return new MovingAverageThresholdSampler(threshold, windowSize, delegate);
   }
 
   @Override
@@ -63,16 +66,16 @@ public class MovingAverageThresholdSampler implements SpanExporter {
       }
       logger.log(Level.INFO, "exporting span:{0}", new Object[] {spans.size()});
     }
-    return CompletableResultCode.ofSuccess();
+    return delegate.export(spans);
   }
 
   @Override
   public CompletableResultCode flush() {
-    return CompletableResultCode.ofSuccess();
+    return delegate.flush();
   }
 
   @Override
   public CompletableResultCode shutdown() {
-    return CompletableResultCode.ofSuccess();
+    return delegate.shutdown();
   }
 }
