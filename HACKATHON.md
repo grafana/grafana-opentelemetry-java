@@ -1,9 +1,10 @@
 ## Building
    
 1. Check out https://github.com/zeitlinger/opentelemetry-java-instrumentation/tree/http-client-response-consumer
-2. Run `./gradlew publishToMavenLocal` in the root directory of the project
+2. Run `./gradlew publishToMavenLocal` in the root directory of the project (doesn't work yet)
 3. Go to the root directory of this project
-4. Apply the patch `git apply opentelemetry-java-instrumentation.patch`
+4. Use the snapshot version in https://github.com/grafana/grafana-opentelemetry-java/blob/et-phone-home/build.gradle
+    (doesn't work yet)
 5. Run `./gradlew clean assemble`
 6. Copy `agent/build/libs/grafana-opentelemetry-java.jar` to wherever you want to use the agent jar,
     e.g. `cp agent/build/libs/grafana-opentelemetry-java.jar ~/source/docker-otel-lgtm/examples/java`

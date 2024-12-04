@@ -1,11 +1,16 @@
+import java.util.regex.Pattern
+
 group 'com.grafana'
 version '10.0.0-SNAPSHOT' // the version of the actual release is set during the release process in build-release.sh
 
 buildscript {
   ext {
+//    otelInstrumentationVersion = "2.11.0-SNAPSHOT"
     otelInstrumentationVersion = "2.12.0"
+    otelInstrumentationVersionAlpha = otelInstrumentationVersion.replaceFirst(Pattern.compile("(-SNAPSHOT)?\$"), "-alpha\$1")
   }
   repositories {
+    mavenLocal()
     maven {
       url "https://plugins.gradle.org/m2/"
     }
@@ -13,7 +18,7 @@ buildscript {
   dependencies {
     classpath "com.diffplug.spotless:spotless-plugin-gradle:7.0.2"
     classpath "com.gradleup.shadow:shadow-gradle-plugin:8.3.6"
-    classpath "io.opentelemetry.instrumentation:gradle-plugins:${otelInstrumentationVersion}-alpha"
+    classpath "io.opentelemetry.instrumentation:gradle-plugins:${otelInstrumentationVersionAlpha}"
   }
 }
 
@@ -26,7 +31,7 @@ subprojects {
   ext {
     versions = [
       opentelemetryJavaagent     : otelInstrumentationVersion,
-      opentelemetryJavaagentAlpha: "${otelInstrumentationVersion}-alpha",
+      opentelemetryJavaagentAlpha: otelInstrumentationVersionAlpha,
 
       bytebuddy                  : "1.17.0",
       autoservice                : "1.1.1",
@@ -45,6 +50,7 @@ subprojects {
   }
 
   repositories {
+    mavenLocal()
     mavenCentral()
   }
 
