@@ -77,22 +77,25 @@ public class DynamicSampler {
     String spanName = span.getName();
     logger.log(
         Level.INFO,
-        "spanName {0} - windowSize {1}: {2}",
-        new Object[] {span.getName(), windowSize, span.getAttributes()});
+        "spanName {0} - windowSize {1}: {2} - {3}",
+        new Object[] {
+          span.getName(), windowSize, span.getAttributes(), span.toSpanData().getStatus()
+        });
     long duration = span.getLatencyNanos();
     MovingAverage currMovingAvg =
         movingAvgs.computeIfAbsent(spanName, ma -> new MovingAverage(windowSize));
     currMovingAvg.add(duration);
-    if (currMovingAvg.getCount() >= windowSize) {
-      double avg = currMovingAvg.calcAverage();
-      logger.log(
-          Level.INFO,
-          "avg {0} * threshold {1} = {2}, duration {3}",
-          new Object[] {avg, threshold, avg * threshold, duration});
-      // discard
-      if (duration < avg * threshold) {
-        return false;
-      }
+    if (currMovingAvg.getCount() < windowSize) {
+      return false;
+    }
+    double avg = currMovingAvg.calcAverage();
+    logger.log(
+        Level.INFO,
+        "avg {0} * threshold {1} = {2}, duration {3}",
+        new Object[] {avg, threshold, avg * threshold, duration});
+    // discard
+    if (duration < avg * threshold) {
+      return false;
     }
     logger.log(
         Level.INFO,

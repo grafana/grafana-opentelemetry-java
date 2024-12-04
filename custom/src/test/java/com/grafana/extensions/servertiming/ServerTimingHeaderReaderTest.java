@@ -50,7 +50,6 @@ class ServerTimingHeaderReaderTest {
           String serverTiming = ServerTimingHeaderCustomizer.toHeaderValue(Context.current());
           serverTimingHeaderReader.consume(
               new StringHttpCommonAttributesGetter(serverTiming), "request", "response");
-          System.out.println(serverTiming);
           assertThat(DynamicSampler.getInstance().getSampledTraces()).doesNotContain(traceId);
         });
   }
