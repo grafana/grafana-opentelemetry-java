@@ -41,10 +41,13 @@ public class DeferredSampler implements Sampler {
             .shouldSample(parentContext, traceId, name, spanKind, attributes, parentLinks)
             .getDecision();
     if (SamplingDecision.RECORD_AND_SAMPLE.equals(parentDecision)) {
-      DynamicSampler.setSampled(traceId);
+      // todo: fix propagation
+//      DynamicSampler.setSampled(traceId);
     }
 
     // always return true - because a child span might be sampled even if the parent is not
+    // todo: fix propagation
+//    return SamplingResult.recordOnly();
     return SamplingResult.recordAndSample();
   }
 }
