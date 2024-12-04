@@ -6,6 +6,8 @@
 package com.grafana.extensions.sampler;
 
 import com.grafana.extensions.util.MovingAverage;
+import io.opentelemetry.api.common.AttributeKey;
+import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.trace.ReadableSpan;
 import java.util.Collections;
@@ -17,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DynamicSampler {
+  private static final AttributeKey<String> EXCEPTION = AttributeKey.stringKey("exception.type");
   private final Set<String> sampledTraces = new ConcurrentSkipListSet<>();
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
   private final int windowSize;
@@ -74,6 +77,15 @@ public class DynamicSampler {
   }
 
   boolean shouldSample(ReadableSpan span) {
+    return isSlow(span) || hasError(span);
+  }
+
+  private boolean hasError(ReadableSpan span) {
+    return span.toSpanData().getStatus().getStatusCode() == StatusCode.ERROR
+        || span.getAttributes().get(EXCEPTION) != null;
+  }
+
+  private boolean isSlow(ReadableSpan span) {
     String spanName = span.getName();
     logger.log(
         Level.INFO,
