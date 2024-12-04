@@ -13,6 +13,11 @@ import io.opentelemetry.sdk.trace.SdkTracerProviderBuilder;
 import io.opentelemetry.sdk.trace.SpanProcessor;
 
 public class SamplingSpanProcessor implements SpanProcessor {
+  private final ConfigProperties properties;
+
+  public SamplingSpanProcessor(ConfigProperties properties) {
+    this.properties = properties;
+  }
 
   @Override
   public void onStart(Context context, ReadWriteSpan readWriteSpan) {}
@@ -24,7 +29,7 @@ public class SamplingSpanProcessor implements SpanProcessor {
 
   @Override
   public void onEnd(ReadableSpan readableSpan) {
-    DynamicSampler.evaluateSampled(readableSpan);
+    DynamicSampler.getInstance().evaluateSampled(readableSpan);
   }
 
   @Override
@@ -34,7 +39,7 @@ public class SamplingSpanProcessor implements SpanProcessor {
 
   public static SdkTracerProviderBuilder configure(
       SdkTracerProviderBuilder sdkTracerProviderBuilder, ConfigProperties configProperties) {
-    new DynamicSampler(configProperties);
-    return sdkTracerProviderBuilder.addSpanProcessor(new SamplingSpanProcessor());
+    DynamicSampler.configure(configProperties);
+    return sdkTracerProviderBuilder.addSpanProcessor(new SamplingSpanProcessor(configProperties));
   }
 }

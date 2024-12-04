@@ -51,7 +51,7 @@ public class ServerTimingHeaderReader implements HttpClientResponseConsumer {
                         GETTER);
             SpanContext spanContext = Span.fromContext(traceparent).getSpanContext();
             if (spanContext.getTraceFlags().isSampled()) {
-              DynamicSampler.setSampled(spanContext.getTraceId());
+              DynamicSampler.getInstance().setSampled(spanContext.getTraceId());
             }
           }
         }
