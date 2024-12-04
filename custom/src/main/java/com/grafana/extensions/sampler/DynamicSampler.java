@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DynamicSampler {
-  private static final AttributeKey<String> EXCEPTION = AttributeKey.stringKey("exception.type");
+  private static final AttributeKey<String> EXCEPTION = AttributeKey.stringKey("error.type");
   private static final AttributeKey<String> ERROR = AttributeKey.stringKey("error.type");
   private final Set<String> sampledTraces = new ConcurrentSkipListSet<>();
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
