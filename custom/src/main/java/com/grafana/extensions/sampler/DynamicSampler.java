@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 public class DynamicSampler {
   private static final AttributeKey<String> EXCEPTION = AttributeKey.stringKey("exception.type");
+  private static final AttributeKey<String> ERROR = AttributeKey.stringKey("error.type");
   private final Set<String> sampledTraces = new ConcurrentSkipListSet<>();
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
   private final int windowSize;
@@ -82,7 +83,8 @@ public class DynamicSampler {
 
   private boolean hasError(ReadableSpan span) {
     return span.toSpanData().getStatus().getStatusCode() == StatusCode.ERROR
-        || span.getAttributes().get(EXCEPTION) != null;
+        || span.getAttributes().get(EXCEPTION) != null
+        || span.getAttributes().get(ERROR) != null;
   }
 
   private boolean isSlow(ReadableSpan span) {
@@ -95,16 +97,17 @@ public class DynamicSampler {
     MovingAverage currMovingAvg =
         movingAvgs.computeIfAbsent(spanName, ma -> new MovingAverage(windowSize));
     currMovingAvg.add(duration);
-    if (currMovingAvg.getCount() >= windowSize) {
-      double avg = currMovingAvg.calcAverage();
-      logger.log(
-          Level.INFO,
-          "avg {0} * threshold {1} = {2}, duration {3}",
-          new Object[] {avg, threshold, avg * threshold, duration});
-      // discard
-      if (duration < avg * threshold) {
-        return false;
-      }
+    if (currMovingAvg.getCount() < windowSize) {
+      return false;
+    }
+    double avg = currMovingAvg.calcAverage();
+    logger.log(
+        Level.INFO,
+        "avg {0} * threshold {1} = {2}, duration {3}",
+        new Object[] {avg, threshold, avg * threshold, duration});
+    // discard
+    if (duration < avg * threshold) {
+      return false;
     }
     logger.log(
         Level.INFO,
