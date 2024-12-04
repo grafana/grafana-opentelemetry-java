@@ -61,8 +61,7 @@ class ServerTimingHeaderTest {
     DynamicSampler.getInstance().setMovingAvg("server", testMovingAvg);
     assertSetHeader("00", span -> {});
     // todo: fix propagation
-    //    assertSetHeader(
-        "01", span ->
+    //    assertSetHeader("01", span ->
     // DynamicSampler.getInstance().setSampled(span.getSpanContext().getTraceId()));
   }
 
