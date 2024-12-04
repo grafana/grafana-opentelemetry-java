@@ -39,7 +39,7 @@ public class ServerTimingHeaderCustomizer implements HttpServerResponseCustomize
   static String toHeaderValue(Context context) {
     ReadWriteSpan span = (ReadWriteSpan) Span.fromContext(context);
     SpanContext spanContext = span.getSpanContext();
-    //    boolean sampled = DynamicSampler.evaluateSampled(span);
+    //    boolean sampled = DynamicSampler.getInstance().evaluateSampled(span);
     // todo: fix propagation
     boolean sampled = false;
     TraceParentHolder traceParentHolder = new TraceParentHolder();

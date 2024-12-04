@@ -28,11 +28,11 @@ public class SamplingExporter implements SpanExporter {
   public CompletableResultCode export(Collection<SpanData> collection) {
     ArrayList<SpanData> export = new ArrayList<>();
     for (SpanData data : collection) {
-      if (DynamicSampler.isSampled(data.getSpanContext().getTraceId())) {
+      if (DynamicSampler.getInstance().isSampled(data.getSpanContext().getTraceId())) {
         export.add(data);
       }
     }
-    DynamicSampler.clear();
+    DynamicSampler.getInstance().clear();
     return delegate.export(export);
   }
 
