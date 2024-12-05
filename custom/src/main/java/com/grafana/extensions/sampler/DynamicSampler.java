@@ -32,13 +32,13 @@ public class DynamicSampler {
 
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
 
-  private final LatencySampler latencySampler;
+  private final SamplingStats samplingStats;
 
   private static DynamicSampler INSTANCE;
 
   private DynamicSampler(ConfigProperties properties, Clock clock) {
     // read properties and configure dynamic sampling
-    this.latencySampler = new LatencySampler(properties, clock);
+    this.samplingStats = new SamplingStats(properties, clock);
   }
 
   public static void configure(ConfigProperties properties, Clock clock) {
@@ -61,7 +61,7 @@ public class DynamicSampler {
 
   // for testing
   public void setStats(String spanName, SpanNameStats ma) {
-    latencySampler.setStats(spanName, ma);
+    samplingStats.setStats(spanName, ma);
   }
 
   boolean isSampled(String traceId) {
@@ -99,7 +99,7 @@ public class DynamicSampler {
 
   private String evaluateReason(ReadableSpan span, String traceId) {
     // need to add span to the moving average - even if we don't use the result
-    String latencySamplerSampledReason = latencySampler.getSampledReason(span);
+    String latencySamplerSampledReason = samplingStats.getSampledReason(span);
 
     String reason = sampledTraces.get(traceId);
     if (reason != null) {
@@ -117,7 +117,7 @@ public class DynamicSampler {
   public void resetForTest() {
     sampledTraces.clear();
     spansByTrace.clear();
-    latencySampler.resetForTest();
+    samplingStats.resetForTest();
     firstSampledCallback.clear();
   }
 

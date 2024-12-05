@@ -45,8 +45,7 @@ class ServerTimingHeaderReaderTest {
   @Test
   void notSampled() {
     String spanName = "server";
-    SpanNameStats stats =
-        SpanNameStats.getPrepopulatedForTest(Duration.ofMinutes(1), 11_900_000);
+    SpanNameStats stats = SpanNameStats.getPrepopulatedForTest(Duration.ofMinutes(1), 11_900_000);
     DynamicSampler.getInstance().setStats(spanName, stats);
     testing.runWithSpan(
         spanName,

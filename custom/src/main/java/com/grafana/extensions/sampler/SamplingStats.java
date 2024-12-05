@@ -15,7 +15,7 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
-public class LatencySampler {
+public class SamplingStats {
 
   private final Duration windowSize;
   private final Clock clock;
@@ -25,9 +25,9 @@ public class LatencySampler {
 
   private final Random random = new Random(0);
 
-  Logger logger = Logger.getLogger(LatencySampler.class.getName());
+  Logger logger = Logger.getLogger(SamplingStats.class.getName());
 
-  public LatencySampler(ConfigProperties properties, Clock clock) {
+  public SamplingStats(ConfigProperties properties, Clock clock) {
     // 10 slow spans per minute and operation
     // 10 random spans per minute and operation
     this.keepSpans = properties.getInt("keepSpans", 1);

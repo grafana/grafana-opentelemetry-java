@@ -15,9 +15,7 @@ import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.instrumentation.testing.junit.InstrumentationExtension;
 import io.opentelemetry.instrumentation.testing.junit.LibraryInstrumentationExtension;
-import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
-import io.opentelemetry.sdk.resources.Resource;
 import io.opentelemetry.sdk.trace.ReadWriteSpan;
 import io.opentelemetry.sdk.trace.ReadableSpan;
 import java.time.Clock;
@@ -60,8 +58,7 @@ class ServerTimingHeaderTest {
 
   @Test
   void shouldSetHeaders() {
-    SpanNameStats stats =
-        SpanNameStats.getPrepopulatedForTest(Duration.ofMinutes(1), 11_900_000);
+    SpanNameStats stats = SpanNameStats.getPrepopulatedForTest(Duration.ofMinutes(1), 11_900_000);
     DynamicSampler.getInstance().setStats("server", stats);
     assertSetHeader("00", span -> {});
     assertSetHeader(
