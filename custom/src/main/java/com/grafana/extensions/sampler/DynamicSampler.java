@@ -139,19 +139,11 @@ public class DynamicSampler {
   }
 
   private static boolean checkSampled(AttributeKey<?> key, ReadableSpan span, String traceId) {
-    boolean sample;
     if (key.getType() == AttributeType.BOOLEAN) {
-      sample = Boolean.TRUE.equals(span.getAttributes().get(key));
+      return Boolean.TRUE.equals(span.getAttributes().get(key));
     } else {
-      sample = span.getAttributes().get(key) != null;
+      return span.getAttributes().get(key) != null;
     }
-    if (sample) {
-      logger.log(
-          Level.INFO,
-          "sending span part of Trace: {0} - due to {1}",
-          new Object[] {traceId, key.getKey()});
-    }
-    return sample;
   }
 
   public void registerOnFirstSampledCallback(Context context, Runnable runnable) {
