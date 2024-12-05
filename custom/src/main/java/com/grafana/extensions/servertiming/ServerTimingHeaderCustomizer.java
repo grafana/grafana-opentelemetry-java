@@ -5,6 +5,7 @@
 
 package com.grafana.extensions.servertiming;
 
+import com.grafana.extensions.sampler.DynamicSampler;
 import com.grafana.extensions.sampler.SamplingPropagator;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
@@ -30,8 +31,13 @@ public class ServerTimingHeaderCustomizer implements HttpServerResponseCustomize
       return;
     }
 
-    responseMutator.appendHeader(response, SERVER_TIMING, toHeaderValue(context));
-    responseMutator.appendHeader(response, EXPOSE_HEADERS, SERVER_TIMING);
+    DynamicSampler.getInstance()
+        .registerOnFirstSampledCallback(
+            context,
+            () -> {
+              responseMutator.appendHeader(response, SERVER_TIMING, toHeaderValue(context));
+              responseMutator.appendHeader(response, EXPOSE_HEADERS, SERVER_TIMING);
+            });
   }
 
   static String toHeaderValue(Context context) {

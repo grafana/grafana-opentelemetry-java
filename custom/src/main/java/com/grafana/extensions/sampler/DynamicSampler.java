@@ -8,7 +8,9 @@ package com.grafana.extensions.sampler;
 import com.grafana.extensions.util.MovingAverage;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.AttributeType;
+import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.StatusCode;
+import io.opentelemetry.context.Context;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.trace.ReadWriteSpan;
 import io.opentelemetry.sdk.trace.ReadableSpan;
@@ -24,7 +26,11 @@ public class DynamicSampler {
   private static final AttributeKey<String> ERROR = AttributeKey.stringKey("error.type");
   private static final AttributeKey<Boolean> SAMPLED = AttributeKey.booleanKey("sampled");
   private static final AttributeKey<String> REASON = AttributeKey.stringKey("sampled.reason");
+
   private final Map<String, String> sampledTraces = new ConcurrentHashMap<>();
+  private final Map<String, Map<String, ReadableSpan>> spansByTrace = new ConcurrentHashMap<>();
+  private final Map<String, Runnable> firstSampledCallback = new ConcurrentHashMap<>();
+
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
   private final int windowSize;
   private final double threshold;
@@ -45,6 +51,12 @@ public class DynamicSampler {
     return INSTANCE;
   }
 
+  public void registerNewSpan(ReadableSpan span) {
+    spansByTrace
+        .computeIfAbsent(span.getSpanContext().getTraceId(), k -> new ConcurrentHashMap<>())
+        .put(span.getSpanContext().getSpanId(), span);
+  }
+
   public void setSampled(String traceId, String reason) {
     sampledTraces.put(traceId, reason);
   }
@@ -60,16 +72,34 @@ public class DynamicSampler {
 
   public boolean evaluateSampled(ReadWriteSpan span) {
     String traceId = span.getSpanContext().getTraceId();
-    String reason = evaluateReason(span, traceId);
-    if (reason != null) {
-      // we might not have set the reason earlier
-      span.setAttribute(REASON, reason);
-      setSampled(traceId, reason);
+    String firstReason = getFirstReason(span, traceId);
+    if (firstReason != null) {
+      span.setAttribute(REASON, firstReason);
+      setSampled(traceId, firstReason);
+      Runnable callback = firstSampledCallback.remove(traceId);
+      if (callback != null) {
+        callback.run();
+      }
+      return true;
     }
-    return reason != null;
+    return false;
   }
 
-  private String evaluateReason(ReadWriteSpan span, String traceId) {
+  private String getFirstReason(ReadableSpan span, String traceId) {
+    String own = evaluateReason(span, traceId);
+    if (own != null) {
+      return own;
+    }
+    for (ReadableSpan anySpan : spansByTrace.get(traceId).values()) {
+      String reason = evaluateReason(anySpan, traceId);
+      if (reason != null) {
+        return reason;
+      }
+    }
+    return null;
+  }
+
+  private String evaluateReason(ReadableSpan span, String traceId) {
     String reason = sampledTraces.get(traceId);
     if (reason != null) {
       return reason;
@@ -91,8 +121,9 @@ public class DynamicSampler {
     sampledTraces.clear();
   }
 
-  void remove(String traceId) {
+  void removeTrace(String traceId) {
     sampledTraces.remove(traceId);
+    spansByTrace.remove(traceId);
   }
 
   // visible for testing
@@ -149,5 +180,9 @@ public class DynamicSampler {
         "sending span part of Trace: {0} - {1}",
         new Object[] {span.toSpanData().getTraceId(), duration});
     return true;
+  }
+
+  public void registerOnFirstSampledCallback(Context context, Runnable runnable) {
+    firstSampledCallback.put(Span.fromContext(context).getSpanContext().getTraceId(), runnable);
   }
 }

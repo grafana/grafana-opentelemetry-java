@@ -26,11 +26,13 @@ public class SamplingSpanProcessor implements ExtendedSpanProcessor {
   }
 
   @Override
-  public void onStart(Context context, ReadWriteSpan readWriteSpan) {}
+  public void onStart(Context context, ReadWriteSpan readWriteSpan) {
+    DynamicSampler.getInstance().registerNewSpan(readWriteSpan);
+  }
 
   @Override
   public boolean isStartRequired() {
-    return false;
+    return true;
   }
 
   @Override
