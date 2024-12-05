@@ -47,7 +47,7 @@ public class SpanNameStats {
     return ma;
   }
 
-  public void add(String spanId, long durationNanos, long startEpochNanos) {
+  public boolean add(String spanId, long durationNanos, long startEpochNanos) {
     for (Entry entry : durations) {
       if (entry.spanId.equals(spanId)) {
         entry.durationNanos = durationNanos;
@@ -55,7 +55,7 @@ public class SpanNameStats {
         // we might now be in the topDurations because of the new duration when the span is ended
         topDurations.remove(entry);
         addTopDuration(entry);
-        return;
+        return false;
       }
     }
     Entry entry = new Entry(durationNanos, startEpochNanos, spanId);
@@ -68,6 +68,7 @@ public class SpanNameStats {
     topDurations.removeIf(e -> e.startEpochNanos < now - sizeNanos);
 
     addTopDuration(entry);
+    return true;
   }
 
   private void addTopDuration(Entry entry) {

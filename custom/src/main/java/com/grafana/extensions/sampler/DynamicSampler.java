@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DynamicSampler {
@@ -100,7 +99,7 @@ public class DynamicSampler {
 
   private String evaluateReason(ReadableSpan span, String traceId) {
     // need to add span to the moving average - even if we don't use the result
-    String latencySamplerSampledReason = latencySampler.getSampledReason(span, traceId);
+    String latencySamplerSampledReason = latencySampler.getSampledReason(span);
 
     String reason = sampledTraces.get(traceId);
     if (reason != null) {

@@ -14,6 +14,7 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 public class LatencySampler {
 
@@ -25,10 +26,12 @@ public class LatencySampler {
 
   private final Random random = new Random(0);
 
+  Logger logger = Logger.getLogger(LatencySampler.class.getName());
+
   public LatencySampler(ConfigProperties properties, Clock clock) {
     // 10 slow spans per minute and operation
     // 10 random spans per minute and operation
-    this.keepSpans = properties.getInt("keepSpans", 10);
+    this.keepSpans = properties.getInt("keepSpans", 1);
     this.windowSize = properties.getDuration("window", Duration.ofMinutes(1));
     this.clock = clock;
   }
@@ -42,32 +45,38 @@ public class LatencySampler {
     movingAvgs.clear();
   }
 
-  String getSampledReason(ReadableSpan span, String traceId) {
+  String getSampledReason(ReadableSpan span) {
     String spanName = span.getName();
     long duration = span.getLatencyNanos();
     SpanData spanData = span.toSpanData();
     long startEpochNanos = spanData.getStartEpochNanos();
     // todo? is span name updated to include the route here?
-    SpanNameStats average =
-        movingAvgs.computeIfAbsent(
-            spanName, ma -> new SpanNameStats(windowSize, clock, keepSpans));
-    average.add(spanData.getSpanId(), duration, startEpochNanos);
+    SpanNameStats stats =
+        movingAvgs.computeIfAbsent(spanName, ma -> new SpanNameStats(windowSize, clock, keepSpans));
+    boolean wasAdded = stats.add(spanData.getSpanId(), duration, startEpochNanos);
 
     if (!initialSampled) {
       initialSampled = true;
       return "random";
     }
-    if (!average.isWarmedUp()){
+    if (!stats.isWarmedUp()) {
       return null;
     }
 
-    if (average.isTopDuration(duration)) {
+    if (stats.isTopDuration(duration)) {
       return "slow";
     }
 
-    if (random.nextDouble() < average.isRandomSpanProbability()) {
-      return "random";
+    if (wasAdded) {
+      // only roll once per span
+      double randomSpanProbability = stats.isRandomSpanProbability();
+      boolean roll = random.nextDouble() < randomSpanProbability;
+      logger.info("random span probability: " + randomSpanProbability + " roll: " + roll);
+      if (roll) {
+        return "random";
+      }
     }
+
     return null;
   }
 }
