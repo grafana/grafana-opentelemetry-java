@@ -11,6 +11,7 @@ import io.opentelemetry.sdk.trace.ReadWriteSpan;
 import io.opentelemetry.sdk.trace.ReadableSpan;
 import io.opentelemetry.sdk.trace.SdkTracerProviderBuilder;
 import io.opentelemetry.sdk.trace.internal.ExtendedSpanProcessor;
+import java.time.Clock;
 
 public class SamplingSpanProcessor implements ExtendedSpanProcessor {
   private final ConfigProperties properties;
@@ -21,7 +22,7 @@ public class SamplingSpanProcessor implements ExtendedSpanProcessor {
 
   public static SdkTracerProviderBuilder configure(
       SdkTracerProviderBuilder sdkTracerProviderBuilder, ConfigProperties configProperties) {
-    DynamicSampler.configure(configProperties);
+    DynamicSampler.configure(configProperties, Clock.systemUTC());
     return sdkTracerProviderBuilder.addSpanProcessor(new SamplingSpanProcessor(configProperties));
   }
 

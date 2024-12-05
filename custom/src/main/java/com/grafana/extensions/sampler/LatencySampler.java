@@ -5,9 +5,10 @@
 
 package com.grafana.extensions.sampler;
 
-import com.grafana.extensions.util.MovingAverage;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.trace.ReadableSpan;
+import java.time.Clock;
+import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -17,17 +18,19 @@ public class LatencySampler {
 
   public static final Logger logger = Logger.getLogger(LatencySampler.class.getName());
 
-  private final int windowSize;
+  private final Duration windowSize;
+  private final Clock clock;
   private final double threshold;
-  private final Map<String, MovingAverage> movingAvgs = new ConcurrentHashMap<>();
+  private final Map<String, LatencyMovingAverage> movingAvgs = new ConcurrentHashMap<>();
 
-  public LatencySampler(ConfigProperties properties) {
+  public LatencySampler(ConfigProperties properties, Clock clock) {
     this.threshold = properties.getDouble("threshold", 3); // 300%
-    this.windowSize = properties.getInt("window", 3);
+    this.windowSize = properties.getDuration("window", Duration.ofMinutes(1));
+    this.clock = clock;
   }
 
   // for testing
-  public void setMovingAvg(String spanName, MovingAverage ma) {
+  public void setMovingAvg(String spanName, LatencyMovingAverage ma) {
     this.movingAvgs.put(spanName, ma);
   }
 
@@ -35,17 +38,18 @@ public class LatencySampler {
     movingAvgs.clear();
   }
 
-  boolean isSlow(ReadableSpan span) {
+  boolean isSlow(ReadableSpan span, String traceId) {
     String spanName = span.getName();
     logger.log(
         Level.INFO,
         "spanName {0} - windowSize {1}: {2}",
         new Object[] {span.getName(), windowSize, span.getAttributes()});
     long duration = span.getLatencyNanos();
-    MovingAverage currMovingAvg =
-        movingAvgs.computeIfAbsent(spanName, ma -> new MovingAverage(windowSize));
-    currMovingAvg.add(duration);
-    if (currMovingAvg.getCount() < windowSize) {
+    long startEpochNanos = span.toSpanData().getStartEpochNanos();
+    LatencyMovingAverage currMovingAvg =
+        movingAvgs.computeIfAbsent(spanName, ma -> new LatencyMovingAverage(windowSize, clock));
+    currMovingAvg.add(duration, startEpochNanos);
+    if (currMovingAvg.isWarmedUp()) {
       return false;
     }
     double avg = currMovingAvg.calcAverage();
@@ -58,9 +62,7 @@ public class LatencySampler {
       return false;
     }
     logger.log(
-        Level.INFO,
-        "sending span part of Trace: {0} - {1}",
-        new Object[] {span.toSpanData().getTraceId(), duration});
+        Level.INFO, "sending span part of Trace: {0} - {1}", new Object[] {traceId, duration});
     return true;
   }
 }

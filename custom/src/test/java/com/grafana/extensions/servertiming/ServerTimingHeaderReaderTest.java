@@ -8,13 +8,15 @@ package com.grafana.extensions.servertiming;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.sampler.DynamicSampler;
-import com.grafana.extensions.util.MovingAverage;
+import com.grafana.extensions.sampler.LatencyMovingAverage;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.instrumentation.testing.junit.InstrumentationExtension;
 import io.opentelemetry.instrumentation.testing.junit.LibraryInstrumentationExtension;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
 import io.opentelemetry.sdk.trace.ReadableSpan;
+import java.time.Clock;
+import java.time.Duration;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +31,8 @@ class ServerTimingHeaderReaderTest {
 
   @BeforeAll
   static void initialize() {
-    DynamicSampler.configure(DefaultConfigProperties.createFromMap(Collections.emptyMap()));
+    DynamicSampler.configure(
+        DefaultConfigProperties.createFromMap(Collections.emptyMap()), Clock.systemUTC());
   }
 
   @BeforeEach
@@ -40,7 +43,8 @@ class ServerTimingHeaderReaderTest {
   @Test
   void notSampled() {
     String spanName = "server";
-    MovingAverage testMovingAvg = MovingAverage.getPrepopulatedMovingAvgForTest(3, 11_900_000);
+    LatencyMovingAverage testMovingAvg =
+        LatencyMovingAverage.getPrepopulatedMovingAvgForTest(Duration.ofMinutes(1), 11_900_000);
     DynamicSampler.getInstance().setMovingAvg(spanName, testMovingAvg);
     testing.runWithSpan(
         spanName,

@@ -5,7 +5,6 @@
 
 package com.grafana.extensions.sampler;
 
-import com.grafana.extensions.util.MovingAverage;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.AttributeType;
 import io.opentelemetry.api.trace.Span;
@@ -14,6 +13,7 @@ import io.opentelemetry.context.Context;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.trace.ReadWriteSpan;
 import io.opentelemetry.sdk.trace.ReadableSpan;
+import java.time.Clock;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -37,13 +37,13 @@ public class DynamicSampler {
 
   private static DynamicSampler INSTANCE;
 
-  private DynamicSampler(ConfigProperties properties) {
+  private DynamicSampler(ConfigProperties properties, Clock clock) {
     // read properties and configure dynamic sampling
-    this.latencySampler = new LatencySampler(properties);
+    this.latencySampler = new LatencySampler(properties, clock);
   }
 
-  public static void configure(ConfigProperties properties) {
-    INSTANCE = new DynamicSampler(properties);
+  public static void configure(ConfigProperties properties, Clock clock) {
+    INSTANCE = new DynamicSampler(properties, clock);
   }
 
   public static DynamicSampler getInstance() {
@@ -61,7 +61,7 @@ public class DynamicSampler {
   }
 
   // for testing
-  public void setMovingAvg(String spanName, MovingAverage ma) {
+  public void setMovingAvg(String spanName, LatencyMovingAverage ma) {
     latencySampler.setMovingAvg(spanName, ma);
   }
 
@@ -103,13 +103,13 @@ public class DynamicSampler {
     if (reason != null) {
       return reason;
     }
-    if (checkSampled(SAMPLED, span)) {
+    if (checkSampled(SAMPLED, span, traceId)) {
       return "manual";
     }
-    if (hasError(span)) {
+    if (hasError(span, traceId)) {
       return "error";
     }
-    if (latencySampler.isSlow(span)) {
+    if (latencySampler.isSlow(span, traceId)) {
       return "slow";
     }
     return null;
@@ -132,13 +132,13 @@ public class DynamicSampler {
     return Collections.unmodifiableSet(sampledTraces.keySet());
   }
 
-  private boolean hasError(ReadableSpan span) {
+  private boolean hasError(ReadableSpan span, String traceId) {
     return span.toSpanData().getStatus().getStatusCode() == StatusCode.ERROR
-        || checkSampled(EXCEPTION, span)
-        || checkSampled(ERROR, span);
+        || checkSampled(EXCEPTION, span, traceId)
+        || checkSampled(ERROR, span, traceId);
   }
 
-  private static boolean checkSampled(AttributeKey<?> key, ReadableSpan span) {
+  private static boolean checkSampled(AttributeKey<?> key, ReadableSpan span, String traceId) {
     boolean sample;
     if (key.getType() == AttributeType.BOOLEAN) {
       sample = Boolean.TRUE.equals(span.getAttributes().get(key));
@@ -149,7 +149,7 @@ public class DynamicSampler {
       logger.log(
           Level.INFO,
           "sending span part of Trace: {0} - due to {1}",
-          new Object[] {span.toSpanData().getTraceId(), key.getKey()});
+          new Object[] {traceId, key.getKey()});
     }
     return sample;
   }
