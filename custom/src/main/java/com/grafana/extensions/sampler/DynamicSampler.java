@@ -95,7 +95,7 @@ public class DynamicSampler {
     if (key.getType() == AttributeType.BOOLEAN) {
       sample = Boolean.TRUE.equals(span.getAttributes().get(key));
     } else {
-      sample = span.getAttributes().get(key) != null || span.getAttributes().get(ERROR) != null;
+      sample = span.getAttributes().get(key) != null;
     }
     if (sample) {
       logger.log(
