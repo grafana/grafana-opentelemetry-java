@@ -7,6 +7,7 @@ package com.grafana.extensions.sampler;
 
 import com.grafana.extensions.util.MovingAverage;
 import io.opentelemetry.api.common.AttributeKey;
+import io.opentelemetry.api.common.AttributeType;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.trace.ReadableSpan;
@@ -19,8 +20,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DynamicSampler {
-  private static final AttributeKey<String> EXCEPTION = AttributeKey.stringKey("error.type");
+  private static final AttributeKey<String> EXCEPTION = AttributeKey.stringKey("exception.type");
   private static final AttributeKey<String> ERROR = AttributeKey.stringKey("error.type");
+  private static final AttributeKey<Boolean> SAMPLED = AttributeKey.booleanKey("sampled");
   private final Set<String> sampledTraces = new ConcurrentSkipListSet<>();
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
   private final int windowSize;
@@ -83,8 +85,26 @@ public class DynamicSampler {
 
   private boolean hasError(ReadableSpan span) {
     return span.toSpanData().getStatus().getStatusCode() == StatusCode.ERROR
-        || span.getAttributes().get(EXCEPTION) != null
+        || checkSampled(EXCEPTION, span)
+        || checkSampled(ERROR, span)
+        || checkSampled(SAMPLED, span);
+  }
+
+  private static boolean checkSampled(AttributeKey<?> key, ReadableSpan span) {
+    boolean sample;
+    if (key.getType() == AttributeType.BOOLEAN) {
+      sample = Boolean.TRUE.equals(span.getAttributes().get(key));
+    } else {
+      sample = span.getAttributes().get(key) != null
         || span.getAttributes().get(ERROR) != null;
+    }
+    if (sample) {
+      logger.log(
+          Level.INFO,
+          "sending span part of Trace: {0} - due to {1}",
+          new Object[] {span.toSpanData().getTraceId(), key.getKey()});
+    }
+    return sample;
   }
 
   private boolean isSlow(ReadableSpan span) {
