@@ -6,6 +6,7 @@
 package com.grafana.extensions.sampler;
 
 import io.opentelemetry.api.common.Attributes;
+import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
@@ -45,7 +46,7 @@ public class DeferredSampler implements Sampler {
         FROM_PARENT
             .shouldSample(parentContext, traceId, name, spanKind, attributes, parentLinks)
             .getDecision();
-    if (SamplingDecision.RECORD_AND_SAMPLE.equals(parentDecision)) {
+    if (SamplingDecision.RECORD_AND_SAMPLE.equals(parentDecision) && Span.fromContext(parentContext).getSpanContext().isRemote()) {
       DynamicSampler.getInstance().setSampled(traceId, "parent");
     }
 
