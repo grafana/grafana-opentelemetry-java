@@ -17,11 +17,9 @@ import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-@Disabled("todo: fix propagation")
 class ServerTimingHeaderReaderTest {
 
   private ServerTimingHeaderReader serverTimingHeaderReader = new ServerTimingHeaderReader();

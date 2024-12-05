@@ -6,6 +6,9 @@
 package com.grafana.extensions.sampler;
 
 import com.grafana.extensions.util.MovingAverage;
+import io.opentelemetry.api.common.AttributeKey;
+import io.opentelemetry.api.common.AttributeType;
+import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.trace.ReadableSpan;
 import java.util.Collections;
@@ -17,6 +20,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DynamicSampler {
+  private static final AttributeKey<String> EXCEPTION = AttributeKey.stringKey("exception.type");
+  private static final AttributeKey<String> ERROR = AttributeKey.stringKey("error.type");
+  private static final AttributeKey<Boolean> SAMPLED = AttributeKey.booleanKey("sampled");
   private final Set<String> sampledTraces = new ConcurrentSkipListSet<>();
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
   private final int windowSize;
@@ -74,6 +80,33 @@ public class DynamicSampler {
   }
 
   boolean shouldSample(ReadableSpan span) {
+    return isSlow(span) || hasError(span);
+  }
+
+  private boolean hasError(ReadableSpan span) {
+    return span.toSpanData().getStatus().getStatusCode() == StatusCode.ERROR
+        || checkSampled(EXCEPTION, span)
+        || checkSampled(ERROR, span)
+        || checkSampled(SAMPLED, span);
+  }
+
+  private static boolean checkSampled(AttributeKey<?> key, ReadableSpan span) {
+    boolean sample;
+    if (key.getType() == AttributeType.BOOLEAN) {
+      sample = Boolean.TRUE.equals(span.getAttributes().get(key));
+    } else {
+      sample = span.getAttributes().get(key) != null;
+    }
+    if (sample) {
+      logger.log(
+          Level.INFO,
+          "sending span part of Trace: {0} - due to {1}",
+          new Object[] {span.toSpanData().getTraceId(), key.getKey()});
+    }
+    return sample;
+  }
+
+  private boolean isSlow(ReadableSpan span) {
     String spanName = span.getName();
     logger.log(
         Level.INFO,
@@ -83,16 +116,17 @@ public class DynamicSampler {
     MovingAverage currMovingAvg =
         movingAvgs.computeIfAbsent(spanName, ma -> new MovingAverage(windowSize));
     currMovingAvg.add(duration);
-    if (currMovingAvg.getCount() >= windowSize) {
-      double avg = currMovingAvg.calcAverage();
-      logger.log(
-          Level.INFO,
-          "avg {0} * threshold {1} = {2}, duration {3}",
-          new Object[] {avg, threshold, avg * threshold, duration});
-      // discard
-      if (duration < avg * threshold) {
-        return false;
-      }
+    if (currMovingAvg.getCount() < windowSize) {
+      return false;
+    }
+    double avg = currMovingAvg.calcAverage();
+    logger.log(
+        Level.INFO,
+        "avg {0} * threshold {1} = {2}, duration {3}",
+        new Object[] {avg, threshold, avg * threshold, duration});
+    // discard
+    if (duration < avg * threshold) {
+      return false;
     }
     logger.log(
         Level.INFO,

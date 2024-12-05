@@ -5,6 +5,7 @@
 
 package com.grafana.extensions.servertiming;
 
+import com.grafana.extensions.sampler.DynamicSampler;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanContext;
 import io.opentelemetry.api.trace.TraceFlags;
@@ -39,9 +40,7 @@ public class ServerTimingHeaderCustomizer implements HttpServerResponseCustomize
   static String toHeaderValue(Context context) {
     ReadWriteSpan span = (ReadWriteSpan) Span.fromContext(context);
     SpanContext spanContext = span.getSpanContext();
-    //    boolean sampled = DynamicSampler.getInstance().evaluateSampled(span);
-    // todo: fix propagation
-    boolean sampled = false;
+    boolean sampled = DynamicSampler.getInstance().evaluateSampled(span);
     TraceParentHolder traceParentHolder = new TraceParentHolder();
     W3CTraceContextPropagator.getInstance()
         .inject(
