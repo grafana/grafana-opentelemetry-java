@@ -32,15 +32,14 @@ public class DynamicSampler {
   private final Map<String, Runnable> firstSampledCallback = new ConcurrentHashMap<>();
 
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
-  private final int windowSize;
-  private final double threshold;
-  private final Map<String, MovingAverage> movingAvgs = new ConcurrentHashMap<>();
+
+  private final LatencySampler latencySampler;
+
   private static DynamicSampler INSTANCE;
 
   private DynamicSampler(ConfigProperties properties) {
     // read properties and configure dynamic sampling
-    this.threshold = properties.getDouble("threshold", 3); // 300%
-    this.windowSize = properties.getInt("window", 3);
+    this.latencySampler = new LatencySampler(properties);
   }
 
   public static void configure(ConfigProperties properties) {
@@ -63,7 +62,7 @@ public class DynamicSampler {
 
   // for testing
   public void setMovingAvg(String spanName, MovingAverage ma) {
-    this.movingAvgs.put(spanName, ma);
+    latencySampler.setMovingAvg(spanName, ma);
   }
 
   boolean isSampled(String traceId) {
@@ -110,7 +109,7 @@ public class DynamicSampler {
     if (hasError(span)) {
       return "error";
     }
-    if (isSlow(span)) {
+    if (latencySampler.isSlow(span)) {
       return "slow";
     }
     return null;
@@ -119,7 +118,7 @@ public class DynamicSampler {
   public void resetForTest() {
     sampledTraces.clear();
     spansByTrace.clear();
-    movingAvgs.clear();
+    latencySampler.resetForTest();
     firstSampledCallback.clear();
   }
 
@@ -153,35 +152,6 @@ public class DynamicSampler {
           new Object[] {span.toSpanData().getTraceId(), key.getKey()});
     }
     return sample;
-  }
-
-  private boolean isSlow(ReadableSpan span) {
-    String spanName = span.getName();
-    logger.log(
-        Level.INFO,
-        "spanName {0} - windowSize {1}: {2}",
-        new Object[] {span.getName(), windowSize, span.getAttributes()});
-    long duration = span.getLatencyNanos();
-    MovingAverage currMovingAvg =
-        movingAvgs.computeIfAbsent(spanName, ma -> new MovingAverage(windowSize));
-    currMovingAvg.add(duration);
-    if (currMovingAvg.getCount() < windowSize) {
-      return false;
-    }
-    double avg = currMovingAvg.calcAverage();
-    logger.log(
-        Level.INFO,
-        "avg {0} * threshold {1} = {2}, duration {3}",
-        new Object[] {avg, threshold, avg * threshold, duration});
-    // discard
-    if (duration < avg * threshold) {
-      return false;
-    }
-    logger.log(
-        Level.INFO,
-        "sending span part of Trace: {0} - {1}",
-        new Object[] {span.toSpanData().getTraceId(), duration});
-    return true;
   }
 
   public void registerOnFirstSampledCallback(Context context, Runnable runnable) {
