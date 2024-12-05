@@ -37,8 +37,6 @@ class ServerTimingHeaderTest {
 
   private final ServerTimingHeaderCustomizer serverTiming = new ServerTimingHeaderCustomizer();
 
-  record TestCase(Resource want, ConfigProperties config) {}
-
   @BeforeAll
   static void initialize() {
     DynamicSampler.configure(
