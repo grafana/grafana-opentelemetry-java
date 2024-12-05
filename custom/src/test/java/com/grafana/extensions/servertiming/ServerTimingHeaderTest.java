@@ -18,6 +18,8 @@ import io.opentelemetry.instrumentation.testing.junit.LibraryInstrumentationExte
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.autoconfigure.spi.internal.DefaultConfigProperties;
 import io.opentelemetry.sdk.resources.Resource;
+import io.opentelemetry.sdk.trace.ReadWriteSpan;
+import io.opentelemetry.sdk.trace.ReadableSpan;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +45,7 @@ class ServerTimingHeaderTest {
   @BeforeEach
   void setUp() {
     ServerTimingHeaderCustomizer.enabled = true;
-    DynamicSampler.getInstance().clear();
+    DynamicSampler.getInstance().resetForTest();
   }
 
   @Test
@@ -61,7 +63,12 @@ class ServerTimingHeaderTest {
     DynamicSampler.getInstance().setMovingAvg("server", testMovingAvg);
     assertSetHeader("00", span -> {});
     assertSetHeader(
-        "01", span -> DynamicSampler.getInstance().setSampled(span.getSpanContext().getTraceId()));
+        "01",
+        span -> {
+          DynamicSampler.getInstance().registerNewSpan((ReadableSpan) Span.current());
+          DynamicSampler.getInstance().setSampled(span.getSpanContext().getTraceId(), "test");
+          DynamicSampler.getInstance().evaluateSampled((ReadWriteSpan) span);
+        });
   }
 
   private void assertSetHeader(String traceFlags, Consumer<Span> spanConsumer) {
@@ -71,11 +78,15 @@ class ServerTimingHeaderTest {
         testing.runWithSpan(
             "server",
             () -> {
-              spanConsumer.accept(Span.current());
               serverTiming.customize(Context.current(), headers, Map::put);
+              spanConsumer.accept(Span.current());
               return Span.current().getSpanContext();
             });
 
+    if (traceFlags.equals("00")) {
+      assertThat(headers).isEmpty();
+      return;
+    }
     assertThat(headers).hasSize(2);
 
     var serverTimingHeaderValue =

@@ -6,14 +6,12 @@
 package com.grafana.extensions.servertiming;
 
 import com.grafana.extensions.sampler.DynamicSampler;
+import com.grafana.extensions.sampler.SamplingPropagator;
 import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.api.trace.SpanContext;
-import io.opentelemetry.api.trace.TraceFlags;
 import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.javaagent.bootstrap.http.HttpServerResponseCustomizer;
 import io.opentelemetry.javaagent.bootstrap.http.HttpServerResponseMutator;
-import io.opentelemetry.sdk.trace.ReadWriteSpan;
 
 /**
  * Adds {@code Server-Timing} header (and {@code Access-Control-Expose-Headers}) to the HTTP
@@ -33,26 +31,22 @@ public class ServerTimingHeaderCustomizer implements HttpServerResponseCustomize
       return;
     }
 
-    responseMutator.appendHeader(response, SERVER_TIMING, toHeaderValue(context));
-    responseMutator.appendHeader(response, EXPOSE_HEADERS, SERVER_TIMING);
+    DynamicSampler.getInstance()
+        .registerOnFirstSampledCallback(
+            context,
+            () -> {
+              responseMutator.appendHeader(response, SERVER_TIMING, toHeaderValue(context));
+              responseMutator.appendHeader(response, EXPOSE_HEADERS, SERVER_TIMING);
+            });
   }
 
   static String toHeaderValue(Context context) {
-    ReadWriteSpan span = (ReadWriteSpan) Span.fromContext(context);
-    SpanContext spanContext = span.getSpanContext();
-    boolean sampled = DynamicSampler.getInstance().evaluateSampled(span);
     TraceParentHolder traceParentHolder = new TraceParentHolder();
-    W3CTraceContextPropagator.getInstance()
-        .inject(
-            context.with(
-                Span.wrap(
-                    SpanContext.create(
-                        spanContext.getTraceId(),
-                        spanContext.getSpanId(),
-                        sampled ? TraceFlags.getSampled() : TraceFlags.getDefault(),
-                        spanContext.getTraceState()))),
-            traceParentHolder,
-            TraceParentHolder::set);
+    SamplingPropagator.injectWithDynamicSampleResult(
+        context,
+        traceParentHolder,
+        TraceParentHolder::set,
+        W3CTraceContextPropagator.getInstance());
     return "traceparent;desc=\"" + traceParentHolder.traceParent + "\"";
   }
 

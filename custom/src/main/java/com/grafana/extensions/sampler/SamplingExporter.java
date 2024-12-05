@@ -28,11 +28,15 @@ public class SamplingExporter implements SpanExporter {
   public CompletableResultCode export(Collection<SpanData> collection) {
     ArrayList<SpanData> export = new ArrayList<>();
     for (SpanData data : collection) {
-      if (DynamicSampler.getInstance().isSampled(data.getSpanContext().getTraceId())) {
+      String traceId = data.getSpanContext().getTraceId();
+      if (DynamicSampler.getInstance().isSampled(traceId)) {
         export.add(data);
       }
+      if (data.getParentSpanContext().isRemote()) {
+        // if the parent is not remote, we need to keep the trace ID for parent spans
+        DynamicSampler.getInstance().removeTrace(traceId);
+      }
     }
-    DynamicSampler.getInstance().clear();
     return delegate.export(export);
   }
 
