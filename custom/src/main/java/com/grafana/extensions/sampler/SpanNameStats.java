@@ -5,9 +5,12 @@
 
 package com.grafana.extensions.sampler;
 
+import io.opentelemetry.api.common.AttributeKey;
+import io.opentelemetry.api.common.Attributes;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -76,15 +79,26 @@ public class SpanNameStats {
       return;
     }
 
-    topDurations.sort((a, b) -> -Long.compare(b.durationNanos, a.durationNanos));
+    sortTopDurations();
 
     if (topDurations.get(0).durationNanos < entry.durationNanos) {
       topDurations.set(0, entry);
     }
   }
 
-  public boolean isTopDuration(long durationNanos) {
-    return topDurations.stream().anyMatch(e -> e.durationNanos <= durationNanos);
+  private void sortTopDurations() {
+    topDurations.sort(Comparator.comparingLong(a -> a.durationNanos));
+  }
+
+  public Attributes isTopDuration(long durationNanos) {
+    sortTopDurations();
+
+    Long threshold = topDurations.get(0).durationNanos;
+    boolean b = threshold <= durationNanos;
+    return b
+        ? SampleReason.create(
+            "slow", Attributes.of(AttributeKey.doubleKey("threshold"), (double) threshold / 1e9))
+        : null;
   }
 
   public double isRandomSpanProbability() {
