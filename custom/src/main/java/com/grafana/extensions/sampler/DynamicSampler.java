@@ -61,7 +61,7 @@ public class DynamicSampler {
   }
 
   // for testing
-  public void setMovingAvg(String spanName, LatencyMovingAverage ma) {
+  public void setMovingAvg(String spanName, SpanNameStats ma) {
     latencySampler.setMovingAvg(spanName, ma);
   }
 
@@ -99,6 +99,9 @@ public class DynamicSampler {
   }
 
   private String evaluateReason(ReadableSpan span, String traceId) {
+    // need to add span to the moving average - even if we don't use the result
+    String latencySamplerSampledReason = latencySampler.getSampledReason(span, traceId);
+
     String reason = sampledTraces.get(traceId);
     if (reason != null) {
       return reason;
@@ -109,10 +112,7 @@ public class DynamicSampler {
     if (hasError(span, traceId)) {
       return "error";
     }
-    if (latencySampler.isSlow(span, traceId)) {
-      return "slow";
-    }
-    return null;
+    return latencySamplerSampledReason;
   }
 
   public void resetForTest() {

@@ -10,7 +10,7 @@ import static com.grafana.extensions.servertiming.ServerTimingHeaderCustomizer.S
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.sampler.DynamicSampler;
-import com.grafana.extensions.sampler.LatencyMovingAverage;
+import com.grafana.extensions.sampler.SpanNameStats;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.instrumentation.testing.junit.InstrumentationExtension;
@@ -62,8 +62,8 @@ class ServerTimingHeaderTest {
 
   @Test
   void shouldSetHeaders() {
-    LatencyMovingAverage testMovingAvg =
-        LatencyMovingAverage.getPrepopulatedMovingAvgForTest(Duration.ofMinutes(1), 11_900_000);
+    SpanNameStats testMovingAvg =
+        SpanNameStats.getPrepopulatedForTest(Duration.ofMinutes(1), 11_900_000);
     DynamicSampler.getInstance().setMovingAvg("server", testMovingAvg);
     assertSetHeader("00", span -> {});
     assertSetHeader(
