@@ -86,9 +86,13 @@ public class DynamicSampler {
     return null;
   }
 
-  // public visible for testing
+  // visible for testing
   public void clear() {
     sampledTraces.clear();
+  }
+
+  void remove(String traceId) {
+    sampledTraces.remove(traceId);
   }
 
   // visible for testing

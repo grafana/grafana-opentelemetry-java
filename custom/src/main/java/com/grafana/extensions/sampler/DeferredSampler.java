@@ -46,7 +46,8 @@ public class DeferredSampler implements Sampler {
         FROM_PARENT
             .shouldSample(parentContext, traceId, name, spanKind, attributes, parentLinks)
             .getDecision();
-    if (SamplingDecision.RECORD_AND_SAMPLE.equals(parentDecision) && Span.fromContext(parentContext).getSpanContext().isRemote()) {
+    if (SamplingDecision.RECORD_AND_SAMPLE.equals(parentDecision)
+        && Span.fromContext(parentContext).getSpanContext().isRemote()) {
       DynamicSampler.getInstance().setSampled(traceId, "parent");
     }
 
