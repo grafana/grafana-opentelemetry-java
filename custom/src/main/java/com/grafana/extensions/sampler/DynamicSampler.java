@@ -60,8 +60,8 @@ public class DynamicSampler {
   }
 
   // for testing
-  public void setMovingAvg(String spanName, SpanNameStats ma) {
-    latencySampler.setMovingAvg(spanName, ma);
+  public void setStats(String spanName, SpanNameStats ma) {
+    latencySampler.setStats(spanName, ma);
   }
 
   boolean isSampled(String traceId) {

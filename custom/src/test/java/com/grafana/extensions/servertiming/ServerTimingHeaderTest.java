@@ -62,9 +62,9 @@ class ServerTimingHeaderTest {
 
   @Test
   void shouldSetHeaders() {
-    SpanNameStats testMovingAvg =
+    SpanNameStats stats =
         SpanNameStats.getPrepopulatedForTest(Duration.ofMinutes(1), 11_900_000);
-    DynamicSampler.getInstance().setMovingAvg("server", testMovingAvg);
+    DynamicSampler.getInstance().setStats("server", stats);
     assertSetHeader("00", span -> {});
     assertSetHeader(
         "01",

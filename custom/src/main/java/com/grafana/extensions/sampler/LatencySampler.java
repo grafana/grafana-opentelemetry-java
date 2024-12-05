@@ -20,7 +20,7 @@ public class LatencySampler {
   private final Duration windowSize;
   private final Clock clock;
   private final int keepSpans;
-  private final Map<String, SpanNameStats> movingAvgs = new ConcurrentHashMap<>();
+  private final Map<String, SpanNameStats> statsMap = new ConcurrentHashMap<>();
   private boolean initialSampled = false;
 
   private final Random random = new Random(0);
@@ -36,12 +36,12 @@ public class LatencySampler {
   }
 
   // for testing
-  public void setMovingAvg(String spanName, SpanNameStats ma) {
-    this.movingAvgs.put(spanName, ma);
+  public void setStats(String spanName, SpanNameStats ma) {
+    this.statsMap.put(spanName, ma);
   }
 
   public void resetForTest() {
-    movingAvgs.clear();
+    statsMap.clear();
   }
 
   String getSampledReason(ReadableSpan span) {
@@ -51,7 +51,7 @@ public class LatencySampler {
     long startEpochNanos = spanData.getStartEpochNanos();
     // todo? is span name updated to include the route here?
     SpanNameStats stats =
-        movingAvgs.computeIfAbsent(spanName, ma -> new SpanNameStats(windowSize, clock, keepSpans));
+        statsMap.computeIfAbsent(spanName, ma -> new SpanNameStats(windowSize, clock, keepSpans));
     boolean wasAdded = stats.add(spanData.getSpanId(), duration, startEpochNanos);
 
     if (!initialSampled) {
