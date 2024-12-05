@@ -5,7 +5,6 @@
 
 package com.grafana.extensions.sampler;
 
-import com.grafana.extensions.util.MovingAverage;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.AttributeType;
 import io.opentelemetry.api.trace.Span;
@@ -14,11 +13,11 @@ import io.opentelemetry.context.Context;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.trace.ReadWriteSpan;
 import io.opentelemetry.sdk.trace.ReadableSpan;
+import java.time.Clock;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DynamicSampler {
@@ -32,19 +31,18 @@ public class DynamicSampler {
   private final Map<String, Runnable> firstSampledCallback = new ConcurrentHashMap<>();
 
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
-  private final int windowSize;
-  private final double threshold;
-  private final Map<String, MovingAverage> movingAvgs = new ConcurrentHashMap<>();
+
+  private final LatencySampler latencySampler;
+
   private static DynamicSampler INSTANCE;
 
-  private DynamicSampler(ConfigProperties properties) {
+  private DynamicSampler(ConfigProperties properties, Clock clock) {
     // read properties and configure dynamic sampling
-    this.threshold = properties.getDouble("threshold", 3); // 300%
-    this.windowSize = properties.getInt("window", 3);
+    this.latencySampler = new LatencySampler(properties, clock);
   }
 
-  public static void configure(ConfigProperties properties) {
-    INSTANCE = new DynamicSampler(properties);
+  public static void configure(ConfigProperties properties, Clock clock) {
+    INSTANCE = new DynamicSampler(properties, clock);
   }
 
   public static DynamicSampler getInstance() {
@@ -62,8 +60,8 @@ public class DynamicSampler {
   }
 
   // for testing
-  public void setMovingAvg(String spanName, MovingAverage ma) {
-    this.movingAvgs.put(spanName, ma);
+  public void setMovingAvg(String spanName, SpanNameStats ma) {
+    latencySampler.setMovingAvg(spanName, ma);
   }
 
   boolean isSampled(String traceId) {
@@ -100,26 +98,26 @@ public class DynamicSampler {
   }
 
   private String evaluateReason(ReadableSpan span, String traceId) {
+    // need to add span to the moving average - even if we don't use the result
+    String latencySamplerSampledReason = latencySampler.getSampledReason(span);
+
     String reason = sampledTraces.get(traceId);
     if (reason != null) {
       return reason;
     }
-    if (checkSampled(SAMPLED, span)) {
+    if (checkSampled(SAMPLED, span, traceId)) {
       return "manual";
     }
-    if (hasError(span)) {
+    if (hasError(span, traceId)) {
       return "error";
     }
-    if (isSlow(span)) {
-      return "slow";
-    }
-    return null;
+    return latencySamplerSampledReason;
   }
 
   public void resetForTest() {
     sampledTraces.clear();
     spansByTrace.clear();
-    movingAvgs.clear();
+    latencySampler.resetForTest();
     firstSampledCallback.clear();
   }
 
@@ -133,55 +131,18 @@ public class DynamicSampler {
     return Collections.unmodifiableSet(sampledTraces.keySet());
   }
 
-  private boolean hasError(ReadableSpan span) {
+  private boolean hasError(ReadableSpan span, String traceId) {
     return span.toSpanData().getStatus().getStatusCode() == StatusCode.ERROR
-        || checkSampled(EXCEPTION, span)
-        || checkSampled(ERROR, span);
+        || checkSampled(EXCEPTION, span, traceId)
+        || checkSampled(ERROR, span, traceId);
   }
 
-  private static boolean checkSampled(AttributeKey<?> key, ReadableSpan span) {
-    boolean sample;
+  private static boolean checkSampled(AttributeKey<?> key, ReadableSpan span, String traceId) {
     if (key.getType() == AttributeType.BOOLEAN) {
-      sample = Boolean.TRUE.equals(span.getAttributes().get(key));
+      return Boolean.TRUE.equals(span.getAttributes().get(key));
     } else {
-      sample = span.getAttributes().get(key) != null;
+      return span.getAttributes().get(key) != null;
     }
-    if (sample) {
-      logger.log(
-          Level.INFO,
-          "sending span part of Trace: {0} - due to {1}",
-          new Object[] {span.toSpanData().getTraceId(), key.getKey()});
-    }
-    return sample;
-  }
-
-  private boolean isSlow(ReadableSpan span) {
-    String spanName = span.getName();
-    logger.log(
-        Level.INFO,
-        "spanName {0} - windowSize {1}: {2}",
-        new Object[] {span.getName(), windowSize, span.getAttributes()});
-    long duration = span.getLatencyNanos();
-    MovingAverage currMovingAvg =
-        movingAvgs.computeIfAbsent(spanName, ma -> new MovingAverage(windowSize));
-    currMovingAvg.add(duration);
-    if (currMovingAvg.getCount() < windowSize) {
-      return false;
-    }
-    double avg = currMovingAvg.calcAverage();
-    logger.log(
-        Level.INFO,
-        "avg {0} * threshold {1} = {2}, duration {3}",
-        new Object[] {avg, threshold, avg * threshold, duration});
-    // discard
-    if (duration < avg * threshold) {
-      return false;
-    }
-    logger.log(
-        Level.INFO,
-        "sending span part of Trace: {0} - {1}",
-        new Object[] {span.toSpanData().getTraceId(), duration});
-    return true;
   }
 
   public void registerOnFirstSampledCallback(Context context, Runnable runnable) {
