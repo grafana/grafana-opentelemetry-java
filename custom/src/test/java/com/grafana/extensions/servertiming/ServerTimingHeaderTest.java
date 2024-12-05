@@ -10,6 +10,7 @@ import static com.grafana.extensions.servertiming.ServerTimingHeaderCustomizer.S
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.sampler.DynamicSampler;
+import com.grafana.extensions.sampler.SampleReason;
 import com.grafana.extensions.sampler.SpanNameStats;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
@@ -65,7 +66,8 @@ class ServerTimingHeaderTest {
         "01",
         span -> {
           DynamicSampler.getInstance().registerNewSpan((ReadableSpan) Span.current());
-          DynamicSampler.getInstance().setSampled(span.getSpanContext().getTraceId(), "test");
+          DynamicSampler.getInstance()
+              .setSampled(span.getSpanContext().getTraceId(), SampleReason.create("test"));
           DynamicSampler.getInstance().evaluateSampled((ReadWriteSpan) span);
         });
   }

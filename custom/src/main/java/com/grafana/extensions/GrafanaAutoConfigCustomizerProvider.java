@@ -9,6 +9,7 @@ import com.grafana.extensions.filter.MetricsCustomizer;
 import com.grafana.extensions.instrumentations.TestedInstrumentationsCustomizer;
 import com.grafana.extensions.resources.ResourceCustomizer;
 import com.grafana.extensions.sampler.DeferredSampler;
+import com.grafana.extensions.sampler.SamplerMetricExporter;
 import com.grafana.extensions.sampler.SamplingExporter;
 import com.grafana.extensions.sampler.SamplingPropagator;
 import com.grafana.extensions.sampler.SamplingSpanProcessor;
@@ -25,6 +26,7 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
         .addPropertiesSupplier(GrafanaAutoConfigCustomizerProvider::getDefaultProperties)
         .addPropertiesCustomizer(TestedInstrumentationsCustomizer::customizeProperties)
         .addMeterProviderCustomizer(MetricsCustomizer::configure)
+        .addMetricExporterCustomizer(SamplerMetricExporter::configure)
         .addTracerProviderCustomizer(SamplingSpanProcessor::configure)
         .addSpanExporterCustomizer(SamplingExporter::configure)
         .addSamplerCustomizer(DeferredSampler::configure)
@@ -37,6 +39,7 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
     map.put("otel.instrumentation.micrometer.base-time-unit", "s");
     map.put("otel.instrumentation.log4j-appender.experimental-log-attributes", "true");
     map.put("otel.instrumentation.logback-appender.experimental-log-attributes", "true");
+    map.put("otel.instrumentation.runtime-telemetry.emit-experimental-telemetry", "true");
     return map;
   }
 }

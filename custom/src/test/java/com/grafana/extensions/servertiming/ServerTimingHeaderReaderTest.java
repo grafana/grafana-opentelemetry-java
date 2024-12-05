@@ -8,6 +8,7 @@ package com.grafana.extensions.servertiming;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.sampler.DynamicSampler;
+import com.grafana.extensions.sampler.SampleReason;
 import com.grafana.extensions.sampler.SpanNameStats;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
@@ -66,7 +67,7 @@ class ServerTimingHeaderReaderTest {
         () -> {
           DynamicSampler.getInstance().registerNewSpan((ReadableSpan) Span.current());
           String traceId = Span.current().getSpanContext().getTraceId();
-          DynamicSampler.getInstance().setSampled(traceId, "test");
+          DynamicSampler.getInstance().setSampled(traceId, SampleReason.create("test"));
           String serverTiming = ServerTimingHeaderCustomizer.toHeaderValue(Context.current());
 
           // remove the traceId to see that it is added back by the reader
