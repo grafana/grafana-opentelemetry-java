@@ -10,6 +10,7 @@ import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.AttributeType;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import io.opentelemetry.sdk.trace.ReadWriteSpan;
 import io.opentelemetry.sdk.trace.ReadableSpan;
 import java.util.Collections;
 import java.util.Map;
@@ -23,6 +24,7 @@ public class DynamicSampler {
   private static final AttributeKey<String> EXCEPTION = AttributeKey.stringKey("exception.type");
   private static final AttributeKey<String> ERROR = AttributeKey.stringKey("error.type");
   private static final AttributeKey<Boolean> SAMPLED = AttributeKey.booleanKey("sampled");
+  private static final AttributeKey<String> REASON = AttributeKey.stringKey("sampled.reason");
   private final Set<String> sampledTraces = new ConcurrentSkipListSet<>();
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
   private final int windowSize;
@@ -32,7 +34,7 @@ public class DynamicSampler {
 
   private DynamicSampler(ConfigProperties properties) {
     // read properties and configure dynamic sampling
-    this.threshold = properties.getDouble("threshold", 1.3); // 30%
+    this.threshold = properties.getDouble("threshold", 3); // 300%
     this.windowSize = properties.getInt("window", 3);
   }
 
@@ -57,13 +59,15 @@ public class DynamicSampler {
     return sampledTraces.contains(traceId);
   }
 
-  public boolean evaluateSampled(ReadableSpan span) {
+  public boolean evaluateSampled(ReadWriteSpan span) {
     String traceId = span.getSpanContext().getTraceId();
     if (sampledTraces.contains(traceId)) {
       return true;
     }
-    if (shouldSample(span)) {
+    String reason = getSampledReason(span);
+    if (reason != null) {
       setSampled(traceId);
+      span.setAttribute(REASON, reason);
       return true;
     }
     return false;
@@ -79,15 +83,23 @@ public class DynamicSampler {
     return Collections.unmodifiableSet(sampledTraces);
   }
 
-  boolean shouldSample(ReadableSpan span) {
-    return isSlow(span) || hasError(span);
+  String getSampledReason(ReadableSpan span) {
+    if (checkSampled(SAMPLED, span)) {
+      return "manual";
+    }
+    if (hasError(span)) {
+      return "error";
+    }
+    if (isSlow(span)) {
+      return "slow";
+    }
+    return null;
   }
 
   private boolean hasError(ReadableSpan span) {
     return span.toSpanData().getStatus().getStatusCode() == StatusCode.ERROR
         || checkSampled(EXCEPTION, span)
-        || checkSampled(ERROR, span)
-        || checkSampled(SAMPLED, span);
+        || checkSampled(ERROR, span);
   }
 
   private static boolean checkSampled(AttributeKey<?> key, ReadableSpan span) {
