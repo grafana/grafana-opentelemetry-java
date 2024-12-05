@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +24,7 @@ public class DynamicSampler {
   private static final AttributeKey<String> ERROR = AttributeKey.stringKey("error.type");
   private static final AttributeKey<Boolean> SAMPLED = AttributeKey.booleanKey("sampled");
   private static final AttributeKey<String> REASON = AttributeKey.stringKey("sampled.reason");
-  private final Set<String> sampledTraces = new ConcurrentSkipListSet<>();
+  private final Map<String, String> sampledTraces = new ConcurrentHashMap<>();
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
   private final int windowSize;
   private final double threshold;
@@ -46,8 +45,8 @@ public class DynamicSampler {
     return INSTANCE;
   }
 
-  public void setSampled(String traceId) {
-    sampledTraces.add(traceId);
+  public void setSampled(String traceId, String reason) {
+    sampledTraces.put(traceId, reason);
   }
 
   // for testing
@@ -56,34 +55,25 @@ public class DynamicSampler {
   }
 
   boolean isSampled(String traceId) {
-    return sampledTraces.contains(traceId);
+    return sampledTraces.containsKey(traceId);
   }
 
   public boolean evaluateSampled(ReadWriteSpan span) {
     String traceId = span.getSpanContext().getTraceId();
-    if (sampledTraces.contains(traceId)) {
-      return true;
-    }
-    String reason = getSampledReason(span);
+    String reason = evaluateReason(span, traceId);
     if (reason != null) {
-      setSampled(traceId);
+      // we might not have set the reason earlier
       span.setAttribute(REASON, reason);
-      return true;
+      setSampled(traceId, reason);
     }
-    return false;
+    return reason != null;
   }
 
-  // public visible for testing
-  public void clear() {
-    sampledTraces.clear();
-  }
-
-  // visible for testing
-  public Set<String> getSampledTraces() {
-    return Collections.unmodifiableSet(sampledTraces);
-  }
-
-  String getSampledReason(ReadableSpan span) {
+  private String evaluateReason(ReadWriteSpan span, String traceId) {
+    String reason = sampledTraces.get(traceId);
+    if (reason != null) {
+      return reason;
+    }
     if (checkSampled(SAMPLED, span)) {
       return "manual";
     }
@@ -94,6 +84,16 @@ public class DynamicSampler {
       return "slow";
     }
     return null;
+  }
+
+  // public visible for testing
+  public void clear() {
+    sampledTraces.clear();
+  }
+
+  // visible for testing
+  public Set<String> getSampledTraces() {
+    return Collections.unmodifiableSet(sampledTraces.keySet());
   }
 
   private boolean hasError(ReadableSpan span) {

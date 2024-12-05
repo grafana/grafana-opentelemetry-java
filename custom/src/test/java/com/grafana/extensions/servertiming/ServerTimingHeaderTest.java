@@ -61,7 +61,9 @@ class ServerTimingHeaderTest {
     DynamicSampler.getInstance().setMovingAvg("server", testMovingAvg);
     assertSetHeader("00", span -> {});
     assertSetHeader(
-        "01", span -> DynamicSampler.getInstance().setSampled(span.getSpanContext().getTraceId()));
+        "01",
+        span ->
+            DynamicSampler.getInstance().setSampled(span.getSpanContext().getTraceId(), "test"));
   }
 
   private void assertSetHeader(String traceFlags, Consumer<Span> spanConsumer) {
