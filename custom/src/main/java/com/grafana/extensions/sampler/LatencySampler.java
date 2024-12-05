@@ -8,7 +8,6 @@ package com.grafana.extensions.sampler;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import io.opentelemetry.sdk.trace.ReadableSpan;
 import io.opentelemetry.sdk.trace.data.SpanData;
-
 import java.time.Clock;
 import java.time.Duration;
 import java.util.Map;

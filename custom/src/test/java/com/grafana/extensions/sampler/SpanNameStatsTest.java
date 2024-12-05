@@ -18,8 +18,7 @@ class SpanNameStatsTest {
   void test() {
     MutableClock clock = new MutableClock();
     clock.setInstant(Instant.EPOCH);
-    SpanNameStats stats =
-        new SpanNameStats(Duration.ofMinutes(1), clock, 2);
+    SpanNameStats stats = new SpanNameStats(Duration.ofMinutes(1), clock, 2);
     clock.plus(Duration.ofSeconds(30));
     assertThat(stats.isWarmedUp()).isFalse();
 

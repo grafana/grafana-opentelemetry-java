@@ -40,8 +40,7 @@ public class SpanNameStats {
     this.warmedUp = clock.instant().plus(size);
   }
 
-  public static SpanNameStats getPrepopulatedForTest(
-      Duration size, int lowerBound) {
+  public static SpanNameStats getPrepopulatedForTest(Duration size, int lowerBound) {
     SpanNameStats ma = new SpanNameStats(size, Clock.systemUTC(), 10);
     ma.add("id", ThreadLocalRandom.current().nextLong(lowerBound, 30_000_000), 0);
     return ma;
