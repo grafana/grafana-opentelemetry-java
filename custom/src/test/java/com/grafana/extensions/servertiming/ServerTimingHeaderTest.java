@@ -60,9 +60,8 @@ class ServerTimingHeaderTest {
     MovingAverage testMovingAvg = MovingAverage.getPrepopulatedMovingAvgForTest(3, 11_900_000);
     DynamicSampler.getInstance().setMovingAvg("server", testMovingAvg);
     assertSetHeader("00", span -> {});
-    // todo: fix propagation
-    //    assertSetHeader("01", span ->
-    // DynamicSampler.getInstance().setSampled(span.getSpanContext().getTraceId()));
+    assertSetHeader(
+        "01", span -> DynamicSampler.getInstance().setSampled(span.getSpanContext().getTraceId()));
   }
 
   private void assertSetHeader(String traceFlags, Consumer<Span> spanConsumer) {
