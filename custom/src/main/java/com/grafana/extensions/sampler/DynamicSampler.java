@@ -8,14 +8,16 @@ package com.grafana.extensions.sampler;
 import com.grafana.extensions.util.MovingAverage;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.AttributeType;
+import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.StatusCode;
+import io.opentelemetry.context.Context;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
+import io.opentelemetry.sdk.trace.ReadWriteSpan;
 import io.opentelemetry.sdk.trace.ReadableSpan;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +25,12 @@ public class DynamicSampler {
   private static final AttributeKey<String> EXCEPTION = AttributeKey.stringKey("exception.type");
   private static final AttributeKey<String> ERROR = AttributeKey.stringKey("error.type");
   private static final AttributeKey<Boolean> SAMPLED = AttributeKey.booleanKey("sampled");
-  private final Set<String> sampledTraces = new ConcurrentSkipListSet<>();
+  private static final AttributeKey<String> REASON = AttributeKey.stringKey("sampled.reason");
+
+  private final Map<String, String> sampledTraces = new ConcurrentHashMap<>();
+  private final Map<String, Map<String, ReadableSpan>> spansByTrace = new ConcurrentHashMap<>();
+  private final Map<String, Runnable> firstSampledCallback = new ConcurrentHashMap<>();
+
   public static final Logger logger = Logger.getLogger(DynamicSampler.class.getName());
   private final int windowSize;
   private final double threshold;
@@ -32,7 +39,7 @@ public class DynamicSampler {
 
   private DynamicSampler(ConfigProperties properties) {
     // read properties and configure dynamic sampling
-    this.threshold = properties.getDouble("threshold", 1.3); // 30%
+    this.threshold = properties.getDouble("threshold", 3); // 300%
     this.windowSize = properties.getInt("window", 3);
   }
 
@@ -44,8 +51,14 @@ public class DynamicSampler {
     return INSTANCE;
   }
 
-  public void setSampled(String traceId) {
-    sampledTraces.add(traceId);
+  public void registerNewSpan(ReadableSpan span) {
+    spansByTrace
+        .computeIfAbsent(span.getSpanContext().getTraceId(), k -> new ConcurrentHashMap<>())
+        .put(span.getSpanContext().getSpanId(), span);
+  }
+
+  public void setSampled(String traceId, String reason) {
+    sampledTraces.put(traceId, reason);
   }
 
   // for testing
@@ -54,40 +67,76 @@ public class DynamicSampler {
   }
 
   boolean isSampled(String traceId) {
-    return sampledTraces.contains(traceId);
+    return sampledTraces.containsKey(traceId);
   }
 
-  public boolean evaluateSampled(ReadableSpan span) {
+  public boolean evaluateSampled(ReadWriteSpan span) {
     String traceId = span.getSpanContext().getTraceId();
-    if (sampledTraces.contains(traceId)) {
-      return true;
-    }
-    if (shouldSample(span)) {
-      setSampled(traceId);
+    String firstReason = getFirstReason(span, traceId);
+    if (firstReason != null) {
+      span.setAttribute(REASON, firstReason);
+      setSampled(traceId, firstReason);
+      Runnable callback = firstSampledCallback.remove(traceId);
+      if (callback != null) {
+        callback.run();
+      }
       return true;
     }
     return false;
   }
 
-  // public visible for testing
-  public void clear() {
+  private String getFirstReason(ReadableSpan span, String traceId) {
+    String own = evaluateReason(span, traceId);
+    if (own != null) {
+      return own;
+    }
+    for (ReadableSpan anySpan : spansByTrace.get(traceId).values()) {
+      String reason = evaluateReason(anySpan, traceId);
+      if (reason != null) {
+        return reason;
+      }
+    }
+    return null;
+  }
+
+  private String evaluateReason(ReadableSpan span, String traceId) {
+    String reason = sampledTraces.get(traceId);
+    if (reason != null) {
+      return reason;
+    }
+    if (checkSampled(SAMPLED, span)) {
+      return "manual";
+    }
+    if (hasError(span)) {
+      return "error";
+    }
+    if (isSlow(span)) {
+      return "slow";
+    }
+    return null;
+  }
+
+  public void resetForTest() {
     sampledTraces.clear();
+    spansByTrace.clear();
+    movingAvgs.clear();
+    firstSampledCallback.clear();
+  }
+
+  void removeTrace(String traceId) {
+    sampledTraces.remove(traceId);
+    spansByTrace.remove(traceId);
   }
 
   // visible for testing
   public Set<String> getSampledTraces() {
-    return Collections.unmodifiableSet(sampledTraces);
-  }
-
-  boolean shouldSample(ReadableSpan span) {
-    return isSlow(span) || hasError(span);
+    return Collections.unmodifiableSet(sampledTraces.keySet());
   }
 
   private boolean hasError(ReadableSpan span) {
     return span.toSpanData().getStatus().getStatusCode() == StatusCode.ERROR
         || checkSampled(EXCEPTION, span)
-        || checkSampled(ERROR, span)
-        || checkSampled(SAMPLED, span);
+        || checkSampled(ERROR, span);
   }
 
   private static boolean checkSampled(AttributeKey<?> key, ReadableSpan span) {
@@ -133,5 +182,9 @@ public class DynamicSampler {
         "sending span part of Trace: {0} - {1}",
         new Object[] {span.toSpanData().getTraceId(), duration});
     return true;
+  }
+
+  public void registerOnFirstSampledCallback(Context context, Runnable runnable) {
+    firstSampledCallback.put(Span.fromContext(context).getSpanContext().getTraceId(), runnable);
   }
 }
