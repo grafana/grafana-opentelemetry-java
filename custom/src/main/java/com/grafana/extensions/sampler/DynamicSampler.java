@@ -116,9 +116,11 @@ public class DynamicSampler {
     return null;
   }
 
-  // visible for testing
-  public void clear() {
+  public void resetForTest() {
     sampledTraces.clear();
+    spansByTrace.clear();
+    movingAvgs.clear();
+    firstSampledCallback.clear();
   }
 
   void removeTrace(String traceId) {
