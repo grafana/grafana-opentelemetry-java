@@ -68,31 +68,25 @@ public class OperationStats {
       return initial;
     }
 
-    Attributes highCpu = highCpuDetector.getSampledReason();
-    if (highCpu != null) {
-      return highCpu;
-    }
+    if (isWarmedUp()) {
+      Attributes slow = getSlow(duration);
+      if (slow != null) {
+        return slow;
+      }
 
-    if (!isWarmedUp()) {
-      return null;
-    }
-
-    Attributes slow = getSlow(duration);
-    if (slow != null) {
-      return slow;
-    }
-
-    if (wasAdded) {
-      // only roll once per span
-      double randomSpanProbability = isRandomSpanProbability();
-      boolean roll = random.nextDouble() < randomSpanProbability;
-      if (roll) {
-        return SampleReason.create(
-            "random", Attributes.of(AttributeKey.doubleKey("probability"), randomSpanProbability));
+      if (wasAdded) {
+        // only roll once per span
+        double randomSpanProbability = isRandomSpanProbability();
+        boolean roll = random.nextDouble() < randomSpanProbability;
+        if (roll) {
+          return SampleReason.create(
+              "random",
+              Attributes.of(AttributeKey.doubleKey("probability"), randomSpanProbability));
+        }
       }
     }
 
-    return null;
+    return highCpuDetector.getSampledReason();
   }
 
   boolean add(String spanId, long durationNanos, long startEpochNanos) {
