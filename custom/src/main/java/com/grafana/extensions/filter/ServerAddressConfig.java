@@ -11,6 +11,7 @@ import io.opentelemetry.sdk.metrics.SdkMeterProviderBuilder;
 import io.opentelemetry.sdk.metrics.View;
 import io.opentelemetry.sdk.metrics.ViewBuilder;
 import java.util.HashSet;
+import java.util.Set;
 
 public class ServerAddressConfig {
   public static final String SERVER_ADDRESS_OPT_IN =
@@ -22,7 +23,7 @@ public class ServerAddressConfig {
       SdkMeterProviderBuilder sdkMeterProviderBuilder, ConfigProperties properties) {
     ViewBuilder builder = View.builder();
 
-    HashSet<String> keys = new HashSet<>();
+    Set<String> keys = new HashSet<>();
     keys.add("http.route");
     keys.add("http.request.method");
     keys.add("http.response.status_code");

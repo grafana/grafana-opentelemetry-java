@@ -11,6 +11,7 @@ dependencies {
   compileOnly("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure")
   compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
   compileOnly("io.opentelemetry.javaagent:opentelemetry-javaagent-tooling")
+  compileOnly("io.opentelemetry.instrumentation:opentelemetry-instrumentation-api")
 
   testImplementation("io.opentelemetry.semconv:opentelemetry-semconv")
   testImplementation("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi")
