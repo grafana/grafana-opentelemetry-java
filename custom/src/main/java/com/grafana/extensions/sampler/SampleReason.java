@@ -10,7 +10,7 @@ import io.opentelemetry.api.common.Attributes;
 
 public class SampleReason {
 
-  private static final AttributeKey<String> REASON = AttributeKey.stringKey("sampled.reason");
+  static final AttributeKey<String> REASON = AttributeKey.stringKey("sampled.reason");
 
   public static Attributes create(String reason) {
     return Attributes.of(REASON, reason);

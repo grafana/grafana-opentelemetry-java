@@ -64,10 +64,13 @@ class OperationStatsTest {
     clock.plus(Duration.ofSeconds(30));
 
     stats.add("1", toNanos(5), 0);
+    assertThat(stats.isRandomSpanProbability()).isOne();
     // should replace the previous value
     stats.add("1", toNanos(20), 0);
 
     stats.add("2", toNanos(10), 0);
+    assertThat(stats.isRandomSpanProbability()).isOne();
+
     stats.add("3", toNanos(30), 0);
     // 2000 and 3000 are the top values now
     assertThat(stats.getSlow(toNanos(20)))
@@ -76,8 +79,11 @@ class OperationStatsTest {
 
     assertThat(stats.getSlow(toNanos(19))).isNull();
     assertThat(stats.isRandomSpanProbability()).isEqualTo(2.0 / 3.0, within(.1));
+    assertThat(stats.isWarmedUp()).isFalse();
 
     clock.plus(Duration.ofSeconds(31));
+    assertThat(stats.isWarmedUp()).isTrue();
+
     // not pruned yet
     assertThat(stats.getSlow(toNanos(19))).isNull();
 
