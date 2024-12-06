@@ -14,12 +14,12 @@ import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import spock.util.time.MutableClock;
 
-class SpanNameStatsTest {
+class OperationStatsTest {
   @Test
   void test() {
     MutableClock clock = new MutableClock();
     clock.setInstant(Instant.EPOCH);
-    SpanNameStats stats = new SpanNameStats(Duration.ofMinutes(1), clock, 2);
+    OperationStats stats = new OperationStats("test", Duration.ofMinutes(1), clock, 2);
     clock.plus(Duration.ofSeconds(30));
     assertThat(stats.isWarmedUp()).isFalse();
 

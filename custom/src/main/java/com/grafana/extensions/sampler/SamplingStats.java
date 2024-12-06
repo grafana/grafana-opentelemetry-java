@@ -21,7 +21,7 @@ public class SamplingStats {
   private final Duration windowSize;
   private final Clock clock;
   private final int keepSpans;
-  private final Map<String, SpanNameStats> statsMap = new ConcurrentHashMap<>();
+  private final Map<String, OperationStats> statsMap = new ConcurrentHashMap<>();
   private final double cpuUtilizationThreshold;
   private boolean initialSampled = false;
 
@@ -39,7 +39,7 @@ public class SamplingStats {
   }
 
   // for testing
-  public void setStats(String spanName, SpanNameStats ma) {
+  public void setStats(String spanName, OperationStats ma) {
     this.statsMap.put(spanName, ma);
   }
 
@@ -53,8 +53,8 @@ public class SamplingStats {
     SpanData spanData = span.toSpanData();
     long startEpochNanos = spanData.getStartEpochNanos();
     // todo? is span name updated to include the route here?
-    SpanNameStats stats =
-        statsMap.computeIfAbsent(spanName, ma -> new SpanNameStats(windowSize, clock, keepSpans));
+    OperationStats stats =
+        statsMap.computeIfAbsent(spanName, ma -> new OperationStats(spanName, windowSize, clock, keepSpans));
     boolean wasAdded = stats.add(spanData.getSpanId(), duration, startEpochNanos);
 
     if (!initialSampled) {

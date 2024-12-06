@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class SpanNameStats {
+public class OperationStats {
   private static class Entry {
     String spanId;
     Long durationNanos;
@@ -31,20 +31,22 @@ public class SpanNameStats {
 
   private final Queue<Entry> durations = new LinkedList<>();
   private final List<Entry> topDurations = new LinkedList<>();
+  private final String spanName; // just for debugging
   private final long sizeNanos;
   private final Clock clock;
   private final double keepSpans;
   private final Instant warmedUp;
 
-  public SpanNameStats(Duration size, Clock clock, int keepSpans) {
+  public OperationStats(String spanName, Duration size, Clock clock, int keepSpans) {
+    this.spanName = spanName;
     this.sizeNanos = size.toNanos();
     this.clock = clock;
     this.keepSpans = keepSpans;
     this.warmedUp = clock.instant().plus(size);
   }
 
-  public static SpanNameStats getPrepopulatedForTest(Duration size, int lowerBound) {
-    SpanNameStats ma = new SpanNameStats(size, Clock.systemUTC(), 10);
+  public static OperationStats getPrepopulatedForTest(Duration size, int lowerBound) {
+    OperationStats ma = new OperationStats("test", size, Clock.systemUTC(), 10);
     ma.add("id", ThreadLocalRandom.current().nextLong(lowerBound, 30_000_000), 0);
     return ma;
   }
