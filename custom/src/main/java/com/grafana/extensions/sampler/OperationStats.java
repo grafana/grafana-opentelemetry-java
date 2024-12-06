@@ -148,7 +148,7 @@ public class OperationStats {
     // want 10 per minute
     // 100 in last minute
     // probability of 0.1
-    return keepSpans / durations.size();
+    return Math.min(1, keepSpans / durations.size());
   }
 
   Attributes getInitial() {
