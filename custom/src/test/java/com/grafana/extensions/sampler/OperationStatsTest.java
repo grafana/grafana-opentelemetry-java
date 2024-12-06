@@ -32,23 +32,23 @@ class OperationStatsTest {
     stats.add("2", 10 * nanosPerSecond, 0);
     stats.add("3", 30 * nanosPerSecond, 0);
     // 2000 and 3000 are the top values now
-    assertThat(stats.isTopDuration(20 * nanosPerSecond))
+    assertThat(stats.isSlow(20 * nanosPerSecond))
         .isEqualTo(
             Attributes.builder().put("sampled.reason", "slow").put("threshold", 20.0).build());
 
-    assertThat(stats.isTopDuration(19 * nanosPerSecond)).isNull();
+    assertThat(stats.isSlow(19 * nanosPerSecond)).isNull();
     assertThat(stats.isRandomSpanProbability()).isEqualTo(2.0 / 3.0, within(.1));
 
     clock.plus(Duration.ofSeconds(31));
     assertThat(stats.isWarmedUp()).isTrue();
     // not pruned yet
-    assertThat(stats.isTopDuration(19 * nanosPerSecond)).isNull();
+    assertThat(stats.isSlow(19 * nanosPerSecond)).isNull();
 
     stats.add("4", 5 * nanosPerSecond, 0);
     clock.plus(Duration.ofSeconds(31));
 
     // pruned
-    assertThat(stats.isTopDuration(19 * nanosPerSecond))
+    assertThat(stats.isSlow(19 * nanosPerSecond))
         .isEqualTo(
             Attributes.builder().put("sampled.reason", "slow").put("threshold", 5.0).build());
   }

@@ -7,6 +7,8 @@ package com.grafana.extensions.sampler;
 
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
+import io.opentelemetry.sdk.trace.data.SpanData;
+
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -14,9 +16,11 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class OperationStats {
+
   private static class Entry {
     String spanId;
     Long durationNanos;
@@ -36,6 +40,7 @@ public class OperationStats {
   private final Clock clock;
   private final double keepSpans;
   private final Instant warmedUp;
+  private final Random random = new Random(0);
 
   public OperationStats(String spanName, Duration size, Clock clock, int keepSpans) {
     this.spanName = spanName;
@@ -49,6 +54,34 @@ public class OperationStats {
     OperationStats ma = new OperationStats("test", size, Clock.systemUTC(), 10);
     ma.add("id", ThreadLocalRandom.current().nextLong(lowerBound, 30_000_000), 0);
     return ma;
+  }
+
+  Attributes getSampledReason(
+    SpanData spanData,
+    long duration, HighCpuDetector highCpuDetector) {
+    boolean wasAdded = add(spanData.getSpanId(), duration, spanData.getStartEpochNanos());
+
+    Attributes highCpu = highCpuDetector.getSampledReason();
+    if (highCpu != null) {
+      return highCpu;
+    }
+
+    Attributes topDuration = isSlow(duration);
+    if (topDuration != null) {
+      return topDuration;
+    }
+
+    if (wasAdded) {
+      // only roll once per span
+      double randomSpanProbability = isRandomSpanProbability();
+      boolean roll = random.nextDouble() < randomSpanProbability;
+      if (roll) {
+        return SampleReason.create(
+            "random", Attributes.of(AttributeKey.doubleKey("probability"), randomSpanProbability));
+      }
+    }
+
+    return null;
   }
 
   public boolean add(String spanId, long durationNanos, long startEpochNanos) {
@@ -92,7 +125,7 @@ public class OperationStats {
     topDurations.sort(Comparator.comparingLong(a -> a.durationNanos));
   }
 
-  public Attributes isTopDuration(long durationNanos) {
+  public Attributes isSlow(long durationNanos) {
     sortTopDurations();
 
     Long threshold = topDurations.get(0).durationNanos;
