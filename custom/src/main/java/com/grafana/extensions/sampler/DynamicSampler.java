@@ -72,7 +72,9 @@ public class DynamicSampler {
     String traceId = span.getSpanContext().getTraceId();
     Attributes firstReason = getFirstReason(span, traceId);
     if (firstReason != null) {
-      span.setAllAttributes(firstReason);
+      // skip attributes that are already set - so that we can simulate the "child" reason
+      Attributes add = firstReason.toBuilder().removeIf(k -> span.getAttribute(k) != null).build();
+      span.setAllAttributes(add);
       setSampled(traceId, firstReason);
       Runnable callback = firstSampledCallback.remove(traceId);
       if (callback != null) {
@@ -105,7 +107,7 @@ public class DynamicSampler {
     if (reason != null) {
       return reason;
     }
-    if (checkSampled(SAMPLED, span, traceId)) {
+    if (checkSampled(SAMPLED, span) || checkSampled(SampleReason.REASON, span)) {
       return SampleReason.create("manual");
     }
     if (hasError(span, traceId)) {
@@ -133,11 +135,11 @@ public class DynamicSampler {
 
   private boolean hasError(ReadableSpan span, String traceId) {
     return span.toSpanData().getStatus().getStatusCode() == StatusCode.ERROR
-        || checkSampled(EXCEPTION, span, traceId)
-        || checkSampled(ERROR, span, traceId);
+        || checkSampled(EXCEPTION, span)
+        || checkSampled(ERROR, span);
   }
 
-  private static boolean checkSampled(AttributeKey<?> key, ReadableSpan span, String traceId) {
+  private static boolean checkSampled(AttributeKey<?> key, ReadableSpan span) {
     if (key.getType() == AttributeType.BOOLEAN) {
       return Boolean.TRUE.equals(span.getAttributes().get(key));
     } else {
