@@ -8,8 +8,8 @@ package com.grafana.extensions.servertiming;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.sampler.DynamicSampler;
+import com.grafana.extensions.sampler.OperationStats;
 import com.grafana.extensions.sampler.SampleReason;
-import com.grafana.extensions.sampler.SpanNameStats;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.instrumentation.testing.junit.InstrumentationExtension;
@@ -46,7 +46,7 @@ class ServerTimingHeaderReaderTest {
   @Test
   void notSampled() {
     String spanName = "server";
-    SpanNameStats stats = SpanNameStats.getPrepopulatedForTest(Duration.ofMinutes(1), 11_900_000);
+    OperationStats stats = OperationStats.getPrepopulatedForTest(Duration.ofMinutes(1), 11_900_000);
     DynamicSampler.getInstance().setStats(spanName, stats);
     testing.runWithSpan(
         spanName,

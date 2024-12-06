@@ -7,16 +7,20 @@ package com.grafana.extensions.sampler;
 
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
+import io.opentelemetry.sdk.trace.data.SpanData;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class SpanNameStats {
+public class OperationStats {
+
   private static class Entry {
     String spanId;
     Long durationNanos;
@@ -31,25 +35,61 @@ public class SpanNameStats {
 
   private final Queue<Entry> durations = new LinkedList<>();
   private final List<Entry> topDurations = new LinkedList<>();
+  private final String spanName; // just for debugging
   private final long sizeNanos;
   private final Clock clock;
   private final double keepSpans;
-  private final Instant warmedUp;
+  private final Instant start;
+  private final Random random = new Random(0);
+  private int initialSpansLeft;
 
-  public SpanNameStats(Duration size, Clock clock, int keepSpans) {
+  public OperationStats(String spanName, Duration size, Clock clock, int keepSpans) {
+    this.spanName = spanName;
     this.sizeNanos = size.toNanos();
     this.clock = clock;
     this.keepSpans = keepSpans;
-    this.warmedUp = clock.instant().plus(size);
+    initialSpansLeft = keepSpans;
+    this.start = clock.instant();
   }
 
-  public static SpanNameStats getPrepopulatedForTest(Duration size, int lowerBound) {
-    SpanNameStats ma = new SpanNameStats(size, Clock.systemUTC(), 10);
+  public static OperationStats getPrepopulatedForTest(Duration size, int lowerBound) {
+    OperationStats ma = new OperationStats("test", size, Clock.systemUTC(), 10);
     ma.add("id", ThreadLocalRandom.current().nextLong(lowerBound, 30_000_000), 0);
     return ma;
   }
 
-  public boolean add(String spanId, long durationNanos, long startEpochNanos) {
+  Attributes getSampledReason(SpanData spanData, long duration, HighCpuDetector highCpuDetector) {
+    boolean wasAdded = add(spanData.getSpanId(), duration, spanData.getStartEpochNanos());
+
+    Attributes initial = getInitial();
+    if (initial != null) {
+      return initial;
+    }
+
+    Attributes highCpu = highCpuDetector.getSampledReason();
+    if (highCpu != null) {
+      return highCpu;
+    }
+
+    Attributes topDuration = getSlow(duration);
+    if (topDuration != null) {
+      return topDuration;
+    }
+
+    if (wasAdded) {
+      // only roll once per span
+      double randomSpanProbability = isRandomSpanProbability();
+      boolean roll = random.nextDouble() < randomSpanProbability;
+      if (roll) {
+        return SampleReason.create(
+            "random", Attributes.of(AttributeKey.doubleKey("probability"), randomSpanProbability));
+      }
+    }
+
+    return null;
+  }
+
+  boolean add(String spanId, long durationNanos, long startEpochNanos) {
     for (Entry entry : durations) {
       if (entry.spanId.equals(spanId)) {
         entry.durationNanos = durationNanos;
@@ -90,7 +130,7 @@ public class SpanNameStats {
     topDurations.sort(Comparator.comparingLong(a -> a.durationNanos));
   }
 
-  public Attributes isTopDuration(long durationNanos) {
+  Attributes getSlow(long durationNanos) {
     sortTopDurations();
 
     Long threshold = topDurations.get(0).durationNanos;
@@ -101,14 +141,27 @@ public class SpanNameStats {
         : null;
   }
 
-  public double isRandomSpanProbability() {
+  double isRandomSpanProbability() {
+    if (durations.isEmpty()) {
+      return 1.0;
+    }
     // want 10 per minute
     // 100 in last minute
     // probability of 0.1
     return keepSpans / durations.size();
   }
 
-  public boolean isWarmedUp() {
-    return clock.instant().isAfter(warmedUp);
+  Attributes getInitial() {
+    if (initialSpansLeft == 0) {
+      return null;
+    }
+    double haveRatio = (double) start.until(clock.instant(), ChronoUnit.NANOS) / sizeNanos;
+    double wantRatio = 1.0 - (double) initialSpansLeft / keepSpans;
+
+    if (haveRatio >= wantRatio) {
+      initialSpansLeft--;
+      return SampleReason.create("initial");
+    }
+    return null;
   }
 }

@@ -60,7 +60,7 @@ public class DynamicSampler {
   }
 
   // for testing
-  public void setStats(String spanName, SpanNameStats ma) {
+  public void setStats(String spanName, OperationStats ma) {
     samplingStats.setStats(spanName, ma);
   }
 
