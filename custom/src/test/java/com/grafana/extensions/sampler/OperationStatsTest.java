@@ -79,8 +79,11 @@ class OperationStatsTest {
 
     assertThat(stats.getSlow(toNanos(19))).isNull();
     assertThat(stats.isRandomSpanProbability()).isEqualTo(2.0 / 3.0, within(.1));
+    assertThat(stats.isWarmedUp()).isFalse();
 
     clock.plus(Duration.ofSeconds(31));
+    assertThat(stats.isWarmedUp()).isTrue();
+
     // not pruned yet
     assertThat(stats.getSlow(toNanos(19))).isNull();
 

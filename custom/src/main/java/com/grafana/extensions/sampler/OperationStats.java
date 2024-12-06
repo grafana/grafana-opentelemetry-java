@@ -36,20 +36,22 @@ public class OperationStats {
   private final Queue<Entry> durations = new LinkedList<>();
   private final List<Entry> topDurations = new LinkedList<>();
   private final String spanName; // just for debugging
-  private final long sizeNanos;
+  private final long windowNanos;
   private final Clock clock;
   private final double keepSpans;
   private final Instant start;
   private final Random random = new Random(0);
+  private final Instant warmedUp;
   private int initialSpansLeft;
 
-  public OperationStats(String spanName, Duration size, Clock clock, int keepSpans) {
+  public OperationStats(String spanName, Duration window, Clock clock, int keepSpans) {
     this.spanName = spanName;
-    this.sizeNanos = size.toNanos();
+    this.windowNanos = window.toNanos();
     this.clock = clock;
     this.keepSpans = keepSpans;
     initialSpansLeft = keepSpans;
     this.start = clock.instant();
+    this.warmedUp = clock.instant().plus(window);
   }
 
   public static OperationStats getPrepopulatedForTest(Duration size, int lowerBound) {
@@ -71,9 +73,13 @@ public class OperationStats {
       return highCpu;
     }
 
-    Attributes topDuration = getSlow(duration);
-    if (topDuration != null) {
-      return topDuration;
+    if (!isWarmedUp()) {
+      return null;
+    }
+
+    Attributes slow = getSlow(duration);
+    if (slow != null) {
+      return slow;
     }
 
     if (wasAdded) {
@@ -104,10 +110,10 @@ public class OperationStats {
     durations.offer(entry);
 
     long now = clock.millis() * 1_000_000;
-    while (!durations.isEmpty() && durations.peek().startEpochNanos < now - sizeNanos) {
+    while (!durations.isEmpty() && durations.peek().startEpochNanos < now - windowNanos) {
       durations.poll();
     }
-    topDurations.removeIf(e -> e.startEpochNanos < now - sizeNanos);
+    topDurations.removeIf(e -> e.startEpochNanos < now - windowNanos);
 
     addTopDuration(entry);
     return true;
@@ -155,7 +161,7 @@ public class OperationStats {
     if (initialSpansLeft == 0) {
       return null;
     }
-    double haveRatio = (double) start.until(clock.instant(), ChronoUnit.NANOS) / sizeNanos;
+    double haveRatio = (double) start.until(clock.instant(), ChronoUnit.NANOS) / windowNanos;
     double wantRatio = 1.0 - (double) initialSpansLeft / keepSpans;
 
     if (haveRatio >= wantRatio) {
@@ -163,5 +169,10 @@ public class OperationStats {
       return SampleReason.create("initial");
     }
     return null;
+  }
+
+  // visible for testing
+  boolean isWarmedUp() {
+    return clock.instant().isAfter(warmedUp);
   }
 }
