@@ -10,8 +10,8 @@ import static com.grafana.extensions.servertiming.ServerTimingHeaderCustomizer.S
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.sampler.DynamicSampler;
+import com.grafana.extensions.sampler.OperationStats;
 import com.grafana.extensions.sampler.SampleReason;
-import com.grafana.extensions.sampler.SpanNameStats;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.instrumentation.testing.junit.InstrumentationExtension;
@@ -59,7 +59,7 @@ class ServerTimingHeaderTest {
 
   @Test
   void shouldSetHeaders() {
-    SpanNameStats stats = SpanNameStats.getPrepopulatedForTest(Duration.ofMinutes(1), 11_900_000);
+    OperationStats stats = OperationStats.getPrepopulatedForTest(Duration.ofMinutes(1), 11_900_000);
     DynamicSampler.getInstance().setStats("server", stats);
     assertSetHeader("00", span -> {});
     assertSetHeader(
