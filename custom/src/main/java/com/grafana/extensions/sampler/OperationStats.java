@@ -8,10 +8,10 @@ package com.grafana.extensions.sampler;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.sdk.trace.data.SpanData;
-
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,15 +39,17 @@ public class OperationStats {
   private final long sizeNanos;
   private final Clock clock;
   private final double keepSpans;
-  private final Instant warmedUp;
+  private final Instant start;
   private final Random random = new Random(0);
+  private int initialSpansLeft;
 
   public OperationStats(String spanName, Duration size, Clock clock, int keepSpans) {
     this.spanName = spanName;
     this.sizeNanos = size.toNanos();
     this.clock = clock;
     this.keepSpans = keepSpans;
-    this.warmedUp = clock.instant().plus(size);
+    initialSpansLeft = keepSpans;
+    this.start = clock.instant();
   }
 
   public static OperationStats getPrepopulatedForTest(Duration size, int lowerBound) {
@@ -56,17 +58,20 @@ public class OperationStats {
     return ma;
   }
 
-  Attributes getSampledReason(
-    SpanData spanData,
-    long duration, HighCpuDetector highCpuDetector) {
+  Attributes getSampledReason(SpanData spanData, long duration, HighCpuDetector highCpuDetector) {
     boolean wasAdded = add(spanData.getSpanId(), duration, spanData.getStartEpochNanos());
+
+    Attributes initial = getInitial();
+    if (initial != null) {
+      return initial;
+    }
 
     Attributes highCpu = highCpuDetector.getSampledReason();
     if (highCpu != null) {
       return highCpu;
     }
 
-    Attributes topDuration = isSlow(duration);
+    Attributes topDuration = getSlow(duration);
     if (topDuration != null) {
       return topDuration;
     }
@@ -84,7 +89,7 @@ public class OperationStats {
     return null;
   }
 
-  public boolean add(String spanId, long durationNanos, long startEpochNanos) {
+  boolean add(String spanId, long durationNanos, long startEpochNanos) {
     for (Entry entry : durations) {
       if (entry.spanId.equals(spanId)) {
         entry.durationNanos = durationNanos;
@@ -125,7 +130,7 @@ public class OperationStats {
     topDurations.sort(Comparator.comparingLong(a -> a.durationNanos));
   }
 
-  public Attributes isSlow(long durationNanos) {
+  Attributes getSlow(long durationNanos) {
     sortTopDurations();
 
     Long threshold = topDurations.get(0).durationNanos;
@@ -136,14 +141,27 @@ public class OperationStats {
         : null;
   }
 
-  public double isRandomSpanProbability() {
+  double isRandomSpanProbability() {
+    if (durations.isEmpty()) {
+      return 1.0;
+    }
     // want 10 per minute
     // 100 in last minute
     // probability of 0.1
     return keepSpans / durations.size();
   }
 
-  public boolean isWarmedUp() {
-    return clock.instant().isAfter(warmedUp);
+  Attributes getInitial() {
+    if (initialSpansLeft == 0) {
+      return null;
+    }
+    double haveRatio = (double) start.until(clock.instant(), ChronoUnit.NANOS) / sizeNanos;
+    double wantRatio = 1.0 - (double) initialSpansLeft / keepSpans;
+
+    if (haveRatio >= wantRatio) {
+      initialSpansLeft--;
+      return SampleReason.create("initial");
+    }
+    return null;
   }
 }

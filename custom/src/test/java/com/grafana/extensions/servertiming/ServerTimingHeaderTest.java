@@ -10,8 +10,8 @@ import static com.grafana.extensions.servertiming.ServerTimingHeaderCustomizer.S
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.sampler.DynamicSampler;
-import com.grafana.extensions.sampler.SampleReason;
 import com.grafana.extensions.sampler.OperationStats;
+import com.grafana.extensions.sampler.SampleReason;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.instrumentation.testing.junit.InstrumentationExtension;

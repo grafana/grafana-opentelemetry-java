@@ -1,3 +1,8 @@
+/*
+ * Copyright Grafana Labs
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.grafana.extensions.sampler;
 
 import io.opentelemetry.api.common.AttributeKey;

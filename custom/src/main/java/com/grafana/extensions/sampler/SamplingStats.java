@@ -28,7 +28,8 @@ public class SamplingStats {
     this.keepSpans = properties.getInt("keepSpans", 1);
     this.windowSize = properties.getDuration("window", Duration.ofMinutes(1));
     // change to 0.8
-    this.highCpuDetector = new HighCpuDetector(properties.getDouble("cpuUtilizationThreshold", 0.2));
+    this.highCpuDetector =
+        new HighCpuDetector(properties.getDouble("cpuUtilizationThreshold", 0.2));
     this.clock = clock;
   }
 
@@ -48,8 +49,7 @@ public class SamplingStats {
     OperationStats stats =
         statsMap.computeIfAbsent(
             spanName, ma -> new OperationStats(spanName, windowSize, clock, keepSpans));
-    return stats.getSampledReason(
-        spanData, span.getLatencyNanos(), highCpuDetector);
+    return stats.getSampledReason(spanData, span.getLatencyNanos(), highCpuDetector);
   }
 
   public void setCpuUtilization(double cpuUtilization) {
