@@ -37,7 +37,7 @@ jobs:
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@936628dfbff213ab2eb95033c5e123cfcaf09ebb # v41.0.5
         with:
-          renovate-version: 39.42.4@sha256:c5d718e312cdacc0746e37f13c215ff498be28c51e50efd24c070ae29f5b636a
+          renovate-version: 39.57.4@sha256:a1f28f4eba3589d4cf7228f82ba1bdcec42947407f9379d719c0f8a581c564f9
           token: "${{ steps.app-token.outputs.token }}"
         env:
           LOG_LEVEL: debug
