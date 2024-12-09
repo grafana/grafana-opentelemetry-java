@@ -23,11 +23,11 @@ public class SamplingStats {
   private final HighCpuDetector highCpuDetector;
 
   public SamplingStats(ConfigProperties properties, Clock clock) {
-    this.keepSpans = properties.getInt("keepSpans", 3);
-    this.windowSize = properties.getDuration("window", Duration.ofMinutes(1));
+    this.keepSpans = properties.getInt("keepSpans", 1);
+    this.windowSize = properties.getDuration("window", Duration.ofMinutes(2));
     // change to 0.8
     this.highCpuDetector =
-        new HighCpuDetector(properties.getDouble("cpuUtilizationThreshold", 0.6));
+        new HighCpuDetector(properties.getDouble("cpuUtilizationThreshold", 0.4));
     this.clock = clock;
   }
 
