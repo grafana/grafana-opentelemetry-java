@@ -7,8 +7,7 @@ package com.grafana.extensions.servertiming;
 
 import static com.grafana.extensions.servertiming.ServerTimingHeaderCustomizer.EXPOSE_HEADERS;
 import static com.grafana.extensions.servertiming.ServerTimingHeaderCustomizer.SERVER_TIMING;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.context.Context;
@@ -33,22 +32,17 @@ class ServerTimingHeaderTest {
 
   @Test
   void shouldNotSetAnyHeadersWithoutValidCurrentSpan() {
-    // given
     var headers = new HashMap<String, String>();
 
-    // when
     serverTiming.customize(Context.root(), headers, Map::put);
 
-    // then
-    assertTrue(headers.isEmpty());
+    assertThat(headers).isEmpty();
   }
 
   @Test
   void shouldSetHeaders() {
-    // given
     var headers = new HashMap<String, String>();
 
-    // when
     var spanContext =
         testing.runWithSpan(
             "server",
@@ -57,8 +51,7 @@ class ServerTimingHeaderTest {
               return Span.current().getSpanContext();
             });
 
-    // then
-    assertEquals(2, headers.size());
+    assertThat(headers).hasSize(2);
 
     var serverTimingHeaderValue =
         "traceparent;desc=\"00-"
@@ -66,7 +59,8 @@ class ServerTimingHeaderTest {
             + "-"
             + spanContext.getSpanId()
             + "-01\"";
-    assertEquals(serverTimingHeaderValue, headers.get(SERVER_TIMING));
-    assertEquals(SERVER_TIMING, headers.get(EXPOSE_HEADERS));
+    assertThat(headers)
+        .containsEntry(SERVER_TIMING, serverTimingHeaderValue)
+        .containsEntry(EXPOSE_HEADERS, SERVER_TIMING);
   }
 }
