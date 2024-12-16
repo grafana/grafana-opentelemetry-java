@@ -30,7 +30,7 @@ subprojects {
 
       bytebuddy                  : "1.15.11",
       autoservice                : "1.1.1",
-      junit                      : "5.11.3",
+      junit                      : "5.11.4",
       logUnit                    : "2.0.0",
       assertj                    : "3.26.3",
     ]
