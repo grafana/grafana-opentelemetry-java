@@ -74,9 +74,9 @@ This is the first GA release of this distribution.
   Please use `OTEL_*` environment variables instead
   (in the spirit of making it easy to migrate away from this distribution).
   - `GRAFANA_OTLP_DEBUG_LOGGING` and `GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED`
-      ([details](README.md#enable-otlp-debug-logging))
+      ([details](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/instrument/jvm/#otlp-debug-logging))
   - `GRAFANA_CLOUD_INSTANCE_ID`, `GRAFANA_CLOUD_ZONE`, and `GRAFANA_CLOUD_API_KEY`
-      ([details](README.md#grafana-cloud-otlp-gateway))
+      ([details](https://grafana.com/docs/grafana-cloud/send-data/otlp/send-data-otlp/))
 
 ## 0.32.0-beta.1 (2023-11-22)
 
@@ -99,7 +99,8 @@ This is the first GA release of this distribution.
 ## 0.3.0 (2023-11-08)
 
 - Add resource detectors for Google Cloud and AWS - mainly for Kubernetes monitoring.
-- Add ability to drop metrics that are not needed for Application Observability ([docs](README.md#data-saver)).
+- Add ability to drop metrics that are not needed for Application Observability
+  ([docs](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/instrument/jvm/#data-saver)).
 - Rename grafana cloud environment variables `GRAFANA_OTLP_CLOUD_*` to `GRAFANA_CLOUD_*`.
 
 ## 0.2.0 (2023-10-27)

@@ -20,8 +20,8 @@ javaagent.jar as well as our custom extension.
 
 - Java: `./gradlew spotlessApply`
 - Markdown lint: `markdownlint -f .` (`-f` fixes simple violations, requires [markdownlint](https://github.com/DavidAnson/markdownlint#markdownlint))
-- Markdown link checker: `find . -name '*.md' -print0 | xargs -0 -n1 markdown-link-check -c .markdown-link-check.json`
-  (requires [markdown-link-check](https://github.com/tcort/markdown-link-check))
+- Markdown link checker: `lychee --include-fragments --max-retries 6 .`
+  (requires [lychee](https://github.com/lycheeverse/lychee))
 
 ## Smoke Tests
 
