@@ -1,99 +1,97 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
   ],
-  "branchPrefix": "grafanarenovatebot/",
-  "platformCommit": true,
+  branchPrefix: 'grafanarenovatebot/',
+  platformCommit: true,
   automerge: true,
-  "dependencyDashboard": false,
-  "forkProcessing": "enabled",
-  "rebaseWhen": "behind-base-branch",
-  "packageRules": [
+  dependencyDashboard: false,
+  forkProcessing: 'enabled',
+  rebaseWhen: 'behind-base-branch',
+  packageRules: [
     {
-      "matchUpdateTypes": [
-        "major"
+      matchUpdateTypes: [
+        'major',
       ],
-      "labels": [
-        "update-major"
-      ]
+      labels: [
+        'update-major',
+      ],
     },
     {
-      "matchUpdateTypes": [
-        "minor"
+      matchUpdateTypes: [
+        'minor',
       ],
-      "labels": [
-        "update-minor"
-      ]
+      labels: [
+        'update-minor',
+      ],
     },
     {
-      "matchUpdateTypes": [
-        "patch"
+      matchUpdateTypes: [
+        'patch',
       ],
-      "labels": [
-        "automerge-patch"
-      ]
+      labels: [
+        'automerge-patch',
+      ],
     },
     {
-      "matchUpdateTypes": [
-        "digest"
+      matchUpdateTypes: [
+        'digest',
       ],
-      "labels": [
-        "update-digest"
-      ]
+      labels: [
+        'update-digest',
+      ],
     },
     {
-      // is only used for running "markdownlint -f ." locally
       matchFileNames: [
-        ".tool-versions"
+        '.tool-versions',
       ],
       matchPackageNames: [
-        "node"
+        'node',
       ],
-      enabled: false
+      enabled: false,
     },
     {
-      "matchPackageNames": [
-        "ghcr.io/renovatebot/renovate",
-        "renovatebot/github-action"
+      matchPackageNames: [
+        'ghcr.io/renovatebot/renovate',
+        'renovatebot/github-action',
       ],
-      "groupName": "renovatebot",
-      "schedule": [
-        "before 4am on monday"
-      ]
-    }
+      groupName: 'renovatebot',
+      schedule: [
+        'before 4am on monday',
+      ],
+    },
   ],
-  "vulnerabilityAlerts": {
-    "enabled": true,
-    "labels": [
-      "automerge-security-update"
-    ]
+  vulnerabilityAlerts: {
+    enabled: true,
+    labels: [
+      'automerge-security-update',
+    ],
   },
-  "osvVulnerabilityAlerts": true,
+  osvVulnerabilityAlerts: true,
   customManagers: [
     {
-      // Update renovate version in GHA workflow file.
-      "customType": "regex",
-      "depNameTemplate": "ghcr.io/renovatebot/renovate",
-      "datasourceTemplate": "docker",
-      "fileMatch": [
-        "^\\.github/workflows/.*\\.ya?ml$"
+      customType: 'regex',
+      depNameTemplate: 'ghcr.io/renovatebot/renovate',
+      datasourceTemplate: 'docker',
+      fileMatch: [
+        '^\\.github/workflows/.*\\.ya?ml$',
       ],
-      "matchStrings": [
-        "renovate-version: (?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?",
-        "RENOVATE_IMAGE=ghcr.io/renovatebot/renovate:(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?"
-      ]
+      matchStrings: [
+        'renovate-version: (?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?',
+        'RENOVATE_IMAGE=ghcr.io/renovatebot/renovate:(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?',
+      ],
     },
     {
-      "customType": "regex",
-      "description": "Update _VERSION variables in Dockerfiles",
-      "fileMatch": [
-        "(^|/|\\.)Dockerfile$",
-        "(^|/)Dockerfile\\.[^/]*$"
+      customType: 'regex',
+      description: 'Update _VERSION variables in Dockerfiles',
+      fileMatch: [
+        '(^|/|\\.)Dockerfile$',
+        '(^|/)Dockerfile\\.[^/]*$',
       ],
-      "matchStrings": [
-        "# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?<currentValue>.+?)\\s"
-      ]
-    }
-  ]
+      matchStrings: [
+        '# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?<currentValue>.+?)\\s',
+      ],
+    },
+  ],
 }
