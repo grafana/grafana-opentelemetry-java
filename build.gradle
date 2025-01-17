@@ -3,7 +3,7 @@ version '10.0.0-SNAPSHOT' // the version of the actual release is set during the
 
 buildscript {
   ext {
-    otelInstrumentationVersion = "2.11.0"
+    otelInstrumentationVersion = "2.12.0"
   }
   repositories {
     maven {
