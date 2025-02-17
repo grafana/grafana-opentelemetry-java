@@ -9,7 +9,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.opentelemetry.sdk.resources.Resource;
-import io.opentelemetry.semconv.ResourceAttributes;
 import org.junit.jupiter.api.Test;
 
 public class DistributionResourceProviderTest {
@@ -22,6 +21,5 @@ public class DistributionResourceProviderTest {
         .hasSize(2)
         .containsEntry(DistributionResource.DISTRIBUTION_NAME, "grafana-opentelemetry-java")
         .containsEntry(DistributionResource.DISTRIBUTION_VERSION, DistributionVersion.VERSION);
-    assertThat(r.getSchemaUrl()).isEqualTo(ResourceAttributes.SCHEMA_URL);
   }
 }

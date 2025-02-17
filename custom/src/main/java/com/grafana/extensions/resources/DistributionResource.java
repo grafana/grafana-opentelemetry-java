@@ -9,7 +9,6 @@ import com.grafana.extensions.resources.internal.DistributionVersion;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.sdk.resources.Resource;
-import io.opentelemetry.semconv.ResourceAttributes;
 
 public final class DistributionResource {
   public static final AttributeKey<String> DISTRIBUTION_NAME =
@@ -31,7 +30,6 @@ public final class DistributionResource {
             DISTRIBUTION_NAME,
             "grafana-opentelemetry-java",
             DISTRIBUTION_VERSION,
-            DistributionVersion.VERSION),
-        ResourceAttributes.SCHEMA_URL);
+            DistributionVersion.VERSION));
   }
 }
