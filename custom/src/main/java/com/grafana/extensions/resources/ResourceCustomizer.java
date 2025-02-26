@@ -16,6 +16,7 @@ public class ResourceCustomizer {
 
   private ResourceCustomizer() {}
 
+  @SuppressWarnings("unchecked")
   public static Resource truncate(Resource resource, ConfigProperties config) {
     // trim all the attributes according to the config
     int limit = config.getInt(TRUNCATE_LENGTH, 2048);
@@ -31,7 +32,6 @@ public class ResourceCustomizer {
               if (value instanceof String) {
                 String s = (String) value;
                 if (s.length() > limit) {
-                  //noinspection unchecked
                   builder.put((AttributeKey<? super String>) key, s.substring(0, limit));
                 }
               }
