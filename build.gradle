@@ -1,5 +1,5 @@
-group 'com.grafana'
-version '10.0.0-SNAPSHOT' // the version of the actual release is set during the release process in build-release.sh
+group = 'com.grafana'
+version = '10.0.0-SNAPSHOT' // the version of the actual release is set during the release process in build-release.sh
 
 buildscript {
   ext {
@@ -7,7 +7,7 @@ buildscript {
   }
   repositories {
     maven {
-      url "https://plugins.gradle.org/m2/"
+      url = "https://plugins.gradle.org/m2/"
     }
   }
   dependencies {
@@ -30,7 +30,7 @@ subprojects {
 
       bytebuddy                  : "1.17.1",
       autoservice                : "1.1.1",
-      junit                      : "5.11.4",
+      junit                      : "5.12.0",
       logUnit                    : "2.0.0",
       assertj                    : "3.27.3",
     ]
@@ -84,6 +84,7 @@ subprojects {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${versions.junit}")
     testImplementation("org.junit.jupiter:junit-jupiter-params:${versions.junit}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${versions.junit}")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:${versions.junit}")
 
     testImplementation("io.github.netmikey.logunit:logunit-core:${versions.logUnit}")
     testRuntimeOnly("io.github.netmikey.logunit:logunit-jul:${versions.logUnit}")
