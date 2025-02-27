@@ -50,7 +50,7 @@ public final class GrafanaOpenTelemetryAgent {
   }
 
   private static void startAgent(Instrumentation inst, boolean fromPremain, String agentArgs) {
-    System.out.println("GrafanaOpenTelemetryAgent startAgent");
+    AgentStarted.run(agentArgs);
 
     try {
       File javaagentFile = installBootstrapJar(inst);
