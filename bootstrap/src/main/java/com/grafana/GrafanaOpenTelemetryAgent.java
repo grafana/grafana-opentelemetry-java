@@ -42,14 +42,16 @@ import java.util.jar.Manifest;
 public final class GrafanaOpenTelemetryAgent {
 
   public static void premain(String agentArgs, Instrumentation inst) {
-    startAgent(inst, true);
+    startAgent(inst, true, agentArgs);
   }
 
   public static void agentmain(String agentArgs, Instrumentation inst) {
-    startAgent(inst, false);
+    startAgent(inst, false, agentArgs);
   }
 
-  private static void startAgent(Instrumentation inst, boolean fromPremain) {
+  private static void startAgent(Instrumentation inst, boolean fromPremain, String agentArgs) {
+    System.out.println("GrafanaOpenTelemetryAgent startAgent");
+
     try {
       File javaagentFile = installBootstrapJar(inst);
       InstrumentationHolder.setInstrumentation(inst);
@@ -57,7 +59,7 @@ public final class GrafanaOpenTelemetryAgent {
       AgentInitializer.initialize(inst, javaagentFile, fromPremain);
     } catch (Throwable ex) {
       // Don't rethrow.  We don't have a log manager here, so just print.
-      System.err.println("ERROR " + OpenTelemetryAgent.class.getName());
+      System.err.println("ERROR " + GrafanaOpenTelemetryAgent.class.getName());
       ex.printStackTrace();
     }
   }
@@ -66,12 +68,12 @@ public final class GrafanaOpenTelemetryAgent {
       throws IOException, URISyntaxException {
     // we are not using OpenTelemetryAgent.class.getProtectionDomain().getCodeSource() to get agent
     // location because getProtectionDomain does a permission check with security manager
-    ClassLoader classLoader = OpenTelemetryAgent.class.getClassLoader();
+    ClassLoader classLoader = GrafanaOpenTelemetryAgent.class.getClassLoader();
     if (classLoader == null) {
       classLoader = ClassLoader.getSystemClassLoader();
     }
     URL url =
-        classLoader.getResource(OpenTelemetryAgent.class.getName().replace('.', '/') + ".class");
+        classLoader.getResource(GrafanaOpenTelemetryAgent.class.getName().replace('.', '/') + ".class");
     if (url == null || !"jar".equals(url.getProtocol())) {
       throw new IllegalStateException("could not get agent jar location from url " + url);
     }
@@ -126,7 +128,7 @@ public final class GrafanaOpenTelemetryAgent {
    */
   public static void main(String... args) {
     try {
-      System.out.println(OpenTelemetryAgent.class.getPackage().getImplementationVersion());
+      System.out.println(GrafanaOpenTelemetryAgent.class.getPackage().getImplementationVersion());
     } catch (RuntimeException e) {
       System.out.println("Failed to parse agent version");
       e.printStackTrace();
