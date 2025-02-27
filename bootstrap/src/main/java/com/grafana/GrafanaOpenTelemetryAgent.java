@@ -1,5 +1,5 @@
 /*
- * Copyright The OpenTelemetry Authors
+ * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -73,7 +73,8 @@ public final class GrafanaOpenTelemetryAgent {
       classLoader = ClassLoader.getSystemClassLoader();
     }
     URL url =
-        classLoader.getResource(GrafanaOpenTelemetryAgent.class.getName().replace('.', '/') + ".class");
+        classLoader.getResource(
+            GrafanaOpenTelemetryAgent.class.getName().replace('.', '/') + ".class");
     if (url == null || !"jar".equals(url.getProtocol())) {
       throw new IllegalStateException("could not get agent jar location from url " + url);
     }
