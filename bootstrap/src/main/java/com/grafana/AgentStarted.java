@@ -6,6 +6,7 @@
 package com.grafana;
 
 public class AgentStarted {
+  @SuppressWarnings("SystemOut")
   public static void run(String agentArgs) {
     boolean debug = false;
     if (!agentArgs.isEmpty()) {

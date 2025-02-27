@@ -68,7 +68,7 @@ subprojects {
         "*.sh",
         "src/**/*.properties",
       )
-      indentWithSpaces()
+      leadingTabsToSpaces()
       trimTrailingWhitespace()
       endWithNewline()
     }
