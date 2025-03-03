@@ -9,7 +9,7 @@ public class AgentStarted {
   @SuppressWarnings("SystemOut")
   public static void run(String agentArgs) {
     boolean debug = false;
-    if (!agentArgs.isEmpty()) {
+    if (agentArgs != null && !agentArgs.isEmpty()) {
       String[] options = agentArgs.split(",");
       for (String option : options) {
         String[] keyValue = option.split("=");
