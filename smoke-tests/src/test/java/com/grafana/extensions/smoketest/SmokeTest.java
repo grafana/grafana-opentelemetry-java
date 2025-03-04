@@ -89,7 +89,7 @@ public abstract class SmokeTest {
                 MountableFile.forHostPath(agentPath), "/opentelemetry-javaagent.jar")
             .withEnv(
                 "JAVA_TOOL_OPTIONS",
-                "-javaagent:/opentelemetry-javaagent.jar=grafana.otel.debug-agent-startup=true,"
+                "-javaagent:/opentelemetry-javaagent.jar=grafana.otel.debug-agent-startup=true;"
                     + extraCliArgs)
             .withEnv("OTEL_BSP_MAX_EXPORT_BATCH", "1")
             .withEnv("OTEL_BSP_SCHEDULE_DELAY", "10")
