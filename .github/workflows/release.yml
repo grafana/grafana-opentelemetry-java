@@ -42,4 +42,5 @@ jobs:
             type=match,pattern=v(.*),group=1
             latest
           environment: "prod"
+          platforms: linux/amd64,linux/arm64
 
