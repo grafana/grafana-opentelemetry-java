@@ -36,7 +36,7 @@ class SpringBootSmokeTest extends SmokeTest {
 
   @Test
   public void checkDistributionVersion() throws IOException, InterruptedException {
-    startTarget("grafana.otel.use-tested-instrumentations=true");
+    startTarget("-Dgrafana.otel.use-tested-instrumentations=true");
 
     String response = makeGreetCall();
 
@@ -64,7 +64,7 @@ class SpringBootSmokeTest extends SmokeTest {
 
   @Test
   public void applicationObservabilityMetrics() throws IOException, InterruptedException {
-    startTarget("grafana.otel.application-observability-metrics=true");
+    startTarget("-Dgrafana.otel.application-observability-metrics=true");
 
     makeGreetCall();
 
@@ -83,7 +83,7 @@ class SpringBootSmokeTest extends SmokeTest {
 
   @Test
   public void includeServerAddress() {
-    startTarget("grafana.otel.http-server-request-duration.server-attributes.enabled=true");
+    startTarget("-Dgrafana.otel.http-server-request-duration.server-attributes.enabled=true");
 
     makeGreetCall();
 
