@@ -43,8 +43,8 @@ class SpringBootSmokeTest extends SmokeTest {
     Collection<ExportTraceServiceRequest> traces = waitForTraces();
 
     assertThat(response).isEqualTo("Hi!");
-    assertThat(countSpansByName(traces, "GET /greeting")).isEqualTo(1);
-    assertThat(countSpansByName(traces, "WebController.withSpan")).isEqualTo(1);
+    assertThat(countSpansByName(traces, "GET /greeting")).isOne();
+    assertThat(countSpansByName(traces, "WebController.withSpan")).isOne();
     assertThat(
             countResourcesByValue(traces, "telemetry.distro.version", DistributionVersion.VERSION))
         .isGreaterThan(0);
