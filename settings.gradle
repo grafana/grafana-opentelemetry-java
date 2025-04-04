@@ -8,7 +8,6 @@ pluginManagement {
 rootProject.name = 'grafana-opentelemetry-java'
 
 include ":agent"
-include ":bootstrap"
 include ":custom"
 include ":smoke-tests"
 include ":testing:agent-for-testing"

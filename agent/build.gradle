@@ -27,8 +27,6 @@ configurations {
 }
 
 dependencies {
-  bootstrapLibs(project(":bootstrap"))
-
   javaagentLibs(project(":custom"))
 
   upstreamAgent("io.opentelemetry.javaagent:opentelemetry-javaagent:${versions.opentelemetryJavaagent}")
@@ -109,9 +107,9 @@ tasks {
 
     archiveFileName = "grafana-opentelemetry-java.jar"
     manifest {
-      attributes.put("Main-Class", "com.grafana.GrafanaOpenTelemetryAgent")
-      attributes.put("Agent-Class", "com.grafana.GrafanaOpenTelemetryAgent")
-      attributes.put("Premain-Class", "com.grafana.GrafanaOpenTelemetryAgent")
+      attributes.put("Main-Class", "io.opentelemetry.javaagent.OpenTelemetryAgent")
+      attributes.put("Agent-Class", "io.opentelemetry.javaagent.OpenTelemetryAgent")
+      attributes.put("Premain-Class", "io.opentelemetry.javaagent.OpenTelemetryAgent")
       attributes.put("Can-Redefine-Classes", "true")
       attributes.put("Can-Retransform-Classes", "true")
       attributes.put("Implementation-Vendor", "Grafana Labs")
