@@ -2,10 +2,9 @@
 
 set -euo pipefail
 
-tag=$1
-newVersion=${tag#v}
+newVersion=${TAG#v}
 if [ -z "$newVersion" ]; then
-  echo "new version is missing"
+  echo "TAG is missing"
   exit 1
 fi
 
