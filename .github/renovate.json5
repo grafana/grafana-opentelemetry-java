@@ -4,7 +4,7 @@
     'config:recommended',
   ],
   branchPrefix: 'grafanarenovatebot/',
-  platformCommit: true,
+  platformCommit: 'enabled',
   automerge: true,
   dependencyDashboard: false,
   forkProcessing: 'enabled',
