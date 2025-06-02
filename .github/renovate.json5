@@ -74,8 +74,8 @@
       customType: 'regex',
       depNameTemplate: 'ghcr.io/renovatebot/renovate',
       datasourceTemplate: 'docker',
-      fileMatch: [
-        '^\\.github/workflows/.*\\.ya?ml$',
+      managerFilePatterns: [
+        '/^\\.github/workflows/.*\\.ya?ml$/',
       ],
       matchStrings: [
         'renovate-version: (?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?',
@@ -85,9 +85,9 @@
     {
       customType: 'regex',
       description: 'Update _VERSION variables in Dockerfiles',
-      fileMatch: [
-        '(^|/|\\.)Dockerfile$',
-        '(^|/)Dockerfile\\.[^/]*$',
+      managerFilePatterns: [
+        '/(^|/|\\.)Dockerfile$/',
+        '/(^|/)Dockerfile\\.[^/]*$/',
       ],
       matchStrings: [
         '# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))? packageName=(?<packageName>.+?)(?: versioning=(?<versioning>[a-z-]+?))?\\s(?:ENV|ARG) .+?_VERSION=(?<currentValue>.+?)\\s',
