@@ -1,6 +1,15 @@
 changelog:
-  exclude:
-    authors:
-      - dependabot[bot]
-      - github-actions[bot]
-      - renovate[bot]
+  categories:
+    - title: 🏕 Features
+      labels:
+        - "*"
+      exclude:
+        labels:
+          - chore
+          - dependencies
+    - title: 🧹 Chore
+      labels:
+        - chore
+    - title: 👒 Dependencies
+      labels:
+        - dependencies
