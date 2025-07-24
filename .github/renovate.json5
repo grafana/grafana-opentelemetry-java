@@ -68,6 +68,15 @@
         "grafana/shared-workflows"
       ],
       versioning: "regex:^(?<compatibility>[a-z-]+)-v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$",
+    },
+    {
+      matchPackageNames: [
+        'io.opentelemetry.javaagent:opentelemetry-javaagent',
+      ],
+      // replace the "dependencies" label with "update-upstream"
+      labels: [
+        'update-upstream',
+      ]
     }
   ],
   vulnerabilityAlerts: {
