@@ -37,8 +37,7 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
 >
 > - You can use [OpenTelemetry Instrumentation for Java] directly for [Grafana Cloud Application Observability] -
 >   this distribution is just a convenience wrapper.
->   You can find more information [how to send telemetry data to Grafana Cloud Databases]
->   (https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/).
+>   You can find more information [how to send telemetry data to Grafana Cloud Databases].
 > - You can use this distribution for any OpenTelemetry use case, not just Grafana Cloud.
 > - You can migrate from this distribution to OpenTelemetry Instrumentation for Java as explained
 >   [below](#migrating-to-opentelemetry-instrumentation-for-java).
@@ -82,3 +81,4 @@ To engage with the Grafana Cloud Application Observability community:
 
 [OpenTelemetry Instrumentation for Java]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
 [Grafana Cloud Application Observability]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/
+[how to send telemetry data to Grafana Cloud Databases]: https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/
