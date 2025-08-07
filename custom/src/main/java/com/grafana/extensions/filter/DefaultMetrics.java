@@ -2,7 +2,6 @@
  * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */
-
 package com.grafana.extensions.filter;
 
 // This class is generated from README.md in custom/build.gradle.  Do not edit.

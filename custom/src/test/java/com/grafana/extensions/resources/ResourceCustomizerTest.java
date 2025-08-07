@@ -2,7 +2,6 @@
  * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */
-
 package com.grafana.extensions.resources;
 
 import static org.assertj.core.api.Assertions.assertThat;

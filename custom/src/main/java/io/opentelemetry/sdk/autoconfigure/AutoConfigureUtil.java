@@ -2,7 +2,6 @@
  * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */
-
 package io.opentelemetry.sdk.autoconfigure;
 
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;

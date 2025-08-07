@@ -2,7 +2,6 @@
  * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */
-
 package com.grafana.extensions.smoketest;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
