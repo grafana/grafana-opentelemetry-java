@@ -28,7 +28,7 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
   you can use all configuration options of upstream.
 - **Optimized for Application Observability and Alloy**: No need to tweak any configuration settings
   if you use the latest version of Alloy.
-- **Fast Bug Fixes**: We can fix bugs faster without waiting for the next release of
+- **Fast Bugfixes**: We can fix bugs faster without waiting for the next release of
   upstream.
 - **Cost Optimized**: You can save costs by sending only the metrics that are actually used by the dashboards in
   [Grafana Cloud Application Observability] ([opt-in](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java/configuration/#data-saver)).
@@ -37,8 +37,8 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
 >
 > - You can use [OpenTelemetry Instrumentation for Java] directly for [Grafana Cloud Application Observability] -
 >   this distribution is just a convenience wrapper.
->   You can find more information how to send telemetry data to Grafana Cloud Databases
->   [here](https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/).
+>   You can find more information [how to send telemetry data to Grafana Cloud Databases]
+>   (<https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/>).
 > - You can use this distribution for any OpenTelemetry use case, not just Grafana Cloud.
 > - You can migrate from this distribution to OpenTelemetry Instrumentation for Java as explained
 >   [below](#migrating-to-opentelemetry-instrumentation-for-java).
@@ -52,8 +52,6 @@ The documentation can be found in [OpenTelemetry / Instrument an Application / G
 - Java 8+
 - Spring Boot 2.7+
   - Older Spring Boot versions also mostly work, but this is not tested explicitly
-- We regularly update to the latest version of [OpenTelemetry Instrumentation for Java] - you can find the current
-  version [here](https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6)
 
 ### Migrating to OpenTelemetry Instrumentation for Java
 
