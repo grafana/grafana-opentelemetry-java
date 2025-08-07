@@ -52,5 +52,5 @@ See [RELEASING](RELEASING.md).
 
 ## Known Issues
 
-The tests occasionally fail due to TestContainers not starting in time.  Please rerun the build for now, until a new
+The tests occasionally fail due to TestContainers not starting in time. Please rerun the build for now, until a new
 wait strategy can be determined.

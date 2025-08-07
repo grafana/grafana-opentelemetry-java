@@ -32,7 +32,7 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
   upstream.
 - **Cost Optimized**: You can save costs by sending only the metrics that are actually used by the dashboards in
   [Grafana Cloud Application Observability] ([opt-in](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java/configuration/#data-saver)).
-  
+
 > **Open Source Friendly**:
 >
 > - You can use [OpenTelemetry Instrumentation for Java] directly for [Grafana Cloud Application Observability] -
@@ -45,7 +45,7 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
 
 ## Documentation
 
-The documentation can be found in [Grafana Cloud / Application Observability / Instrument / Java](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java).
+The documentation can be found in [OpenTelemetry / Instrument an Application / Grafana Java Agent](https://grafana.com/docs/opentelemetry/instrument/grafana-java/).
 
 ### Compatibility
 
@@ -68,7 +68,7 @@ OpenTelemetry Instrumentation for Java:
 ```shell
 export OTEL_INSTRUMENTATION_MICROMETER_BASE_TIME_UNIT=s
 export OTEL_INSTRUMENTATION_LOG4J_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true
-export OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true 
+export OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true
 ```
 
 ## Community

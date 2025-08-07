@@ -3,7 +3,7 @@ name: markdown-link-check
 on:
   pull_request:
     paths:
-    - '**.md'
+      - "**.md"
 
 permissions: {}
 
@@ -24,4 +24,3 @@ jobs:
             --include-fragments
             --max-retries 6
             .
-
