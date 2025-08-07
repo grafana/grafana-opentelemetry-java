@@ -2,6 +2,7 @@
  * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.grafana.extensions.servertiming;
 
 import static io.opentelemetry.sdk.autoconfigure.AutoConfigureUtil.getConfig;

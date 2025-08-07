@@ -2,6 +2,7 @@
  * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.grafana.extensions.instrumentations;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -63,8 +64,8 @@ class TestedInstrumentationsCustomizerTest {
                     Map.of(),
                     Map.of(),
                     ("Grafana OpenTelemetry Javaagent: version=%s, includeAllInstrumentations=true,"
-                            + " useTestedInstrumentations=false, includedUntestedInstrumentations=[],"
-                            + " excludedInstrumentations=[]")
+                         + " useTestedInstrumentations=false, includedUntestedInstrumentations=[],"
+                         + " excludedInstrumentations=[]")
                         .formatted(DistributionVersion.VERSION),
                     ""))),
         Arguments.of(
@@ -154,8 +155,8 @@ class TestedInstrumentationsCustomizerTest {
                         "otel.instrumentation.common.default.enabled",
                         "false"),
                     ("Grafana OpenTelemetry Javaagent: version=%s,"
-                            + " includeAllInstrumentations=false, useTestedInstrumentations=false,"
-                            + " includedUntestedInstrumentations=[play], excludedInstrumentations=[]")
+                         + " includeAllInstrumentations=false, useTestedInstrumentations=false,"
+                         + " includedUntestedInstrumentations=[play], excludedInstrumentations=[]")
                         .formatted(DistributionVersion.VERSION),
                     ""))));
   }

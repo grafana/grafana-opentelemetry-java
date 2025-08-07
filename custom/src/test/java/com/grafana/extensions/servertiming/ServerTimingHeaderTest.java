@@ -2,6 +2,7 @@
  * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.grafana.extensions.servertiming;
 
 import static com.grafana.extensions.servertiming.ServerTimingHeaderCustomizer.EXPOSE_HEADERS;
