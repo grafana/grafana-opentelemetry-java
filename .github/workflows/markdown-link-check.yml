@@ -3,7 +3,7 @@ name: markdown-link-check
 on:
   pull_request:
     paths:
-    - '**.md'
+      - "**.md"
 
 permissions: {}
 
@@ -21,7 +21,4 @@ jobs:
           # remove version after next release of lychee-action
           lycheeVersion: latest
           args: >
-            --include-fragments
-            --max-retries 6
             .
-

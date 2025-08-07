@@ -1,103 +1,60 @@
 {
-  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    'config:recommended',
-    'customManagers:dockerfileVersions',
-    'customManagers:githubActionsVersions',
+    "config:recommended",
+    "customManagers:dockerfileVersions",
+    "customManagers:githubActionsVersions",
   ],
-  branchPrefix: 'grafanarenovatebot/',
-  platformCommit: 'enabled',
+  branchPrefix: "grafanarenovatebot/",
+  platformCommit: "enabled",
   automerge: true,
   dependencyDashboard: false,
-  forkProcessing: 'enabled',
-  rebaseWhen: 'behind-base-branch',
+  forkProcessing: "enabled",
+  rebaseWhen: "behind-base-branch",
   packageRules: [
     {
-      matchUpdateTypes: [
-        'major',
-      ],
-      addLabels: [
-        'update-major',
-      ],
+      matchUpdateTypes: ["major"],
+      addLabels: ["update-major"],
     },
     {
-      matchUpdateTypes: [
-        'minor',
-      ],
-      addLabels: [
-        'update-minor',
-      ],
+      matchUpdateTypes: ["minor"],
+      addLabels: ["update-minor"],
     },
     {
-      matchUpdateTypes: [
-        'patch',
-      ],
-      addLabels: [
-        'automerge-patch',
-      ],
+      matchUpdateTypes: ["patch"],
+      addLabels: ["automerge-patch"],
     },
     {
-      matchUpdateTypes: [
-        'digest',
-      ],
-      addLabels: [
-        'update-digest',
-      ],
+      matchUpdateTypes: ["digest"],
+      addLabels: ["update-digest"],
     },
     {
-      matchFileNames: [
-        '.tool-versions',
-      ],
-      matchPackageNames: [
-        'node',
-      ],
+      matchFileNames: [".tool-versions"],
+      matchPackageNames: ["node"],
       enabled: false,
     },
     {
       matchPackageNames: [
-        'ghcr.io/renovatebot/renovate',
-        'renovatebot/github-action',
+        "ghcr.io/renovatebot/renovate",
+        "renovatebot/github-action",
       ],
-      groupName: 'renovatebot',
-      schedule: [
-        'before 4am on monday',
-      ],
+      groupName: "renovatebot",
+      schedule: ["before 4am on monday"],
     },
     {
-      matchPackageNames: [
-        "grafana/shared-workflows"
-      ],
+      matchPackageNames: ["grafana/shared-workflows"],
       versioning: "regex:^(?<compatibility>[a-z-]+)-v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$",
     },
     {
-      matchPackageNames: [
-        'io.opentelemetry.javaagent:opentelemetry-javaagent',
-      ],
+      matchPackageNames: ["io.opentelemetry.javaagent:opentelemetry-javaagent"],
       // replace the "dependencies" label with "update-upstream"
-      labels: [
-        'update-upstream',
-      ]
-    }
+      labels: ["update-upstream"],
+    },
   ],
   vulnerabilityAlerts: {
     enabled: true,
-    addLabels: [
-      'automerge-security-update',
-    ],
+    addLabels: ["automerge-security-update"],
   },
   osvVulnerabilityAlerts: true,
-  customManagers: [
-    {
-      customType: 'regex',
-      depNameTemplate: 'ghcr.io/renovatebot/renovate',
-      datasourceTemplate: 'docker',
-      managerFilePatterns: [
-        '/^\\.github/workflows/.*\\.ya?ml$/',
-      ],
-      matchStrings: [
-        'renovate-version: (?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?',
-        'RENOVATE_IMAGE=ghcr.io/renovatebot/renovate:(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>\\S+))?',
-      ],
-    },
-  ],
+  customManagers: [],
 }
