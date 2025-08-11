@@ -7,7 +7,7 @@
 ARG GRAFANA_OPENTELEMETRY_VERSION=2.18.1@sha256:af7abee673d16b94513715c7c2e6d9246b1109dba953353501a3a1eeb2dbec2d
 FROM us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java:$GRAFANA_OPENTELEMETRY_VERSION AS agent
 
-FROM springio/petclinic
+FROM springio/petclinic@sha256:fbb6f32dff6b4b05aa0bb4252a674a2084ecd26137793c88213385e62a6ea171
 
 # 1. Install Alloy or OpenTelemetry Collector: https://grafana.com/docs/grafana-cloud/monitor-applications/collector
 
