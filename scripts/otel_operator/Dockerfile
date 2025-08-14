@@ -1,5 +1,5 @@
 # Based on https://github.com/open-telemetry/opentelemetry-operator/blob/main/autoinstrumentation/java/Dockerfile
-FROM busybox@sha256:f9a104fddb33220ec80fc45a4e606c74aadf1ef7a3832eb0b05be9e90cd61f5f
+FROM busybox@sha256:de02f124ed06177f8dfc9389aae2d7eaa69c687a68ea5d5398430c7583865691
 
 COPY agent/build/libs/grafana-opentelemetry-java.jar /javaagent.jar
 
