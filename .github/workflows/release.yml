@@ -37,7 +37,7 @@ jobs:
             agent/build/libs/grafana-opentelemetry-java.jar
             LICENSE
       - name: Push to Docker (for OpenTelemetry Operator)
-        uses: grafana/shared-workflows/actions/push-to-gar-docker@main
+        uses: grafana/shared-workflows/actions/push-to-gar-docker@dc66ed7a5dc1f49848b06068ae024e96e26d4761 # push-to-gar-docker/v0.5.2
         with:
           registry: "us-docker.pkg.dev"
           image_name: grafana-opentelemetry-java
