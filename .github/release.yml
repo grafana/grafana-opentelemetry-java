@@ -1,5 +1,8 @@
 changelog:
   categories:
+    - title: Upstream Updates
+      labels:
+        - update-upstream
     - title: 🏕 Features
       labels:
         - "*"
@@ -7,6 +10,7 @@ changelog:
         labels:
           - chore
           - dependencies
+          - update-upstream
     - title: 🧹 Chore
       labels:
         - chore

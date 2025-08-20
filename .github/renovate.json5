@@ -11,6 +11,7 @@
   dependencyDashboard: false,
   forkProcessing: "enabled",
   rebaseWhen: "behind-base-branch",
+  labels: ["dependencies"],
   packageRules: [
     {
       matchUpdateTypes: ["major"],
