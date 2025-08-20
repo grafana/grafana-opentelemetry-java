@@ -5,7 +5,7 @@
 
 # Use renovate to keep the version up-to-date
 # renovate: datasource=github-releases depName=grafana-opentelemetry-java packageName=grafana/grafana-opentelemetry-java
-ARG GRAFANA_OPENTELEMETRY_VERSION=2.18.1@sha256:af7abee673d16b94513715c7c2e6d9246b1109dba953353501a3a1eeb2dbec2d
+ARG GRAFANA_OPENTELEMETRY_VERSION=v2.19.0
 FROM us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java:$GRAFANA_OPENTELEMETRY_VERSION AS agent
 
 FROM springio/petclinic@sha256:fbb6f32dff6b4b05aa0bb4252a674a2084ecd26137793c88213385e62a6ea171
