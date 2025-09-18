@@ -26,7 +26,7 @@ public class TestedInstrumentationsSmokeTest extends SmokeTest {
     }
     return "ghcr.io/open-telemetry/opentelemetry-java-instrumentation/smoke-test-play:jdk"
         + jdk
-        + "-20210917.1246460868";
+        + "-20241022.11450623960";
   }
 
   @Test

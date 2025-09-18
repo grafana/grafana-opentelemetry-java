@@ -64,7 +64,7 @@ public abstract class SmokeTest {
   static void setupSpec() {
     backend =
         new GenericContainer<>(
-                "ghcr.io/open-telemetry/opentelemetry-java-instrumentation/smoke-test-fake-backend:20221127.3559314891")
+                "ghcr.io/open-telemetry/opentelemetry-java-instrumentation/smoke-test-fake-backend:20250811.16876216352")
             .withExposedPorts(8080)
             .waitingFor(Wait.forHttp("/health").forPort(8080))
             .withNetwork(network)
@@ -94,7 +94,7 @@ public abstract class SmokeTest {
             .withEnv("OTEL_PROPAGATORS", "tracecontext,baggage")
             .withEnv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://backend:8080")
             .withEnv("OTEL_EXPORTER_OTLP_PROTOCOL", "grpc")
-            .withEnv("GRAFANA_OTLP_DEBUG_LOGGING", "true");
+            .withEnv("OTEL_TRACES_EXPORTER", "otlp,console");
     target.start();
   }
 
