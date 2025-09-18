@@ -24,7 +24,7 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
         .addResourceCustomizer(ResourceCustomizer::truncate);
   }
 
-  private static Map<String, String> getDefaultProperties() {
+  static Map<String, String> getDefaultProperties() {
     HashMap<String, String> map = new HashMap<>();
     map.put("otel.instrumentation.micrometer.base-time-unit", "s");
     map.put("otel.instrumentation.log4j-appender.experimental-log-attributes", "true");
