@@ -32,7 +32,7 @@ subprojects {
       autoservice                : "1.1.1",
       junit                      : "5.13.4",
       logUnit                    : "2.0.0",
-      assertj                    : "3.27.5",
+      assertj                    : "3.27.6",
     ]
 
     deps = [
