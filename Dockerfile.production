@@ -2,8 +2,6 @@
 # - Spring petclinic: https://github.com/spring-projects/spring-petclinic
 # - Alloy OR OpenTelemetry Collector
 
-# Use renovate to keep the version up-to-date
-# renovate: datasource=github-releases depName=grafana-opentelemetry-java packageName=grafana/grafana-opentelemetry-java
 ARG GRAFANA_OPENTELEMETRY_VERSION=2.20.1@sha256:7ec45f938e09dd4734042a3fb160e5e830fa83e51a499b23f3411ace7a491cb3
 FROM us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java:$GRAFANA_OPENTELEMETRY_VERSION AS agent
 
