@@ -3,8 +3,6 @@
 # - Grafana Cloud OTLP Gateway: https://github.com/grafana/grafana-opentelemetry-java#grafana-cloud-otlp-gateway
 # For production, use Dockerfile.production instead.
 
-# Use renovate to keep the version up-to-date
-# renovate: datasource=github-releases depName=grafana-opentelemetry-java packageName=grafana/grafana-opentelemetry-java
 ARG GRAFANA_OPENTELEMETRY_VERSION=2.20.1@sha256:7ec45f938e09dd4734042a3fb160e5e830fa83e51a499b23f3411ace7a491cb3
 FROM us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java:$GRAFANA_OPENTELEMETRY_VERSION AS agent
 
