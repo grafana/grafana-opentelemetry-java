@@ -28,7 +28,7 @@ subprojects {
       opentelemetryJavaagent     : otelInstrumentationVersion,
       opentelemetryJavaagentAlpha: "${otelInstrumentationVersion}-alpha",
 
-      bytebuddy                  : "1.17.7",
+      bytebuddy                  : "1.17.8",
       autoservice                : "1.1.1",
       junit                      : "6.0.0",
       logUnit                    : "2.0.0",
