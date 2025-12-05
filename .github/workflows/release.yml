@@ -5,37 +5,49 @@ on:
     tags:
       - "v*.*.*"
 
-permissions:
-  contents: write
-  id-token: write
+permissions: {}
 
 jobs:
   release:
     runs-on: ubuntu-24.04
+
+    concurrency:
+      group: "${{ github.workflow }}-${{ github.sha }}"
+      cancel-in-progress: false
+
+    permissions:
+      contents: write
+      id-token: write
+
     steps:
       - name: Check out
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           persist-credentials: false
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
       - name: Set up JDK
         uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5.0.0
         with:
           java-version: 17
           distribution: temurin
+
       - name: Setup Gradle and run build
         uses: gradle/actions/setup-gradle@4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2 # v5.0.0
         with:
           cache-disabled: "true"
+
       - name: Build
         run: ./scripts/build-release.sh
         env:
           TAG: ${{ github.ref_name }}
+
       - name: Release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
           files: |
             agent/build/libs/grafana-opentelemetry-java.jar
             LICENSE
+
       - name: Push to Docker (for OpenTelemetry Operator)
         uses: grafana/shared-workflows/actions/push-to-gar-docker@dc66ed7a5dc1f49848b06068ae024e96e26d4761 # push-to-gar-docker/v0.5.2
         with:
