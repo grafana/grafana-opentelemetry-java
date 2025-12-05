@@ -1,0 +1,134 @@
+---
+name: Publish Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      draft:
+        description: "If true, creates the release as a draft."
+        required: false
+        type: boolean
+        default: true
+      version:
+        description: "The optional version number to use for the release."
+        required: false
+        type: string
+        default: ""
+
+permissions: {}
+
+jobs:
+  release:
+    runs-on: [ubuntu-latest]
+
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: false
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Get GitHub token
+        id: get-token
+        uses: grafana/shared-workflows/actions/create-github-app-token@ae92934a14a48b94494dbc06d74a81d47fe08a40 # v0.2.2
+        with:
+          github_app: grafana-otel-bot
+          permission_set: default
+
+      - name: Determine next version
+        id: get-version
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ steps.get-token.outputs.token }}
+          NEXT_VERSION: ${{ inputs.version }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          $ProgressPreference = "SilentlyContinue"
+
+          # Get the Java instrumentation version from the specified Git reference
+          function Get-Instrumentation-Version {
+            param([string]$Reference)
+
+            $url = "https://raw.githubusercontent.com/${env:GITHUB_REPOSITORY}/${Reference}/build.gradle"
+            $gradle = (Invoke-WebRequest -Uri $url -UseBasicParsing).Content
+
+            $OTelVersion = 'otelInstrumentationVersion\s*=\s*["''](?<version>[^"'']+)["'']'
+            $match = [regex]::Match($gradle, $OTelVersion)
+
+            if (-Not $match.Success) {
+                throw "Failed to determine OpenTelemetry instrumentation version from $Ref"
+            }
+
+            $version = $match.Groups['version'].Value
+
+            if ([string]::IsNullOrEmpty($version)) {
+                throw "Failed to get OpenTelemetry instrumentation version from $Ref"
+            }
+
+            $version
+          }
+
+          function Get-Next-Distro-Version {
+            param([string]$NextVersion)
+
+            # Use the version as provided
+            if (-Not [string]::IsNullOrEmpty($NextVersion)) {
+              [System.Version]::new($NextVersion.TrimStart('v')).ToString()
+              return
+            }
+
+            # Get the version from the current branch
+            $current = Get-Instrumentation-Version ${env:GITHUB_REF_NAME}
+            $currentVersion = [System.Version]::new($current)
+
+            # Get the current release version from the latest GitHub release
+            $latest = (gh api "/repos/${env:GITHUB_REPOSITORY}/releases/latest" --jq .tag_name).TrimStart('v')
+
+            if ($LASTEXITCODE -ne 0) {
+              throw "Failed to get latest release version"
+            }
+
+            $latestVersion = [System.Version]::new($latest)
+
+            if ($currentVersion -gt $latestVersion) {
+              # There are changes to release
+              $currentVersion.ToString()
+            } else {
+              # No changes to release
+              ""
+            }
+          }
+
+          $releaseVersion = Get-Next-Distro-Version ${env:NEXT_VERSION}
+          "version=${releaseVersion}" >> ${env:GITHUB_OUTPUT}
+
+      - name: Create release
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        if: steps.get-version.outputs.version != ''
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          DRAFT: ${{ inputs.draft == true }}
+          VERSION: ${{ steps.get-version.outputs.version }}
+        with:
+          github-token: ${{ steps.get-token.outputs.token }}
+          script: |
+            const { repo, owner } = context.repo;
+            const draft = process.env.DRAFT === 'true';
+            const version = process.env.VERSION;
+            const tag_name = `v${version}`;
+            const target_commitish = process.env.DEFAULT_BRANCH;
+            const name = tag_name;
+
+            const { data: release } = await github.rest.repos.createRelease({
+              owner,
+              repo,
+              tag_name,
+              target_commitish,
+              name,
+              draft,
+              generate_release_notes: true,
+            });
+
+            core.notice(`Created release ${release.name}: ${release.html_url}`);
