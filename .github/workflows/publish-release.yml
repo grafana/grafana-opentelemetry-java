@@ -19,7 +19,8 @@ permissions: {}
 
 jobs:
   release:
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     concurrency:
       group: ${{ github.workflow }}
@@ -58,13 +59,13 @@ jobs:
             $match = [regex]::Match($gradle, $OTelVersion)
 
             if (-Not $match.Success) {
-                throw "Failed to determine OpenTelemetry instrumentation version from $Ref"
+                throw "Failed to determine OpenTelemetry instrumentation version from $Reference"
             }
 
             $version = $match.Groups['version'].Value
 
             if ([string]::IsNullOrEmpty($version)) {
-                throw "Failed to get OpenTelemetry instrumentation version from $Ref"
+                throw "Failed to get OpenTelemetry instrumentation version from $Reference"
             }
 
             $version
