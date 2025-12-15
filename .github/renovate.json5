@@ -8,7 +8,7 @@
   branchPrefix: "grafanarenovatebot/",
   platformCommit: "enabled",
   automerge: true,
-  dependencyDashboard: false,
+  dependencyDashboard: true,
   forkProcessing: "enabled",
   rebaseWhen: "behind-base-branch",
   labels: ["dependencies"],
