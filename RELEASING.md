@@ -1,13 +1,43 @@
 # Releasing
 
-1. Go to <https://github.com/grafana/grafana-opentelemetry-java/releases/new>
-2. Click on "Choose a tag", enter the tag name (e.g. `v0.1.0`), and click "Create a new tag".
-   The version number should be the same as the
-   [upstream version](https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases) that we are using.
-   Bugfix releases should be `v2.3.4.1`, where `2.3.4` is the upstream version.
-3. Click on "Generate release notes" to auto-generate the release notes based on the commits since the last release.
-   - Exclude the commits that are not relevant for the release notes, such as "Update dependencies".
-   - Usually, it's just updating the upstream version.
-   - Include a link to the upstream release notes, e.g. "Update to [OpenTelemetry 2.9.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-290-2024-10-17)".
-4. Click on "Publish release".
-5. The actual release is done by GitHub Actions, which will build the distribution and upload it to the release.
+> [!IMPORTANT]
+> Releases are [immutable][immutable-releases] and cannot be changed or their associated tag
+> deleted once published.
+>
+> However, the description can still be edited to fix any mistakes or omissions after publishing.
+
+## Scheduled Releases
+
+Releases are automatically published on a weekly basis via a
+[scheduled GitHub Actions workflow][scheduled-release]. The workflow runs every Friday at 09:00 UTC
+and will publish a new release if any changes have been made to the
+[`otelInstrumentationVersion` variable][otel-java-instrumentation-version] which tracks the latest
+version of the [OpenTelemetry Instrumentation for Java][otel-java-instrumentation-latest] since the
+[latest release][latest-release] of the Grafana Java distribution for OpenTelemetry.
+
+The release version will match the version specified by the `otelInstrumentationVersion` variable.
+
+## Manual Releases
+
+1. Open the [Publish Release workflow][publish-release]
+1. Click on the **Run workflow** button
+1. If required, enter a specific version number (e.g. `x.y.z`) in the version field. If left
+   blank, the version will track the version in [`otelInstrumentationVersion`][otel-java-instrumentation-version].
+   Bugfix releases should be `x.y.z.1`, where `x.y.z` is the upstream version.
+1. Wait for the workflow to complete successfully.
+1. Click the link in the workflow run summary to the untagged release created by the workflow.
+1. Click the edit button (pencil icon) at the top right of the release notes.
+1. Verify that the release notes are correct. Make any manual adjustments if necessary.
+   - Include a link to the upstream release notes,
+     e.g. _"Update to [OpenTelemetry 2.9.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-290-2024-10-17)"_.
+1. Click on **Publish release**.
+
+<!-- editorconfig-checker-disable -->
+<!-- markdownlint-disable MD013 -->
+
+[immutable-releases]: https://docs.github.com/code-security/supply-chain-security/understanding-your-software-supply-chain/immutable-releases
+[otel-java-instrumentation-latest]: https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest
+[otel-java-instrumentation-version]: https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6
+[latest-release]: https://github.com/grafana/grafana-opentelemetry-java/releases/latest
+[publish-release]: https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/publish-release.yml
+[scheduled-release]: https://github.com/grafana/grafana-opentelemetry-java/blob/main/.github/workflows/scheduled-release.yml
