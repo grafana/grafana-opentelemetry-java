@@ -5,7 +5,7 @@
 
 package com.grafana.extensions.servertiming;
 
-import static io.opentelemetry.sdk.autoconfigure.AutoConfigureUtil.getConfig;
+import static io.opentelemetry.sdk.autoconfigure.internal.AutoConfigureUtil.getConfig;
 
 import io.opentelemetry.javaagent.extension.AgentListener;
 import io.opentelemetry.sdk.autoconfigure.AutoConfiguredOpenTelemetrySdk;
