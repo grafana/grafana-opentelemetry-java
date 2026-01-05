@@ -29,6 +29,13 @@ public class TestedInstrumentationsSmokeTest extends SmokeTest {
         + "-20241022.11450623960";
   }
 
+  @Override
+  protected void startTarget(String extraCliArgs) {
+    super.startTarget(
+        extraCliArgs
+            + " -Dotel.instrumentation.common.experimental.controller-telemetry.enabled=true");
+  }
+
   @Test
   public void untestedInstrumentationsAreExcluded() throws IOException, InterruptedException {
     startTarget("-Dgrafana.otel.use-tested-instrumentations=true");
