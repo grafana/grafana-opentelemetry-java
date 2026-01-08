@@ -21,16 +21,9 @@ jobs:
         with:
           persist-credentials: false
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - name: Set up JDK
-        uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
-        with:
-          java-version: 17
-          distribution: temurin
-          cache: "gradle"
-      - name: Setup Gradle and run build
-        uses: gradle/actions/setup-gradle@4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2 # v5.0.0
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
       - name: Build
-        run: ./gradlew build
+        run: mise run build
         env:
           CHECK_GENERATED_FILES: true
           SMOKE_TEST_JAVA_VERSION: ${{ matrix.java }} # the smoke tests will pick this up

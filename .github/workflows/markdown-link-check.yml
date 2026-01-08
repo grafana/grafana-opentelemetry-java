@@ -15,10 +15,6 @@ jobs:
         with:
           persist-credentials: false
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-
-      - uses: lycheeverse/lychee-action@a8c4c7cb88f0c7386610c35eb25108e448569cb0 # v2.7.0
-        with:
-          # remove version after next release of lychee-action
-          lycheeVersion: latest
-          args: >
-            .
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
+      - name: Lint links
+        run: mise run lint-links
