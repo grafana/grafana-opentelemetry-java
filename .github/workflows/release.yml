@@ -26,19 +26,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up JDK
-        uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
-        with:
-          java-version: 17
-          distribution: temurin
-
-      - name: Setup Gradle and run build
-        uses: gradle/actions/setup-gradle@4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2 # v5.0.0
-        with:
-          cache-disabled: "true"
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
 
       - name: Build
-        run: ./scripts/build-release.sh
+        run: mise run build-release
         env:
           TAG: ${{ github.ref_name }}
 
