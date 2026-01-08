@@ -9,7 +9,7 @@ if [ -z "$newVersion" ]; then
 fi
 
 if [[ ! "$newVersion" =~ ^2\.[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
-	echo "new version $newVersion is not valid - new version should be in the format of x.y.z.g?"
+	echo "new version $newVersion is not valid - new version should be in the format of 2.y.z.g?"
 	exit 1
 fi
 
