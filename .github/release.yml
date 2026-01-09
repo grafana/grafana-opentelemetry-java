@@ -7,13 +7,14 @@ changelog:
       labels:
         - "*"
       exclude:
+        authors:
+          - dependabot[bot]
+          - grafanarenovatebot[bot]
+          - renovate-sh-app[bot]
+          - renovatebot[bot]
         labels:
           - chore
-          - dependencies
           - update-upstream
     - title: 🧹 Chore
       labels:
         - chore
-    - title: 👒 Dependencies
-      labels:
-        - dependencies
