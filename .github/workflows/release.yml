@@ -55,14 +55,15 @@ jobs:
             LICENSE
 
       - name: Push to Docker (for OpenTelemetry Operator)
-        uses: grafana/shared-workflows/actions/push-to-gar-docker@dc66ed7a5dc1f49848b06068ae024e96e26d4761 # push-to-gar-docker/v0.5.2
+        uses: grafana/shared-workflows/actions/docker-build-push-image@b3d136565946d8788dd6812881fb0fb2fe14bacb # docker-build-push-image/v0.2.0
         with:
-          registry: "us-docker.pkg.dev"
-          image_name: grafana-opentelemetry-java
           context: .
+          gar-environment: "prod"
+          gar-image: grafana-opentelemetry-java
+          gar-registry: "us-docker.pkg.dev"
           file: scripts/otel_operator/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          registries: gar
           tags: |
             type=match,pattern=v(.*),group=1
             latest
-          environment: "prod"
-          platforms: linux/amd64,linux/arm64
