@@ -17,6 +17,7 @@ jobs:
       cancel-in-progress: false
 
     permissions:
+      actions: read
       contents: write
       id-token: write
 
@@ -35,10 +36,19 @@ jobs:
         env:
           TAG: ${{ github.ref_name }}
 
+      - name: Get release actor
+        id: get-release-actor
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $actor = (gh api "repos/${env:GITHUB_REPOSITORY}/actions/workflows/publish-release.yml/runs" --jq '.workflow_runs[0].actor.login')
+          "release-actor=${actor}" >> ${env:GITHUB_OUTPUT}
+
       - name: Release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
-          draft: true # TODO How do we undraft if the release was created by grafana-otel-bot?
+          draft: ${{ steps.get-release-actor.outputs.release-actor != 'github-actions[bot]' }}
           generate_release_notes: true
           files: |
             agent/build/libs/grafana-opentelemetry-java.jar
