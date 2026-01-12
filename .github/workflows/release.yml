@@ -36,19 +36,19 @@ jobs:
         env:
           TAG: ${{ github.ref_name }}
 
-      - name: Get release actor
-        id: get-release-actor
+      - name: Get release actor user type
+        id: get-release-actor-user-type
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          $actor = (gh api "repos/${env:GITHUB_REPOSITORY}/actions/workflows/publish-release.yml/runs" --jq '.workflow_runs[0].actor.login')
-          "release-actor=${actor}" >> ${env:GITHUB_OUTPUT}
+          $actorType = (gh api "repos/${env:GITHUB_REPOSITORY}/actions/workflows/publish-release.yml/runs" --jq '.workflow_runs[0].actor.type')
+          "release-actor-user-type=${actorType}" >> ${env:GITHUB_OUTPUT}
 
       - name: Release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
-          draft: ${{ steps.get-release-actor.outputs.release-actor != 'github-actions[bot]' }}
+          draft: ${{ steps.get-release-actor-user-type.outputs.release-actor-user-type == 'User' }}
           generate_release_notes: true
           files: |
             agent/build/libs/grafana-opentelemetry-java.jar
