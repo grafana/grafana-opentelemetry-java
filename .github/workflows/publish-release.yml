@@ -107,6 +107,7 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        if: steps.get-version.outputs.version != ''
         with:
           fetch-depth: 0
           persist-credentials: true # zizmor: ignore[artipacked] Needed to push commits
@@ -116,6 +117,7 @@ jobs:
 
       - name: Configure Git
         shell: bash
+        if: steps.get-version.outputs.version != ''
         env:
           GH_APP_NAME: grafana-otel-bot
           GH_TOKEN: ${{ steps.get-token.outputs.token }}
@@ -127,6 +129,7 @@ jobs:
 
       - name: Create and push release tag
         shell: bash
+        if: steps.get-version.outputs.version != ''
         env:
           TAG: "v${{ steps.get-version.outputs.version }}"
         run: |
