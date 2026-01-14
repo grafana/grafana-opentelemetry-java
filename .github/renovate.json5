@@ -43,6 +43,13 @@
       schedule: ["before 4am on monday"],
     },
     {
+      matchPackageNames: [
+        "super-linter/super-linter",
+        "ghcr.io/super-linter/super-linter",
+      ],
+      groupName: "super-linter",
+    },
+    {
       matchPackageNames: ["grafana/shared-workflows"],
       versioning: "regex:^(?<compatibility>[a-z-]+)-v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$",
     },
@@ -57,5 +64,14 @@
     addLabels: ["automerge-security-update"],
   },
   osvVulnerabilityAlerts: true,
-  customManagers: [],
+  customManagers: [
+    {
+      customType: "regex",
+      description: "Update _VERSION variables in shell scripts",
+      fileMatch: ["\\.mise/tasks/.+\\.sh$"],
+      matchStrings: [
+        '# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))?(?: packageName=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s.+?_VERSION="?(?<currentValue>.+?)"?\\s',
+      ],
+    },
+  ],
 }
