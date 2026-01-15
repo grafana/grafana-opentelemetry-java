@@ -55,6 +55,7 @@
     },
     {
       matchPackageNames: ["io.opentelemetry.javaagent:opentelemetry-javaagent"],
+      // replace the "dependencies" label with "update-upstream"
       labels: ["update-upstream"],
     },
   ],
