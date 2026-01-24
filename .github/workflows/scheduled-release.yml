@@ -53,4 +53,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh workflow run publish-release.yml --field draft=false
+          gh workflow run publish-release.yml
