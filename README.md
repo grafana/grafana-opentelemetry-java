@@ -40,7 +40,7 @@ Why use this distribution instead of [OpenTelemetry Instrumentation for Java] (u
 >   You can find more information [how to send telemetry data to Grafana Cloud Databases].
 > - You can use this distribution for any OpenTelemetry use case, not just Grafana Cloud.
 > - You can migrate from this distribution to OpenTelemetry Instrumentation for Java as explained
->   [below](#migrating-to-opentelemetry-instrumentation-for-java).
+>   [below](README.md#migrating-to-opentelemetry-instrumentation-for-java).
 
 ## Documentation
 

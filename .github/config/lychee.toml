@@ -4,7 +4,7 @@ max_retries = 6
 max_concurrency = 4
 include_fragments = true
 
-base_url = "https://grafana.github.io/grafana-opentelemetry-java"
+base_url = "https://github.com/grafana/grafana-opentelemetry-java/blob/main/"
 
 remap = [
   "https://github.com/(.*?)/(.*?)/blob/(.*?)/(.*#.*)$ https://raw.githubusercontent.com/$1/$2/$3/$4"

@@ -27,7 +27,7 @@ This is the first GA release of this distribution.
 
 ## 2.6.0-beta.1 (2024-07-17)
 
-- Update to [OpenTelemetry 2.6.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-260-2024-07-16)
+- Update to [OpenTelemetry 2.6.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-260-2024-07-17)
 
 ## 2.5.0-beta.1 (2024-07-04)
 
@@ -50,7 +50,7 @@ This is the first GA release of this distribution.
 
 ## 2.1.0-beta.1 (2024-02-19)
 
-- Update to [OpenTelemetry 2.1.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-210-2024-02-15)
+- Update to [OpenTelemetry 2.1.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-210-2024-02-16)
   - Actuator instrumentation has been disabled by default. You can enable using
     `OTEL_INSTRUMENTATION_SPRING_BOOT_ACTUATOR_AUTOCONFIGURE_ENABLED=true` or
     `-Dotel.instrumentation.spring-boot-actuator-autoconfigure.enabled=true`.
@@ -74,7 +74,7 @@ This is the first GA release of this distribution.
   Please use `OTEL_*` environment variables instead
   (in the spirit of making it easy to migrate away from this distribution).
   - `GRAFANA_OTLP_DEBUG_LOGGING` and `GRAFANA_OTLP_LOGGING_EXPORTER_ENABLED`
-    ([details](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/instrument/jvm/#otlp-debug-logging))
+    ([details](https://grafana.com/docs/opentelemetry/instrument/grafana-java/#export-to-console))
   - `GRAFANA_CLOUD_INSTANCE_ID`, `GRAFANA_CLOUD_ZONE`, and `GRAFANA_CLOUD_API_KEY`
     ([details](https://grafana.com/docs/grafana-cloud/send-data/otlp/send-data-otlp/))
 
