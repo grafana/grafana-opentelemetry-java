@@ -1,7 +1,29 @@
 root = true
 
+[*]
+max_line_length = 100
+indent_size = 2
+
+# Long line exceptions
+[{renovate.json5,super-linter.env,.editorconfig}]
+max_line_length = 300
+
+[{docker-compose.yaml,docker-compose.yml,Dockerfile,mise.toml,.gitleaksignore}]
+max_line_length = 200
+
 [build.gradle]
 indent_size = 2
+max_line_length = 120
+
+[settings.gradle]
+max_line_length = 120
 
 [*.java]
 indent_size = 2
+
+[*.py]
+indent_size = 4
+max_line_length = 120
+
+[{.mise/tasks/**/*.sh,.github/workflows/*.yml}]
+max_line_length = 200

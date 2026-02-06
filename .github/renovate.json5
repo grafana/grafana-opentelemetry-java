@@ -1,10 +1,6 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: [
-    "config:recommended",
-    "customManagers:dockerfileVersions",
-    "customManagers:githubActionsVersions",
-  ],
+  extends: ["config:best-practices", "config:recommended"],
   branchPrefix: "grafanarenovatebot/",
   platformCommit: "enabled",
   automerge: true,
@@ -28,11 +24,6 @@
     {
       matchUpdateTypes: ["digest"],
       addLabels: ["update-digest"],
-    },
-    {
-      matchFileNames: [".tool-versions"],
-      matchPackageNames: ["node"],
-      enabled: false,
     },
     {
       matchPackageNames: [
@@ -67,10 +58,10 @@
   customManagers: [
     {
       customType: "regex",
-      description: "Update _VERSION variables in shell scripts",
-      managerFilePatterns: ["/\\.mise/tasks/.+\\.sh$/"],
+      description: "Update _VERSION variables in mise.toml",
+      fileMatch: ["/^mise\\.toml$/"],
       matchStrings: [
-        '# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))?(?: packageName=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s.+?_VERSION="?(?<currentValue>.+?)"?\\s',
+        '# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))?(?: packageName=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s.+?_VERSION="?(?<currentValue>[^@"]+?)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"?\\s',
       ],
     },
   ],
