@@ -63,6 +63,7 @@ jobs:
           gar-registry: "us-docker.pkg.dev"
           file: scripts/otel_operator/Dockerfile
           platforms: linux/amd64,linux/arm64
+          push: true
           registries: gar
           tags: |
             type=match,pattern=v(.*),group=1
