@@ -17,7 +17,9 @@
     {
       // avoid double updates from the built-in Docker manager and the custom regex manager
       matchManagers: ["dockerfile"],
-      matchPackageNames: ["us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java"],
+      matchPackageNames: [
+        "us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java",
+      ],
       enabled: false,
     },
   ],
