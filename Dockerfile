@@ -3,8 +3,7 @@
 # - Grafana Cloud OTLP Gateway: https://github.com/grafana/grafana-opentelemetry-java#grafana-cloud-otlp-gateway
 # For production, use Dockerfile.production instead.
 
-ARG GRAFANA_OPENTELEMETRY_VERSION=2.21.0@sha256:ec682f4a73ec38f3b13c8a71810aa0628bf7b64abb264d5757d1f98826c5eb4f
-FROM us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java:$GRAFANA_OPENTELEMETRY_VERSION AS agent
+FROM us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java:2.21.0@sha256:ec682f4a73ec38f3b13c8a71810aa0628bf7b64abb264d5757d1f98826c5eb4f AS agent
 
 FROM springio/petclinic@sha256:fbb6f32dff6b4b05aa0bb4252a674a2084ecd26137793c88213385e62a6ea171
 
