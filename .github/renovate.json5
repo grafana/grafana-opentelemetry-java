@@ -14,20 +14,12 @@
       // replace the "dependencies" label with "update-upstream"
       labels: ["update-upstream"],
     },
-    {
-      // avoid double updates from the built-in Docker manager and the custom regex manager
-      matchManagers: ["dockerfile"],
-      matchPackageNames: [
-        "us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java",
-      ],
-      enabled: false,
-    },
   ],
   customManagers: [
     {
       customType: "regex",
-      description: "Update _VERSION variables in mise.toml and Dockerfiles",
-      managerFilePatterns: ["/^mise\\.toml$/", "/Dockerfile/"],
+      description: "Update _VERSION variables in mise.toml",
+      managerFilePatterns: ["/^mise\\.toml$/"],
       matchStrings: [
         '# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))?(?: packageName=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s.+?_VERSION="?(?<currentValue>[^@"]+?)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"?\\s',
       ],
