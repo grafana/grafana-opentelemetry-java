@@ -64,5 +64,5 @@ mise run lint:super-linter
 ## Dependency Management
 
 - Upstream OTEL version tracked in `build.gradle` → `otelInstrumentationVersion`
-- Renovate manages dependency updates; Dockerfile versions use a custom regex manager (see `.github/renovate.json5`)
+- Renovate manages dependency updates; Dockerfile versions use a custom regular expression manager (see `.github/renovate.json5`)
 - `mise.toml` manages tool versions (Java, lychee) and lint tasks
