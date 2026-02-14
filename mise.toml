@@ -13,7 +13,7 @@ run = "./gradlew build"
 # Lint tasks - using remote scripts from Grafana and OpenTelemetry repos
 [tasks."lint:super-linter"]
 description = "Run Super-Linter with auto-fix on the repository"
-file = "https://raw.githubusercontent.com/grafana/docker-otel-lgtm/main/.mise/tasks/lint/super-linter.sh"
+file = "https://raw.githubusercontent.com/grafana/docker-otel-lgtm/f5d39ffaf01b5bbe815b3821e4e3257db32f49e7/.mise/tasks/lint/super-linter.sh"
 
 [tasks."lint:links"]
 description = "Lint all links in the repository"
