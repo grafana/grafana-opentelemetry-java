@@ -87,7 +87,11 @@ public abstract class SmokeTest {
             .withLogConsumer(new Slf4jLogConsumer(logger))
             .withCopyFileToContainer(
                 MountableFile.forHostPath(agentPath), "/opentelemetry-javaagent.jar")
-            .withEnv("JAVA_TOOL_OPTIONS", "-javaagent:/opentelemetry-javaagent.jar " + extraCliArgs)
+            // Disable JVM container support to work around a CgroupV2Subsystem NPE in JDK 11/17
+            // that crashes OTEL runtime metrics and prevents JVM metrics from being collected.
+            .withEnv(
+                "JAVA_TOOL_OPTIONS",
+                "-javaagent:/opentelemetry-javaagent.jar -XX:-UseContainerSupport " + extraCliArgs)
             .withEnv("OTEL_BSP_MAX_EXPORT_BATCH", "1")
             .withEnv("OTEL_BSP_SCHEDULE_DELAY", "10")
             .withEnv("OTEL_METRIC_EXPORT_INTERVAL", "2000")
