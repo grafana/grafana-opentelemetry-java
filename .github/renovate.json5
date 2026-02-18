@@ -1,6 +1,10 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: ["config:best-practices", "config:recommended"],
+  extends: [
+    "config:best-practices",
+    "config:recommended",
+    "github>grafana/flint",
+  ],
   platformCommit: "enabled",
   automerge: true,
   labels: ["dependencies"],
@@ -13,16 +17,6 @@
       matchPackageNames: ["io.opentelemetry.javaagent:opentelemetry-javaagent"],
       // replace the "dependencies" label with "update-upstream"
       labels: ["update-upstream"],
-    },
-  ],
-  customManagers: [
-    {
-      customType: "regex",
-      description: "Update _VERSION variables in mise.toml",
-      managerFilePatterns: ["/^mise\\.toml$/"],
-      matchStrings: [
-        '# renovate: datasource=(?<datasource>[a-z-]+?)(?: depName=(?<depName>.+?))?(?: packageName=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?\\s.+?_VERSION="?(?<currentValue>[^@"]+?)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"?\\s',
-      ],
     },
   ],
 }

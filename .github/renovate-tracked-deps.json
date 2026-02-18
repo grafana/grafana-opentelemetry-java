@@ -1,0 +1,80 @@
+{
+  ".github/renovate.json5": {
+    "renovate-config-presets": [
+      "grafana/flint"
+    ]
+  },
+  "Dockerfile": {
+    "dockerfile": [
+      "springio/petclinic",
+      "us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java"
+    ]
+  },
+  "Dockerfile.production": {
+    "dockerfile": [
+      "springio/petclinic",
+      "us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java"
+    ]
+  },
+  "build.gradle": {
+    "gradle": [
+      "com.diffplug.spotless:spotless-plugin-gradle",
+      "com.google.auto.service:auto-service",
+      "com.google.auto.service:auto-service-annotations",
+      "com.gradleup.shadow:shadow-gradle-plugin",
+      "io.github.netmikey.logunit:logunit-core",
+      "io.github.netmikey.logunit:logunit-jul",
+      "io.opentelemetry.javaagent:opentelemetry-javaagent",
+      "net.bytebuddy:byte-buddy-dep",
+      "org.assertj:assertj-core",
+      "org.junit.jupiter:junit-jupiter-api",
+      "org.junit.jupiter:junit-jupiter-engine",
+      "org.junit.jupiter:junit-jupiter-params",
+      "org.junit.platform:junit-platform-launcher",
+      "org.junit:junit-bom"
+    ]
+  },
+  "custom/build.gradle": {
+    "gradle": [
+      "org.owasp.dependencycheck"
+    ]
+  },
+  "gradle/checkstyle.gradle": {
+    "gradle": [
+      "checkstyle"
+    ]
+  },
+  "gradle/wrapper/gradle-wrapper.properties": {
+    "gradle-wrapper": [
+      "gradle"
+    ]
+  },
+  "mise.toml": {
+    "mise": [
+      "java",
+      "lychee",
+      "node",
+      "npm:renovate"
+    ],
+    "regex": [
+      "ghcr.io/super-linter/super-linter",
+      "grafana/flint"
+    ]
+  },
+  "scripts/otel_operator/Dockerfile": {
+    "dockerfile": [
+      "busybox"
+    ]
+  },
+  "smoke-tests/build.gradle": {
+    "gradle": [
+      "ch.qos.logback:logback-classic",
+      "com.fasterxml.jackson.core:jackson-databind",
+      "com.google.protobuf:protobuf-java-util",
+      "com.squareup.okhttp3:okhttp",
+      "io.opentelemetry.proto:opentelemetry-proto",
+      "org.awaitility:awaitility",
+      "org.testcontainers:testcontainers"
+    ]
+  }
+}

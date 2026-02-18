@@ -39,11 +39,14 @@ Package relocation (`gradle/shadow.gradle`) moves OpenTelemetry classes to `io.o
 
 ## Linting
 
-After modifying non-Java files (Markdown, YAML, Dockerfiles, shell scripts, etc.), always run super-linter via mise:
+After modifying non-Java files (Markdown, YAML, Dockerfiles, shell scripts, etc.), always run linting via mise:
 
 ```sh
-mise run lint:super-linter
+mise run lint:super-linter    # run super-linter only
+mise run fix                  # auto-fix lint issues
 ```
+
+Lint tasks are sourced from [grafana/flint](https://github.com/grafana/flint).
 
 ## Code Conventions
 
@@ -64,5 +67,5 @@ mise run lint:super-linter
 ## Dependency Management
 
 - Upstream OTEL version tracked in `build.gradle` → `otelInstrumentationVersion`
-- Renovate manages dependency updates; Dockerfile versions use a custom regular expression manager (see `.github/renovate.json5`)
+- Renovate manages dependency updates; extends `github>grafana/flint` preset for mise task and tool version updates (see `.github/renovate.json5`)
 - `mise.toml` manages tool versions (Java, lychee) and lint tasks
