@@ -4,6 +4,21 @@
       "grafana/flint"
     ]
   },
+  ".github/workflows/build.yml": {
+    "regex": [
+      "mise"
+    ]
+  },
+  ".github/workflows/lint.yml": {
+    "regex": [
+      "mise"
+    ]
+  },
+  ".github/workflows/release.yml": {
+    "regex": [
+      "mise"
+    ]
+  },
   "Dockerfile": {
     "dockerfile": [
       "springio/petclinic",
