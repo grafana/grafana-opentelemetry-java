@@ -38,7 +38,7 @@ The release version will match the version specified by the `otelInstrumentation
 
 [immutable-releases]: https://docs.github.com/code-security/supply-chain-security/understanding-your-software-supply-chain/immutable-releases
 [otel-java-instrumentation-latest]: https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest
-[otel-java-instrumentation-version]: https://github.com/grafana/grafana-opentelemetry-java/blob/main/build.gradle#L6
+[otel-java-instrumentation-version]: build.gradle#L6
 [latest-release]: https://github.com/grafana/grafana-opentelemetry-java/releases/latest
 [publish-release]: https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/publish-release.yml
-[scheduled-release]: https://github.com/grafana/grafana-opentelemetry-java/blob/main/.github/workflows/scheduled-release.yml
+[scheduled-release]: .github/workflows/scheduled-release.yml
