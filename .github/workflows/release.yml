@@ -55,13 +55,12 @@ jobs:
           "release-actor-user-type=${actorType}" >> ${env:GITHUB_OUTPUT}
 
       - name: Release
-        uses: softprops/action-gh-release@1853d73993c8ca1b2c9c1a7fede39682d0ab5c2a # v2.5.3
-        with:
-          draft: ${{ steps.get-release-actor-user-type.outputs.release-actor-user-type != 'Bot' }}
-          generate_release_notes: true
-          files: |
-            agent/build/libs/grafana-opentelemetry-java.jar
-            LICENSE
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_IS_DRAFT: ${{ steps.get-release-actor-user-type.outputs.release-actor-user-type != 'Bot' }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" "agent/build/libs/grafana-opentelemetry-java.jar" "LICENSE" --clobber "--draft=${RELEASE_IS_DRAFT}" --generate-notes --repo "${GITHUB_REPOSITORY}"
 
       - name: Push to Docker (for OpenTelemetry Operator)
         uses: grafana/shared-workflows/actions/docker-build-push-image@b3d136565946d8788dd6812881fb0fb2fe14bacb # docker-build-push-image/v0.2.0
