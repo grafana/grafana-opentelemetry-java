@@ -58,7 +58,9 @@ class ServerTimingHeaderTest {
             + spanContext.getTraceId()
             + "-"
             + spanContext.getSpanId()
-            + "-01\"";
+            + "-"
+            + spanContext.getTraceFlags().asHex()
+            + "\"";
     assertThat(headers)
         .containsEntry(SERVER_TIMING, serverTimingHeaderValue)
         .containsEntry(EXPOSE_HEADERS, SERVER_TIMING);
