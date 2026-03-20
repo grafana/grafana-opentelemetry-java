@@ -30,9 +30,13 @@ file = "https://raw.githubusercontent.com/grafana/flint/8a39d96e17327c54974623b2
 description = "Install native lint tools matching the pinned super-linter version"
 file = "https://raw.githubusercontent.com/grafana/flint/8a39d96e17327c54974623b252eb5260d67ed68a/tasks/setup/native-lint-tools.sh" # v0.9.1
 
+[tasks."lint:spotless"]
+description = "Check Java formatting with Spotless"
+run = "./gradlew spotlessCheck"
+
 [tasks."lint:fast"]
 description = "Run fast lints (no Renovate)"
-depends = ["lint:super-linter", "lint:links"]
+depends = ["lint:super-linter", "lint:links", "lint:spotless"]
 
 [tasks.native-lint]
 description = "Run lints natively (no container)"
@@ -52,4 +56,4 @@ depends = ["lint:fast", "lint:renovate-deps"]
 
 [tasks.fix]
 description = "Auto-fix lint issues and regenerate tracked deps"
-run = "AUTOFIX=true mise run lint"
+run = ["./gradlew spotlessApply", "AUTOFIX=true mise run lint"]
