@@ -10,20 +10,23 @@ import com.grafana.extensions.instrumentations.TestedInstrumentationsCustomizer;
 import com.grafana.extensions.resources.ResourceCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizerProvider;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCustomizerProvider {
 
   // Defaults in DC notation (source of truth).
-  // Keys are DC paths under instrumentation/development.java.
+  // Structure mirrors instrumentation/development.java in DC YAML.
   // ConfigPropertiesBackedConfigProvider bridges these to ConfigProperties automatically.
-  static final Map<String, String> DC_DEFAULTS = new HashMap<>();
+  static final Map<String, Map<String, String>> DC_DEFAULTS = new HashMap<>();
 
   static {
-    DC_DEFAULTS.put("micrometer.base_time_unit", "s");
-    DC_DEFAULTS.put("log4j_appender.experimental_log_attributes", "true");
-    DC_DEFAULTS.put("logback_appender.experimental_log_attributes", "true");
+    DC_DEFAULTS.put("micrometer", Collections.singletonMap("base_time_unit", "s"));
+    DC_DEFAULTS.put(
+        "log4j_appender", Collections.singletonMap("experimental_log_attributes", "true"));
+    DC_DEFAULTS.put(
+        "logback_appender", Collections.singletonMap("experimental_log_attributes", "true"));
   }
 
   @Override
@@ -38,9 +41,17 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
   /** Translate DC defaults to {@code otel.instrumentation.*} keys for auto-configuration. */
   private static Map<String, String> getDefaultConfigProperties() {
     HashMap<String, String> map = new HashMap<>();
-    for (Map.Entry<String, String> entry : DC_DEFAULTS.entrySet()) {
-      map.put("otel.instrumentation." + entry.getKey().replace('_', '-'), entry.getValue());
-    }
+    DC_DEFAULTS.forEach(
+        (instrumentation, properties) ->
+            properties.forEach(
+                (key, value) -> {
+                  String configKey =
+                      "otel.instrumentation."
+                          + instrumentation.replace('_', '-')
+                          + "."
+                          + key.replace('_', '-');
+                  map.put(configKey, value);
+                }));
     return map;
   }
 }
