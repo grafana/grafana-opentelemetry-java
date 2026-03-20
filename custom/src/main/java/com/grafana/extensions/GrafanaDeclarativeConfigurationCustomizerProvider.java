@@ -17,6 +17,7 @@ public class GrafanaDeclarativeConfigurationCustomizerProvider
     customizer.addModelCustomizer(
         model -> {
           DistroComponentProvider.addDistroResourceProvider(model);
+          GrafanaDistributionConfig.DEFAULTS.applyToModel(model);
           return model;
         });
   }
