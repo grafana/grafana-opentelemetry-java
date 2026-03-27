@@ -1,7 +1,7 @@
 [tools]
 java = "temurin-25.0.1+8.0.LTS"
 lychee = "0.22.0"
-node = "24.14.0"
+node = "24.14.1"
 "npm:renovate" = "43.66.3"
 
 [env]
