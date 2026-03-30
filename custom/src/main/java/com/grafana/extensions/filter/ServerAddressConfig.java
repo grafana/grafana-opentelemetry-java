@@ -21,8 +21,15 @@ public class ServerAddressConfig {
 
   static void configure(
       SdkMeterProviderBuilder sdkMeterProviderBuilder, ConfigProperties properties) {
-    ViewBuilder builder = View.builder();
+    if (!properties.getBoolean(SERVER_ADDRESS_OPT_IN, false)) {
+      // The upstream instrumentation already sets the same attribute advice for the base 7
+      // attributes. Registering a View here would shadow the MetricReader's
+      // DefaultAggregationSelector (e.g. preventing exponential histogram aggregation).
+      return;
+    }
 
+    // enable server.address and server.port dimensions - see
+    // https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpserverrequestduration
     Set<String> keys = new HashSet<>();
     keys.add("http.route");
     keys.add("http.request.method");
@@ -31,14 +38,10 @@ public class ServerAddressConfig {
     keys.add("network.protocol.name");
     keys.add("network.protocol.version");
     keys.add("url.scheme");
+    keys.add("server.address");
+    keys.add("server.port");
 
-    if (properties.getBoolean(SERVER_ADDRESS_OPT_IN, false)) {
-      // enable server.address and server.port dimensions - see
-      // https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpserverrequestduration
-      keys.add("server.address");
-      keys.add("server.port");
-    }
-
+    ViewBuilder builder = View.builder();
     builder.setAttributeFilter(keys);
 
     sdkMeterProviderBuilder.registerView(
