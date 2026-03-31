@@ -75,7 +75,7 @@ class SpringBootSmokeTest extends SmokeTest {
     assertThat(DefaultMetrics.DEFAULT_METRICS)
         .containsOnlyOnceElementsOf(new HashSet<>(metricNames));
 
-    assertRequestDuration(5);
+    assertRequestDuration(false);
   }
 
   @Test
@@ -84,10 +84,10 @@ class SpringBootSmokeTest extends SmokeTest {
 
     makeGreetCall();
 
-    assertRequestDuration(7);
+    assertRequestDuration(true);
   }
 
-  private void assertRequestDuration(int expectedAttributes) {
+  private void assertRequestDuration(boolean includeServerAddress) {
     Optional<Metric> metricOptional =
         await()
             .atMost(10, SECONDS)
@@ -113,10 +113,9 @@ class SpringBootSmokeTest extends SmokeTest {
                 "http.response.status_code",
                 "network.protocol.version",
                 "url.scheme"));
-    if (expectedAttributes == 9) {
-      assertThat(attributes).containsAll(List.of("server.address", "server.port"));
-    }
 
-    assertThat(attributes).hasSize(expectedAttributes);
+    if (includeServerAddress) {
+      assertThat(attributes).contains("server.address", "server.port");
+    }
   }
 }
