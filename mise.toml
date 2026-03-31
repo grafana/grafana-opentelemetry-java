@@ -3,6 +3,7 @@ java = "temurin-25.0.1+8.0.LTS"
 lychee = "0.22.0"
 node = "24.14.1"
 "npm:renovate" = "43.66.3"
+"ubi:google/google-java-format" = "1.34.1"
 
 [env]
 RENOVATE_TRACKED_DEPS_EXCLUDE="github-actions,github-runners"
@@ -30,13 +31,25 @@ file = "https://raw.githubusercontent.com/grafana/flint/8a39d96e17327c54974623b2
 description = "Install native lint tools matching the pinned super-linter version"
 file = "https://raw.githubusercontent.com/grafana/flint/8a39d96e17327c54974623b252eb5260d67ed68a/tasks/setup/native-lint-tools.sh" # v0.9.1
 
-[tasks."lint:spotless"]
-description = "Check Java formatting with Spotless"
-run = "./gradlew spotlessCheck"
+[tasks."lint:java"]
+description = "Check Java formatting and license headers (changed files only)"
+run = """
+files=$(git diff --name-only --diff-filter=d origin/main...HEAD -- '*.java')
+[ -z "$files" ] && exit 0
+failed=0
+for f in $files; do
+  if ! head -4 "$f" | grep -q "SPDX-License-Identifier: Apache-2.0"; then
+    echo "Missing license header: $f"
+    failed=1
+  fi
+done
+google-java-format --dry-run --set-exit-if-changed $files || failed=1
+exit $failed
+"""
 
 [tasks."lint:fast"]
 description = "Run fast lints (no Renovate)"
-depends = ["lint:super-linter", "lint:links", "lint:spotless"]
+depends = ["lint:super-linter", "lint:links", "lint:java"]
 
 [tasks.native-lint]
 description = "Run lints natively (no container)"
@@ -56,4 +69,8 @@ depends = ["lint:fast", "lint:renovate-deps"]
 
 [tasks.fix]
 description = "Auto-fix lint issues and regenerate tracked deps"
-run = ["./gradlew spotlessApply", "AUTOFIX=true mise run lint"]
+run = """
+files=$(git diff --name-only --diff-filter=d origin/main...HEAD -- '*.java')
+[ -n "$files" ] && google-java-format -i $files
+AUTOFIX=true mise run lint
+"""

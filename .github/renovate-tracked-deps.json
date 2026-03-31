@@ -69,7 +69,8 @@
       "java",
       "lychee",
       "node",
-      "npm:renovate"
+      "npm:renovate",
+      "ubi:google/google-java-format"
     ],
     "regex": [
       "ghcr.io/super-linter/super-linter",
