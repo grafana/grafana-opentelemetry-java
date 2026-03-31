@@ -14,6 +14,7 @@ dependencies {
 
   testImplementation("io.opentelemetry.semconv:opentelemetry-semconv")
   testImplementation("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure-spi")
+  testImplementation("io.opentelemetry:opentelemetry-sdk-testing")
   testImplementation("io.opentelemetry.javaagent:opentelemetry-testing-common")
   testImplementation("io.opentelemetry.javaagent:opentelemetry-javaagent-extension-api")
 }

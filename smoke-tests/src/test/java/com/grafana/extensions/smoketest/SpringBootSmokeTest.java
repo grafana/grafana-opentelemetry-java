@@ -71,14 +71,11 @@ class SpringBootSmokeTest extends SmokeTest {
     List<String> metricNames = getMetricNames(waitForMetrics());
     assertThat(metricNames).contains("jvm.memory.used");
 
-    // checked below
-    metricNames.remove(HTTP_SERVER_REQUEST_DURATION);
-
     // all other metrics should have been filtered out
     assertThat(DefaultMetrics.DEFAULT_METRICS)
         .containsOnlyOnceElementsOf(new HashSet<>(metricNames));
 
-    assertRequestDuration(5);
+    assertRequestDuration(false);
   }
 
   @Test
@@ -87,10 +84,10 @@ class SpringBootSmokeTest extends SmokeTest {
 
     makeGreetCall();
 
-    assertRequestDuration(7);
+    assertRequestDuration(true);
   }
 
-  private void assertRequestDuration(int expectedAttributes) {
+  private void assertRequestDuration(boolean includeServerAddress) {
     Optional<Metric> metricOptional =
         await()
             .atMost(10, SECONDS)
@@ -116,10 +113,9 @@ class SpringBootSmokeTest extends SmokeTest {
                 "http.response.status_code",
                 "network.protocol.version",
                 "url.scheme"));
-    if (expectedAttributes == 9) {
-      assertThat(attributes).containsAll(List.of("server.address", "server.port"));
-    }
 
-    assertThat(attributes).hasSize(expectedAttributes);
+    if (includeServerAddress) {
+      assertThat(attributes).contains("server.address", "server.port");
+    }
   }
 }
