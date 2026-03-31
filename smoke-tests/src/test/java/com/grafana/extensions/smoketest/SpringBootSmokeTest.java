@@ -71,9 +71,6 @@ class SpringBootSmokeTest extends SmokeTest {
     List<String> metricNames = getMetricNames(waitForMetrics());
     assertThat(metricNames).contains("jvm.memory.used");
 
-    // checked below
-    metricNames.remove(HTTP_SERVER_REQUEST_DURATION);
-
     // all other metrics should have been filtered out
     assertThat(DefaultMetrics.DEFAULT_METRICS)
         .containsOnlyOnceElementsOf(new HashSet<>(metricNames));
