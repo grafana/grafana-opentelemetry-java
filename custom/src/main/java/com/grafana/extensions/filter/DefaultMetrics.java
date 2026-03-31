@@ -5,8 +5,6 @@
 
 package com.grafana.extensions.filter;
 
-// This class is generated from README.md in custom/build.gradle.  Do not edit.
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,5 +26,6 @@ public class DefaultMetrics {
           "r2dbc.pool.pending",
           "kafka.producer.record_error_total",
           "mongodb.driver.pool.waitqueuesize",
-          "mongodb.driver.pool.checkedout");
+          "mongodb.driver.pool.checkedout",
+          "http.server.request.duration");
 }
