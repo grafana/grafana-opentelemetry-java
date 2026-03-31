@@ -52,6 +52,42 @@ The documentation can be found in [OpenTelemetry / Instrument an Application / G
 - Spring Boot 2.7+
   - Older Spring Boot versions also mostly work, but this is not tested explicitly
 
+## Spring Boot Actuator Integration
+
+If your application uses Spring Boot Actuator, add the following configuration
+to export Actuator metrics (JVM heap, GC, HTTP request counts) alongside
+traces and logs:
+
+### Gradle
+```kotlin
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("io.micrometer:micrometer-registry-otlp")
+}
+```
+
+### Maven
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-registry-otlp</artifactId>
+</dependency>
+```
+
+### application.properties
+```properties
+management.endpoints.web.exposure.include=health,metrics,prometheus
+otel.instrumentation.micrometer.enabled=true
+```
+
+> **Note:** Without `otel.instrumentation.micrometer.enabled=true`, traces and logs
+> will work correctly but Actuator metrics will not be exported to your
+> configured OTLP endpoint.
+
 ### Migrating to OpenTelemetry Instrumentation for Java
 
 Follow these steps if you want to migrate from this distribution to the upstream project
@@ -61,7 +97,6 @@ OpenTelemetry Instrumentation for Java:
   you can filter the metrics in the OpenTelemetry Collector instead
   ([docs](https://opentelemetry.io/docs/collector/transforming-telemetry/#basic-filtering)).
 - Add the environment variables below for the best experience with Application Observability:
-
 ```shell
 export OTEL_INSTRUMENTATION_MICROMETER_BASE_TIME_UNIT=s
 export OTEL_INSTRUMENTATION_LOG4J_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true
