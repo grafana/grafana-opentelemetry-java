@@ -66,15 +66,19 @@
   },
   "mise.toml": {
     "mise": [
+      "actionlint",
+      "cargo:https://github.com/grafana/flint",
+      "editorconfig-checker",
+      "github:google/google-java-format",
       "java",
       "lychee",
       "node",
+      "npm:markdownlint-cli2",
+      "npm:prettier",
       "npm:renovate",
-      "ubi:google/google-java-format"
-    ],
-    "regex": [
-      "ghcr.io/super-linter/super-linter",
-      "grafana/flint"
+      "pipx:codespell",
+      "shellcheck",
+      "shfmt"
     ]
   },
   "scripts/otel_operator/Dockerfile": {
