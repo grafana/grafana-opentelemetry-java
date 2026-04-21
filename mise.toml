@@ -1,6 +1,6 @@
 [tools]
 actionlint = "1.7.10"
-"cargo:https://github.com/grafana/flint" = "branch:feat/flint-v2" # replace with "ubi:grafana/flint" = "0.20.0" once released
+"cargo:https://github.com/grafana/flint" = "rev:ae763aa491a26b3005dc25bfd3aabda1a2f16954" # replace with "ubi:grafana/flint" = "0.20.0" once released
 editorconfig-checker = "v3.6.0"
 "github:google/google-java-format" = "1.34.1"
 java = "temurin-25.0.1+8.0.LTS"

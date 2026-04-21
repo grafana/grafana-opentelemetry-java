@@ -1,5 +1,8 @@
 [settings]
-exclude = "gradlew|buildscripts/spotless\\.license\\.java"
+exclude = [
+  "gradlew",
+  "buildscripts/spotless.license.java",
+]
 
 [checks.license-header]
 text = """
@@ -7,7 +10,7 @@ text = """
  * Copyright Grafana Labs
  * SPDX-License-Identifier: Apache-2.0
  */"""
-patterns = ["*.java"]
+patterns = ["**/*.java"]
 
 [checks.renovate-deps]
 exclude_managers = ["github-actions", "github-runners"]
