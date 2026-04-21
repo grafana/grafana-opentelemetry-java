@@ -1,6 +1,5 @@
 [tools]
 
-# Tools
 java = "temurin-25.0.1+8.0.LTS"
 node = "24.15.0"
 "npm:renovate" = "43.127.1"
