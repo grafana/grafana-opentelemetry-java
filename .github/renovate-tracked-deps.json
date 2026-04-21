@@ -67,12 +67,15 @@
   "mise.toml": {
     "mise": [
       "actionlint",
+      "cargo:xmloxide",
       "editorconfig-checker",
       "github:google/google-java-format",
       "github:grafana/flint",
+      "hadolint",
       "java",
       "lychee",
       "node",
+      "npm:@biomejs/biome",
       "npm:markdownlint-cli2",
       "npm:prettier",
       "npm:renovate",
