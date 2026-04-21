@@ -3,7 +3,7 @@
   extends: [
     "config:best-practices",
     "config:recommended",
-    "github>grafana/flint",
+    "github>grafana/flint#v0.20.3",
   ],
   platformCommit: "enabled",
   automerge: true,

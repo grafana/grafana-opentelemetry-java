@@ -28,8 +28,11 @@ The release version will match the version specified by the `otelInstrumentation
 1. Click the link in the workflow run summary to the untagged release created by the workflow.
 1. Click the edit button (pencil icon) at the top right of the release notes.
 1. Verify that the release notes are correct. Make any manual adjustments if necessary.
-   - Include a link to the upstream release notes,
-     e.g. _"Update to [OpenTelemetry 2.9.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-290-2024-10-17)"_.
+   - Include a link to the upstream release notes, e.g.
+     <!-- editorconfig-checker-disable -->
+     _"Update to
+     [OpenTelemetry 2.9.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-290-2024-10-17)"_.
+     <!-- editorconfig-checker-enable -->
 1. Verify that the `grafana-opentelemetry-java.jar` and `LICENSE` assets have been attached.
 1. Click on **Publish release**.
 

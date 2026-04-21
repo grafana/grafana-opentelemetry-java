@@ -11,7 +11,6 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.diffplug.spotless:spotless-plugin-gradle:8.4.0"
     classpath "com.gradleup.shadow:shadow-gradle-plugin:9.4.1"
     classpath "io.opentelemetry.instrumentation:gradle-plugins:${otelInstrumentationVersion}-alpha"
   }
@@ -21,7 +20,6 @@ subprojects {
   version = rootProject.version
 
   apply plugin: "java"
-  apply plugin: "com.diffplug.spotless"
 
   ext {
     versions = [
@@ -46,32 +44,6 @@ subprojects {
 
   repositories {
     mavenCentral()
-  }
-
-  spotless {
-    java {
-      googleJavaFormat()
-      licenseHeaderFile(rootProject.file("buildscripts/spotless.license.java"), "(package|import|public)")
-      target("src/**/*.java")
-    }
-
-    format 'misc', {
-      // not using "**/..." to help keep spotless fast
-      target(
-        ".gitignore",
-        ".gitattributes",
-        ".gitconfig",
-        ".editorconfig",
-        "*.md",
-        "src/**/*.md",
-        "docs/**/*.md",
-        "*.sh",
-        "src/**/*.properties",
-      )
-      leadingTabsToSpaces()
-      trimTrailingWhitespace()
-      endWithNewline()
-    }
   }
 
   dependencies {

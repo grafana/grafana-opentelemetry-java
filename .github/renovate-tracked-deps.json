@@ -33,7 +33,6 @@
   },
   "build.gradle": {
     "gradle": [
-      "com.diffplug.spotless:spotless-plugin-gradle",
       "com.google.auto.service:auto-service",
       "com.google.auto.service:auto-service-annotations",
       "com.gradleup.shadow:shadow-gradle-plugin",
@@ -66,15 +65,23 @@
   },
   "mise.toml": {
     "mise": [
+      "actionlint",
+      "cargo:xmloxide",
+      "editorconfig-checker",
+      "github:google/google-java-format",
+      "github:grafana/flint",
+      "github:pinterest/ktlint",
+      "hadolint",
       "java",
       "lychee",
       "node",
+      "npm:@biomejs/biome",
+      "npm:markdownlint-cli2",
+      "npm:prettier",
       "npm:renovate",
-      "ubi:google/google-java-format"
-    ],
-    "regex": [
-      "ghcr.io/super-linter/super-linter",
-      "grafana/flint"
+      "pipx:codespell",
+      "shellcheck",
+      "shfmt"
     ]
   },
   "scripts/otel_operator/Dockerfile": {
