@@ -1,2 +1,11 @@
-# Markdown line length is intentionally not enforced in this repo.
-MD013: false
+# Default state for all rules
+default: true
+
+# allow long lines for tables and code blocks
+MD013:
+  code_blocks: false
+  tables: false
+  line_length: 120
+
+MD024:
+  allow_different_nesting: true
