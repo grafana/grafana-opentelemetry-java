@@ -7,15 +7,19 @@
 
 # Grafana OpenTelemetry Distribution for Java
 
+<!-- editorconfig-checker-disable -->
 [![Build](https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-opentelemetry-java/actions/workflows/build.yml)
 [![Slack](https://img.shields.io/badge/join%20slack-%23app--o11y-brightgreen.svg?logo=slack)](https://grafana.slack.com/archives/C05E87XRK3J)
+<!-- editorconfig-checker-enable -->
 
 ## About
 
 Grafana Distribution of [OpenTelemetry Instrumentation for Java] -
 optimized for [Grafana Cloud Application Observability].
 
+<!-- editorconfig-checker-disable -->
 ![Application Observability](https://grafana.com/media/blog/otel-distro-java/application-observability-grafana-cloud-overview-go.png)
+<!-- editorconfig-checker-enable -->
 
 This project provides a Java agent JAR that can be attached to any Java 8+ application and dynamically
 injects bytecode to capture telemetry from a number of popular libraries and frameworks.
@@ -61,7 +65,7 @@ Follow these steps if you want to migrate from this distribution to the upstream
 OpenTelemetry Instrumentation for Java:
 
 - If you use
-  [Data Saver](https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/instrument/jvm/#data-saver),
+  [Data Saver],
   you can filter the metrics in the OpenTelemetry Collector instead
   ([docs](https://opentelemetry.io/docs/collector/transforming-telemetry/#basic-filtering)).
 - Add the environment variables below for the best experience with Application Observability:
@@ -83,12 +87,10 @@ To engage with the Grafana Cloud Application Observability community:
 - [File an issue](https://github.com/grafana/grafana-opentelemetry-java/issues/new)
   for bugs, enhancements, and feature suggestions.
 
+<!-- editorconfig-checker-disable -->
 [OpenTelemetry Instrumentation for Java]: https://github.com/open-telemetry/opentelemetry-java-instrumentation
 [Grafana Cloud Application Observability]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/
 [how to send telemetry data to Grafana Cloud Databases]: https://grafana.com/docs/opentelemetry/collector/send-otlp-to-grafana-cloud-databases/
-
-<!-- editorconfig-checker-disable -->
-
+[Data Saver]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/instrument/jvm/#data-saver
 [opt-in docs]: https://grafana.com/docs/grafana-cloud/monitor-applications/application-observability/setup/instrument/java/configuration/#data-saver
-
 <!-- editorconfig-checker-enable -->

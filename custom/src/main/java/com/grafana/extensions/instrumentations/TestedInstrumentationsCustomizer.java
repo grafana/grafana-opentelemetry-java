@@ -18,11 +18,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * <a
- * href="https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/b917b3bf9c16d7327208a9f17a8db6d1a746829e/javaagent-tooling/src/main/java/io/opentelemetry/javaagent/tooling/config/AgentConfig.java#L12-L28">This
- * is the relevant upstream method</a>
- */
+/** See the upstream AgentConfig implementation for the equivalent behavior. */
 public class TestedInstrumentationsCustomizer {
 
   public static final String USE_TESTED_INSTRUMENTATIONS_PROPERTY =

@@ -89,7 +89,9 @@ Lint tasks are sourced from [grafana/flint](https://github.com/grafana/flint).
 ## CI
 
 - PR builds test against Java 8, 11, 17, 21
-- Linting: super-linter, lychee (link checker), markdownlint, codespell
+- Linting: flint v2 (google-java-format, ktlint, markdownlint,
+  editorconfig-checker, lychee, codespell, shellcheck, shfmt,
+  actionlint, prettier)
 - `CHECK_GENERATED_FILES=true` validates that auto-generated code is up to date
 - OWASP dependency check fails build on CVE CVSS >= 7.0
 - Releases are scheduled weekly (Friday 09:00 UTC) or triggered manually
