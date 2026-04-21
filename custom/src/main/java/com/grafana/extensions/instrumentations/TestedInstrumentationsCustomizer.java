@@ -18,7 +18,12 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/** See the upstream AgentConfig implementation for the equivalent behavior. */
+/**
+ * Mirrors the relevant upstream AgentConfig behavior.
+ *
+ * <p>Upstream reference: AgentConfig.java in the upstream
+ * OpenTelemetry Java instrumentation project.
+ */
 public class TestedInstrumentationsCustomizer {
 
   public static final String USE_TESTED_INSTRUMENTATIONS_PROPERTY =
