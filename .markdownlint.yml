@@ -1,2 +1,2 @@
-# Line length is enforced by editorconfig-checker via .editorconfig
+# Markdown line length is intentionally not enforced in this repo.
 MD013: false
