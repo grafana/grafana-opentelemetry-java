@@ -67,9 +67,9 @@
   "mise.toml": {
     "mise": [
       "actionlint",
-      "cargo:https://github.com/grafana/flint",
       "editorconfig-checker",
       "github:google/google-java-format",
+      "github:grafana/flint",
       "java",
       "lychee",
       "node",
