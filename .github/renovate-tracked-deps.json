@@ -33,7 +33,6 @@
   },
   "build.gradle": {
     "gradle": [
-      "com.diffplug.spotless:spotless-plugin-gradle",
       "com.google.auto.service:auto-service",
       "com.google.auto.service:auto-service-annotations",
       "com.gradleup.shadow:shadow-gradle-plugin",
@@ -71,6 +70,7 @@
       "editorconfig-checker",
       "github:google/google-java-format",
       "github:grafana/flint",
+      "github:pinterest/ktlint",
       "hadolint",
       "java",
       "lychee",
