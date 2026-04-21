@@ -42,8 +42,8 @@ Package relocation (`gradle/shadow.gradle`) moves OpenTelemetry classes to `io.o
 After modifying non-Java files (Markdown, YAML, Dockerfiles, shell scripts, etc.), always run linting via mise:
 
 ```sh
-mise run lint:super-linter    # run super-linter only
-mise run fix                  # auto-fix lint issues
+mise run lint                 # run lint checks
+mise run lint:fix             # auto-fix lint issues
 ```
 
 Lint tasks are sourced from [grafana/flint](https://github.com/grafana/flint).
