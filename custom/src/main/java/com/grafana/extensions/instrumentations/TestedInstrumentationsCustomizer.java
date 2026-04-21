@@ -21,8 +21,8 @@ import java.util.stream.Stream;
 /**
  * Mirrors the relevant upstream AgentConfig behavior.
  *
- * <p>Upstream reference: AgentConfig.java in the upstream
- * OpenTelemetry Java instrumentation project.
+ * <p>Upstream reference: AgentConfig.java in the upstream OpenTelemetry Java instrumentation
+ * project.
  */
 public class TestedInstrumentationsCustomizer {
 
