@@ -31,9 +31,7 @@ The release version will match the version specified by the `otelInstrumentation
    - Include a link to the upstream release notes, e.g.
      <!-- editorconfig-checker-disable -->
      _"Update to
-     [OpenTelemetry 2.9.0](
-       https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-290-2024-10-17
-     )"_.
+     [OpenTelemetry 2.9.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/CHANGELOG.md#version-290-2024-10-17)"_.
      <!-- editorconfig-checker-enable -->
 1. Verify that the `grafana-opentelemetry-java.jar` and `LICENSE` assets have been attached.
 1. Click on **Publish release**.
