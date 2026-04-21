@@ -1,7 +1,6 @@
 [tools]
 
 # Tools
-"github:grafana/flint" = "0.20.3"
 java = "temurin-25.0.1+8.0.LTS"
 node = "24.15.0"
 "npm:renovate" = "43.127.1"
@@ -10,6 +9,7 @@ node = "24.15.0"
 actionlint = "1.7.10"
 "cargo:xmloxide" = "0.4.1"
 editorconfig-checker = "v3.6.0"
+"github:grafana/flint" = "0.20.3"
 "github:google/google-java-format" = "1.34.1"
 hadolint = "2.14.0"
 lychee = "0.22.0"
