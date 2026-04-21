@@ -1,5 +1,6 @@
 [settings]
 exclude = [
+  "CHANGELOG.md",
   "gradlew",
   "buildscripts/spotless.license.java",
 ]
