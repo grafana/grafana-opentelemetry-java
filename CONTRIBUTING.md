@@ -1,7 +1,9 @@
 # Contributing
 
-This project is a javaagent distribution of the OpenTelemetry Java instrumentation agent. It is modeled after the
-[OpenTelemetry Java instrumentation agent distro template](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/examples/distro/README.md).
+This project is a javaagent distribution of the
+OpenTelemetry Java instrumentation agent. It is modeled
+after the [OpenTelemetry Java instrumentation agent distro
+template](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/examples/distro/README.md).
 
 ## Build
 
@@ -19,7 +21,9 @@ javaagent.jar as well as our custom extension.
 ## Code formatting
 
 - Java and repo lint fixes: `mise run lint:fix`
-- Markdown lint: `markdownlint -f .` (`-f` fixes simple violations, requires [markdownlint](https://github.com/DavidAnson/markdownlint#markdownlint))
+- Markdown lint: `markdownlint -f .`
+  (`-f` fixes simple violations, requires
+  [markdownlint](https://github.com/DavidAnson/markdownlint#markdownlint))
 - Markdown link checker: `lychee --include-fragments --max-retries 6 .`
   (requires [lychee](https://github.com/lycheeverse/lychee))
 
@@ -52,5 +56,6 @@ See [RELEASING](RELEASING.md).
 
 ## Known Issues
 
-The tests occasionally fail due to TestContainers not starting in time. Please rerun the build for now, until a new
-wait strategy can be determined.
+The tests occasionally fail due to TestContainers not
+starting in time. Please rerun the build for now, until a
+new wait strategy can be determined.
