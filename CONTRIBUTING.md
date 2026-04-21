@@ -21,9 +21,8 @@ javaagent.jar as well as our custom extension.
 ## Code formatting
 
 - Java and repo lint fixes: `mise run lint:fix`
-- Markdown lint: `markdownlint -f .`
-  (`-f` fixes simple violations, requires
-  [markdownlint](https://github.com/DavidAnson/markdownlint#markdownlint))
+- Markdown lint: `mise run lint`
+- Markdown lint fixes: `mise run lint:fix`
 - Markdown link checker: `lychee --include-fragments --max-retries 6 .`
   (requires [lychee](https://github.com/lycheeverse/lychee))
 

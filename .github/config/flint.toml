@@ -2,6 +2,7 @@
 exclude = [
   "CHANGELOG.md",
   "gradlew",
+  "gradlew.bat",
 ]
 
 [checks.license-header]
