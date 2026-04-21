@@ -2,7 +2,6 @@
 exclude = [
   "CHANGELOG.md",
   "gradlew",
-  "buildscripts/spotless.license.java",
 ]
 
 [checks.license-header]
@@ -12,7 +11,7 @@ text = """
  * SPDX-License-Identifier: Apache-2.0
  */
 """
-patterns = ["**/*.java"]
+patterns = ["**/*.java", "**/*.kt"]
 
 [checks.renovate-deps]
 exclude_managers = ["github-actions", "github-runners"]

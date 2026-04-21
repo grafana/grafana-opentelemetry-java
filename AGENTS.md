@@ -10,7 +10,7 @@ A javaagent distribution of the [OpenTelemetry Java instrumentation agent](https
 
 ```sh
 ./gradlew build                    # full build (compiles, tests, assembles agent JAR)
-./gradlew spotlessApply            # auto-format Java (Google Java Format) and misc files
+mise run lint:fix                  # auto-fix Java/Markdown/YAML/shell lint issues via flint
 ./gradlew :custom:test             # run unit tests only
 ./gradlew :custom:test --tests '*MetricFilterTest'  # run a single test class
 SMOKE_TEST_JAVA_VERSION=8 ./gradlew :smoke-tests:test  # run smoke tests (requires env var)
@@ -51,8 +51,8 @@ Lint tasks are sourced from [grafana/flint](https://github.com/grafana/flint).
 ## Code Conventions
 
 - Java 8 compilation target (`-Werror`), Java 17 for tests
-- Google Java Format via Spotless, checkstyle (Google style) on `:custom`
-- License header: Apache 2.0 / Grafana Labs (enforced by Spotless)
+- Google Java Format, ktlint, and checkstyle (Google style) on `:custom`
+- License header: Apache 2.0 / Grafana Labs (enforced by flint)
 - Package root: `com.grafana.extensions.*`
 - JUnit 5 + AssertJ for assertions, LogUnit for log capture
 

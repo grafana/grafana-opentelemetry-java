@@ -5,3 +5,16 @@ indent_size = 2
 
 [*.java]
 indent_size = 2
+
+# ktlint overrides
+[{*.kt,*.kts}]
+max_line_length = 160
+continuation_indent_size = 2
+ktlint_standard_no-wildcard-imports = disabled
+ktlint_standard_package-name = disabled
+ktlint_standard_max-line-length = disabled
+ktlint_standard_trailing-comma-on-call-site = disabled
+ktlint_standard_trailing-comma-on-declaration-site = disabled
+ktlint_standard_wrapping = disabled
+ktlint_standard_property-naming = disabled
+ktlint_standard_function-literal = disabled
