@@ -1,9 +1,38 @@
 root = true
 
+[*]
+max_line_length = 100
+indent_size = 2
+
+[*.md]
+max_line_length = 200
+
+[*.yml]
+max_line_length = 200
+
+[*.yaml]
+max_line_length = 200
+
+[*.json]
+max_line_length = 120
+
+[*.json5]
+max_line_length = 120
+
+[Dockerfile*]
+max_line_length = 200
+
+[{*.gradle,build.gradle,settings.gradle}]
+max_line_length = 150
+
+[*.xml]
+max_line_length = 200
+
 [build.gradle]
 indent_size = 2
 
 [*.java]
+max_line_length = 230
 indent_size = 2
 
 # ktlint overrides

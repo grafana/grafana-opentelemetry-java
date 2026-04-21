@@ -1,10 +1,17 @@
 # AGENTS.md
 
-This file provides guidance to AI coding agents when working with code in this repository.
+This file provides guidance to AI coding agents when working
+with code in this repository.
 
 ## What This Is
 
-A javaagent distribution of the [OpenTelemetry Java instrumentation agent](https://github.com/open-telemetry/opentelemetry-java-instrumentation), optimized for Grafana Cloud Application Observability. It wraps the upstream agent and adds Grafana-specific extensions (tested instrumentation filtering, metric filtering, resource attribute truncation, default config).
+A javaagent distribution of the
+[OpenTelemetry Java instrumentation
+agent](https://github.com/open-telemetry/opentelemetry-java-instrumentation),
+optimized for Grafana Cloud Application Observability. It
+wraps the upstream agent and adds Grafana-specific
+extensions (tested instrumentation filtering, metric
+filtering, resource attribute truncation, default config).
 
 ## Build Commands
 
@@ -18,24 +25,47 @@ SMOKE_TEST_JAVA_VERSION=8 ./gradlew :smoke-tests:test  # run smoke tests (requir
 
 The final artifact is `agent/build/libs/grafana-opentelemetry-java.jar`.
 
-Smoke tests only run when `SMOKE_TEST_JAVA_VERSION` env var is set (or running in IntelliJ). They use TestContainers and test the entire javaagent with a real application.
+Smoke tests only run when `SMOKE_TEST_JAVA_VERSION` env var
+is set (or running in IntelliJ). They use TestContainers
+and test the entire javaagent with a real application.
 
 ## Modules
 
-- **`:custom`** — Grafana extensions: instrumentation filtering, metric filtering, resource truncation, version logging. Entry point is `GrafanaAutoConfigCustomizerProvider` (implements OpenTelemetry's `AutoConfigurationCustomizerProvider` SPI). Has checkstyle enforcement.
-- **`:agent`** — Packages the upstream OTEL javaagent + custom extensions into a single shadow JAR via a 3-step process (relocate → isolate → merge) to avoid classpath conflicts.
-- **`:smoke-tests`** — Integration tests using TestContainers that run a Spring Boot app with the full javaagent attached.
+- **`:custom`** — Grafana extensions: instrumentation
+  filtering, metric filtering, resource truncation, version
+  logging. Entry point is
+  `GrafanaAutoConfigCustomizerProvider` (implements
+  OpenTelemetry's `AutoConfigurationCustomizerProvider`
+  SPI). Has checkstyle enforcement.
+- **`:agent`** — Packages the upstream OTEL javaagent +
+  custom extensions into a single shadow JAR via a 3-step
+  process (relocate → isolate → merge) to avoid classpath
+  conflicts.
+- **`:smoke-tests`** — Integration tests using
+  TestContainers that run a Spring Boot app with the full
+  javaagent attached.
 
 ## Architecture
 
-The distro extends upstream OTEL via the `AutoConfigurationCustomizerProvider` SPI. Key customization points in `:custom`:
+The distro extends upstream OTEL via the
+`AutoConfigurationCustomizerProvider` SPI. Key
+customization points in `:custom`:
 
-- `TestedInstrumentationsCustomizer` — optionally limits active instrumentations to a curated list in `Instrumentations.java` (controlled by `grafana.otel.use-tested-instrumentations` property)
+- `TestedInstrumentationsCustomizer` — optionally limits
+  active instrumentations to a curated list in
+  `Instrumentations.java` (controlled by
+  `grafana.otel.use-tested-instrumentations` property)
 - `MetricsCustomizer` / `MetricFilter` — filters metrics
 - `ResourceCustomizer` — truncates resource attribute values (default 2048 chars)
-- `DistributionVersion.java` — **auto-generated** by `custom/build.gradle` `manageVersionClass` task; do not edit manually
+- `DistributionVersion.java` — **auto-generated** by
+  `custom/build.gradle` `manageVersionClass` task; do not
+  edit manually
 
-Package relocation (`gradle/shadow.gradle`) moves OpenTelemetry classes to `io.opentelemetry.javaagent.shaded.*` to prevent conflicts with instrumented application code. Resource providers are excluded from relocation.
+Package relocation (`gradle/shadow.gradle`) moves
+OpenTelemetry classes to
+`io.opentelemetry.javaagent.shaded.*` to prevent conflicts
+with instrumented application code. Resource providers are
+excluded from relocation.
 
 ## Linting
 
@@ -67,5 +97,7 @@ Lint tasks are sourced from [grafana/flint](https://github.com/grafana/flint).
 ## Dependency Management
 
 - Upstream OTEL version tracked in `build.gradle` → `otelInstrumentationVersion`
-- Renovate manages dependency updates; extends `github>grafana/flint` preset for mise task and tool version updates (see `.github/renovate.json5`)
+- Renovate manages dependency updates; extends
+  `github>grafana/flint` preset for mise task and tool
+  version updates (see `.github/renovate.json5`)
 - `mise.toml` manages tool versions (Java, lychee) and lint tasks
