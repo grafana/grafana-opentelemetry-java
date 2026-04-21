@@ -28,6 +28,10 @@ run = "flint run"
 description = "Auto-fix lint issues"
 run = "flint run --fix"
 
+[tasks.fix]
+description = "Backward-compatible alias for lint:fix"
+run = "mise run lint:fix"
+
 [tasks."setup:pre-commit-hook"]
 description = "Install git pre-commit hook"
 run = "mise generate git-pre-commit --write --task=lint"
