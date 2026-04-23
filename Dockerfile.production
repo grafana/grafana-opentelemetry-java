@@ -15,7 +15,7 @@ ENV OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
 ENV OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 
 # 4. Choose a **Service Name** to identify the service (e.g. `cart`)
-ENV OTEL_SERVICE_NAME=<Service Name>
+ENV OTEL_SERVICE_NAME="<Service Name>"
 
 # 4. Add attributes to filter data (recommended):
 #    - **deployment.environment**: Name of the deployment environment (`staging` or `production`)
