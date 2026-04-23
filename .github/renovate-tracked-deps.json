@@ -77,7 +77,6 @@
       "java",
       "lychee",
       "node",
-      "npm:prettier",
       "npm:renovate",
       "pipx:codespell",
       "rumdl",
