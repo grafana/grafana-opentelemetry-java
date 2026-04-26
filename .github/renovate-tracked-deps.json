@@ -66,22 +66,23 @@
   "mise.toml": {
     "mise": [
       "actionlint",
+      "aqua:owenlamont/ryl",
       "biome",
-      "cargo:xmloxide",
-      "cargo:yaml-lint",
+      "cargo:https://github.com/grafana/flint",
       "editorconfig-checker",
       "github:google/google-java-format",
-      "github:grafana/flint",
-      "github:pinterest/ktlint",
+      "github:jonwiggins/xmloxide",
+      "github:koalaman/shellcheck",
       "hadolint",
       "java",
+      "ktlint",
       "lychee",
       "node",
       "npm:renovate",
       "pipx:codespell",
       "rumdl",
-      "shellcheck",
-      "shfmt"
+      "shfmt",
+      "taplo"
     ]
   },
   "scripts/otel_operator/Dockerfile": {

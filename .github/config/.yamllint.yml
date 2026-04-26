@@ -3,4 +3,5 @@ extends: relaxed
 rules:
   document-start: disable
   line-length: disable
-  indentation: warning
+  indentation:
+    spaces: 2
