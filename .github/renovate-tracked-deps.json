@@ -1,15 +1,23 @@
 {
   ".github/renovate.json5": {
-    "renovate-config-presets": ["grafana/flint"]
+    "renovate-config-presets": [
+      "grafana/flint"
+    ]
   },
   ".github/workflows/build.yml": {
-    "regex": ["mise"]
+    "regex": [
+      "mise"
+    ]
   },
   ".github/workflows/lint.yml": {
-    "regex": ["mise"]
+    "regex": [
+      "mise"
+    ]
   },
   ".github/workflows/release.yml": {
-    "regex": ["mise"]
+    "regex": [
+      "mise"
+    ]
   },
   "Dockerfile": {
     "dockerfile": [
@@ -41,37 +49,46 @@
     ]
   },
   "custom/build.gradle": {
-    "gradle": ["org.owasp.dependencycheck"]
+    "gradle": [
+      "org.owasp.dependencycheck"
+    ]
   },
   "gradle/checkstyle.gradle": {
-    "gradle": ["checkstyle"]
+    "gradle": [
+      "checkstyle"
+    ]
   },
   "gradle/wrapper/gradle-wrapper.properties": {
-    "gradle-wrapper": ["gradle"]
+    "gradle-wrapper": [
+      "gradle"
+    ]
   },
   "mise.toml": {
     "mise": [
       "actionlint",
-      "cargo:xmloxide",
+      "aqua:owenlamont/ryl",
+      "biome",
       "editorconfig-checker",
       "github:google/google-java-format",
       "github:grafana/flint",
-      "github:pinterest/ktlint",
+      "github:jonwiggins/xmloxide",
+      "github:koalaman/shellcheck",
       "hadolint",
       "java",
+      "ktlint",
       "lychee",
       "node",
-      "npm:@biomejs/biome",
-      "npm:markdownlint-cli2",
-      "npm:prettier",
       "npm:renovate",
       "pipx:codespell",
-      "shellcheck",
-      "shfmt"
+      "rumdl",
+      "shfmt",
+      "taplo"
     ]
   },
   "scripts/otel_operator/Dockerfile": {
-    "dockerfile": ["busybox"]
+    "dockerfile": [
+      "busybox"
+    ]
   },
   "smoke-tests/build.gradle": {
     "gradle": [
