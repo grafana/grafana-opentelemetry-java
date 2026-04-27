@@ -34,7 +34,3 @@ run = "flint run"
 [tasks."lint:fix"]
 description = "Auto-fix lint issues"
 run = "flint run --fix"
-
-[tasks."lint:pre-commit"]
-description = "Fast auto-fix lint (skips slow checks) — for pre-commit/pre-push hooks"
-run = "flint run --fix --fast-only"
