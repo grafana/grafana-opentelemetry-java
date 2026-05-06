@@ -2,6 +2,6 @@ timeout = 30
 retry_wait_time = 5
 max_retries = 6
 max_concurrency = 4
-include_fragments = true
+include_fragments = "anchor-only"
 
 base_url = "https://github.com/grafana/grafana-opentelemetry-java/blob/main/"
