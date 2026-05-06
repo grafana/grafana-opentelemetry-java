@@ -33,7 +33,7 @@ ENV OTEL_EXPORTER_OTLP_HEADERS="Authorization=Basic secret"
 # 5. Come up with a **Service Name** to identify the service, for example `cart`, and copy it into the shell command below.
 #    Use the `service.namespace` to group multiple services together.
 
-ENV OTEL_SERVICE_NAME=<Service Name>
+ENV OTEL_SERVICE_NAME="<Service Name>"
 
 # 6. Optional: add resource attributes to the shell command below:
 #    - **deployment.environment**: Name of the deployment environment, for example `staging` or `production`

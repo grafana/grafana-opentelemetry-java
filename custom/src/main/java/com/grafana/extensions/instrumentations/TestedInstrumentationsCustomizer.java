@@ -19,9 +19,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * <a
- * href="https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/b917b3bf9c16d7327208a9f17a8db6d1a746829e/javaagent-tooling/src/main/java/io/opentelemetry/javaagent/tooling/config/AgentConfig.java#L12-L28">This
- * is the relevant upstream method</a>
+ * Mirrors the relevant upstream AgentConfig behavior.
+ *
+ * <p>Upstream reference: AgentConfig.java in the upstream OpenTelemetry Java instrumentation
+ * project.
  */
 public class TestedInstrumentationsCustomizer {
 
