@@ -1,104 +1,112 @@
 {
-  ".github/renovate.json5": {
-    "renovate-config-presets": [
-      "grafana/flint"
-    ]
+  "meta": {
+    "io.opentelemetry.javaagent:opentelemetry-javaagent": {
+      "packageName": "io.opentelemetry.javaagent:opentelemetry-javaagent",
+      "datasource": "maven"
+    }
   },
-  ".github/workflows/build.yml": {
-    "regex": [
-      "mise"
-    ]
-  },
-  ".github/workflows/lint.yml": {
-    "regex": [
-      "mise"
-    ]
-  },
-  ".github/workflows/release.yml": {
-    "regex": [
-      "mise"
-    ]
-  },
-  "Dockerfile": {
-    "dockerfile": [
-      "springio/petclinic",
-      "us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java"
-    ]
-  },
-  "Dockerfile.production": {
-    "dockerfile": [
-      "springio/petclinic",
-      "us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java"
-    ]
-  },
-  "build.gradle": {
-    "gradle": [
-      "com.google.auto.service:auto-service",
-      "com.google.auto.service:auto-service-annotations",
-      "com.gradleup.shadow:shadow-gradle-plugin",
-      "io.github.netmikey.logunit:logunit-core",
-      "io.github.netmikey.logunit:logunit-jul",
-      "io.opentelemetry.javaagent:opentelemetry-javaagent",
-      "net.bytebuddy:byte-buddy-dep",
-      "org.assertj:assertj-core",
-      "org.junit.jupiter:junit-jupiter-api",
-      "org.junit.jupiter:junit-jupiter-engine",
-      "org.junit.jupiter:junit-jupiter-params",
-      "org.junit.platform:junit-platform-launcher",
-      "org.junit:junit-bom"
-    ]
-  },
-  "custom/build.gradle": {
-    "gradle": [
-      "org.owasp.dependencycheck"
-    ]
-  },
-  "gradle/checkstyle.gradle": {
-    "gradle": [
-      "checkstyle"
-    ]
-  },
-  "gradle/wrapper/gradle-wrapper.properties": {
-    "gradle-wrapper": [
-      "gradle"
-    ]
-  },
-  "mise.toml": {
-    "mise": [
-      "actionlint",
-      "aqua:owenlamont/ryl",
-      "biome",
-      "editorconfig-checker",
-      "github:google/google-java-format",
-      "github:grafana/flint",
-      "github:jonwiggins/xmloxide",
-      "github:koalaman/shellcheck",
-      "hadolint",
-      "java",
-      "ktlint",
-      "lychee",
-      "node",
-      "npm:renovate",
-      "pipx:codespell",
-      "rumdl",
-      "shfmt",
-      "taplo"
-    ]
-  },
-  "scripts/otel_operator/Dockerfile": {
-    "dockerfile": [
-      "busybox"
-    ]
-  },
-  "smoke-tests/build.gradle": {
-    "gradle": [
-      "ch.qos.logback:logback-classic",
-      "com.fasterxml.jackson.core:jackson-databind",
-      "com.google.protobuf:protobuf-java-util",
-      "com.squareup.okhttp3:okhttp",
-      "io.opentelemetry.proto:opentelemetry-proto",
-      "org.awaitility:awaitility",
-      "org.testcontainers:testcontainers"
-    ]
+  "files": {
+    ".github/renovate.json5": {
+      "renovate-config-presets": [
+        "grafana/flint"
+      ]
+    },
+    ".github/workflows/build.yml": {
+      "regex": [
+        "mise"
+      ]
+    },
+    ".github/workflows/lint.yml": {
+      "regex": [
+        "mise"
+      ]
+    },
+    ".github/workflows/release.yml": {
+      "regex": [
+        "mise"
+      ]
+    },
+    "Dockerfile": {
+      "dockerfile": [
+        "springio/petclinic",
+        "us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java"
+      ]
+    },
+    "Dockerfile.production": {
+      "dockerfile": [
+        "springio/petclinic",
+        "us-docker.pkg.dev/grafanalabs-global/docker-grafana-opentelemetry-java-prod/grafana-opentelemetry-java"
+      ]
+    },
+    "build.gradle": {
+      "gradle": [
+        "com.google.auto.service:auto-service",
+        "com.google.auto.service:auto-service-annotations",
+        "com.gradleup.shadow:shadow-gradle-plugin",
+        "io.github.netmikey.logunit:logunit-core",
+        "io.github.netmikey.logunit:logunit-jul",
+        "io.opentelemetry.javaagent:opentelemetry-javaagent",
+        "net.bytebuddy:byte-buddy-dep",
+        "org.assertj:assertj-core",
+        "org.junit.jupiter:junit-jupiter-api",
+        "org.junit.jupiter:junit-jupiter-engine",
+        "org.junit.jupiter:junit-jupiter-params",
+        "org.junit.platform:junit-platform-launcher",
+        "org.junit:junit-bom"
+      ]
+    },
+    "custom/build.gradle": {
+      "gradle": [
+        "org.owasp.dependencycheck"
+      ]
+    },
+    "gradle/checkstyle.gradle": {
+      "gradle": [
+        "checkstyle"
+      ]
+    },
+    "gradle/wrapper/gradle-wrapper.properties": {
+      "gradle-wrapper": [
+        "gradle"
+      ]
+    },
+    "mise.toml": {
+      "mise": [
+        "actionlint",
+        "aqua:grafana/flint",
+        "aqua:jonwiggins/xmloxide",
+        "aqua:owenlamont/ryl",
+        "biome",
+        "editorconfig-checker",
+        "google-java-format",
+        "hadolint",
+        "java",
+        "ktlint",
+        "lychee",
+        "node",
+        "npm:renovate",
+        "rumdl",
+        "shellcheck",
+        "shfmt",
+        "taplo",
+        "typos"
+      ]
+    },
+    "scripts/otel_operator/Dockerfile": {
+      "dockerfile": [
+        "busybox"
+      ]
+    },
+    "smoke-tests/build.gradle": {
+      "gradle": [
+        "ch.qos.logback:logback-classic",
+        "com.fasterxml.jackson.core:jackson-databind",
+        "com.google.protobuf:protobuf-java-util",
+        "com.squareup.okhttp3:okhttp",
+        "io.opentelemetry.proto:opentelemetry-proto",
+        "org.awaitility:awaitility",
+        "org.testcontainers:testcontainers"
+      ]
+    }
   }
 }
