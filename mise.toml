@@ -4,7 +4,7 @@ node = "24.16.0"
 
 # Linters
 actionlint = "1.7.10"
-"aqua:grafana/flint" = "0.22.2"
+"aqua:grafana/flint" = "0.22.4"
 "aqua:jonwiggins/xmloxide" = "0.4.3"
 "aqua:owenlamont/ryl" = "0.10.1"
 biome = "2.4.12"
