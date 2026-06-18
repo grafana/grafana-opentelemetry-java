@@ -23,7 +23,9 @@ The release version will match the version specified by the `otelInstrumentation
 1. Click on the **Run workflow** button
 1. If required, enter a specific version number (e.g. `x.y.z`) in the version field. If left
    blank, the version will track the version in [`otelInstrumentationVersion`][otel-java-instrumentation-version].
-   Bugfix releases should be `x.y.z.1`, where `x.y.z` is the upstream version.
+   Bugfix releases should be `x.y.z+N`, where `x.y.z` is the upstream version and `N` is the number of the "patch" for it.
+   This SemVer 2.0 syntax is required by the tag rules that gate permissions to publish to Google Artifact Registry.
+   Note that DockerHub does not support SemVer 2.0 syntax so this approach would not work there.
 1. Wait for the workflow to complete successfully.
 1. Click the link in the workflow run summary to the untagged release created by the workflow.
 1. Click the edit button (pencil icon) at the top right of the release notes.
