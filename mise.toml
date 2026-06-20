@@ -1,6 +1,6 @@
 [tools]
 java = "temurin-25.0.1+8.0.LTS"
-node = "24.16.0"
+node = "24.17.0"
 
 # Linters
 actionlint = "1.7.10"
