@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * A {@link MetricExporter} that only forwards Application Observability metrics to the delegate and
- * drops everything else. See {@link MetricFilter} for why filtering happens here rather than
- * through metric {@code View}s.
+ * A {@link MetricExporter} that forwards only Application Observability metrics (plus any metrics
+ * created with the {@code application} meter) to the delegate and drops everything else. See
+ * {@link MetricFilter} for why filtering happens here rather than through metric {@code View}s.
  */
 class FilteringMetricExporter implements MetricExporter {
 
