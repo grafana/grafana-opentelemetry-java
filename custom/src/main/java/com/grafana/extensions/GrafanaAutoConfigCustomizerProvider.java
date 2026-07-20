@@ -5,6 +5,7 @@
 
 package com.grafana.extensions;
 
+import com.grafana.extensions.filter.MetricFilter;
 import com.grafana.extensions.filter.MetricsCustomizer;
 import com.grafana.extensions.instrumentations.TestedInstrumentationsCustomizer;
 import com.grafana.extensions.resources.ResourceCustomizer;
@@ -21,6 +22,7 @@ public class GrafanaAutoConfigCustomizerProvider implements AutoConfigurationCus
         .addPropertiesSupplier(GrafanaAutoConfigCustomizerProvider::getDefaultProperties)
         .addPropertiesCustomizer(TestedInstrumentationsCustomizer::customizeProperties)
         .addMeterProviderCustomizer(MetricsCustomizer::configure)
+        .addMetricExporterCustomizer(MetricFilter::configure)
         .addResourceCustomizer(ResourceCustomizer::truncate);
   }
 
