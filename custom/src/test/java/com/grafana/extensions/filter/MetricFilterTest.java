@@ -72,7 +72,7 @@ class MetricFilterTest {
       // a manually created metric (meter named "application")
       provider.get("application").counterBuilder("my.business.metric").build().add(1);
 
-      exporter.export(reader.collectAllMetrics());
+      exporter.export(reader.collectAllMetrics()).join(10, TimeUnit.SECONDS);
     } finally {
       provider.close();
     }
@@ -106,7 +106,7 @@ class MetricFilterTest {
       DoubleHistogram histogram = meter.histogramBuilder("http.server.request.duration").build();
       histogram.record(0.15, HTTP_ATTRIBUTES);
 
-      exporter.export(reader.collectAllMetrics());
+      exporter.export(reader.collectAllMetrics()).join(10, TimeUnit.SECONDS);
     } finally {
       provider.close();
     }

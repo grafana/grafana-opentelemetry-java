@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 /**
  * A {@link MetricExporter} that only forwards Application Observability metrics to the delegate and
- * drops everything else. See {@link MetricFilter} for why filtering happens here rather than through
- * metric {@code View}s.
+ * drops everything else. See {@link MetricFilter} for why filtering happens here rather than
+ * through metric {@code View}s.
  */
 class FilteringMetricExporter implements MetricExporter {
 

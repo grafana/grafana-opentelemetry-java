@@ -20,13 +20,17 @@ public class MetricFilter {
 
   /**
    * Wraps {@code exporter} so that, when Data Saver is enabled, only Application Observability
-   * metrics are exported and everything else is dropped.
+   * metrics are forwarded to the delegate exporter and everything else is filtered out.
    *
    * <p>Filtering happens at export time rather than through metric {@code View}s on purpose: an
    * explicitly registered View shadows the instrument's attribute advice and the {@code
    * MetricReader}'s {@code DefaultAggregationSelector}. Filtering the exported batch instead leaves
    * retained instruments (notably {@code http.server.request.duration}) with their upstream bounded
    * attribute set and default aggregation intact.
+   *
+   * <p>Note that disallowed instruments are still recorded and aggregated in-process by the SDK;
+   * they are only excluded from the exported batch. This does not reduce the in-process metric
+   * workload and does not suppress SDK cardinality warnings for disallowed instruments.
    */
   public static MetricExporter configure(MetricExporter exporter, ConfigProperties properties) {
     if (properties.getBoolean(APPLICATION_OBSERVABILITY_METRICS, false)) {
