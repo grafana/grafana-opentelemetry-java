@@ -17,8 +17,9 @@ public class MetricsCustomizer {
 
     ServerAddressConfig.configure(sdkMeterProviderBuilder, properties);
 
-    // must be last, because it drops all metrics not explicitly allowed
-    MetricFilter.configure(sdkMeterProviderBuilder, properties);
+    // Data Saver metric filtering is applied at export time via MetricFilter.configure, wired as a
+    // MetricExporter customizer, so that retained instruments keep their upstream attribute advice
+    // and default aggregation.
 
     return sdkMeterProviderBuilder;
   }
