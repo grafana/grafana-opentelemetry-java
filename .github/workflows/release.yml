@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
+      # Keep artifact releases isolated from unrelated mise tools and caches.
       MISE_ENABLE_TOOLS: java
 
     concurrency:
