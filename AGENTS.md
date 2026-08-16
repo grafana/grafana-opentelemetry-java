@@ -56,7 +56,8 @@ customization points in `:custom`:
   `Instrumentations.java` (controlled by
   `grafana.otel.use-tested-instrumentations` property)
 - `MetricsCustomizer` / `MetricFilter` — filters metrics
-- `ResourceCustomizer` — truncates resource attribute values (default 2048 chars)
+- `ResourceCustomizer` — truncates resource attribute values
+  (default 2048 UTF-8 bytes)
 - `DistributionVersion.java` — **auto-generated** by
   `custom/build.gradle` `manageVersionClass` task; do not
   edit manually
