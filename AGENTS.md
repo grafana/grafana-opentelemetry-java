@@ -103,3 +103,4 @@ Lint tasks are sourced from [grafana/flint](https://github.com/grafana/flint).
   `github>grafana/flint` preset for mise task and tool
   version updates (see `.github/renovate.json5`)
 - `mise.toml` manages tool versions (Java, lychee) and lint tasks
+- Security issues should be reported via [Grafana's security issue reporting page](https://grafana.com/legal/report-a-security-issue/) and not directly in this repository.
