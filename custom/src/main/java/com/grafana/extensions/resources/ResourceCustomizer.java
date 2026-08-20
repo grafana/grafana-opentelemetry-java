@@ -53,6 +53,7 @@ public class ResourceCustomizer {
         break;
       }
       bytes += codePointBytes;
+      // Advance by UTF-16 code units; UTF-8 bytes are counted separately above.
       index += Character.charCount(codePoint);
     }
     return index == value.length() ? value : value.substring(0, index);
