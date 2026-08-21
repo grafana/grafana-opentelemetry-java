@@ -5,3 +5,8 @@ max_concurrency = 4
 include_fragments = "anchor-only"
 
 base_url = "https://github.com/grafana/grafana-opentelemetry-java/blob/main/"
+
+exclude = [
+  # Private Slack channel links return 403 to unauthenticated link checkers.
+  "^https://grafana\\.slack\\.com/",
+]
