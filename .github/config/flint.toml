@@ -11,4 +11,4 @@ text = """
 patterns = ["**/*.java", "**/*.kt"]
 
 [checks.renovate-deps]
-exclude_managers = ["github-actions", "github-runners"]
+exclude_managers = ["github-runners"]
