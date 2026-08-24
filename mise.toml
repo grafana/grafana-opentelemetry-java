@@ -7,7 +7,7 @@ actionlint = "1.7.12"
 "aqua:grafana/flint" = "0.22.11"
 "aqua:jonwiggins/xmloxide" = "0.5.0"
 "aqua:owenlamont/ryl" = "0.21.0"
-biome = "2.5.8"
+biome = "2.5.9"
 editorconfig-checker = "3.11.1"
 google-java-format = "1.36.1"
 hadolint = "2.15.1"
@@ -15,8 +15,8 @@ ktlint = "1.8.0"
 lychee = "0.24.2"
 # @yarnpkg/libzip 3.2.2 is npm-signed and matches Yarn's release commit, but
 # was published without provenance; mise's no-downgrade policy otherwise rejects Renovate.
-"npm:renovate" = { version = "44.29.4", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"] }
-rumdl = "0.2.55"
+"npm:renovate" = { version = "44.37.1", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"] }
+rumdl = "0.2.58"
 shellcheck = "v0.11.0"
 shfmt = "3.13.1"
 taplo = "0.10.0"
