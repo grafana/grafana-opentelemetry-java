@@ -15,7 +15,7 @@ ktlint = "1.8.0"
 lychee = "0.24.2"
 # @yarnpkg/libzip 3.2.2 is npm-signed and matches Yarn's release commit, but
 # was published without provenance; mise's no-downgrade policy otherwise rejects Renovate.
-"npm:renovate" = { version = "44.115.1", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"] }
+"npm:renovate" = { version = "44.115.2", trust_policy_excludes = ["@yarnpkg/libzip@3.2.2"] }
 rumdl = "v0.2.77"
 shellcheck = "v0.11.0"
 shfmt = "3.14.1"
