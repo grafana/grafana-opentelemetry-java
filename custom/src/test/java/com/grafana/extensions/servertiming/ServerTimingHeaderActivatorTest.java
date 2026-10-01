@@ -45,7 +45,7 @@ class ServerTimingHeaderActivatorTest {
 
   // https://github.com/grafana/grafana-opentelemetry-java/issues/1382
   @Test
-  void enabledWithDeclarativeConfig(@TempDir Path tempDir) throws IOException {
+  void disabledWithDeclarativeConfig(@TempDir Path tempDir) throws IOException {
     Path configFile = tempDir.resolve("otel.yaml");
     Files.write(configFile, "file_format: \"1.0\"\n".getBytes());
 
@@ -54,7 +54,7 @@ class ServerTimingHeaderActivatorTest {
 
     activate(Map.of());
 
-    assertThat(ServerTimingHeaderCustomizer.enabled).isTrue();
+    assertThat(ServerTimingHeaderCustomizer.enabled).isFalse();
   }
 
   private void activate(Map<String, String> properties) {

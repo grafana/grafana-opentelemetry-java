@@ -17,8 +17,9 @@ public class ServerTimingHeaderActivator implements AgentListener {
   @Override
   public void afterAgent(AutoConfiguredOpenTelemetrySdk autoConfiguredOpenTelemetrySdk) {
     ConfigProperties config = getConfig(autoConfiguredOpenTelemetrySdk);
-    // config is null when using declarative configuration
-    if (config == null || config.getBoolean(EMIT_RESPONSE_HEADERS, true)) {
+    // Config is null under declarative configuration. Leave headers disabled until declarative
+    // header configuration is supported.
+    if (config != null && config.getBoolean(EMIT_RESPONSE_HEADERS, true)) {
       ServerTimingHeaderCustomizer.enabled = true;
     }
   }

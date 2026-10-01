@@ -50,7 +50,7 @@ class DeclarativeConfigSmokeTest extends SmokeTest {
     String serverTiming = makeGreetCallForServerTimingHeader();
 
     assertThat(target.getLogs()).doesNotContain("OpenTelemetry Javaagent failed to start");
-    assertThat(serverTiming).startsWith("traceparent;desc=");
+    assertThat(serverTiming).isEmpty();
 
     Collection<ExportTraceServiceRequest> traces = waitForTraces();
     assertThat(countSpansByName(traces, "GET /greeting")).isOne();
