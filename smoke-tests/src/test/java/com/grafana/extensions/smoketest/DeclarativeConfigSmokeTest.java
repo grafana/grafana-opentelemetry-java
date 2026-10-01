@@ -35,6 +35,8 @@ class DeclarativeConfigSmokeTest extends SmokeTest {
 
   @Override
   protected void customizeTarget(GenericContainer<?> target) {
+    // the OTEL_* env vars set by SmokeTest are ignored when a config file is used, so
+    // declarative-config.yaml has to configure everything this test relies on
     target
         .withCopyFileToContainer(
             MountableFile.forClasspathResource("declarative-config.yaml"), CONFIG_FILE)
