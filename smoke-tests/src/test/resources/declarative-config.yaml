@@ -1,0 +1,29 @@
+file_format: "1.1"
+
+resource:
+  attributes:
+    - name: service.name
+      value: declarative-config-smoke-test
+
+tracer_provider:
+  processors:
+    - simple:
+        exporter:
+          otlp_grpc:
+            endpoint: http://backend:8080
+
+meter_provider:
+  views:
+    - selector:
+        instrument_type: histogram
+        instrument_name: http.server.request.duration
+      stream:
+        aggregation:
+          explicit_bucket_histogram:
+            boundaries: [0.01, 0.05, 0.1, 0.25, 0.5, 1, 3, 5, 10, 20, 30, 60]
+  readers:
+    - periodic:
+        interval: 1000
+        exporter:
+          otlp_grpc:
+            endpoint: http://backend:8080
