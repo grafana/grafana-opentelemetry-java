@@ -100,8 +100,11 @@ public abstract class SmokeTest {
             .withEnv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://backend:8080")
             .withEnv("OTEL_EXPORTER_OTLP_PROTOCOL", "grpc")
             .withEnv("OTEL_TRACES_EXPORTER", "otlp,console");
+    customizeTarget(target);
     target.start();
   }
+
+  protected void customizeTarget(GenericContainer<?> target) {}
 
   @AfterEach
   void cleanup() throws IOException {
