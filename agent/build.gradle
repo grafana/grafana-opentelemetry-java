@@ -24,12 +24,17 @@ configurations {
     canBeResolved = true
     canBeConsumed = false
   }
+  upstreamSbom {
+    canBeResolved = true
+    canBeConsumed = false
+  }
 }
 
 dependencies {
   javaagentLibs(project(":custom"))
 
   upstreamAgent("io.opentelemetry.javaagent:opentelemetry-javaagent:${versions.opentelemetryJavaagent}")
+  upstreamSbom("io.opentelemetry.javaagent:opentelemetry-javaagent:${versions.opentelemetryJavaagent}:spdx@json")
 }
 
 CopySpec isolateClasses(Iterable<File> jars) {
@@ -52,6 +57,14 @@ CopySpec isolateClasses(Iterable<File> jars) {
 tasks {
   jar {
     enabled = false
+  }
+
+  processResources {
+    inputs.property("distributionGroup", rootProject.group.toString())
+    inputs.property("distributionVersion", project.version.toString())
+    filesMatching("META-INF/maven/com.grafana/grafana-opentelemetry-java/pom.xml") {
+      expand(groupId: rootProject.group.toString(), version: project.version.toString())
+    }
   }
 
   // building the final javaagent jar is done in 3 steps:
@@ -101,6 +114,11 @@ tasks {
 
     dependsOn(tasks.isolateJavaagentLibs)
     from(tasks.isolateJavaagentLibs.outputs)
+    from(project.configurations.upstreamSbom) {
+      into("META-INF/sbom")
+      // Xray imports SPDX inventories with the .spdx.json filename suffix.
+      rename { "opentelemetry-javaagent.spdx.json" }
+    }
 
     archiveClassifier.set("all")
 
