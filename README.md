@@ -72,6 +72,22 @@ export OTEL_INSTRUMENTATION_LOG4J_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true
 export OTEL_INSTRUMENTATION_LOGBACK_APPENDER_EXPERIMENTAL_LOG_ATTRIBUTES=true
 ```
 
+## Software bill of materials
+
+`./gradlew :agent:shadowJar` embeds one SBOM file at
+`META-INF/sbom/opentelemetry-javaagent.spdx.json`. This is the SPDX inventory
+published with the matching upstream OpenTelemetry Java agent version. Its
+contents are copied unchanged, without filtering, merging, or generating another
+SBOM. The `.spdx.json` filename suffix allows Xray to import its inventory.
+
+The embedded SBOM describes the upstream agent and its shaded dependencies.
+`META-INF/maven/com.grafana/grafana-opentelemetry-java/pom.xml` identifies the
+containing JAR as the Grafana distribution. Upstream internal modules without
+Maven package URLs can still appear as generic components in Xray.
+
+Coverage depends on the upstream SPDX inventory; it does not describe the
+Grafana-specific extensions or any future dependencies added by this distribution.
+
 ## Community
 
 To engage with the Grafana Cloud Application Observability community:
