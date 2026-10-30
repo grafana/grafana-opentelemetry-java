@@ -8,9 +8,9 @@ package com.grafana.extensions.instrumentations;
 import static com.grafana.extensions.instrumentations.Instrumentations.TESTED_INSTRUMENTATIONS;
 
 import com.grafana.extensions.util.FieldUtils;
-import io.opentelemetry.api.internal.ConfigUtil;
 import io.opentelemetry.sdk.autoconfigure.spi.ConfigProperties;
 import java.util.AbstractMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -47,7 +47,7 @@ public class TestedInstrumentationsCustomizer {
     try {
       Set<String> tested =
           TESTED_INSTRUMENTATIONS.stream()
-              .map(ConfigUtil::normalizePropertyKey)
+              .map(name -> name.toLowerCase(Locale.ROOT).replace("-", "."))
               .collect(Collectors.toSet());
 
       Map<String, String> updates =

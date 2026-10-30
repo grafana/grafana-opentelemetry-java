@@ -214,7 +214,9 @@ public abstract class SmokeTest {
             it -> {
               ExportTraceServiceRequest.Builder builder = ExportTraceServiceRequest.newBuilder();
               try {
-                JsonFormat.parser().merge(OBJECT_MAPPER.writeValueAsString(it), builder);
+                JsonFormat.parser()
+                    .ignoringUnknownFields()
+                    .merge(OBJECT_MAPPER.writeValueAsString(it), builder);
               } catch (InvalidProtocolBufferException | JsonProcessingException e) {
                 e.printStackTrace();
               }
@@ -232,7 +234,9 @@ public abstract class SmokeTest {
             it -> {
               ExportLogsServiceRequest.Builder builder = ExportLogsServiceRequest.newBuilder();
               try {
-                JsonFormat.parser().merge(OBJECT_MAPPER.writeValueAsString(it), builder);
+                JsonFormat.parser()
+                    .ignoringUnknownFields()
+                    .merge(OBJECT_MAPPER.writeValueAsString(it), builder);
               } catch (InvalidProtocolBufferException | JsonProcessingException e) {
                 e.printStackTrace();
               }
@@ -251,7 +255,9 @@ public abstract class SmokeTest {
               ExportMetricsServiceRequest.Builder builder =
                   ExportMetricsServiceRequest.newBuilder();
               try {
-                JsonFormat.parser().merge(OBJECT_MAPPER.writeValueAsString(it), builder);
+                JsonFormat.parser()
+                    .ignoringUnknownFields()
+                    .merge(OBJECT_MAPPER.writeValueAsString(it), builder);
               } catch (InvalidProtocolBufferException | JsonProcessingException e) {
                 e.printStackTrace();
               }
