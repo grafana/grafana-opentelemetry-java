@@ -27,16 +27,15 @@ public class ResourceCustomizer {
     ResourceBuilder builder = resource.toBuilder();
     resource
         .getAttributes()
-        .forEach(
-            (key, value) -> {
-              if (value instanceof String) {
-                String s = (String) value;
-                String truncated = truncateUtf8(s, limit);
-                if (!truncated.equals(s)) {
-                  builder.put((AttributeKey<? super String>) key, truncated);
-                }
-              }
-            });
+        .forEach((key, value) -> {
+          if (value instanceof String) {
+            String s = (String) value;
+            String truncated = truncateUtf8(s, limit);
+            if (!truncated.equals(s)) {
+              builder.put((AttributeKey<? super String>) key, truncated);
+            }
+          }
+        });
 
     return builder.build();
   }

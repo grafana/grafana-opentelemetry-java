@@ -151,10 +151,8 @@ public abstract class SmokeTest {
         traces.stream()
             .flatMap(it -> it.getResourceSpansList().stream())
             .flatMap(it -> it.getResource().getAttributesList().stream())
-            .filter(
-                kv ->
-                    kv.getKey().equals(resourceName)
-                        && kv.getValue().getStringValue().equals(value))
+            .filter(kv ->
+                kv.getKey().equals(resourceName) && kv.getValue().getStringValue().equals(value))
             .count();
   }
 
@@ -168,10 +166,9 @@ public abstract class SmokeTest {
     return (int)
         getSpanStream(traces)
             .flatMap(it -> it.getAttributesList().stream())
-            .filter(
-                kv ->
-                    kv.getKey().equals(attributeName)
-                        && kv.getValue().getStringValue().equals(attributeValue))
+            .filter(kv ->
+                kv.getKey().equals(attributeName)
+                    && kv.getValue().getStringValue().equals(attributeValue))
             .count();
   }
 
@@ -210,18 +207,17 @@ public abstract class SmokeTest {
     String content = waitForContent("traces");
 
     return StreamSupport.stream(OBJECT_MAPPER.readTree(content).spliterator(), false)
-        .map(
-            it -> {
-              ExportTraceServiceRequest.Builder builder = ExportTraceServiceRequest.newBuilder();
-              try {
-                JsonFormat.parser()
-                    .ignoringUnknownFields()
-                    .merge(OBJECT_MAPPER.writeValueAsString(it), builder);
-              } catch (InvalidProtocolBufferException | JsonProcessingException e) {
-                e.printStackTrace();
-              }
-              return builder.build();
-            })
+        .map(it -> {
+          ExportTraceServiceRequest.Builder builder = ExportTraceServiceRequest.newBuilder();
+          try {
+            JsonFormat.parser()
+                .ignoringUnknownFields()
+                .merge(OBJECT_MAPPER.writeValueAsString(it), builder);
+          } catch (InvalidProtocolBufferException | JsonProcessingException e) {
+            e.printStackTrace();
+          }
+          return builder.build();
+        })
         .collect(Collectors.toList());
   }
 
@@ -230,18 +226,17 @@ public abstract class SmokeTest {
     String content = waitForContent("logs");
 
     return StreamSupport.stream(OBJECT_MAPPER.readTree(content).spliterator(), false)
-        .map(
-            it -> {
-              ExportLogsServiceRequest.Builder builder = ExportLogsServiceRequest.newBuilder();
-              try {
-                JsonFormat.parser()
-                    .ignoringUnknownFields()
-                    .merge(OBJECT_MAPPER.writeValueAsString(it), builder);
-              } catch (InvalidProtocolBufferException | JsonProcessingException e) {
-                e.printStackTrace();
-              }
-              return builder.build();
-            })
+        .map(it -> {
+          ExportLogsServiceRequest.Builder builder = ExportLogsServiceRequest.newBuilder();
+          try {
+            JsonFormat.parser()
+                .ignoringUnknownFields()
+                .merge(OBJECT_MAPPER.writeValueAsString(it), builder);
+          } catch (InvalidProtocolBufferException | JsonProcessingException e) {
+            e.printStackTrace();
+          }
+          return builder.build();
+        })
         .collect(Collectors.toList());
   }
 
@@ -250,19 +245,17 @@ public abstract class SmokeTest {
     String content = waitForContent("metrics");
 
     return StreamSupport.stream(OBJECT_MAPPER.readTree(content).spliterator(), false)
-        .map(
-            it -> {
-              ExportMetricsServiceRequest.Builder builder =
-                  ExportMetricsServiceRequest.newBuilder();
-              try {
-                JsonFormat.parser()
-                    .ignoringUnknownFields()
-                    .merge(OBJECT_MAPPER.writeValueAsString(it), builder);
-              } catch (InvalidProtocolBufferException | JsonProcessingException e) {
-                e.printStackTrace();
-              }
-              return builder.build();
-            })
+        .map(it -> {
+          ExportMetricsServiceRequest.Builder builder = ExportMetricsServiceRequest.newBuilder();
+          try {
+            JsonFormat.parser()
+                .ignoringUnknownFields()
+                .merge(OBJECT_MAPPER.writeValueAsString(it), builder);
+          } catch (InvalidProtocolBufferException | JsonProcessingException e) {
+            e.printStackTrace();
+          }
+          return builder.build();
+        })
         .collect(Collectors.toList());
   }
 
