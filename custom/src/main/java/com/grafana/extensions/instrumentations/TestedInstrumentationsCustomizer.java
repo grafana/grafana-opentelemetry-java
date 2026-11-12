@@ -52,14 +52,12 @@ public class TestedInstrumentationsCustomizer {
 
       Map<String, String> updates =
           getAllProperties(configs).entrySet().stream()
-              .flatMap(
-                  entry ->
-                      stream(
-                          getInstrumentationName(entry.getKey())
-                              .flatMap(
-                                  name ->
-                                      maybeUseTestedInstrumentation(
-                                          context, tested, name, entry.getValue().equals("true")))))
+              .flatMap(entry ->
+                  stream(
+                      getInstrumentationName(entry.getKey())
+                          .flatMap(name ->
+                              maybeUseTestedInstrumentation(
+                                  context, tested, name, entry.getValue().equals("true")))))
               .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
       if (context.isUseTestedInstrumentations()) {
